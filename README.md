@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align='center'>
 
-## Getting Started
+<h1><b>스터디움 Stud!um</b></h1>
+<h3><b>프로그래머스 4기 5회차 최종 프로젝트</b></h3>
+<h4><b>TEAM: 나인투식스 a.k.a. 9to6</b></h4>
 
-First, run the development server:
+🔗 [스터디움 바로가기]()
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<img src="" style='width: 320px; height: 320px;' alt="로고이미지"/>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 0. 목차
 
-## Learn More
+1. [프로젝트 소개](#1)
+2. [팀원 소개](#2)
+3. [개발 일정](#3)
+4. [기술 스택](#4)
+5. [라이브러리 사용 이유](#5)
+6. [컨벤션](#6)
+7. [브랜치 및 디렉토리 구조](#7)
+8. [주요 기능 소개](#8)
+9. [상세 담당 업무](#9)
+10. [시작 가이드](#10)
 
-To learn more about Next.js, take a look at the following resources:
+<br />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## <span id="1">🚩 1. 프로젝트 소개</span>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Notion**: [프로젝트 노션 링크](https://www.notion.so/Team06-a-k-a-9-to-6-21e15a01205480a39f4bc9ace949e489?source=copy_link)
 
-## Deploy on Vercel
+**PPT**: [프로젝트 발표 자료]()
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**스터디움 Studium**은 공통의 목표를 설정하고,  
+구성원과 함께 꾸준히 학습할 수 있도록 돕는 🎯 **목표 기반 스터디 관리 플랫폼**입니다!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+출석 체크, 목표 달성, 리워드 시스템, 서바이벌 스터디 등을 통해  
+**스터디의 몰입도와 지속성**을 높이는 데 중점을 둡니다.
+
+<br>
+
+<!-- Top Button -->
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#top" style='color: white; '>▲</a></p>
+
+<br>
+
+## <span id="2">🏃 2. 팀원 소개</span>
+
+| <img src="https://img.shields.io/badge/Project_Leader-FF5733" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> | <img src="https://img.shields.io/badge/Design_Leader-blue" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> |
+| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :-----------------------------------------------------------: | :--------------------------------------------------------------: |
+|             <img src="" width="120px;" alt="하영"/>              |             <img src="" width="120px;" alt="민지"/>              |            <img src="" width="120px;" alt="보민"/>            |             <img src="" width="120px;" alt="재건"/>              |
+|             [강하영](https://github.com/Hayoung0708)             |              [구민지](https://github.com/amykoomj)               |             [김보민](https://github.com/marchbom)             |               [이재건](https://github.com/79gun79)               |
+|                               팀장                               |                        퍼블리싱, 기능개발                        |                      퍼블리싱, 기능개발                       |                        퍼블리싱, 기능개발                        |
+
+|
+
+<br>
+
+<!-- Top Button -->
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#top" style='color: white; '>▲</a></p>
+
+<br>
