@@ -50,11 +50,10 @@
 
 | <img src="https://img.shields.io/badge/Project_Leader-FF5733" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> | <img src="https://img.shields.io/badge/Design_Leader-blue" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> |
 | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :-----------------------------------------------------------: | :--------------------------------------------------------------: |
-|             <img src="" width="120px;" alt="하영"/>              |             <img src="" width="120px;" alt="민지"/>              |            <img src="" width="120px;" alt="보민"/>            |             <img src="" width="120px;" alt="재건"/>              |
+|             <img src="https://avatars.githubusercontent.com/u/85282786?v=4" width="120px;" alt="하영"/>              |             <img src="https://avatars.githubusercontent.com/u/100776779?v=4" width="120px;" alt="민지"/>              |            <img src="https://avatars.githubusercontent.com/u/153171193?v=4" width="120px;" alt="보민"/>            |             <img src="https://avatars.githubusercontent.com/u/127276008?v=4" width="120px;" alt="재건"/>              |
 |             [강하영](https://github.com/Hayoung0708)             |              [구민지](https://github.com/amykoomj)               |             [김보민](https://github.com/marchbom)             |               [이재건](https://github.com/79gun79)               |
 |                               팀장                               |                        퍼블리싱, 기능개발                        |                      퍼블리싱, 기능개발                       |                        퍼블리싱, 기능개발                        |
 
-|
 
 <br>
 
@@ -62,3 +61,15 @@
 <p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#top" style='color: white; '>▲</a></p>
 
 <br>
+
+## <span id="3">📅 3. 개발 일정</span>
+
+> 프로젝트 개발 기간: 2025.06.27 - 2025.08.04 (30일)
+
+<br>
+
+<!-- Top Button -->
+<p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#top" style='color: white; '>▲</a></p>
+
+<br>
+
