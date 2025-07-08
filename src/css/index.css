@@ -25,3 +25,28 @@
     --color-blue400: #484efd;
     --color-orange400: #fe6f0f;
 }
+
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    padding: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.swiper-button-prev-custom {
+    left: 10px;
+}
+
+.swiper-button-next-custom {
+    right: 10px;
+}
+
+.swiper-pagination {
+    bottom: 3px !important;
+}
