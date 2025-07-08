@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import "@/css/index.css";
+import "../css/index.css";
+import localfont from "next/font/local";
+const pretendard = localfont({
+    variable: "--font-pretendard",
+    src: "../assets/fonts/PretendardVariable.woff2",
+});
 
 export const metadata: Metadata = {
     title: "Studium",
@@ -13,7 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body>{children}</body>
+            <body className={`${pretendard.variable}`}>{children}</body>
         </html>
     );
 }
