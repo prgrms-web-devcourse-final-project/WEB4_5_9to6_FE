@@ -2,6 +2,7 @@
 
 import Button from "@/components/common/Button";
 import Input from "@/components/login/Input";
+import Image from "next/image";
 
 export default function Login() {
     const loginHandler = () => {
@@ -18,7 +19,7 @@ export default function Login() {
         <div className="m-auto flex h-screen w-screen max-w-sm flex-col items-center justify-center">
             <div className="mx-5 flex flex-col items-center gap-4">
                 {/* 로고 */}
-                <img
+                <Image
                     src="/images/logo.png"
                     alt="logo"
                     className="mb-10 w-1/2"
