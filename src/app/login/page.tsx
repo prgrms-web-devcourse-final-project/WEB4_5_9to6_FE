@@ -25,11 +25,16 @@ export default function Login() {
                 />
 
                 {/* 로그인 */}
-                <div className="flex w-full flex-col gap-2.5">
-                    <Input>이메일</Input>
-                    <Input isPassword>비밀번호</Input>
-                </div>
-                <Button onClick={loginHandler}>로그인</Button>
+                <form
+                    className="flex w-full flex-col gap-4"
+                    onSubmit={loginHandler}
+                >
+                    <div className="flex w-full flex-col gap-2.5">
+                        <Input>이메일</Input>
+                        <Input type="password">비밀번호</Input>
+                    </div>
+                    <Button type="submit">로그인</Button>
+                </form>
 
                 <div className="flex w-full justify-between text-[var(--color-gray1000)]">
                     <button className="cursor-pointer">비밀번호 찾기</button>
