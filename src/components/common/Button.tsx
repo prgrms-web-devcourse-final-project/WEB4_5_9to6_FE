@@ -14,7 +14,7 @@ export default function Button({
     return (
         <>
             <button
-                className={`h5 h-[50px] w-full cursor-pointer rounded-[12px] transition-all duration-250 ease-in-out ${
+                className={`h5 h-[50px] w-full cursor-pointer rounded-[12px] transition-all duration-200 ease-in-out ${
                     color === "black"
                         ? "bg-[var(--color-gray1000)] text-white hover:bg-[var(--color-gray900)]"
                         : color === "primary"
