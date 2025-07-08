@@ -6,7 +6,6 @@ export default function Button({
 }: {
     children: React.ReactNode;
     color?: "black" | "primary" | "yellow" | "white";
-    textblack?: boolean;
     icon?: string;
     onClick: () => void;
 }) {
@@ -17,7 +16,7 @@ export default function Button({
                     color === "black"
                         ? "bg-[var(--color-gray1000)] text-white hover:bg-[var(--color-gray900)]"
                         : color === "primary"
-                          ? "bg-[var(--color-main500)] text-white hover:bg-[var(--color-gray900)]"
+                          ? "bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
                           : color === "yellow"
                             ? "bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
                             : "border border-[var(--color-gray300)] text-[#191919] hover:bg-[var(--color-gray100)]"
