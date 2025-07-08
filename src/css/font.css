@@ -4,25 +4,27 @@ body {
     letter-spacing: 0%;
 }
 
-@layer components {
-    .h1 {
+@layer base {
+    h1 {
         @apply text-[32px] font-bold;
     }
-    .h2 {
+    h2 {
         @apply text-[22px] font-semibold;
     }
-    .h3 {
+    h3 {
         @apply text-[18px] font-semibold;
     }
-    .h4 {
+    h4 {
         @apply text-[16px] font-semibold;
     }
-    .h5 {
+    h5 {
         @apply text-[16px] font-medium;
     }
-    .h6 {
+    h6 {
         @apply text-[14px] font-medium;
     }
+}
+@layer components {
     .b1 {
         @apply text-[16px] font-normal;
         /* body 1 */
