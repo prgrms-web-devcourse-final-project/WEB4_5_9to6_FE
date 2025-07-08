@@ -1,14 +1,16 @@
-export default function Button({
-    children,
-    color = "black",
-    icon,
-    onClick,
-}: {
-    children: React.ReactNode;
+import React from "react";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     color?: "black" | "primary" | "yellow" | "white";
     icon?: string;
-    onClick: () => void;
-}) {
+}
+
+export default function Button({
+    color = "black",
+    icon,
+    children,
+    ...props
+}: ButtonProps) {
     return (
         <>
             <button
@@ -21,7 +23,7 @@ export default function Button({
                             ? "bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
                             : "border border-[var(--color-gray300)] text-[#191919] hover:bg-[var(--color-gray100)]"
                 }`}
-                onClick={onClick}
+                {...props}
             >
                 <div className="flex items-center justify-center gap-2">
                     {icon && <img src={icon} />}
