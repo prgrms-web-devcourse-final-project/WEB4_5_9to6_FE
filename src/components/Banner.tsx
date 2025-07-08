@@ -7,11 +7,7 @@ import { Pagination } from "swiper/modules";
 export default function Banner() {
     return (
         <>
-            <Swiper
-                pagination={true}
-                modules={[Pagination]}
-                className="mySwiper"
-            >
+            <Swiper pagination={true} modules={[Pagination]}>
                 <SwiperSlide>
                     <Image
                         src="/images/banner01.png"
