@@ -25,3 +25,7 @@
     --color-blue400: #484efd;
     --color-orange400: #fe6f0f;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
