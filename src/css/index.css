@@ -32,11 +32,7 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    font-size: 20px;
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
-    padding: 10px;
-    border-radius: 50px;
+    color: var(--color-gray1000);
     cursor: pointer;
 }
 .swiper-button-prev-custom {

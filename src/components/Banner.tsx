@@ -19,7 +19,7 @@ export default function Banner() {
     ];
     return (
         <>
-            <div className="mt-3 w-full">
+            <div className="mt-3 mb-8 w-full">
                 <Swiper
                     spaceBetween={50}
                     slidesPerView={1}
@@ -36,7 +36,7 @@ export default function Banner() {
                     className="w-5/7"
                 >
                     <div className="swiper-button-prev-custom">
-                        <ChevronLeft />
+                        <ChevronLeft className="h-8 w-8" />
                     </div>
                     {bannerImages.map((src, idx) => (
                         <SwiperSlide key={idx}>
@@ -51,7 +51,7 @@ export default function Banner() {
                         </SwiperSlide>
                     ))}
                     <div className="swiper-button-next-custom">
-                        <ChevronRight />
+                        <ChevronRight className="h-8 w-8" />
                     </div>
                 </Swiper>
             </div>
