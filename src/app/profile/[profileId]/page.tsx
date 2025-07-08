@@ -9,6 +9,7 @@ export default async function page({
 }) {
     const { profileId } = await params;
     console.log(profileId);
+
     return (
         <>
             <div className="flex justify-center">
