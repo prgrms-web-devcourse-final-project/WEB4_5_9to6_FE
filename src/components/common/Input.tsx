@@ -13,10 +13,10 @@ export default function Input({ error, errorMsg, ...props }: InputProps) {
                 {...props}
             />
             <label
-                className={`h6 overflow-hidden pl-2 text-[#FF394A] transition-all duration-200 ease-in-out ${
+                className={`h6 pl-2 text-[#FF394A] transition-all duration-200 ease-in-out ${
                     error
                         ? "max-h-[40px] translate-y-0 opacity-100"
-                        : "max-h-0 -translate-y-5 opacity-0"
+                        : "max-h-0 -translate-y-2 opacity-0"
                 }`}
             >
                 {errorMsg}

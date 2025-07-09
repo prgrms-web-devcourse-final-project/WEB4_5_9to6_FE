@@ -57,7 +57,7 @@ export default function Step1() {
                 <p className="h6 mb-5 cursor-default text-[var(--color-gray600)]">
                     이메일을 입력하면 메일이 발송돼요.
                 </p>
-                <div className="flex flex-col gap-2.5">
+                <div className="flex flex-col gap-1">
                     <Input
                         placeholder="이메일 입력"
                         value={email}
@@ -73,7 +73,7 @@ export default function Step1() {
                                 onChange={(e) => setCode(e.target.value)}
                             />
                             <button
-                                className="inline cursor-pointer text-[var(--color-gray700)] underline underline-offset-4"
+                                className="inline cursor-pointer pt-3 text-[var(--color-gray700)] underline underline-offset-4"
                                 type="button"
                             >
                                 재발송 하기
