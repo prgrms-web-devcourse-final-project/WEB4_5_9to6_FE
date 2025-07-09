@@ -26,7 +26,7 @@ export default function StudyRoomComponent({
                 <h6 className="text-gray1000 mb-[10px]">{name}</h6>
                 <div
                     onClick={onSelect}
-                    className="relative h-45 w-80 cursor-pointer"
+                    className="relative aspect-[80/45] cursor-pointer"
                 >
                     <Image
                         src={src}

@@ -1,5 +1,8 @@
 "use client";
 
+import StudyCard from "../common/StudyCard";
+import avatar from "@/assets/avatar.svg";
+
 export default function MyStudyList() {
     const myStudies = [
         "스터디내용1",
@@ -15,12 +18,16 @@ export default function MyStudyList() {
             <div className="flex flex-col items-center justify-center gap-4">
                 {myStudies.length > 0 ? (
                     myStudies.map((v) => (
-                        <div
+                        <StudyCard
                             key={v}
-                            className="h-40 w-80 cursor-pointer rounded-2xl bg-white"
-                        >
-                            <p>{v}</p>
-                        </div>
+                            category="수능&내신"
+                            isNew={true}
+                            title={v}
+                            avatar={avatar}
+                            schedule="매주 토요일 12:00~16:00"
+                            location="온라인 Slack"
+                            member="3/10"
+                        />
                     ))
                 ) : (
                     <>

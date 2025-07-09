@@ -32,7 +32,7 @@ export default function AppTemaComponent({
                 <h6 className="text-gray1000">{name}</h6>
                 <div
                     onClick={onSelect}
-                    className="relative h-51 w-37 cursor-pointer"
+                    className="relative aspect-[31/57] cursor-pointer"
                 >
                     <div
                         className={`absolute inset-0 rounded-xl bg-gradient-to-br ${gradientColors.find((v) => v.name === name)?.gradient}`}

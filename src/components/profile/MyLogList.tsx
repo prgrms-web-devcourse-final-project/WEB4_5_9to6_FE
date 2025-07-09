@@ -21,7 +21,7 @@ export default function MyLogList() {
                 <h3 className="text-gray1000">스터디별 활동 현황</h3>
                 <button
                     onClick={openModal}
-                    className="bg-gray200 hover:bg-gray300 flex w-80 cursor-pointer justify-between rounded-2xl p-5"
+                    className="bg-gray200 hover:bg-gray300 flex cursor-pointer justify-between rounded-2xl p-5"
                 >
                     <h5 className="text-gray1000">
                         수코딩 강의로 배우는 프론트엔드
