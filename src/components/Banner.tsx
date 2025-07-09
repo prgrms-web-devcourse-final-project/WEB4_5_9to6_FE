@@ -32,8 +32,9 @@ export default function Banner() {
                         clickable: true,
                         type: "bullets",
                     }}
+                    loop={true}
                     modules={[Pagination, Autoplay, Navigation]}
-                    className="w-5/7"
+                    className="w-full"
                 >
                     <div className="swiper-button-prev-custom">
                         <ChevronLeft className="h-8 w-8" />
