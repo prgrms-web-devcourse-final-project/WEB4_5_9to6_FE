@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
+import StudyCard from "./common/StudyCard";
 
-export default function StudyTime() {
+export default function StudyTime({ avatar }: { avatar: string }) {
+    const dummyCard = Array(5).fill(null);
     const [isLoggedin, setIsLoggedin] = useState(true);
     // 시간에 따른 멘트 설정
     const hours = 6;
@@ -84,8 +86,20 @@ export default function StudyTime() {
                     </div>
                 </section>
             )}
-            <section className="mt-8">
+            <section className="mt-8 flex flex-col gap-3">
                 <h3 className="h3">이런 스터디도 있어요</h3>
+                {dummyCard.map((_, i) => (
+                    <StudyCard
+                        key={i}
+                        category="프로그래밍"
+                        isNew={true}
+                        title="모각코 스터디"
+                        avatar={avatar}
+                        schedule="매주 일요일 10:00~15:00"
+                        location="서울 강남"
+                        member="5/10명"
+                    />
+                ))}
             </section>
         </>
     );
