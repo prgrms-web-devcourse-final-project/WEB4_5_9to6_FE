@@ -27,7 +27,7 @@ export default function Notifications() {
                     </span>
                 </div>
             </header>
-            <div className="gap-1 pt-16">
+            <div className="pt-16">
                 {dummyAlerts.map((_, i) => (
                     <AlertMessage key={i} />
                 ))}
