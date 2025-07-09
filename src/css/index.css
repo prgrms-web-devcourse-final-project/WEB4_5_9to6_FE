@@ -44,3 +44,6 @@
 .swiper-pagination {
     bottom: 2px !important;
 }
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
