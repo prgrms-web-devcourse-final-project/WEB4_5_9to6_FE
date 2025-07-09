@@ -1,10 +1,12 @@
+"use client";
+
 export default function Channel({
-    channelHandler,
     filter,
+    channelHandler,
     selected,
 }: {
-    channelHandler: (channel: string) => void;
     filter: string[];
+    channelHandler: (channel: string) => void;
     selected: string;
 }) {
     const channels = [

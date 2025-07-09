@@ -60,7 +60,7 @@ export default function FilterModal({
                         {regions.map((region) => (
                             <div
                                 onClick={() => regionHandler(region)}
-                                className={`flex h-6 w-auto items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap ${region === regionSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap ${region === regionSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
                                 key={region}
                             >
                                 {region}
@@ -76,7 +76,7 @@ export default function FilterModal({
                         {active.map((a) => (
                             <div
                                 onClick={() => activeHandler(a)}
-                                className={`flex h-6 w-auto items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
                                 key={a}
                             >
                                 {a}
@@ -88,7 +88,9 @@ export default function FilterModal({
                     onClick={() => onApply([regionSelect, activeSelect])}
                     className="hover-[#D31D3E] absolute bottom-5 left-1/2 h-[50px] w-[300px] -translate-x-1/2 items-center justify-center rounded-[12px] bg-[#E02D4D]"
                 >
-                    <h5 className="text-[var(--color-white)]">적용하기</h5>
+                    <h5 className="cursor-pointer text-[var(--color-white)]">
+                        적용하기
+                    </h5>
                 </button>
             </div>
         </>

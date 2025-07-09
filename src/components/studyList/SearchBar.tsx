@@ -3,17 +3,17 @@ import { ListFilter, Search } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 export default function SearchBar({
+    setIsModalOpen,
     search,
     setSearch,
-    setIsModalOpen,
 }: {
+    setIsModalOpen: Dispatch<SetStateAction<boolean>>;
     search: string;
     setSearch: Dispatch<SetStateAction<string>>;
-    setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     return (
         <>
-            <div className="flex h-11 w-[320px] items-center justify-between rounded-[12px] bg-[var(--color-gray200)] px-3">
+            <div className="flex h-11 w-[320px] items-center justify-between rounded-[12px] bg-[var(--color-gray200)] px-3 hover:bg-[var(--color-gray300)]">
                 <div className="flex items-center gap-[6px]">
                     <Search className="h-[18px] w-[18px] text-[var(--color-gray700)]" />
                     <input
