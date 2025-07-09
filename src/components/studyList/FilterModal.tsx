@@ -86,7 +86,7 @@ export default function FilterModal({
                 </div>
                 <button
                     onClick={() => onApply([regionSelect, activeSelect])}
-                    className="hover-[#D31D3E] absolute bottom-5 left-1/2 h-[50px] w-[300px] -translate-x-1/2 items-center justify-center rounded-[12px] bg-[#E02D4D]"
+                    className="hover-[#D31D3E] absolute bottom-5 left-1/2 h-[50px] w-[300px] -translate-x-1/2 items-center justify-center rounded-[12px] bg-[#E02D4D] hover:bg-[#D31D3E]"
                 >
                     <h5 className="cursor-pointer text-[var(--color-white)]">
                         적용하기
