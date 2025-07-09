@@ -7,10 +7,13 @@ import { useState } from "react";
 import StudyInfo from "@/components/studyInfo/StudyInfo";
 import StudyUsers from "@/components/studyInfo/StudyUsers";
 import ApplyModal from "@/components/studyInfo/ApplyModal";
+import { useRouter } from "next/navigation";
+import Button from "@/components/common/Button";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
     const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
 
     const applyHandler = () => {
         setIsOpen(false);
@@ -27,9 +30,12 @@ export default function Page() {
                         className="h-full w-full"
                     />
                     <div className="absolute inset-0 z-10 h-[256px] w-full bg-black opacity-30" />
-                    <div className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90">
+                    <button
+                        className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                        onClick={() => router.back()}
+                    >
                         <ChevronLeft className="h-5 w-5 text-[#161616]" />
-                    </div>
+                    </button>
                     <h2 className="absolute bottom-5 left-5 z-20 text-[var(--color-white)]">
                         <p>숲속에서 함께 라틴어 공부할</p>
                         <p className="mt-[10px]">요정들의 스터디 모임</p>
@@ -57,12 +63,9 @@ export default function Page() {
 
                 {/* 신청하기 버튼 */}
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        className="flex h-[50px] w-full cursor-pointer items-center justify-center rounded-[12px] bg-[#E02D4D] text-[var(--color-white)] hover:bg-[#D31D3E]"
-                    >
+                    <Button onClick={() => setIsOpen(true)} color="primary">
                         신청하기
-                    </button>
+                    </Button>
                 </div>
 
                 {isOpen && (

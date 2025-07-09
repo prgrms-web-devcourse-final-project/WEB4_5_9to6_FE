@@ -1,6 +1,8 @@
-// import avatar from "@/assets/avatar.svg";
+"use client";
 import { Users } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 export default function StudyCard({
     category,
     isNew,
@@ -18,9 +20,16 @@ export default function StudyCard({
     location: string;
     member: string;
 }) {
+    const router = useRouter();
+    const clickHandler = () => {
+        router.push("/studyInfo");
+    };
     return (
         <>
-            <div className="h-[157px] w-full rounded-[16px] bg-white px-4">
+            <div
+                className="group h-[157px] w-full cursor-pointer rounded-[16px] bg-white px-4"
+                onClick={clickHandler}
+            >
                 <div className="flex h-[104px] w-full justify-between py-[14px]">
                     <div>
                         {/* 뱃지 */}
@@ -35,7 +44,7 @@ export default function StudyCard({
                             )}
                         </div>
                         {/*제목*/}
-                        <h4 className="mt-2 text-[var(--color-gray1000)] hover:text-[#727272]">
+                        <h4 className="mt-2 text-[var(--color-gray1000)] transition-all duration-200 ease-in-out group-hover:text-[#727272]">
                             {title}
                         </h4>
                     </div>

@@ -39,21 +39,23 @@ export default function ApplyModal({
                     <div className="flex h-[90px] w-full items-center gap-2 py-5">
                         <button
                             onClick={onClose}
-                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)]"
+                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
                         >
                             <h5 className="text-[var(--color-gray1000)]">
                                 취소
                             </h5>
                         </button>
-
                         <button
                             onClick={onApply}
-                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[#E02D4D] hover:bg-[#D31D3E]"
+                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
                         >
                             <h5 className="text-[var(--color-white)]">
                                 신청하기
                             </h5>
                         </button>
+                        {/* <Button color="primary" onClick={onApply}>
+                            신청하기
+                        </Button> */}
                     </div>
                 </div>
             </div>
