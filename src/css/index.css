@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "./font.css";
 @theme {
-    --color-black: #000000;
-    --color-white: #ffffff;
     --color-gray1000: #2f2f2f;
     --color-gray900: #454545;
     --color-gray800: #595959;
@@ -24,4 +22,8 @@
     --color-green400: #00c5a4;
     --color-blue400: #484efd;
     --color-orange400: #fe6f0f;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
 }

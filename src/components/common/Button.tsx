@@ -31,7 +31,7 @@ export default function Button({
                 {...props}
             >
                 <div className="flex items-center justify-center gap-2">
-                    {icon && <img src={icon} />}
+                    {icon && <img src={icon} alt="아이콘" />}
                     {children}
                 </div>
             </button>
