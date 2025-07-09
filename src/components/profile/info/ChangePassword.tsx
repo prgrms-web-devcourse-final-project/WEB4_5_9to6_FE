@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 export default function ChangePassword() {
     return (
         <>
-            <div className="flex min-h-screen flex-col justify-between bg-white p-5">
+            <div className="flex h-full flex-col justify-between bg-white p-5">
                 <div className="flex flex-col">
                     <p className="b2 text-gray1000 mb-2">기존 비밀번호</p>
                     <input

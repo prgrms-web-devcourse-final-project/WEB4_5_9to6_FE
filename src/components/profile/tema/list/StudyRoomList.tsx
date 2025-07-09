@@ -12,7 +12,7 @@ export default function StudyRoomList() {
 
     return (
         <>
-            <div className="mb-[90px] flex flex-col gap-6">
+            <div className="mx-5 mb-[90px] flex flex-col gap-6">
                 {[
                     "천상정원",
                     "스페이스 엣지",

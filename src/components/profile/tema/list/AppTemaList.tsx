@@ -11,7 +11,7 @@ export default function AppTemaList() {
     };
     return (
         <>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="mx-5 mb-[90px] grid grid-cols-2 gap-6">
                 {["기본", "그린 & 블랙", "블루 & 블랙", "오렌지 & 블랙"].map(
                     (v) => (
                         <AppTemaComponent

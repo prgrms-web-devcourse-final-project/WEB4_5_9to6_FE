@@ -23,8 +23,8 @@ export default function ProfileTabs() {
                 </div>
             </div>
             <div
-                className="h-[calc(100vh-194px)] overflow-y-auto px-5 py-6"
-                style={{ scrollPaddingBottom: "120px" }}
+                className="max-h-[calc(100vh-330px)] overflow-y-auto px-5 py-6"
+                style={{ scrollPaddingBottom: "136px" }}
             >
                 {isTab === "study" && <MyStudyList />}
                 {isTab === "log" && <MyLogList />}
