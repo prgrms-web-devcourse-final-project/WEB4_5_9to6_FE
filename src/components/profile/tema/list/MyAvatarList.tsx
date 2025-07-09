@@ -64,9 +64,9 @@ export default function MyAvatarList() {
                                     "둥근모",
                                     "사각모",
                                     "스냅백",
-                                    "월계관",
+                                    "화관",
                                     "금계관",
-                                    "개나리",
+                                    "들꽃",
                                     "토끼귀",
                                 ].map((v, i) => (
                                     <AvatarComponent

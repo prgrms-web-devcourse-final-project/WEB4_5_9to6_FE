@@ -13,7 +13,7 @@ export default async function page({
     return (
         <>
             <div className="flex h-screen items-center justify-center pt-15.5">
-                <div className="bg-gray100 h-full w-90 overflow-hidden pb-4">
+                <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
                     <ProfileCard />
                     <ProfileTabs />
                     <MyStudyModal />

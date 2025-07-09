@@ -4,7 +4,7 @@ export default function page() {
     return (
         <>
             <div className="flex justify-center">
-                <div className="bg-gray100 flex min-h-screen w-90 flex-col items-center justify-center p-10">
+                <div className="bg-gray100 flex min-h-screen w-screen max-w-sm flex-col items-center justify-center p-10">
                     <h5 className="text-gray1000">로그인 후,</h5>
                     <h5 className="text-gray1000 mb-6">
                         스터디 정보를 확인해보세요
