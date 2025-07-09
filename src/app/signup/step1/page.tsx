@@ -75,7 +75,7 @@ export default function Step1() {
                                 onChange={(e) => setCode(e.target.value)}
                             />
                             <button
-                                className="inline cursor-pointer pt-3 text-[var(--color-gray700)] underline underline-offset-4"
+                                className="mx-auto mt-3 w-20 cursor-pointer text-[var(--color-gray700)] underline underline-offset-4 duration-200 ease-in-out hover:text-[var(--color-gray1000)]"
                                 type="button"
                             >
                                 재발송 하기
