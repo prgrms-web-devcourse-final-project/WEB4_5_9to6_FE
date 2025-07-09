@@ -9,25 +9,25 @@ export default function StudyTime({ avatar }: { avatar: string }) {
     const dummyCard = Array(5).fill(null);
     const [isLoggedin, setIsLoggedin] = useState(true);
     // 시간에 따른 멘트 설정
-    const hours = 6;
+    const hours = 12;
     const minutes = 39;
     const totalMinutes = hours * 60 + minutes;
     let message = "";
     let icon = "/icons/smile.svg";
 
-    if (totalMinutes < 10) {
-        message = "이제 공부를 시작해볼까요?";
+    if (totalMinutes < 60) {
+        message = "자! 이제 공부를 시작해볼까요?";
         icon = "/icons/smile.svg";
-    } else if (totalMinutes < 60) {
+    } else if (totalMinutes <= 299) {
         message = "조금씩 성장중이군요! 계속 가볼까요?";
         icon = "/icons/angel-face.svg";
-    } else if (totalMinutes < 120) {
+    } else if (totalMinutes <= 600) {
         message = "열공 중이네요! 좋아요!";
         icon = "/icons/heart-eyes.svg";
-    } else if (totalMinutes < 300) {
+    } else if (totalMinutes <= 1200) {
         message = "공부가 꽤 진행됐어요! 조만간 마스터 하겠는걸요?";
         icon = "/icons/face-hearts.svg";
-    } else if (totalMinutes > 300) {
+    } else if (totalMinutes > 1200) {
         message = "이렇게 공부하다가 코피나요! 대단해요!";
         icon = "/icons/Star-struck.svg";
     }
@@ -40,7 +40,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
                     <h3 className="h3">어설픈도마뱀님의 공부시간</h3>
                     <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-[10%]">
                         <div className="flex pt-6">
-                            <div className="flex w-1/2 flex-col">
+                            <div className="flex w-1/2 flex-col gap-10">
                                 <div className="mb-[11px]">
                                     <p className="c2">총 공부 시간</p>
                                 </div>
