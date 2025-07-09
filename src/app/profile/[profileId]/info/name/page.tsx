@@ -1,0 +1,13 @@
+import ChangeNickname from "@/components/profile/info/ChangeNickname";
+
+export default function page() {
+    return (
+        <>
+            <div className="flex justify-center">
+                <div className="border-gray200 min-h-screen w-90 border bg-white pb-4">
+                    <ChangeNickname />
+                </div>
+            </div>
+        </>
+    );
+}
