@@ -51,15 +51,13 @@ export default function Step1() {
                 <p className="h6 mb-5 cursor-default text-[var(--color-gray600)]">
                     특수문자 제외 2자 이상 10자 이하
                 </p>
-                <div className="flex flex-col gap-1">
-                    <Input
-                        placeholder="닉네임 입력"
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
-                        error={nicknameError}
-                        errorMsg={nicknameErrorMsg}
-                    />
-                </div>
+                <Input
+                    placeholder="닉네임 입력"
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                    error={nicknameError}
+                    errorMsg={nicknameErrorMsg}
+                />
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
                     {nickname && !nicknameError ? (
                         <Button type="submit">계속하기</Button>
