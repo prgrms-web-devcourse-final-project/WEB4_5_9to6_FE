@@ -1,14 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import { Bell } from "lucide-react";
 import Link from "next/link";
-export default async function Header() {
+export default function Header() {
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
-                <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)] opacity-85 backdrop-blur-xl"></div>
+                <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl"></div>
                 <div className="relative flex justify-between">
                     <h1>
-                        <Link href="/">
+                        <Link
+                            href="/"
+                            onClick={() => {
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                        >
                             <Image
                                 src="/images/logo-default.png"
                                 alt="logo"

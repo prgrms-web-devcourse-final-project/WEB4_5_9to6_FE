@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "./font.css";
 @theme {
-    --color-black: #000000;
-    --color-white: #ffffff;
     --color-gray1000: #2f2f2f;
     --color-gray900: #454545;
     --color-gray800: #595959;
