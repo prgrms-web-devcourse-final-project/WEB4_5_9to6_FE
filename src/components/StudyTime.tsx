@@ -43,8 +43,10 @@ export default function StudyTime() {
                                     <p className="c2">총 공부 시간</p>
                                 </div>
                                 <p className="h1">
-                                    0<span className="h5">시간</span>
-                                    19<span className="h5">분</span>
+                                    {hours}
+                                    <span className="h5">시간</span>
+                                    {minutes}
+                                    <span className="h5">분</span>
                                 </p>
                             </div>
                             <div className="flex w-1/2 flex-col gap-4">
