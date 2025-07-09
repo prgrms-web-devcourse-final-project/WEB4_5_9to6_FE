@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -27,7 +26,7 @@ export default function Button({
                 {...props}
             >
                 <div className="flex items-center justify-center gap-2">
-                    {icon && <Image src={icon} alt="아이콘" />}
+                    {icon && <img src={icon} alt="아이콘" />}
                     {children}
                 </div>
             </button>
