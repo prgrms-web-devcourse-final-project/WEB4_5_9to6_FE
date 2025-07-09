@@ -40,13 +40,13 @@ export default function StudyTime({ avatar }: { avatar: string }) {
                     <h3 className="h3">어설픈도마뱀님의 공부시간</h3>
                     <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-[10%]">
                         <div className="flex pt-6">
-                            <div className="flex w-1/2 flex-col gap-10">
+                            <div className="flex w-1/2 flex-col">
                                 <div className="mb-[11px]">
-                                    <p className="c2">총 공부 시간</p>
+                                    <p className="c2">총 공부시간</p>
                                 </div>
-                                <p className="h1">
+                                <p className="h1 mr-0.5">
                                     {hours}
-                                    <span className="h5">시간</span>
+                                    <span className="h5 mr-1.5">시간</span>
                                     {minutes}
                                     <span className="h5">분</span>
                                 </p>
