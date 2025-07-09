@@ -24,6 +24,7 @@
     --color-orange400: #fe6f0f;
 }
 
+<<<<<<< HEAD
 @layer utilities {
     .tabChoose {
         @apply hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-250 ease-in-out hover:border-b-2;
@@ -31,4 +32,8 @@
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-250 ease-in-out hover:bg-black/30;
     }
+=======
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+>>>>>>> 723e59602d3615985d0d76e0bc6b7fc73c0f52b7
 }
