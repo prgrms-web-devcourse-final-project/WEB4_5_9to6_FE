@@ -7,11 +7,11 @@ export default function Gnb() {
     const pathname = usePathname();
     return (
         <>
-            <div className="bottom-0 h-18 w-full bg-[var(--color-gray300)]">
-                <div className="mx-10 flex justify-between pt-4">
+            <div className="fixed bottom-0 h-18 w-full rounded-2xl bg-white">
+                <div className="mx-10 flex justify-between pt-3.5">
                     <Link
                         href="/"
-                        className={`flex cursor-pointer flex-col items-center transition duration-150 hover:text-[var(--color-gray1000)] ${
+                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/"
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
@@ -22,7 +22,7 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href="/studylist"
-                        className={`flex cursor-pointer flex-col items-center transition duration-150 hover:text-[var(--color-gray1000)] ${
+                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/studylist"
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
@@ -33,7 +33,7 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href="/rewardshop"
-                        className={`flex cursor-pointer flex-col items-center transition duration-150 hover:text-[var(--color-gray1000)] ${
+                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/rewardshop"
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
@@ -44,7 +44,7 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href="/profile"
-                        className={`flex cursor-pointer flex-col items-center transition duration-150 hover:text-[var(--color-gray1000)] ${
+                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/profile"
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"

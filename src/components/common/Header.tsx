@@ -7,7 +7,7 @@ export default function Header() {
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
-                <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)] opacity-85 backdrop-blur-xl"></div>
+                <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl"></div>
                 <div className="relative flex justify-between">
                     <h1>
                         <Link
