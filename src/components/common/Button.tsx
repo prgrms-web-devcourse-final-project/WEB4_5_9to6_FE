@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    color?: "black" | "primary" | "yellow" | "white";
+    color?: "black" | "primary" | "yellow" | "white" | "gray";
     icon?: string;
 }
 
@@ -24,7 +24,9 @@ export default function Button({
                             ? "cursor-pointer bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
                             : color === "yellow"
                               ? "cursor-pointer bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
-                              : "cursor-pointer border border-[var(--color-gray300)] text-[#191919] hover:bg-[var(--color-gray100)]"
+                              : color === "white"
+                                ? "cursor-pointer border border-[var(--color-gray300)] text-[#191919] hover:bg-[var(--color-gray100)]"
+                                : "cursor-pointer bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]"
                 } `}
                 {...props}
             >

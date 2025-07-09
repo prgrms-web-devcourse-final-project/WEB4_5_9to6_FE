@@ -16,7 +16,7 @@ export default function Login() {
     };
 
     return (
-        <div className="m-auto flex h-screen w-screen max-w-sm flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
             <div className="mx-2.5 flex flex-col items-center gap-4">
                 {/* 로고 */}
                 <img

@@ -2,6 +2,7 @@
 
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import SubHeader from "@/components/common/SubHeader";
 import ProgressBar from "@/components/signup/ProgressBar";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -57,6 +58,7 @@ export default function Step1() {
 
     return (
         <>
+            <SubHeader>회원가입</SubHeader>
             <ProgressBar step={2} />
             <form
                 className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
