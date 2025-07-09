@@ -20,7 +20,7 @@ export default function StudyCard({
 }) {
     return (
         <>
-            <div className="h-[157px] w-[320px] rounded-[16px] bg-white px-4">
+            <div className="h-[157px] w-full rounded-[16px] bg-white px-4">
                 <div className="flex h-[104px] w-full justify-between py-[14px]">
                     <div>
                         {/* 뱃지 */}
