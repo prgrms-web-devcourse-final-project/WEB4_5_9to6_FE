@@ -29,7 +29,7 @@ export default function AppTemaComponent({
     return (
         <>
             <div className="flex flex-col gap-[10px]">
-                <p>{name}</p>
+                <h6 className="text-gray1000">{name}</h6>
                 <div
                     onClick={onSelect}
                     className="relative h-51 w-37 cursor-pointer"
@@ -41,7 +41,7 @@ export default function AppTemaComponent({
                         Studium
                     </p>
                     <div
-                        className={`${selected ? "bg-black/50" : "bg-black/0"} absolute inset-0 rounded-xl transition-colors duration-250 ease-in-out hover:bg-black/30`}
+                        className={`${selected ? "bg-black/50" : "bg-black/0"} temaChoose`}
                     ></div>
 
                     {selected && (

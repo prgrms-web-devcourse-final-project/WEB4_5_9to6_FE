@@ -12,8 +12,8 @@ export default async function page({
 
     return (
         <>
-            <div className="flex justify-center">
-                <div className="bg-gray100 min-h-screen w-90 pb-4">
+            <div className="flex h-screen items-center justify-center">
+                <div className="bg-gray100 h-full w-90 overflow-hidden pb-4">
                     <ProfileCard />
                     <ProfileTabs />
                     <MyStudyModal />

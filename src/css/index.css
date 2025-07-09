@@ -28,4 +28,7 @@
     .tabChoose {
         @apply hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-250 ease-in-out hover:border-b-2;
     }
+    .temaChoose {
+        @apply absolute inset-0 rounded-xl transition-colors duration-250 ease-in-out hover:bg-black/30;
+    }
 }

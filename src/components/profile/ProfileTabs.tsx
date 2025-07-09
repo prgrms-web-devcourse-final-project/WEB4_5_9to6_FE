@@ -22,9 +22,13 @@ export default function ProfileTabs() {
                     <h5>활동로그</h5>
                 </div>
             </div>
-
-            {isTab === "study" && <MyStudyList />}
-            {isTab === "log" && <MyLogList />}
+            <div
+                className="h-[calc(100vh-194px)] overflow-y-auto px-5 py-6"
+                style={{ scrollPaddingBottom: "120px" }}
+            >
+                {isTab === "study" && <MyStudyList />}
+                {isTab === "log" && <MyLogList />}
+            </div>
         </>
     );
 }

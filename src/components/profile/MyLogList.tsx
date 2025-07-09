@@ -17,7 +17,7 @@ export default function MyLogList() {
                 <p className="text-main400 text-[28px] font-bold">7회</p>
             </div>
             <div className="bg-gray200 h-4 w-full"></div>
-            <div className="mx-5 my-6 flex w-full flex-col gap-4">
+            <div className="my-6 flex w-full flex-col gap-4">
                 <h3 className="text-gray1000">스터디별 활동 현황</h3>
                 <button
                     onClick={openModal}
