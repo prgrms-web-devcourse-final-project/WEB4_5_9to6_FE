@@ -8,7 +8,7 @@ export default function SubHeader({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            <div className="h5 relative flex h-[62px] w-full items-center justify-center">
+            <div className="h5 relative flex h-[62px] w-full cursor-default items-center justify-center">
                 <ChevronLeft
                     strokeWidth={1.2}
                     size={36}

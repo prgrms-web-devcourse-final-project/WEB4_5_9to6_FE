@@ -51,10 +51,10 @@ export default function Step1() {
                 className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
                 onSubmit={(e) => submitHandler(e)}
             >
-                <h1 className="mb-2 text-[24px] font-semibold">
+                <h1 className="mb-2 cursor-default text-[24px] font-semibold">
                     이메일 인증이 필요해요
                 </h1>
-                <p className="h6 mb-5 text-[var(--color-gray600)]">
+                <p className="h6 mb-5 cursor-default text-[var(--color-gray600)]">
                     이메일을 입력하면 메일이 발송돼요.
                 </p>
                 <div className="flex flex-col gap-2.5">
