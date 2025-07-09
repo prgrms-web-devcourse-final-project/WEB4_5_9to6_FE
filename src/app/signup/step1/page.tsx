@@ -10,7 +10,7 @@ export default function Step1() {
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
     const [isSend, setIsSend] = useState(0);
-    const [EmailError, setEmailError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
     const router = useRouter();
 
     // test Code
@@ -27,8 +27,10 @@ export default function Step1() {
         e.preventDefault();
 
         if (isSend) {
+            if (!email || emailError || code !== correctCode) return;
             continueStep();
         } else {
+            if (!email || emailError) return;
             sendEmail();
         }
     };
@@ -62,7 +64,7 @@ export default function Step1() {
                         placeholder="이메일 입력"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        error={EmailError}
+                        error={emailError}
                         errorMsg={"이메일 형식이 올바르지 않습니다."}
                     />
                     {!!isSend && (
@@ -92,7 +94,7 @@ export default function Step1() {
                         </>
                     ) : (
                         <>
-                            {email && !EmailError ? (
+                            {email && !emailError ? (
                                 <Button type="submit">인증메일 발송</Button>
                             ) : (
                                 <Button disabled>인증메일 발송</Button>

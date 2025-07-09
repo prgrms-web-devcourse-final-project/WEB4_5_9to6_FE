@@ -17,6 +17,14 @@ export default function Step1() {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (
+            !password ||
+            !confirmPassword ||
+            passwordError ||
+            confirmPasswordError
+        )
+            return;
+
         router.push("/signup/step3");
     };
 
