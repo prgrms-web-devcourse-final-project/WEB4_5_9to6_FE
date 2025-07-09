@@ -41,7 +41,7 @@ export default function FilterModal({
     };
     return (
         <>
-            <div className="fixed bottom-0 left-[10px] h-[420px] w-[340px] rounded-[24px] bg-[var(--color-white)]">
+            <div className="fixed bottom-0 left-[10px] z-50 h-[420px] w-[340px] rounded-[24px] bg-[var(--color-white)]">
                 <div className="mt-[22px] flex w-full items-center justify-between px-5">
                     <p className="text-[18px] font-semibold text-[var(--color-gray1000)]">
                         필터항목

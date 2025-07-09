@@ -1,25 +1,18 @@
 "use client";
 
-import { ListFilter, Plus, Search } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import FilterModal from "@/components/studyList/FilterModal";
 import StudyLists from "@/components/studyList/StudyLists";
-import StudySearch from "@/components/studyList/StudySearch";
+import SearchResult from "@/components/studyList/SearchResult";
+import SearchBar from "@/components/studyList/SearchBar";
+import Channel from "@/components/studyList/Channel";
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState<string[]>([]);
-    const channels = [
-        "전체",
-        "어학",
-        "취업",
-        "프로그래밍",
-        "고시&공무원",
-        "수능&내신",
-        "기타",
-    ];
 
     const channelHandler = (channel: string) => {
         setSelected(channel);
@@ -32,41 +25,21 @@ export default function Page() {
         <>
             <div className="w-[360px] bg-[var(--color-gray100)] pt-[19px] pl-5 hover:bg-[var(--color-gray300)]">
                 {/* 검색 */}
-                <div className="flex h-11 w-[320px] items-center justify-between rounded-[12px] bg-[var(--color-gray200)] px-3">
-                    <div className="flex items-center gap-[6px]">
-                        <Search className="h-[18px] w-[18px] text-[var(--color-gray700)]" />
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="관심있는 스터디를 검색해보세요!"
-                            className="b2 text-[var(--color-gray600)] outline-none"
-                        />
-                    </div>
-                    <button onClick={() => setIsModalOpen(true)}>
-                        <ListFilter className="h-5 w-5 cursor-pointer text-[var(--color-gray700)]" />
-                    </button>
-                </div>
+                <SearchBar
+                    search={search}
+                    setSearch={setSearch}
+                    setIsModalOpen={setIsModalOpen}
+                />
 
                 {/* 채널 */}
-                <div
-                    className={`hide-scrollbar h-[50px] w-full overflow-x-auto ${filter.length > 0 ? "" : "border-b border-b-[var(--color-gray300)]"}`}
-                >
-                    <div className="flex h-full items-center gap-4 py-[14px]">
-                        {channels.map((channel) => (
-                            <button
-                                className={`h-[50px] w-auto whitespace-nowrap ${selected === channel ? (filter.length > 0 ? "text-[var(--color-gray1000)]" : "border-b-2 border-b-[var(--color-gray1000)] text-[var(--color-gray1000)]") : "text-[var(--color-gray500)]"}`}
-                                key={channel}
-                                onClick={() => channelHandler(channel)}
-                            >
-                                {channel}
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                <Channel
+                    channelHandler={channelHandler}
+                    filter={filter}
+                    selected={selected}
+                />
 
                 {filter.length === 0 && <StudyLists />}
-                {filter.length > 0 && <StudySearch />}
+                {filter.length > 0 && <SearchResult />}
 
                 {/* 필터 모달 */}
                 {isModalOpen && (

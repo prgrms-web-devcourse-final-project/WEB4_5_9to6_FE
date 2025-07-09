@@ -1,7 +1,23 @@
-import avatar from "@/assets/avatar.svg";
+// import avatar from "@/assets/avatar.svg";
 import { Users } from "lucide-react";
 import Image from "next/image";
-export default function DefaultStudy() {
+export default function StudyCard({
+    category,
+    isNew,
+    title,
+    avatar,
+    schedule,
+    location,
+    member,
+}: {
+    category: string;
+    isNew: boolean;
+    title: string;
+    avatar: string;
+    schedule: string;
+    location: string;
+    member: string;
+}) {
     return (
         <>
             <div className="h-[157px] w-[320px] rounded-[16px] bg-white px-4">
@@ -10,15 +26,17 @@ export default function DefaultStudy() {
                         {/* 뱃지 */}
                         <div className="flex h-[24px] items-center gap-[6px]">
                             <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[var(--color-gray1000)]">
-                                수능&내신
+                                {category}
                             </div>
-                            <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C]">
-                                New
-                            </div>
+                            {isNew && (
+                                <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C]">
+                                    New
+                                </div>
+                            )}
                         </div>
                         {/*제목*/}
                         <h4 className="mt-2 text-[var(--color-gray1000)] hover:text-[#727272]">
-                            자바를 자바라!!!!!
+                            {title}
                         </h4>
                     </div>
 
@@ -36,13 +54,13 @@ export default function DefaultStudy() {
                 {/* 일정,장소,인원수 */}
                 <div className="h-[53px] border-t border-t-[var(--color-gray200)] text-[#727272]">
                     <p className="c1 mt-[7px] mb-[1px] leading-none">
-                        매주 토요일 12:00~16:00
+                        {schedule}
                     </p>
                     <div className="flex justify-between">
-                        <span className="c2">온라인 Slack</span>
+                        <span className="c2">{location}</span>
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
-                            3/10
+                            {member}
                         </div>
                     </div>
                 </div>
