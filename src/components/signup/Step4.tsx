@@ -1,7 +1,6 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Step4({
     continueStep,
@@ -16,7 +15,6 @@ export default function Step4({
 }) {
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
-    const router = useRouter();
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -27,9 +25,6 @@ export default function Step4({
         requestGender(gender);
         continueStep();
         submitSignUp();
-        setTimeout(() => {
-            router.push("/signup/success");
-        }, 1000);
     };
 
     return (

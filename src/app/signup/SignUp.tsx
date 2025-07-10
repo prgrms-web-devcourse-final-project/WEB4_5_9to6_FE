@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/api/auth";
+import { useRouter } from "next/navigation";
 
 const client = new QueryClient();
 
@@ -30,11 +31,14 @@ function SignUpContent() {
     const [nickname, setNickname] = useState("");
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
+    const router = useRouter();
 
     const { mutate: submitSignUp } = useMutation({
         mutationFn: () => signUp(email, password, nickname, birthday, gender),
         onSuccess: () => {
-            alert("회원가입이 완료되었습니다!");
+            setTimeout(() => {
+                router.push("/signup/success");
+            }, 1000);
         },
         onError: (error) => {
             console.error(error);

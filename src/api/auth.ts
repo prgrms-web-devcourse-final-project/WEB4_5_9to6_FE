@@ -41,3 +41,15 @@ export const signUp = async (
     );
     return response.data;
 };
+
+/* 로그인 */
+export const login = async (username: string, password: string) => {
+    const response = await axios.post(
+        "http://35.184.113.72/api/v1/auth/login",
+        {
+            username,
+            password,
+        },
+    );
+    return response.data;
+};
