@@ -1,19 +1,21 @@
-"use client";
-
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import SubHeader from "@/components/common/SubHeader";
 import ProgressBar from "@/components/signup/ProgressBar";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Step1() {
+export default function Step2({
+    continueStep,
+    requestPassword,
+}: {
+    continueStep: () => void;
+    requestPassword: (password: string) => void;
+}) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
-    const router = useRouter();
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,7 +28,8 @@ export default function Step1() {
         )
             return;
 
-        router.push("/signup/step3");
+        requestPassword(password);
+        continueStep();
     };
 
     useEffect(() => {

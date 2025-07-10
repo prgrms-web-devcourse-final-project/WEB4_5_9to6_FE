@@ -1,18 +1,18 @@
-"use client";
-
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import SubHeader from "@/components/common/SubHeader";
-import ProgressBar from "@/components/signup/ProgressBar";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Step1() {
+export default function Step1({
+    continueStep,
+    requestEmail,
+}: {
+    continueStep: () => void;
+    requestEmail: (email: string) => void;
+}) {
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
     const [isSend, setIsSend] = useState(0);
     const [emailError, setEmailError] = useState(false);
-    const router = useRouter();
 
     // test Code
     const correctCode = "000000";
@@ -20,15 +20,13 @@ export default function Step1() {
     const sendEmail = () => {
         setIsSend(1);
     };
-    const continueStep = () => {
-        router.push("/signup/step2");
-    };
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (isSend) {
             if (!email || emailError || code !== correctCode) return;
+            requestEmail(email);
             continueStep();
         } else {
             if (!email || emailError) return;
@@ -49,8 +47,6 @@ export default function Step1() {
 
     return (
         <>
-            <SubHeader>회원가입</SubHeader>
-            <ProgressBar step={1} />
             <form
                 className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
                 onSubmit={(e) => submitHandler(e)}

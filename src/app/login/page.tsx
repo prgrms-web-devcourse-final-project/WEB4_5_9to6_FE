@@ -39,7 +39,7 @@ export default function Login() {
 
                 <div className="flex w-full justify-between text-[var(--color-gray1000)]">
                     <button className="cursor-pointer">비밀번호 찾기</button>
-                    <Link href="/signup/step1" className="cursor-pointer">
+                    <Link href="/signup" className="cursor-pointer">
                         회원가입
                     </Link>
                 </div>
