@@ -43,7 +43,7 @@ export default function Page() {
                 </div>
 
                 {/* 채널(정보/팀원현황) */}
-                <div className="flex h-[50px] w-full items-center justify-center gap-4 border-b border-b-[var(--color-gray300)] px-5">
+                <div className="mt-0.5 flex h-[50px] w-full items-center justify-center gap-4 border-b border-b-[var(--color-gray300)] px-5">
                     <button
                         onClick={() => setChannel("정보")}
                         className={`flex h-full w-full cursor-pointer items-center justify-center border-b-2 ${channel === "정보" ? "border-b-[var(--color-gray1000)] text-[var(--color-gray1000)]" : "border-b-[var(--color-white)] text-[var(--color-gray500)]"}`}
