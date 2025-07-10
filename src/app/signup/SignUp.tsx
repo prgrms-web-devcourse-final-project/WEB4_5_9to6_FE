@@ -33,17 +33,23 @@ function SignUpContent() {
     const [gender, setGender] = useState("");
     const router = useRouter();
 
-    const { mutate: submitSignUp } = useMutation({
-        mutationFn: () => signUp(email, password, nickname, birthday, gender),
-        onSuccess: () => {
-            setTimeout(() => {
-                router.push("/signup/success");
-            }, 1000);
-        },
-        onError: (error) => {
-            console.error(error);
-        },
-    });
+    const submitSignUp = () => {
+        setTimeout(() => {
+            router.push("/signup/success");
+        }, 1500);
+    };
+
+    // const { mutate: submitSignUp } = useMutation({
+    //     mutationFn: () => signUp(email, password, nickname, birthday, gender),
+    //     onSuccess: () => {
+    //         setTimeout(() => {
+    //             router.push("/signup/success");
+    //         }, 1000);
+    //     },
+    //     onError: (error) => {
+    //         console.error(error);
+    //     },
+    // });
 
     return (
         <>

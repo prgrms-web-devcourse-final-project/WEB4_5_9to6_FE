@@ -9,6 +9,7 @@ export default function Step2({
     continueStep: () => void;
     requestPassword: (password: string) => void;
 }) {
+    const [isMounted, setIsMounted] = useState(false);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
@@ -56,6 +57,10 @@ export default function Step2({
     }, [password]);
 
     useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
         if (confirmPassword && !(password === confirmPassword)) {
             setConfirmPasswordError(true);
         } else {
@@ -69,24 +74,34 @@ export default function Step2({
                 className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
                 onSubmit={(e) => submitHandler(e)}
             >
-                <h1 className="mb-2 cursor-default text-[24px] font-semibold">
+                <h1
+                    className={`mb-2 cursor-default text-[24px] font-semibold delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                >
                     비밀번호를 설정해주세요
                 </h1>
-                <p className="h6 mb-5 cursor-default text-[var(--color-gray600)]">
+                <p
+                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-1100 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                >
                     특수문자, 영문, 숫자 포함 8자 이상 16자 이하
                 </p>
                 <div className="flex flex-col gap-1">
-                    <Input
-                        placeholder="비밀번호 입력"
-                        type="password"
-                        value={password}
-                        onChange={(e) =>
-                            setPassword(e.target.value.replace(/\s/g, ""))
-                        }
-                        error={passwordError}
-                        errorMsg={passwordErrorMsg}
-                    />
-                    {password && !passwordError && (
+                    <div
+                        className={`delay-1500 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
+                    >
+                        <Input
+                            placeholder="비밀번호 입력"
+                            type="password"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value.replace(/\s/g, ""))
+                            }
+                            error={passwordError}
+                            errorMsg={passwordErrorMsg}
+                        />
+                    </div>
+                    <div
+                        className={`duration-1000 ease-out ${(!password || passwordError) && "pointer-events-none translate-y-[-4px] opacity-0"}`}
+                    >
                         <Input
                             placeholder="비밀번호 확인"
                             type="password"
@@ -99,7 +114,7 @@ export default function Step2({
                             error={confirmPasswordError}
                             errorMsg="비밀번호가 일치하지 않습니다."
                         />
-                    )}
+                    </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
                     {password &&
