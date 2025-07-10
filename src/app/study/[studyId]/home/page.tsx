@@ -11,6 +11,8 @@ import {
     ChevronLeft,
     EllipsisVertical,
     MessageSquare,
+    Pause,
+    Play,
     Users,
 } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +24,13 @@ export default function Page() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [attend, setAttend] = useState(false);
     const [isUserOpen, setIsUserOpen] = useState(false);
+    const [isStart, setIsStart] = useState(false);
+    const [pause, setPause] = useState(false);
 
+    const finishHandler = () => {
+        setIsStart(false);
+        setPause(false);
+    };
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
@@ -88,9 +96,9 @@ export default function Page() {
                 </div>
 
                 {/* 스터디 정보 */}
-                <div className="mt-3 w-full px-5">
+                <div className="mt-3 w-full">
                     <button
-                        className="flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]"
+                        className="ml-5 flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]"
                         onClick={() => setIsUserOpen(true)}
                     >
                         <Users className="h-[14px] w-[14px]" />
@@ -98,10 +106,10 @@ export default function Page() {
                     </button>
 
                     {/* 제목,일정 */}
-                    <p className="mt-3 text-[22px] font-semibold text-[var(--color-gray1000)]">
+                    <p className="mt-3 ml-5 text-[22px] font-semibold text-[var(--color-gray1000)]">
                         숲속에서 함께 라틴어 공부
                     </p>
-                    <p className="b2 mt-2 text-[var(--color-gray700)]">
+                    <p className="b2 mt-2 ml-5 text-[var(--color-gray700)]">
                         매주 수요일 · 15:00~18:00 · 온라인(Zoom)
                     </p>
 
@@ -109,19 +117,50 @@ export default function Page() {
                     <StudyGoal />
 
                     {/* 학습 관련 링크 */}
-                    <h3 className="mt-8 text-[var(--color-gray1000)]">
-                        학습 관련 링크
-                    </h3>
-                    <div className="mt-[10px] mb-[10px] flex h-[50px] w-full items-center justify-center rounded-[12px] border border-[var(--color-gray300)] text-[var-(--color-gray1000)]">
-                        https://www.inflearn.com/course/suyaisbest
+                    <div className="w-full px-5">
+                        <h3 className="mt-8 text-[var(--color-gray1000)]">
+                            학습 관련 링크
+                        </h3>
+                        <div className="c1 mt-[10px] mb-[10px] flex h-[50px] w-full items-center justify-center rounded-[12px] border border-[var(--color-gray300)] text-[var-(--color-gray1000)]">
+                            https://www.inflearn.com/course/suyaisbest
+                        </div>
                     </div>
                 </div>
 
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
-                    <Button color="primary" onClick={() => setAttend(true)}>
-                        {" "}
-                        {attend ? "스터디 시작" : "출석체크"}
-                    </Button>
+                    {!attend && (
+                        <Button color="primary" onClick={() => setAttend(true)}>
+                            출석체크
+                        </Button>
+                    )}
+                    {attend && !isStart && (
+                        <Button
+                            color="primary"
+                            onClick={() => setIsStart(true)}
+                        >
+                            스터디 시작
+                        </Button>
+                    )}
+                    {isStart && (
+                        <div className="flex w-full items-center justify-between gap-2">
+                            <button
+                                className="h-[50px] w-full basis-[35.9%] rounded-xl bg-[var(--color-main100)]"
+                                onClick={finishHandler}
+                            >
+                                <h5 className="text-[var(--color-main500)]">
+                                    그만하기
+                                </h5>
+                            </button>
+                            <Button
+                                color="primary"
+                                className="basis-[64.1%]"
+                                onClick={() => setPause(!pause)}
+                            >
+                                {!pause && <Pause className="h-6 w-6" />}
+                                {pause && <Play className="h-6 w-6" />}
+                            </Button>
+                        </div>
+                    )}
                 </div>
 
                 {isMenuOpen && (
