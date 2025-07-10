@@ -49,7 +49,7 @@ export default function MyInfoList() {
                     className="text-gray500 cursor-pointer"
                 />
             </div>
-            <div className="flex h-50 items-center justify-center">
+            <div className="flex h-[333px] items-center justify-center">
                 <p className="text-gray1000 b2 underline">로그아웃</p>
             </div>
         </>

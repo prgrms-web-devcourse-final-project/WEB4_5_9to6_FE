@@ -24,6 +24,40 @@
     --color-orange400: #fe6f0f;
 }
 
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    color: var(--color-gray1000);
+    cursor: pointer;
+}
+.swiper-button-prev-custom {
+    left: 10px;
+}
+
+.swiper-button-next-custom {
+    right: 10px;
+}
+
+.swiper-pagination {
+    bottom: 2px !important;
+}
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+}
+.swiper-pagination-bullet {
+    width: 14px;
+    height: 14px;
+    background: #e02d4d !important;
+}
+
+@layer utilities {
+    .tabChoose {
+        @apply hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-250 ease-in-out hover:border-b-2;
+    }
+    .temaChoose {
+        @apply absolute inset-0 rounded-xl transition-colors duration-250 ease-in-out hover:bg-black/30;
+    }
 }

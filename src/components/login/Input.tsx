@@ -11,7 +11,7 @@ export default function Input({ children, ...props }: InputProps) {
         <>
             <div className="relative h-[62px] w-full rounded-[12px] border border-[var(--color-gray-300)]">
                 <input
-                    className="peer w-ful h-full pt-4 pl-4 text-[var(--color-gray1000)] transition-all duration-200 focus:outline-none"
+                    className="peer h-full w-full pt-4 pl-4 text-[var(--color-gray1000)] transition-all duration-200 focus:outline-none"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     {...props}

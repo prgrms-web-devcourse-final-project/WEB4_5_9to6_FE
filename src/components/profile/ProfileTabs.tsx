@@ -11,20 +11,24 @@ export default function ProfileTabs() {
             <div className="border-b-gray500 flex gap-4 border-b px-5">
                 <div
                     onClick={() => setTab("study")}
-                    className={`${isTab === "study" ? "text-gray1000 border-b-gray1000 border-b" : "text-gray500"} hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center hover:border-b`}
+                    className={`${isTab === "study" ? "text-gray1000 border-b-gray1000 border-b-2" : "text-gray500"} tabChoose`}
                 >
                     <h5>내 스터디 3</h5>
                 </div>
                 <div
                     onClick={() => setTab("log")}
-                    className={`${isTab === "log" ? "text-gray1000 border-b-gray1000 border-b" : "text-gray500"} hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center hover:border-b`}
+                    className={`${isTab === "log" ? "text-gray1000 border-b-gray1000 border-b-2" : "text-gray500"} tabChoose`}
                 >
                     <h5>활동로그</h5>
                 </div>
             </div>
-
-            {isTab === "study" && <MyStudyList />}
-            {isTab === "log" && <MyLogList />}
+            <div
+                className="max-h-[calc(100vh-330px)] overflow-y-auto px-5 py-6"
+                style={{ scrollPaddingBottom: "136px" }}
+            >
+                {isTab === "study" && <MyStudyList />}
+                {isTab === "log" && <MyLogList />}
+            </div>
         </>
     );
 }
