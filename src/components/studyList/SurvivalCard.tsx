@@ -15,7 +15,7 @@ export default function SurvivalStudy({
 }) {
     return (
         <>
-            <div className="h-[206px] w-[188px] rounded-[16px] bg-gradient-to-b from-[#E93D5B] via-[#D32D4A] to-[#BA1A37] px-4 text-white">
+            <div className="h-[206px] w-[188px] cursor-pointer rounded-[16px] bg-gradient-to-b from-[#E93D5B] via-[#D32D4A] to-[#BA1A37] px-4 text-white">
                 <p className="c2 mt-[17px]">{category}</p>
                 <h4 className="mt-3">{title}</h4>
                 <p className="c1 mt-1 h-[96px] text-[#FFD0D8]">{content}</p>
