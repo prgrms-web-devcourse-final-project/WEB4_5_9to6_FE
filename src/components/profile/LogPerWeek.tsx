@@ -5,7 +5,7 @@ import { Check, Minus } from "lucide-react";
 export default function LogPerWeek() {
     return (
         <>
-            <div className="w-80 rounded-2xl bg-white p-5">
+            <div className="w-full rounded-2xl bg-white p-5">
                 <h6 className="text-gray700 mb-[14px]">주간 출석 현황</h6>
                 <div className="mb-8 flex gap-[9px]">
                     <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
