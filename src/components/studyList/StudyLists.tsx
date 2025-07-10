@@ -8,7 +8,7 @@ export default function StudyLists() {
     return (
         <>
             {/* 서바이벌 스터디 */}
-            <div className="mt-6">
+            <div className="mt-6 pl-5">
                 <div className="flex items-center">
                     <Image src={flash} alt="서바이벌" width={18} height={18} />
                     <h3 className="text-[var(--color-gray1000)]">
@@ -46,10 +46,10 @@ export default function StudyLists() {
             </div>
 
             {/* 스터디 추천 */}
-            <h3 className="mt-8 text-[var(--color-gray1000)]">
+            <h3 className="mt-8 pl-5 text-[var(--color-gray1000)]">
                 어떤 스터디를 하고싶나요?
             </h3>
-            <div className="mt-[14px] flex flex-col gap-[16px]">
+            <div className="mt-[14px] flex flex-col gap-[16px] px-5">
                 <StudyCard
                     category="수능&내신"
                     isNew={true}
