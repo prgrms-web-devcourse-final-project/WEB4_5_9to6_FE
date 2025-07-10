@@ -37,8 +37,14 @@ export default function Step2({
                     "비밀번호는 8자 이상, 16자 이하여야 합니다.",
                 );
                 setPasswordError(true);
-            } else if (!/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password)) {
-                setPasswordErrorMsg("영문과 숫자를 모두 포함해야 합니다.");
+            } else if (
+                !/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣])/.test(
+                    password,
+                )
+            ) {
+                setPasswordErrorMsg(
+                    "특수문자, 영문, 숫자를 모두 포함해야 합니다.",
+                );
                 setPasswordError(true);
             } else {
                 setPasswordError(false);
@@ -67,14 +73,16 @@ export default function Step2({
                     비밀번호를 설정해주세요
                 </h1>
                 <p className="h6 mb-5 cursor-default text-[var(--color-gray600)]">
-                    영문, 숫자 포함 8자 이상 16자 이하
+                    특수문자, 영문, 숫자 포함 8자 이상 16자 이하
                 </p>
                 <div className="flex flex-col gap-1">
                     <Input
                         placeholder="비밀번호 입력"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) =>
+                            setPassword(e.target.value.replace(/\s/g, ""))
+                        }
                         error={passwordError}
                         errorMsg={passwordErrorMsg}
                     />
@@ -83,7 +91,11 @@ export default function Step2({
                             placeholder="비밀번호 확인"
                             type="password"
                             value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onChange={(e) =>
+                                setConfirmPassword(
+                                    e.target.value.replace(/\s/g, ""),
+                                )
+                            }
                             error={confirmPasswordError}
                             errorMsg="비밀번호가 일치하지 않습니다."
                         />
