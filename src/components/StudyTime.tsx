@@ -3,29 +3,31 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
+import StudyCard from "./common/StudyCard";
 
-export default function StudyTime() {
+export default function StudyTime({ avatar }: { avatar: string }) {
+    const dummyCard = Array(5).fill(null);
     const [isLoggedin, setIsLoggedin] = useState(true);
     // 시간에 따른 멘트 설정
-    const hours = 6;
+    const hours = 12;
     const minutes = 39;
     const totalMinutes = hours * 60 + minutes;
     let message = "";
     let icon = "/icons/smile.svg";
 
-    if (totalMinutes < 10) {
-        message = "이제 공부를 시작해볼까요?";
+    if (totalMinutes < 60) {
+        message = "자! 이제 공부를 시작해볼까요?";
         icon = "/icons/smile.svg";
-    } else if (totalMinutes < 60) {
+    } else if (totalMinutes <= 299) {
         message = "조금씩 성장중이군요! 계속 가볼까요?";
         icon = "/icons/angel-face.svg";
-    } else if (totalMinutes < 120) {
+    } else if (totalMinutes <= 600) {
         message = "열공 중이네요! 좋아요!";
         icon = "/icons/heart-eyes.svg";
-    } else if (totalMinutes < 300) {
+    } else if (totalMinutes <= 1200) {
         message = "공부가 꽤 진행됐어요! 조만간 마스터 하겠는걸요?";
         icon = "/icons/face-hearts.svg";
-    } else if (totalMinutes > 300) {
+    } else if (totalMinutes > 1200) {
         message = "이렇게 공부하다가 코피나요! 대단해요!";
         icon = "/icons/Star-struck.svg";
     }
@@ -40,11 +42,11 @@ export default function StudyTime() {
                         <div className="flex pt-6">
                             <div className="flex w-1/2 flex-col">
                                 <div className="mb-[11px]">
-                                    <p className="c2">총 공부 시간</p>
+                                    <p className="c2">총 공부시간</p>
                                 </div>
-                                <p className="h1">
+                                <p className="h1 mr-0.5">
                                     {hours}
-                                    <span className="h5">시간</span>
+                                    <span className="h5 mr-1.5">시간</span>
                                     {minutes}
                                     <span className="h5">분</span>
                                 </p>
@@ -84,8 +86,20 @@ export default function StudyTime() {
                     </div>
                 </section>
             )}
-            <section className="mt-8">
+            <section className="mt-8 flex flex-col gap-3">
                 <h3 className="h3">이런 스터디도 있어요</h3>
+                {dummyCard.map((_, i) => (
+                    <StudyCard
+                        key={i}
+                        category="프로그래밍"
+                        isNew={true}
+                        title="모각코 스터디"
+                        avatar={avatar}
+                        schedule="매주 일요일 10:00~15:00"
+                        location="서울 강남"
+                        member="5/10명"
+                    />
+                ))}
             </section>
         </>
     );

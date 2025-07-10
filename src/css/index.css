@@ -47,3 +47,9 @@
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+.swiper-pagination-bullet {
+    width: 14px;
+    height: 14px;
+    background: #e02d4d !important;
+}
