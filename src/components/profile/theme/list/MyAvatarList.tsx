@@ -4,6 +4,8 @@ import { useState } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
 import avatarImg from "../../../../assets/images/avatar.png";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 export default function MyAvatarList() {
     const [avatar, setAvatar] = useState({
@@ -31,15 +33,26 @@ export default function MyAvatarList() {
                     />
                     <p className="b2 text-gray700 mt-[10px]">내 아바타</p>
                 </div>
-                <div className="mx-5 flex flex-col gap-6">
+                <div className="mx-5">
                     <div>
                         <h6 className="text-gray1000 mb-[10px]">얼굴</h6>
-                        <div className="overflow-x-auto">
-                            <div className="flex w-max gap-2">
-                                {["평범", "웃음", "무표정", "안경", "초롱"].map(
-                                    (v, i) => (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={"auto"}
+                            className="mb-6"
+                        >
+                            {["평범", "웃음", "무표정", "안경", "초롱"].map(
+                                (v, i) => (
+                                    <SwiperSlide
+                                        key={v}
+                                        style={{
+                                            width: "auto",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                        }}
+                                    >
                                         <AvatarComponent
-                                            key={v}
                                             name={v}
                                             part="face"
                                             index={i}
@@ -48,29 +61,40 @@ export default function MyAvatarList() {
                                                 avatarHandler("face", i)
                                             }
                                         />
-                                    ),
-                                )}
-                            </div>
-                        </div>
+                                    </SwiperSlide>
+                                ),
+                            )}
+                        </Swiper>
                     </div>
                     <div>
                         <h6 className="text-gray1000 mb-[10px]">모자</h6>
-                        <div className="overflow-x-auto">
-                            <div className="flex w-max gap-2">
-                                {[
-                                    "리본",
-                                    "끈리본",
-                                    "학사모",
-                                    "둥근모",
-                                    "사각모",
-                                    "스냅백",
-                                    "화관",
-                                    "금계관",
-                                    "들꽃",
-                                    "토끼귀",
-                                ].map((v, i) => (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={"auto"}
+                            className="mb-6"
+                        >
+                            {[
+                                "리본",
+                                "끈리본",
+                                "학사모",
+                                "둥근모",
+                                "사각모",
+                                "스냅백",
+                                "화관",
+                                "금계관",
+                                "들꽃",
+                                "토끼귀",
+                            ].map((v, i) => (
+                                <SwiperSlide
+                                    key={v}
+                                    style={{
+                                        width: "auto",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
                                     <AvatarComponent
-                                        key={v}
                                         name={v}
                                         part="hat"
                                         index={i}
@@ -79,27 +103,38 @@ export default function MyAvatarList() {
                                             avatarHandler("hat", i)
                                         }
                                     />
-                                ))}
-                            </div>
-                        </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                     <div>
                         <h6 className="text-gray1000 mb-[10px]">머리</h6>
-                        <div className="overflow-x-auto">
-                            <div className="flex w-max gap-2">
-                                {[
-                                    "반듯한",
-                                    "단발",
-                                    "투블럭",
-                                    "긴머리",
-                                    "헤어컬",
-                                    "양머리",
-                                    "한묶음",
-                                    "두묶음",
-                                    "대머리",
-                                ].map((v, i) => (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={"auto"}
+                            className="mb-6"
+                        >
+                            {[
+                                "반듯한",
+                                "단발",
+                                "투블럭",
+                                "긴머리",
+                                "헤어컬",
+                                "양머리",
+                                "한묶음",
+                                "두묶음",
+                                "대머리",
+                            ].map((v, i) => (
+                                <SwiperSlide
+                                    key={v}
+                                    style={{
+                                        width: "auto",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
                                     <AvatarComponent
-                                        key={v}
                                         name={v}
                                         part="hair"
                                         index={i}
@@ -108,17 +143,28 @@ export default function MyAvatarList() {
                                             avatarHandler("hair", i)
                                         }
                                     />
-                                ))}
-                            </div>
-                        </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                     <div>
                         <h6 className="text-gray1000 mb-[10px]">의상</h6>
-                        <div className="overflow-x-auto">
-                            <div className="flex w-max gap-2">
-                                {["남자", "여자"].map((v, i) => (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={"auto"}
+                            className="mb-6"
+                        >
+                            {["남자", "여자"].map((v, i) => (
+                                <SwiperSlide
+                                    key={v}
+                                    style={{
+                                        width: "auto",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
                                     <AvatarComponent
-                                        key={v}
                                         name={v}
                                         part="basic"
                                         index={i}
@@ -127,9 +173,9 @@ export default function MyAvatarList() {
                                             avatarHandler("clothes", i)
                                         }
                                     />
-                                ))}
-                            </div>
-                        </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                 </div>
             </div>
