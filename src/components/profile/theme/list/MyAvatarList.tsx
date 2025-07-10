@@ -119,10 +119,10 @@ export default function MyAvatarList() {
                                 "단발",
                                 "투블럭",
                                 "긴머리",
-                                "헤어컬",
-                                "양머리",
-                                "한묶음",
-                                "두묶음",
+                                "웨이브",
+                                "트윈번",
+                                "포니테일",
+                                "트윈테일",
                                 "대머리",
                             ].map((v, i) => (
                                 <SwiperSlide

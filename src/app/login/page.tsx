@@ -2,6 +2,7 @@
 
 import Button from "@/components/common/Button";
 import Input from "@/components/login/Input";
+import Link from "next/link";
 
 export default function Login() {
     const loginHandler = () => {
@@ -15,8 +16,8 @@ export default function Login() {
     };
 
     return (
-        <div className="m-auto flex h-screen w-screen max-w-sm flex-col items-center justify-center">
-            <div className="mx-5 flex flex-col items-center gap-4">
+        <div className="flex h-full w-full flex-col items-center justify-center">
+            <div className="mx-2.5 flex flex-col items-center gap-4">
                 {/* 로고 */}
                 <img
                     src="/images/logo.png"
@@ -38,7 +39,9 @@ export default function Login() {
 
                 <div className="flex w-full justify-between text-[var(--color-gray1000)]">
                     <button className="cursor-pointer">비밀번호 찾기</button>
-                    <button className="cursor-pointer">회원가입</button>
+                    <Link href="/signup/step1" className="cursor-pointer">
+                        회원가입
+                    </Link>
                 </div>
 
                 {/* 간편 로그인 */}
