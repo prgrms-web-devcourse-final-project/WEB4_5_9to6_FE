@@ -21,9 +21,9 @@ export default function Gnb() {
                         <p className="c2">홈</p>
                     </Link>
                     <Link
-                        href="/studylist"
+                        href="/studies"
                         className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
-                            pathname === "/studylist"
+                            pathname === "/studies"
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
                         }`}

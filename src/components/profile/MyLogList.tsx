@@ -17,11 +17,11 @@ export default function MyLogList() {
                 <p className="text-main400 text-[28px] font-bold">7회</p>
             </div>
             <div className="bg-gray200 h-4 w-full"></div>
-            <div className="mx-5 my-6 flex w-full flex-col gap-4">
+            <div className="my-6 flex w-full flex-col gap-4">
                 <h3 className="text-gray1000">스터디별 활동 현황</h3>
                 <button
                     onClick={openModal}
-                    className="bg-gray200 hover:bg-gray300 flex w-80 cursor-pointer justify-between rounded-2xl p-5"
+                    className="bg-gray200 hover:bg-gray300 flex cursor-pointer justify-between rounded-2xl p-5"
                 >
                     <h5 className="text-gray1000">
                         수코딩 강의로 배우는 프론트엔드
