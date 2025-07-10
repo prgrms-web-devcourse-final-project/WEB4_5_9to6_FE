@@ -1,6 +1,8 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { sendEmailCode } from "@/api/auth";
 
 export default function Step1({
     continueStep,
@@ -14,12 +16,19 @@ export default function Step1({
     const [isSend, setIsSend] = useState(0);
     const [emailError, setEmailError] = useState(false);
 
-    // test Code
-    const correctCode = "000000";
+    const { mutate: sendEmail } = useMutation({
+        mutationFn: sendEmailCode,
+        onSuccess: (response) => {
+            console.log(response.data);
+            setIsSend(1);
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
 
-    const sendEmail = () => {
-        setIsSend(1);
-    };
+    // test Code
+    const correctCode = "123456";
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,7 +39,7 @@ export default function Step1({
             continueStep();
         } else {
             if (!email || emailError) return;
-            sendEmail();
+            sendEmail(email);
         }
     };
 
@@ -75,6 +84,7 @@ export default function Step1({
                             <button
                                 className="mx-auto mt-3 w-20 cursor-pointer text-[var(--color-gray700)] underline underline-offset-4 duration-200 ease-in-out hover:text-[var(--color-gray1000)]"
                                 type="button"
+                                onClick={() => sendEmail(email)}
                             >
                                 재발송 하기
                             </button>

@@ -1,20 +1,22 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
-import SubHeader from "@/components/common/SubHeader";
-import ProgressBar from "@/components/signup/ProgressBar";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Step4({
     continueStep,
     requestBirthday,
     requestGender,
+    submitSignUp,
 }: {
     continueStep: () => void;
     requestBirthday: (birthday: string) => void;
     requestGender: (gender: string) => void;
+    submitSignUp: () => void;
 }) {
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
+    const router = useRouter();
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,12 +26,14 @@ export default function Step4({
         requestBirthday(birthday);
         requestGender(gender);
         continueStep();
+        submitSignUp();
+        setTimeout(() => {
+            router.push("/signup/success");
+        }, 1000);
     };
 
     return (
         <>
-            <SubHeader>회원가입</SubHeader>
-            <ProgressBar step={4} />
             <form
                 className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
                 onSubmit={(e) => submitHandler(e)}
@@ -48,16 +52,16 @@ export default function Step4({
                     />
                     <div className="flex h-12 w-full flex-row justify-between gap-2">
                         <button
-                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "male" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
+                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "MALE" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
                             type="button"
-                            onClick={() => setGender("male")}
+                            onClick={() => setGender("MALE")}
                         >
                             남자
                         </button>
                         <button
-                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "female" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
+                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "FEMALE" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
                             type="button"
-                            onClick={() => setGender("female")}
+                            onClick={() => setGender("FEMALE")}
                         >
                             여자
                         </button>
