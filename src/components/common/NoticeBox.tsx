@@ -14,7 +14,7 @@ export default function NoticeBox() {
                 {/* 80글자 제한 */}
                 <div className="flex">
                     <p
-                        className={`c1 mr-4 line-clamp-1 overflow-hidden leading-5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "overflow-hidden text-ellipsis whitespace-nowrap"}`}
+                        className={`c1 mr-4 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1"}`}
                     >
                         오늘은 제가 예비군 일정으로 스터디장 없이 진행하기로
                         결정 되었습니다.
