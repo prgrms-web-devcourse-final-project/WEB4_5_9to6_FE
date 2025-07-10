@@ -4,6 +4,7 @@ import studyImg from "@/assets/studyImg.png";
 import Button from "@/components/common/Button";
 import MenuModal from "@/components/studyHome/MenuModal";
 import StudyGoal from "@/components/studyInfo/StudyGoal";
+import StudyUserModal from "@/components/studyHome/StudyUserModal";
 import {
     Bell,
     ChevronDown,
@@ -19,6 +20,8 @@ import { useState } from "react";
 export default function Page() {
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [attend, setAttend] = useState(false);
+    const [isUserOpen, setIsUserOpen] = useState(false);
 
     return (
         <>
@@ -71,7 +74,7 @@ export default function Page() {
 
                 {/* 공지사항 */}
                 <div className="flex h-[61px] w-full items-center justify-between bg-[#1D1D1D]/85 px-5 backdrop-blur-2xl">
-                    <div className="">
+                    <div className="flex min-w-0 flex-col">
                         <p className="c2 text-[#D6D6D6]">07.03 공지사항</p>
                         <p className="c1 truncate text-[#FFFFFF]">
                             오늘은 제가 예비군 일정으로 스터디장 없이 진행하기
@@ -79,14 +82,17 @@ export default function Page() {
                             진행하기 바랍니다.
                         </p>
                     </div>
-                    <button className="h-5 w-5 cursor-pointer text-[#FFFFFF]">
+                    <button className="ml-5 h-5 w-5 flex-shrink-0 cursor-pointer text-[#FFFFFF]">
                         <ChevronDown />
                     </button>
                 </div>
 
                 {/* 스터디 정보 */}
                 <div className="mt-3 w-full px-5">
-                    <button className="flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]">
+                    <button
+                        className="flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]"
+                        onClick={() => setIsUserOpen(true)}
+                    >
                         <Users className="h-[14px] w-[14px]" />
                         <span className="c2">9/15</span>
                     </button>
@@ -106,17 +112,27 @@ export default function Page() {
                     <h3 className="mt-8 text-[var(--color-gray1000)]">
                         학습 관련 링크
                     </h3>
-                    <div className="mt-[10px] flex h-[50px] w-full items-center justify-center rounded-[12px] border border-[var(--color-gray300)] text-[var-(--color-gray1000)]">
+                    <div className="mt-[10px] mb-[10px] flex h-[50px] w-full items-center justify-center rounded-[12px] border border-[var(--color-gray300)] text-[var-(--color-gray1000)]">
                         https://www.inflearn.com/course/suyaisbest
                     </div>
                 </div>
 
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
-                    <Button color="primary">출석체크</Button>
+                    <Button color="primary" onClick={() => setAttend(true)}>
+                        {" "}
+                        {attend ? "스터디 시작" : "출석체크"}
+                    </Button>
                 </div>
 
                 {isMenuOpen && (
-                    <MenuModal onClose={() => setIsMenuOpen(false)} />
+                    <MenuModal
+                        onClose={() => setIsMenuOpen(false)}
+                        setIsUserOpen={setIsUserOpen}
+                    />
+                )}
+
+                {isUserOpen && (
+                    <StudyUserModal onClose={() => setIsUserOpen(false)} />
                 )}
             </div>
         </>

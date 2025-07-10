@@ -22,7 +22,7 @@ export default function StudyCard({
 }) {
     const router = useRouter();
     const clickHandler = () => {
-        router.push("/study/:studyId");
+        router.push("/study/1");
     };
     return (
         <>
