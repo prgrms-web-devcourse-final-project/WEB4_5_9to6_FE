@@ -17,17 +17,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-<<<<<<< HEAD
         <html lang="ko" suppressHydrationWarning>
-            <body className={`${pretendard.variable}`}>
-                <Header />
-                {children}
-                <Gnb />
-            </body>
-=======
-        <html lang="ko">
             <body className={`${pretendard.variable}`}>{children}</body>
->>>>>>> df95fab0e3f7c795aa0de0b3c9f4449c67d76ef4
         </html>
     );
 }
