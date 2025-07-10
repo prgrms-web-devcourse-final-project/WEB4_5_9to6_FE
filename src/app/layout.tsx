@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "../css/index.css";
 import localfont from "next/font/local";
-// import Header from "@/components/common/Header";
-// import Gnb from "@/components/common/Gnb";
 const pretendard = localfont({
     variable: "--font-pretendard",
     src: "../assets/fonts/PretendardVariable.woff2",
@@ -19,12 +17,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="ko">
-            <body className={`${pretendard.variable}`}>
-                {/* <Header /> */}
-                {children}
-                {/* <Gnb /> */}
-            </body>
+        <html lang="ko" suppressHydrationWarning>
+            <body className={`${pretendard.variable}`}>{children}</body>
         </html>
     );
 }

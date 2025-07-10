@@ -26,7 +26,7 @@ body {
 }
 @layer components {
     .h1 {
-        @apply text-[32px] font-bold;
+        @apply text-[32px] font-semibold;
     }
     .h2 {
         @apply text-[22px] font-semibold;
