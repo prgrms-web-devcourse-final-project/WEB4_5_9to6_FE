@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import DayInput from "./DayInput";
 import { useState } from "react";
 
 export default function Step4({
@@ -39,11 +39,11 @@ export default function Step4({
                 <p className="h6 mb-5 text-[var(--color-gray600)]">
                     프로필 생성을 위해 생년월일과 성별이 필요해요.
                 </p>
-                <div className="flex flex-col gap-1">
-                    <Input
+                <div className="flex flex-col gap-2">
+                    <DayInput
                         placeholder="생년월일 선택"
                         value={birthday}
-                        onChange={(e) => setBirthday(e.target.value)}
+                        setValue={setBirthday}
                     />
                     <div className="flex h-12 w-full flex-row justify-between gap-2">
                         <button
