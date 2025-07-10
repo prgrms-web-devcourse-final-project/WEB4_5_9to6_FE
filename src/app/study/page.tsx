@@ -2,6 +2,7 @@
 
 import studyImg from "@/assets/studyImg.png";
 import Button from "@/components/common/Button";
+import MenuModal from "@/components/studyHome/MenuModal";
 import StudyGoal from "@/components/studyInfo/StudyGoal";
 import {
     Bell,
@@ -13,9 +14,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Page() {
     const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
@@ -51,7 +55,7 @@ export default function Page() {
                             </button>
                             <button
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
-                                onClick={() => router.back()}
+                                onClick={() => setIsMenuOpen(true)}
                             >
                                 <EllipsisVertical className="h-5 w-5 text-[#161616]" />
                             </button>
@@ -66,7 +70,7 @@ export default function Page() {
                 </div>
 
                 {/* 공지사항 */}
-                <div className="flex h-[61px] w-full items-center justify-between bg-[#1D1D1D] px-5">
+                <div className="flex h-[61px] w-full items-center justify-between bg-[#1D1D1D]/85 px-5 backdrop-blur-2xl">
                     <div className="">
                         <p className="c2 text-[#D6D6D6]">07.03 공지사항</p>
                         <p className="c1 truncate text-[#FFFFFF]">
@@ -75,14 +79,14 @@ export default function Page() {
                             진행하기 바랍니다.
                         </p>
                     </div>
-                    <button className="h-5 w-5 text-[#FFFFFF]">
+                    <button className="h-5 w-5 cursor-pointer text-[#FFFFFF]">
                         <ChevronDown />
                     </button>
                 </div>
 
                 {/* 스터디 정보 */}
                 <div className="mt-3 w-full px-5">
-                    <button className="flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] text-[var(--color-gray1000)]">
+                    <button className="flex h-[26px] w-[58px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]">
                         <Users className="h-[14px] w-[14px]" />
                         <span className="c2">9/15</span>
                     </button>
@@ -110,6 +114,10 @@ export default function Page() {
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
                     <Button color="primary">출석체크</Button>
                 </div>
+
+                {isMenuOpen && (
+                    <MenuModal onClose={() => setIsMenuOpen(false)} />
+                )}
             </div>
         </>
     );
