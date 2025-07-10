@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import Link from "next/link";
 
 export default function page() {
     return (
@@ -9,9 +10,11 @@ export default function page() {
                     <h5 className="text-gray1000 mb-6">
                         리워드 상점을 이용해보세요
                     </h5>
-                    <Button color="primary" className="w-30">
-                        로그인
-                    </Button>
+                    <Link href="/rewardshop/1">
+                        <Button color="primary" className="w-30">
+                            로그인
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </>
