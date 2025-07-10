@@ -1,6 +1,6 @@
 "use client";
 import StudyHomeInfo from "@/components/studyHome/StudyHomeInfo";
-import StudyUsers from "@/components/studyInfo/StudyUsers";
+import StudyUsers from "@/components/studyRecruit/StudyUsers";
 import { useState } from "react";
 
 export default function Page() {

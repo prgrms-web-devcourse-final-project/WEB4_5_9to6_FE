@@ -4,9 +4,9 @@ import { ChevronLeft } from "lucide-react";
 import studyImg from "@/assets/studyImg.png";
 import Image from "next/image";
 import { useState } from "react";
-import StudyInfo from "@/components/studyInfo/StudyInfo";
-import StudyUsers from "@/components/studyInfo/StudyUsers";
-import ApplyModal from "@/components/studyInfo/ApplyModal";
+import StudyInfo from "@/components/studyRecruit/StudyInfo";
+import StudyUsers from "@/components/studyRecruit/StudyUsers";
+import ApplyModal from "@/components/studyRecruit/ApplyModal";
 import { useRouter } from "next/navigation";
 import Button from "@/components/common/Button";
 

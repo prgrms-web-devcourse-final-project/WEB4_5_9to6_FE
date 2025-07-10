@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import StudyUsers from "../studyInfo/StudyUsers";
+import StudyUsers from "../studyRecruit/StudyUsers";
 
 export default function StudyHomeUser({ onClose }: { onClose: () => void }) {
     return (

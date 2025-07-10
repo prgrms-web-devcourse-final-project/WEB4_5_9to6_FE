@@ -1,4 +1,4 @@
-import StudyDefaultInfo from "../studyInfo/StudyDefaultInfo";
+import StudyDefaultInfo from "../studyRecruit/StudyDefaultInfo";
 
 export default function StudyHomeInfo() {
     return (
