@@ -50,6 +50,9 @@ export const login = async (username: string, password: string) => {
             username,
             password,
         },
+        {
+            withCredentials: true,
+        },
     );
     return response.data;
 };
