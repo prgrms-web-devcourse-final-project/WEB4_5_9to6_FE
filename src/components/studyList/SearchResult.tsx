@@ -1,7 +1,7 @@
 export default function StudySearch() {
     return (
         <>
-            <div className="h-[800px] w-full bg-[var(--color-gray100)] pr-5">
+            <div className="h-[800px] w-full bg-[var(--color-gray100)] pr-5 pl-5">
                 <div className="mt-[-6px] flex h-6 items-center gap-[8px]">
                     <div className="flex h-full w-auto items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]">
                         온라인
