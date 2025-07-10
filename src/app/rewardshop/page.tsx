@@ -7,7 +7,7 @@ export default function page() {
                 <div className="bg-gray100 flex min-h-screen w-screen flex-col items-center justify-center p-10">
                     <h5 className="text-gray1000">계정 로그인 후,</h5>
                     <h5 className="text-gray1000 mb-6">
-                        나의 스터디 정보를 확인해보세요
+                        리워드 상점을 이용해보세요
                     </h5>
                     <Button color="primary" className="w-30">
                         로그인
