@@ -3,7 +3,16 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 
-export default function NoticeBox() {
+interface NoticeBoxProps {
+    date: string;
+    content?: string;
+    className?: string;
+}
+export default function NoticeBox({
+    date,
+    content,
+    className,
+}: NoticeBoxProps) {
     // 공지사항 열고 닫기
     const [expanded, setExpanded] = useState(false);
 
@@ -14,15 +23,15 @@ export default function NoticeBox() {
     return (
         <>
             <div className="fixed h-fit w-full rounded-2xl bg-white/85 px-4 py-3 backdrop-blur">
-                <p className="c2 text-[var(--color-gray700)]">07.03 공지사항</p>
+                <p className="c2 text-[var(--color-gray700)]">
+                    {date} 공지사항
+                </p>
                 {/* 80글자 제한 */}
                 <div className="easy-in-out flex overflow-hidden transition-all duration-300">
                     <p
                         className={`c1 mr-4 leading-4.5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1 overflow-hidden text-ellipsis whitespace-nowrap"}`}
                     >
-                        오늘은 제가 예비군 일정으로 스터디장 없이 진행하기로
-                        결정 되었습니다. 제가 없더라도 각자 미션 수행하시면
-                        되겠습니다! 화이팅입니다 여러분 사랑합니다.
+                        {content}
                     </p>
                     <button
                         onClick={toggleHandler}
