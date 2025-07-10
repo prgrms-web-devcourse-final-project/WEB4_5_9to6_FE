@@ -16,6 +16,7 @@
         "lucide-react": "^0.525.0",
         "next": "15.3.5",
         "react": "^19.0.0",
+        "react-day-picker": "^9.8.0",
         "react-dom": "^19.0.0",
         "swiper": "^11.2.10",
         "tailwind-merge": "^3.3.1",
