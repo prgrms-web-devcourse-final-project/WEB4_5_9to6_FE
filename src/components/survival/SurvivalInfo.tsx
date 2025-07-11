@@ -9,7 +9,7 @@ export default function SurvivalInfo() {
     ];
     return (
         <>
-            <div className="mt-6 w-full px-5">
+            <div className="mt-6 mb-7 w-full overflow-scroll px-5">
                 <div className="flex h-6 items-center justify-center gap-1.5">
                     <div className="c2 h-full rounded-lg bg-[var(--color-gray1000)] px-2 text-white">
                         프로그래밍
@@ -33,7 +33,7 @@ export default function SurvivalInfo() {
                 <h4 className="h4 mt-6.5 text-center">참가자 : 30명</h4>
             </div>
             <hr className="mx-5 mt-6 text-[var(--color-gray200)]" />
-            <div className="w-full px-5">
+            <div className="mb-7 w-full px-5">
                 <h3 className="mt-6">서바이벌 목표</h3>
                 <div className="mt-[10px] flex flex-col gap-2">
                     {schedule.map((schedule, index) => (

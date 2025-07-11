@@ -6,8 +6,14 @@ import NoticeBox from "@/components/common/NoticeBox";
 import SurvivalInfo from "@/components/survival/SurvivalInfo";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SurvivalStudy() {
+    const router = useRouter();
+
+    const QuizStartHandler = () => {
+        router.push("/survival-study/quiz/1");
+    };
     return (
         <>
             <div className="h-screen">
@@ -23,7 +29,7 @@ export default function SurvivalStudy() {
                         }}
                     />
                     <div className="absolute top-4 left-4">
-                        <BackButton />
+                        <BackButton className="h-4 w-4" />
                     </div>
                     <button className="absolute right-4 bottom-4 h-6.5 w-14.5 rounded-3xl bg-[#1d1d1d]/80">
                         <Link href="/profile/123/theme">
@@ -40,15 +46,19 @@ export default function SurvivalStudy() {
                     date="07.11"
                 />
                 <SurvivalInfo />
-                <div className="absolute bottom-0 flex h-22.5 w-full justify-center">
-                    <Button className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]">
+                <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                    <Button
+                        onClick={QuizStartHandler}
+                        className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
+                    >
                         <Image
                             src="/icons/flash.svg"
                             alt="survival icon"
                             width={14}
                             height={14}
+                            style={{ marginBottom: "1px" }}
                         />
-                        서바이벌
+                        퀴즈 시작
                     </Button>
                 </div>
             </div>

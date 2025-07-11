@@ -3,7 +3,7 @@
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function BackButton() {
+export default function BackButton({ className }: { className: string }) {
     const router = useRouter();
     return (
         <>
@@ -11,7 +11,7 @@ export default function BackButton() {
                 onClick={() => router.back()}
                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/90"
             >
-                <ChevronLeft className="h-5 w-5 text-[#161616]" />
+                <ChevronLeft className={`text-[#161616] ${className}`} />
             </button>
         </>
     );
