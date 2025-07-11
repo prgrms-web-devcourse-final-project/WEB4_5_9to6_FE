@@ -8,14 +8,14 @@ export default function SubHeader({
     className,
 }: {
     children: React.ReactNode;
-    className: string;
+    className?: string;
 }) {
     const router = useRouter();
 
     return (
         <>
             <div
-                className={`h5 fixed top-0 z-20 flex h-[62px] w-full cursor-default items-center justify-center ${className}`}
+                className={`h5 fixed top-0 z-2 flex h-[62px] w-full max-w-sm cursor-default items-center justify-center bg-white ${className}`}
             >
                 <ChevronLeft
                     strokeWidth={1.2}

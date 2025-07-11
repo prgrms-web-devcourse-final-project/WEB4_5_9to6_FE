@@ -61,3 +61,8 @@
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
     }
 }
+@layer components {
+    .step-form {
+        @apply relative h-full w-full p-5 pt-10;
+    }
+}
