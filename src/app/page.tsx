@@ -9,7 +9,7 @@ export default async function Main() {
             <Header />
             <div className="min-h-screen bg-[var(--color-gray100)] px-5 pt-16">
                 <Banner />
-                <StudyTime />
+                <StudyTime avatar="" />
             </div>
             <Gnb />
         </>
