@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { Bell } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function Header() {
+    const router = useRouter();
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
@@ -29,7 +31,10 @@ export default function Header() {
                         </Link>
                     </h1>
                     <div className="mt-5 mr-5 flex items-center gap-3.5">
-                        <button className="h6 cursor-pointer text-[var(--color-main400)]">
+                        <button
+                            onClick={() => router.push("/profile/1/theme")}
+                            className="h6 cursor-pointer text-[var(--color-main400)]"
+                        >
                             테마변경
                         </button>
                         <Bell className="cursor-pointer text-[var(--color-gray1000)]" />
