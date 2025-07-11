@@ -15,11 +15,12 @@ export default function SubHeader({
     return (
         <>
             <div
-                className={`h5 fixed top-0 z-2 flex h-[62px] w-full max-w-sm cursor-default items-center justify-center bg-white ${className}`}
+                className={`h5 fixed top-0 z-2 flex h-[62px] w-full max-w-sm cursor-default items-center justify-center bg-white text-[var(--color-gray1000)] ${className}`}
             >
                 <ChevronLeft
                     strokeWidth={1.2}
                     size={36}
+                    color="#161616"
                     className="absolute top-3 left-2.5 cursor-pointer"
                     onClick={() => router.back()}
                 />
