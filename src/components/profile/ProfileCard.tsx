@@ -15,7 +15,11 @@ export default function ProfileCard() {
                     </p>
                     <p className="text-gray700 b2 mb-4">가입된 스터디 3개</p>
                     <div className="flex items-center gap-1">
-                        <Image src={medal} alt="리워드" className="h-6 w-6" />
+                        <Image
+                            src={medal}
+                            alt="리워드"
+                            className="h-auto w-6"
+                        />
                         <h2 className="text-gray1000">5,400P</h2>
                         <ToolTip>
                             <h5 className="mb-1">❓ 이게 무엇인가요?</h5>

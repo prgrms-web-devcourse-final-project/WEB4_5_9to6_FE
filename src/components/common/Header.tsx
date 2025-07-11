@@ -4,25 +4,35 @@ import Image from "next/image";
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 export default function Header({
-    title,
+    children,
     notLogin,
     isMyPage,
+    className,
 }: {
-    title?: string;
+    children?: React.ReactNode;
     notLogin?: boolean;
     isMyPage?: boolean;
+    className?: string;
 }) {
     const router = useRouter();
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
-                <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl"></div>
+                <div
+                    className={twMerge(
+                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl",
+                        className,
+                    )}
+                ></div>
                 <div className="relative flex justify-between">
                     <span>
-                        {title ? (
-                            <h3 className="absolute top-5 left-5">{title}</h3>
+                        {children ? (
+                            <h3 className="absolute top-5 left-5">
+                                {children}
+                            </h3>
                         ) : (
                             <Link
                                 href="/"

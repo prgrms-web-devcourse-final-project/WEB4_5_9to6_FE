@@ -33,8 +33,8 @@ export default function ProfileTemaTabs() {
                 </div>
 
                 <div
-                    className="h-[calc(100vh-184px)] overflow-y-auto py-6"
-                    style={{ scrollPaddingBottom: "134px" }}
+                    className="h-[calc(100vh-112px)] overflow-y-auto py-6"
+                    style={{ scrollPaddingBottom: "62px" }}
                 >
                     {isTab === "app" && <AppTemaList />}
                     {isTab === "room" && <StudyRoomList />}
