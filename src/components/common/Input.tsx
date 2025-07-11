@@ -5,17 +5,26 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;
     error?: boolean;
     errorMsg?: string;
+    label?: string;
+    icon?: React.ReactNode;
 }
 
 export default function Input({
     error,
     errorMsg,
     className = "",
+    label,
+    icon,
     ...props
 }: InputProps) {
     return (
         <>
-            <div className="flex flex-col gap-1">
+            <div className="relative flex flex-col gap-1">
+                {label && (
+                    <label className="h6 text-[var(--color-gray1000)]">
+                        {label}
+                    </label>
+                )}
                 <input
                     className={twMerge(
                         `h-[54px] w-full rounded-[12px] border border-[var(--color-gray-300)] pl-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] duration-200 ease-in-out focus:outline-none ${error && "ring-1 ring-[#FF394A]"}`,
@@ -32,6 +41,11 @@ export default function Input({
                 >
                     {errorMsg}
                 </label>
+                {icon && (
+                    <div className="absolute right-3 bottom-[21px] cursor-pointer text-[var(--color-gray500)]">
+                        {icon}
+                    </div>
+                )}
             </div>
         </>
     );
