@@ -10,7 +10,7 @@ export default function layout({
 }) {
     return (
         <>
-            <Header />
+            <Header title="스터디 목록" />
             {children}
             <Gnb />
         </>

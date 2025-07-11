@@ -13,7 +13,7 @@ export default function layout({
 }>) {
     return (
         <>
-            <Header />
+            <Header title="리워드 상점" notLogin={true} />
             {children}
             <Gnb />
         </>

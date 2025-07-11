@@ -13,7 +13,7 @@ export default function layout({
 }>) {
     return (
         <>
-            <Header title="마이페이지" notLogin={true} />
+            <Header title=" " isMyPage={true} />
             {children}
             <Gnb />
         </>

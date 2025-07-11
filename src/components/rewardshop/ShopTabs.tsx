@@ -44,7 +44,7 @@ export default function ShopTabs() {
                 </div>
 
                 <div
-                    className="h-[calc(100vh-184px)] overflow-y-auto py-6"
+                    className="h-[calc(100vh-200px)] overflow-y-auto py-6"
                     style={{ scrollPaddingBottom: "134px" }}
                 >
                     {isTab === "app" && <ShopTemaList />}

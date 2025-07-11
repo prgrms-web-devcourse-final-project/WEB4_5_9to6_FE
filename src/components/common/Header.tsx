@@ -4,41 +4,81 @@ import Image from "next/image";
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-export default function Header() {
+
+export default function Header({
+    title,
+    notLogin,
+    isMyPage,
+}: {
+    title?: string;
+    notLogin?: boolean;
+    isMyPage?: boolean;
+}) {
     const router = useRouter();
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
                 <div className="absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl"></div>
                 <div className="relative flex justify-between">
-                    <h1>
-                        <Link
-                            href="/"
-                            onClick={() => {
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                        >
-                            <Image
-                                src="/images/logo-default.png"
-                                alt="logo"
-                                width={82}
-                                height={16}
-                                style={{
-                                    marginTop: "23px",
-                                    marginLeft: "20px",
+                    <span>
+                        {title ? (
+                            <h3 className="absolute top-5 left-5">{title}</h3>
+                        ) : (
+                            <Link
+                                href="/"
+                                onClick={() => {
+                                    if (typeof window !== "undefined") {
+                                        window.scrollTo({
+                                            top: 0,
+                                            behavior: "smooth",
+                                        });
+                                    }
                                 }}
-                            />
-                        </Link>
-                    </h1>
-                    <div className="mt-5 mr-5 flex items-center gap-3.5">
-                        <button
-                            onClick={() => router.push("/profile/1/theme")}
-                            className="h6 cursor-pointer text-[var(--color-main400)]"
-                        >
-                            테마변경
-                        </button>
-                        <Bell className="cursor-pointer text-[var(--color-gray1000)]" />
-                    </div>
+                            >
+                                <Image
+                                    src="/images/logo-default.png"
+                                    alt="logo"
+                                    width={82}
+                                    height={16}
+                                    style={{
+                                        marginTop: "23px",
+                                        marginLeft: "20px",
+                                    }}
+                                />
+                            </Link>
+                        )}
+                    </span>
+                    {notLogin && (
+                        <div className="absolute top-5 right-5 flex items-center gap-3.5">
+                            <button
+                                onClick={() => router.push("/login")}
+                                className="h6 text-main400 hover:text-main500 cursor-pointer transition-colors duration-200"
+                            >
+                                로그인
+                            </button>
+                        </div>
+                    )}
+                    {!notLogin && (
+                        <div className="absolute top-5 right-5 flex items-center gap-3.5">
+                            <button
+                                onClick={() => router.push("/profile/1/theme")}
+                                className="h6 text-main400 hover:text-main500 cursor-pointer transition-colors duration-200"
+                            >
+                                테마변경
+                            </button>
+                            {isMyPage && (
+                                <button
+                                    onClick={() =>
+                                        router.push("/profile/1/info")
+                                    }
+                                    className="h6 text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
+                                >
+                                    내 정보 수정
+                                </button>
+                            )}
+                            <Bell className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black" />
+                        </div>
+                    )}
                 </div>
             </div>
         </>
