@@ -10,8 +10,8 @@ export default function MyStudyModal() {
 
     return (
         <>
-            <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-10">
-                <div className="text-gray1000 mx-[10px] flex w-full flex-col rounded-3xl bg-white pb-5">
+            <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
+                <div className="text-gray1000 mx-[10px] mb-10 flex w-full flex-col rounded-3xl bg-white pb-5">
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3>스터디 선택</h3>
                         <X
