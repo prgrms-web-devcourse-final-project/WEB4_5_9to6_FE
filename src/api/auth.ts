@@ -1,23 +1,17 @@
-import axios from "axios";
+import { axiosInstance } from "./index";
 
 /* 이메일 인증번호 발송 */
 export const sendEmailCode = async (email: string) => {
-    const response = await axios.post(
-        "http://35.184.113.72/api/v1/auth/email/send",
-        { email },
-    );
+    const response = await axiosInstance.post("auth/email/send", { email });
     return response.data;
 };
 
 /* 이메일 인증번호 확인 */
 export const verifyEmailCode = async (email: string, code: string) => {
-    const response = await axios.post(
-        "http://35.184.113.72/api/v1/auth/email/verify",
-        {
-            email,
-            code,
-        },
-    );
+    const response = await axiosInstance.post("auth/email/verify", {
+        email,
+        code,
+    });
     return response.data;
 };
 
@@ -29,30 +23,21 @@ export const signUp = async (
     birthday: string,
     gender: string,
 ) => {
-    const response = await axios.post(
-        "http://35.184.113.72/api/v1/auth/signup",
-        {
-            email,
-            password,
-            nickname,
-            birthday,
-            gender,
-        },
-    );
+    const response = await axiosInstance.post("auth/signup", {
+        email,
+        password,
+        nickname,
+        birthday,
+        gender,
+    });
     return response.data;
 };
 
 /* 로그인 */
 export const login = async (username: string, password: string) => {
-    const response = await axios.post(
-        "http://35.184.113.72/api/v1/auth/login",
-        {
-            username,
-            password,
-        },
-        {
-            withCredentials: true,
-        },
-    );
+    const response = await axiosInstance.post("auth/login", {
+        username,
+        password,
+    });
     return response.data;
 };
