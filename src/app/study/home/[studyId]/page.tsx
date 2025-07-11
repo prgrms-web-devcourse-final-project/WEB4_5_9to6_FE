@@ -5,7 +5,7 @@ import Button from "@/components/common/Button";
 import MenuModal from "@/components/studyHome/MenuModal";
 import StudyTimer from "@/components/studyHome/StudyTimer";
 import StudyUserModal from "@/components/studyHome/StudyUserModal";
-import StudyHomeDefault from "@/components/studyHome/studyHomeDefault";
+import StudyHomeDefault from "@/components/studyHome/StudyHomeDefault";
 import {
     Bell,
     ChevronLeft,
@@ -17,6 +17,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
 
 export default function Page() {
     const router = useRouter();
@@ -25,7 +26,7 @@ export default function Page() {
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [pause, setPause] = useState(false);
-
+    const [isGoalOpen, setIsGoalOpen] = useState(false);
     const finishHandler = () => {
         setIsStart(false);
         setPause(false);
@@ -83,7 +84,9 @@ export default function Page() {
                     <StudyHomeDefault onOpen={() => setIsUserOpen(true)} />
                 )}
 
-                {isStart && <StudyTimer pause={pause} />}
+                {isStart && (
+                    <StudyTimer pause={pause} setIsGoalOpen={setIsGoalOpen} />
+                )}
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
                     {!attend && (
                         <Button color="primary" onClick={() => setAttend(true)}>
@@ -129,6 +132,10 @@ export default function Page() {
 
                 {isUserOpen && (
                     <StudyUserModal onClose={() => setIsUserOpen(false)} />
+                )}
+
+                {isGoalOpen && (
+                    <StudyGoalModal onClose={() => setIsGoalOpen(false)} />
                 )}
             </div>
         </>

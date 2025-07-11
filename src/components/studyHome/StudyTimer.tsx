@@ -1,6 +1,13 @@
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
-export default function StudyTimer({ pause }: { pause: boolean }) {
+export default function StudyTimer({
+    pause,
+    setIsGoalOpen,
+}: {
+    pause: boolean;
+    setIsGoalOpen: Dispatch<SetStateAction<boolean>>;
+}) {
     return (
         <>
             {/* 타이머 */}
@@ -19,27 +26,30 @@ export default function StudyTimer({ pause }: { pause: boolean }) {
                 {/* 채팅,목표,알림 */}
                 <div className="mt-[54px] flex items-center gap-4">
                     <div className="flex h-[102px] w-[72px] flex-col items-center">
-                        <div className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]">
+                        <button className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]">
                             <MessageSquare className="h-6 w-6 text-[var(--color-gray1000)]" />
-                        </div>
+                        </button>
                         <p className="c1 mt-3 text-[var(--color-gray1000)]">
                             그룹채팅
                         </p>
                     </div>
 
                     <div className="flex h-[102px] w-[72px] flex-col items-center">
-                        <div className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]">
+                        <button
+                            className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
+                            onClick={() => setIsGoalOpen(true)}
+                        >
                             <ListChecks className="h-6 w-6 text-[var(--color-gray1000)]" />
-                        </div>
+                        </button>
                         <p className="c1 mt-3 text-[var(--color-gray1000)]">
                             목표체크
                         </p>
                     </div>
 
                     <div className="flex h-[102px] w-[72px] flex-col items-center justify-center">
-                        <div className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]">
+                        <button className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]">
                             <Bell className="h-6 w-6 text-[var(--color-gray1000)]" />
-                        </div>
+                        </button>
                         <p className="c1 mt-3 text-[var(--color-gray1000)]">
                             알림
                         </p>
