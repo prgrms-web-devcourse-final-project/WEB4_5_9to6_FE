@@ -38,19 +38,16 @@ export default function NoticeBox({
                 </div>
                 {/* 80글자 제한 */}
                 <div
-                    style={{
-                        maxHeight: expanded ? "500px" : "30px",
-                    }}
-                    className="relative flex overflow-hidden transition-all duration-700"
+                    className={`relative flex transition-all duration-600 ${expanded ? "max-h-[500px]" : "max-h-8"}`}
                 >
                     <p
-                        className={`c1 mr-5 leading-4.5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1 overflow-hidden text-ellipsis whitespace-nowrap"}`}
+                        className={`c1 mr-5 leading-4.5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1 text-ellipsis whitespace-nowrap"}`}
                     >
                         {content}
                     </p>
                 </div>
                 <div
-                    className={`mt-3 ${expanded ? "flex" : "hidden"} flex-col items-center`}
+                    className={`mt-3 flex flex-col items-center ${expanded ? "max-h-[50px]" : "max-h-0"} overflow-hidden transition-all duration-150`}
                 >
                     <button
                         onClick={toggleHandler}
