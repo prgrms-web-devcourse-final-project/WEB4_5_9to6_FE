@@ -24,7 +24,7 @@ export default function ShopPurchaseModal() {
     return (
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-                <div className="mx-[10px] mb-5 flex w-full flex-col rounded-3xl bg-white">
+                <div className="mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white">
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3 className="text-gray1000">{type} 구매</h3>
                         <X

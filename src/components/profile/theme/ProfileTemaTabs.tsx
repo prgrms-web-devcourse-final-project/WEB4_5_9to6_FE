@@ -11,7 +11,7 @@ export default function ProfileTemaTabs() {
     return (
         <>
             <div className="relative">
-                <div className="border-b-gray500 flex gap-4 border-b px-5">
+                <div className="border-b-gray300 flex gap-4 border-b px-5">
                     <div
                         onClick={() => setTab("app")}
                         className={`${isTab === "app" ? "text-gray1000 border-b-gray1000 border-b-2" : "text-gray500"} tabChoose`}

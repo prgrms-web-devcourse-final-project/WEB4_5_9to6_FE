@@ -13,7 +13,7 @@ export default function ShopTabs() {
     return (
         <>
             <div className="relative">
-                <div className="border-b-gray500 flex gap-4 border-b px-5">
+                <div className="border-b-gray300 flex gap-4 border-b px-5">
                     <div
                         onClick={() => {
                             setTab("app");
