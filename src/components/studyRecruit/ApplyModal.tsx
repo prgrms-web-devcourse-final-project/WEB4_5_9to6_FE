@@ -32,7 +32,7 @@ export default function ApplyModal({
                             value={applyMent}
                             placeholder="스터디에 참여하고 싶은 이유를 함께 적어주세요. (50자 이내)"
                             onChange={(e) => setApplyMent(e.target.value)}
-                            className="b2 h-full w-full text-[var(--color-gray500)] outline-none"
+                            className="b2 h-full w-full resize-none text-[var(--color-gray500)] outline-none"
                         />
                     </div>
 
