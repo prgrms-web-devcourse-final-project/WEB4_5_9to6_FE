@@ -2,13 +2,16 @@
 
 import Button from "@/components/common/Button";
 import { useShopModalStore } from "@/stores/shopModalStore";
+import { customAlert } from "@/utils/customAlert";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ShopPurchaseModal() {
     const { isOpen, closeModal, goodsName, goodsPrice, goodsType, content } =
         useShopModalStore();
     const [type, setType] = useState("");
+    const router = useRouter();
 
     useEffect(() => {
         if (goodsType === "app") {
@@ -21,10 +24,20 @@ export default function ShopPurchaseModal() {
     }, [goodsType]);
 
     if (!isOpen) return null;
+
+    const clickHandler = () => {
+        closeModal();
+        customAlert({
+            message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
+            linkLabel: "이동하기",
+            onClick: () => router.push("/profile/1/theme"),
+        });
+    };
+
     return (
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-                <div className="mx-[10px] mb-5 flex w-full flex-col rounded-3xl bg-white">
+                <div className="mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white">
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3 className="text-gray1000">{type} 구매</h3>
                         <X
@@ -56,7 +69,7 @@ export default function ShopPurchaseModal() {
                         </div>
                     </div>
                     <div className="z-10 rounded-xl bg-white p-5">
-                        <Button onClick={closeModal}>구매하기</Button>
+                        <Button onClick={clickHandler}>구매하기</Button>
                     </div>
                 </div>
             </div>

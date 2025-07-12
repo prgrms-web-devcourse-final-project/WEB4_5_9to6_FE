@@ -13,7 +13,7 @@ export default function ShopTabs() {
     return (
         <>
             <div className="relative">
-                <div className="border-b-gray500 flex gap-4 border-b px-5">
+                <div className="border-b-gray300 flex gap-4 border-b px-5">
                     <div
                         onClick={() => {
                             setTab("app");
@@ -44,7 +44,7 @@ export default function ShopTabs() {
                 </div>
 
                 <div
-                    className="h-[calc(100vh-184px)] overflow-y-auto py-6"
+                    className="h-[calc(100vh-200px)] overflow-y-auto py-6"
                     style={{ scrollPaddingBottom: "134px" }}
                 >
                     {isTab === "app" && <ShopTemaList />}

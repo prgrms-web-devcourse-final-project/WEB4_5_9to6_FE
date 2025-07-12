@@ -34,6 +34,7 @@ export default function AvatarComponent({
                     src={src}
                     alt={part}
                     fill
+                    sizes="72px"
                     className="absolute inset-0 rounded-xl"
                 />
                 <div

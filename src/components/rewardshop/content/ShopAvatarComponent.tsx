@@ -54,6 +54,7 @@ export default function ShopAvatarComponent({
                         src={src}
                         alt={part}
                         fill
+                        sizes="72px"
                         className="absolute inset-0 rounded-xl"
                     />
                     <div className="temaChoose"></div>
@@ -66,12 +67,13 @@ export default function ShopAvatarComponent({
         <>
             <div
                 onClick={clickHandler}
-                className="bg-gray200 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
+                className="bg-gray200 group relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
             >
                 <Image
                     src={src}
                     alt={part}
                     fill
+                    sizes="72px"
                     className="absolute inset-0 rounded-xl"
                 />
                 <div
@@ -94,8 +96,10 @@ export default function ShopAvatarComponent({
                         </p>
                     </div>
                 )}
+                <p className="absolute bottom-1 left-1 h-fit w-fit rounded-sm bg-white p-1 text-xs text-black opacity-0 group-hover:opacity-100">
+                    {name}
+                </p>
             </div>
-            <p className="text-gray1000 mt-1 text-center text-sm">{name}</p>
         </>
     );
 }

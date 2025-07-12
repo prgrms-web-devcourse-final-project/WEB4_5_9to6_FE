@@ -36,6 +36,9 @@ export default function ShopAvatarList() {
                                     key={v}
                                     style={{
                                         width: "auto",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
                                     }}
                                 >
                                     <ShopAvatarComponent
@@ -75,6 +78,9 @@ export default function ShopAvatarList() {
                                 key={v}
                                 style={{
                                     width: "auto",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                 }}
                             >
                                 <ShopAvatarComponent
@@ -112,6 +118,9 @@ export default function ShopAvatarList() {
                                 key={v}
                                 style={{
                                     width: "auto",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                 }}
                             >
                                 <ShopAvatarComponent
@@ -139,6 +148,9 @@ export default function ShopAvatarList() {
                                 key={v}
                                 style={{
                                     width: "auto",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                 }}
                             >
                                 <ShopAvatarComponent

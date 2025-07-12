@@ -11,7 +11,7 @@ export default function ProfileTemaTabs() {
     return (
         <>
             <div className="relative">
-                <div className="border-b-gray500 flex gap-4 border-b px-5">
+                <div className="border-b-gray300 flex gap-4 border-b px-5">
                     <div
                         onClick={() => setTab("app")}
                         className={`${isTab === "app" ? "text-gray1000 border-b-gray1000 border-b-2" : "text-gray500"} tabChoose`}
@@ -33,8 +33,8 @@ export default function ProfileTemaTabs() {
                 </div>
 
                 <div
-                    className="h-[calc(100vh-184px)] overflow-y-auto py-6"
-                    style={{ scrollPaddingBottom: "134px" }}
+                    className="h-[calc(100vh-112px)] overflow-y-auto py-6"
+                    style={{ scrollPaddingBottom: "62px" }}
                 >
                     {isTab === "app" && <AppTemaList />}
                     {isTab === "room" && <StudyRoomList />}

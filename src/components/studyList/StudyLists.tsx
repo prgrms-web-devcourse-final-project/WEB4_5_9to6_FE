@@ -10,7 +10,11 @@ export default function StudyLists() {
             {/* 서바이벌 스터디 */}
             <div className="mt-6 pl-5">
                 <div className="flex items-center">
-                    <Image src={flash} alt="서바이벌" width={18} height={18} />
+                    <Image
+                        src={flash}
+                        alt="서바이벌"
+                        style={{ width: 18, height: "auto" }}
+                    />
                     <h3 className="text-[var(--color-gray1000)]">
                         서바이벌 스터디
                     </h3>
