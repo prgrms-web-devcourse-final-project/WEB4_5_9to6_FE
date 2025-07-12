@@ -23,17 +23,19 @@ const commonOptions = {
         color: "#000",
         backgroundColor: "#fff",
         whiteSpace: "pre-wrap",
+        minWidth: "328px",
         width: "fit-content",
-        margin: "16px",
+        margin: "12px",
         padding: "16px",
         borderRadius: "16px",
+        opacity: "90%",
     },
 };
 
 export function customAlert({ message, linkLabel, onClick }: ToastOptions) {
     toast(
         ({ closeToast }) => (
-            <div className="flex w-fit items-center justify-center gap-4">
+            <div className="items flex w-fit justify-between gap-4">
                 <h6 className="text-gray1000">{message}</h6>
                 {linkLabel && onClick && (
                     <button
