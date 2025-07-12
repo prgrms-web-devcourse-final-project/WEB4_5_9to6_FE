@@ -16,7 +16,8 @@ export default function BottomModal({
         <>
             <div className="fixed inset-0 z-30 bg-[#000000]/30">
                 <div
-                    className={`absolute right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5 h-[${height}px]`}
+                    className={`absolute right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5`}
+                    style={{ height: `${height}px` }}
                 >
                     <div className="flex items-center justify-between">
                         <h3 className="ml-5 text-[var(--color-gray1000)]">
