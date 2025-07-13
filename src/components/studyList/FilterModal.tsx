@@ -1,6 +1,7 @@
 "use client";
-import { X } from "lucide-react";
 import { useState } from "react";
+import Button from "../common/Button";
+import BottomModal from "../common/BottomModal";
 
 export default function FilterModal({
     onClose,
@@ -41,60 +42,49 @@ export default function FilterModal({
     };
     return (
         <>
-            <div className="fixed inset-0 z-50">
-                <div className="absolute bottom-0 left-1/2 z-50 mx-[10px] h-[420px] w-full -translate-x-1/2 rounded-[24px] bg-[var(--color-white)]">
-                    <div className="mt-[22px] flex w-full items-center justify-between px-5">
-                        <p className="text-[18px] font-semibold text-[var(--color-gray1000)]">
-                            필터항목
-                        </p>
-                        <button onClick={onClose}>
-                            <X className="h-6 w-6 cursor-pointer text-[#161616]" />
-                        </button>
+            <BottomModal title="필터 항목" onClose={onClose} height="420">
+                <div className="mt-[18px] ml-[29px]">
+                    {/* 지역 */}
+                    <p className="text-[12px] font-semibold text-[#000000]">
+                        지역
+                    </p>
+                    <div className="mt-[10px] flex h-[82px] w-[283px] flex-wrap items-center gap-[5px]">
+                        {regions.map((region) => (
+                            <div
+                                onClick={() => regionHandler(region)}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap transition-all duration-200 ease-in-out ${region === regionSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                key={region}
+                            >
+                                {region}
+                            </div>
+                        ))}
                     </div>
 
-                    <div className="mt-[18px] ml-[29px]">
-                        {/* 지역 */}
-                        <p className="text-[12px] font-semibold text-[#000000]">
-                            지역
-                        </p>
-                        <div className="mt-[10px] flex h-[82px] w-[283px] flex-wrap items-center gap-[5px]">
-                            {regions.map((region) => (
-                                <div
-                                    onClick={() => regionHandler(region)}
-                                    className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap ${region === regionSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
-                                    key={region}
-                                >
-                                    {region}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* 활동상태 */}
-                        <p className="mt-8 text-[12px] font-semibold text-[#000000]">
-                            활동상태
-                        </p>
-                        <div className="mt-[10px] flex items-center gap-[5px]">
-                            {active.map((a) => (
-                                <div
-                                    onClick={() => activeHandler(a)}
-                                    className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
-                                    key={a}
-                                >
-                                    {a}
-                                </div>
-                            ))}
-                        </div>
+                    {/* 활동상태 */}
+                    <p className="mt-8 text-[12px] font-semibold text-[#000000]">
+                        활동상태
+                    </p>
+                    <div className="mt-[10px] flex items-center gap-[5px]">
+                        {active.map((a) => (
+                            <div
+                                onClick={() => activeHandler(a)}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelect ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                key={a}
+                            >
+                                {a}
+                            </div>
+                        ))}
                     </div>
-                    <button
-                        onClick={() => onApply([regionSelect, activeSelect])}
-                        className="absolute right-5 bottom-5 left-5 h-[50px] items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-250 ease-in-out hover:bg-[var(--color-main600)]"
-                    >
-                        <h5 className="cursor-pointer text-[var(--color-white)]">
-                            적용하기
-                        </h5>
-                    </button>
                 </div>
-            </div>
+
+                <Button
+                    onClick={() => onApply([regionSelect, activeSelect])}
+                    color="primary"
+                    className="absolute right-5 bottom-5 left-5 w-auto items-center justify-center"
+                >
+                    적용하기
+                </Button>
+            </BottomModal>
         </>
     );
 }
