@@ -7,6 +7,7 @@ import SearchResult from "@/components/studyList/SearchResult";
 import SearchBar from "@/components/studyList/SearchBar";
 import Channel from "@/components/studyList/Channel";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,9 +54,11 @@ export default function Page() {
                     )}
 
                     {/* 스터디 생성버튼 */}
-                    <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
-                        <Plus className="h-6 w-6 text-[var(--color-white)]" />
-                    </div>
+                    <Link href="/create">
+                        <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
+                            <Plus className="h-6 w-6 text-[var(--color-white)]" />
+                        </div>
+                    </Link>
                 </div>
             </div>
         </>
