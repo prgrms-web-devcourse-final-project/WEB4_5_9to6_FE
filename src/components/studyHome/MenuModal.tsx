@@ -20,7 +20,7 @@ export default function MenuModal({
             <BottomModal title="메뉴" onClose={onClose} height="173">
                 <button
                     className="mt-[18px] flex h-[44px] w-full cursor-pointer items-center justify-between transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
-                    onClick={() => router.push("/study/home/1/studyInfo")}
+                    onClick={() => router.push("/study/1/studyInfo")}
                 >
                     <h6 className="ml-5 text-[var(--color-gray1000)]">
                         스터디 정보

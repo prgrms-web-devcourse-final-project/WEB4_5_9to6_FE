@@ -13,7 +13,7 @@ import StudyTimer from "@/components/studyHome/StudyTimer";
 import MenuModal from "./MenuModal";
 import StudyUserModal from "@/components/studyHome/StudyUserModal";
 import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
-
+import boy from "../../../public/images/avatarImgs/basic1.png";
 export default function StudyHome({
     isStart,
     pause,
@@ -66,7 +66,10 @@ export default function StudyHome({
                         </button>
                     </div>
                 </div>
-
+                {/* 아바타 위치 지정 */}
+                <div className="absolute bottom-[60px] left-1/2 z-30 flex -translate-x-1/2">
+                    <Image src={boy} alt="아바타" width={52} height={52} />
+                </div>
                 <button className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80">
                     <span className="c2 text-[var(--color-white)]">
                         테마변경
