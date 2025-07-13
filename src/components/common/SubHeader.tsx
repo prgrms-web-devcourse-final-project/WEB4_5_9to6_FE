@@ -8,7 +8,7 @@ export default function SubHeader({
     className,
 }: {
     children: React.ReactNode;
-    className: string;
+    className?: string;
 }) {
     const router = useRouter();
 

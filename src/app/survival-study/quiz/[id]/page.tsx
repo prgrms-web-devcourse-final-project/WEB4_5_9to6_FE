@@ -1,8 +1,13 @@
 import BackButton from "@/components/common/BackButton";
 import Quiz from "@/components/survival/Quiz";
 
-export default async function QuizPage({ params }: { params: { id: number } }) {
-    const quizId = params.id;
+export default async function QuizPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = await params;
+    const quizId = Number(id);
     return (
         <>
             <div className="mx-5 flex flex-col">
