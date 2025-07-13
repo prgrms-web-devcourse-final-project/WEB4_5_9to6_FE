@@ -1,9 +1,12 @@
 import Button from "@/components/common/Button";
+import Gnb from "@/components/common/Gnb";
+import Header from "@/components/common/Header";
 import Link from "next/link";
 
 export default function page() {
     return (
         <>
+            <Header notLogin={true}>마이 페이지</Header>
             <div className="flex justify-center">
                 <div className="bg-gray100 flex min-h-screen w-screen flex-col items-center justify-center p-10">
                     <h5 className="text-gray1000">계정 로그인 후,</h5>
@@ -17,6 +20,7 @@ export default function page() {
                     </Link>
                 </div>
             </div>
+            <Gnb />
         </>
     );
 }

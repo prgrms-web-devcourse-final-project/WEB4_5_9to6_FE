@@ -1,5 +1,4 @@
-import Gnb from "@/components/common/Gnb";
-import Header from "@/components/common/Header";
+import SubHeader from "@/components/common/SubHeader";
 
 export default function layout({
     children,
@@ -10,9 +9,8 @@ export default function layout({
 }) {
     return (
         <>
-            <Header>스터디 목록</Header>
+            <SubHeader> 스터디 정보</SubHeader>
             {children}
-            <Gnb />
         </>
     );
 }
