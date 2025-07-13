@@ -3,6 +3,7 @@
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
+import { customAlert } from "@/utils/customAlert";
 import {
     Bell,
     EllipsisVertical,
@@ -10,6 +11,8 @@ import {
     Pause,
     Play,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -17,12 +20,23 @@ export default function Page() {
     const [isStart, setIsStart] = useState(false);
     const [pause, setPause] = useState(false);
     const [showHeader, setShowHeader] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const router = useRouter();
 
     const finishHandler = () => {
         setIsStart(false);
         setPause(false);
     };
 
+    const attendHandler = () => {
+        setAttend(true);
+        customAlert({
+            message: "출석체크 완료! 오늘도 화이팅이에요!",
+            linkLabel: "닫기",
+            onClick: () => {},
+        });
+    };
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 56) {
@@ -36,30 +50,45 @@ export default function Page() {
     }, []);
     return (
         <>
-            {/* 서브 헤더 수정 예정 */}
             <SubHeader
-                className={`b2 z-40 flex justify-between truncate bg-[var(--color-white)]/85 backdrop-blur-xl transition-all duration-200 ease-in-out ${
+                className={`z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
                     showHeader
                         ? "translate-y-0 opacity-100"
                         : "-translate-y-full opacity-0"
                 }`}
             >
-                <p className="min-w-0 truncate">
-                    숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
-                </p>
-                <div className="flex items-center">
-                    <MessageSquare className="h-5 w-5 cursor-pointer" />
-                    <Bell className="ml-4 h-5 w-5 cursor-pointer" />
-                    <EllipsisVertical className="ml-4 h-5 w-5 cursor-pointer" />
+                <div className="absolute right-7 left-11 flex items-center justify-between">
+                    <p className="b2 min-w-0 truncate">
+                        숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
+                    </p>
+                    <div className="flex items-center gap-2">
+                        <MessageSquare
+                            className="h-5 w-5 cursor-pointer"
+                            onClick={() => router.push("/chat")}
+                        />
+                        <Bell
+                            className="ml-4 h-5 w-5 cursor-pointer"
+                            onClick={() => router.push("/notifications")}
+                        />
+                        <EllipsisVertical
+                            className="ml-4 h-5 w-5 cursor-pointer"
+                            onClick={() => setIsMenuOpen(true)}
+                        />
+                    </div>
                 </div>
             </SubHeader>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
-                <StudyHome isStart={isStart} pause={pause} />
+                <StudyHome
+                    isStart={isStart}
+                    pause={pause}
+                    isMenuOpen={isMenuOpen}
+                    setIsMenuOpen={setIsMenuOpen}
+                />
 
                 {/* 버튼 */}
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
                     {!attend && (
-                        <Button color="primary" onClick={() => setAttend(true)}>
+                        <Button color="primary" onClick={attendHandler}>
                             출석체크
                         </Button>
                     )}

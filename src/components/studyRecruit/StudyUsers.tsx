@@ -1,5 +1,6 @@
 import avatar from "@/assets/avatar.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function StudyUsers() {
     const users = [
@@ -10,7 +11,7 @@ export default function StudyUsers() {
         "역병괴수",
         "우라늄아이스크림",
     ];
-
+    const router = useRouter();
     return (
         <>
             <div className="mt-6 px-5">
@@ -24,7 +25,10 @@ export default function StudyUsers() {
                             className="flex h-12 w-full items-center justify-between"
                         >
                             <div className="flex items-center">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-[16px] bg-[var(--color-gray100)]">
+                                <div
+                                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-[16px] bg-[var(--color-gray100)]"
+                                    onClick={() => router.push("/profile/info")}
+                                >
                                     <Image
                                         src={avatar}
                                         alt="아바타"
