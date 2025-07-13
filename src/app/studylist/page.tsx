@@ -12,8 +12,8 @@ import { useRouter } from "next/navigation";
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
-    const [search, setSearch] = useState("");
-    const [filter, setFilter] = useState<string[]>([]);
+    const [search, setSearch] = useState(""); //검색어
+    const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
     const router = useRouter();
 
     const channelHandler = (channel: string) => {
@@ -37,14 +37,21 @@ export default function Page() {
                     {/* 채널 */}
                     <Channel
                         filter={filter}
+                        search={search}
                         channelHandler={channelHandler}
                         selected={selected}
                     />
                 </div>
                 <div className="min-h-screen pt-[164px]">
                     <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
-                        {filter.length === 0 && <StudyLists />}
-                        {filter.length > 0 && <SearchResult />}
+                        {filter.length === 0 && search === "" && <StudyLists />}
+                        {(filter.length > 0 || search !== "") && (
+                            <SearchResult
+                                search={search}
+                                filter={filter}
+                                setFilter={setFilter}
+                            />
+                        )}
 
                         {/* 필터 모달 */}
                         {isModalOpen && (
