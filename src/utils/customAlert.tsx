@@ -29,6 +29,8 @@ const commonOptions = {
         padding: "16px",
         borderRadius: "16px",
         opacity: "90%",
+        boxShadow: "0px 4px 16px 0px rgba(0, 0, 0, 0.1)",
+        backdropFilter: "blur(10px)",
     },
 };
 
