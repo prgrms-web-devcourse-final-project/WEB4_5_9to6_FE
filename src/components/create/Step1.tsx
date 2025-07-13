@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
+import MaxMemberModal from "./MaxMemberModal";
+import CategoryModal from "./CategoryModal";
 
 export default function Step1({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
     const [isCategorySet, setIsCategorySet] = useState(0);
     const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState("");
+    const [maxMember, setMaxMember] = useState<string | null>(null);
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState(false);
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    const [isMaxMemberModalOpen, setIsMaxMemberModalOpen] = useState(false);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -51,6 +55,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                 <div className="mt-5 flex flex-col gap-4">
                     <div
                         className={`delay-1100 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
+                        onClick={() => setIsCategoryModalOpen(true)}
                     >
                         <Input
                             placeholder="카테고리 선택"
@@ -63,10 +68,14 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                     </div>
                     <div
                         className={`delay-1300 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
+                        onClick={() => {
+                            if (!maxMember) setMaxMember("5");
+                            setIsMaxMemberModalOpen(true);
+                        }}
                     >
                         <Input
                             placeholder="최대 인원 선택"
-                            value={maxMember}
+                            value={maxMember ? `${maxMember}명` : ""}
                             label="최대 인원"
                             className="cursor-pointer"
                             icon={<ChevronDown strokeWidth={1} size={20} />}
@@ -89,13 +98,27 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {true ? (
+                    {category && maxMember && name && !nameError ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button disabled>다음</Button>
                     )}
                 </div>
             </form>
+            {isCategoryModalOpen && (
+                <CategoryModal
+                    category={category}
+                    setCategory={setCategory}
+                    onClose={() => setIsCategoryModalOpen(false)}
+                />
+            )}
+            {isMaxMemberModalOpen && (
+                <MaxMemberModal
+                    maxMember={maxMember ?? "5"}
+                    setMaxMember={setMaxMember}
+                    onClose={() => setIsMaxMemberModalOpen(false)}
+                />
+            )}
         </>
     );
 }

@@ -52,6 +52,9 @@
     height: 14px;
     background: #e02d4d !important;
 }
+.custom-picker > div:last-child > div {
+    display: none;
+}
 
 @layer utilities {
     .tabChoose {
