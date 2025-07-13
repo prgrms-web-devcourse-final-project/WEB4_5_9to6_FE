@@ -53,9 +53,8 @@ function SignUpContent() {
 
     return (
         <>
-            <SubHeader>회원가입</SubHeader>
             <div className="h-full w-full pt-[65px]">
-                <ProgressBar step={step} />
+                <ProgressBar totalStep={5} step={step} />
                 {step === 1 ? (
                     <Step1
                         continueStep={() => setStep(2)}
