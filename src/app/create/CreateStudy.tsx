@@ -6,6 +6,7 @@ import Step2 from "@/components/create/Step2";
 import Step3 from "@/components/create/Step3";
 import Step4 from "@/components/create/Step4";
 import Step5 from "@/components/create/Step5";
+import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -29,6 +30,12 @@ export default function CreateStudy() {
     const submitCreate = () => {
         setTimeout(() => {
             router.push("/studylist");
+            // API 연결 후 라우터 다시 작성
+            customAlert({
+                message: `스터디 생성이 완료되었어요!\n스터디룸을 확인해보세요.`,
+                linkLabel: "이동하기",
+                onClick: () => router.push("/study/1"),
+            });
         }, 1500);
     };
 
