@@ -4,9 +4,11 @@ import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
 
 export default function FilterModal({
+    isOpen,
     onClose,
     onApply,
 }: {
+    isOpen: boolean;
     onClose: () => void;
     onApply: (filters: string[]) => void;
 }) {
@@ -42,7 +44,12 @@ export default function FilterModal({
     };
     return (
         <>
-            <BottomModal title="필터 항목" onClose={onClose} height="420">
+            <BottomModal
+                title="필터 항목"
+                onClose={onClose}
+                height="420"
+                isOpen={isOpen}
+            >
                 <div className="mt-[18px] ml-[29px]">
                     {/* 지역 */}
                     <p className="text-[12px] font-semibold text-[#000000]">

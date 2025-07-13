@@ -87,6 +87,7 @@ export default function Page() {
 
                 {isOpen && (
                     <ApplyModal
+                        isOpen={isOpen}
                         onClose={() => setIsOpen(false)}
                         onApply={() => applyHandler()}
                     />

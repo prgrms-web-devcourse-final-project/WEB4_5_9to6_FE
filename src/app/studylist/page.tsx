@@ -47,6 +47,7 @@ export default function Page() {
                         {/* 필터 모달 */}
                         {isModalOpen && (
                             <FilterModal
+                                isOpen={isModalOpen}
                                 onClose={() => setIsModalOpen(false)}
                                 onApply={(filters: string[]) =>
                                     searchHandler(filters)

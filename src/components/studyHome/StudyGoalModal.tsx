@@ -4,7 +4,13 @@ import { useState } from "react";
 import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
 
-export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
+export default function StudyGoalModal({
+    isOpen,
+    onClose,
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+}) {
     const goals = [
         "히라가나 깜지 3만번 쓰기",
         "스터디 숙제 완수하기",
@@ -23,7 +29,12 @@ export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
     };
     return (
         <>
-            <BottomModal title="목표체크" onClose={onClose} height="399">
+            <BottomModal
+                title="목표체크"
+                onClose={onClose}
+                height="399"
+                isOpen={isOpen}
+            >
                 <div className="mt-7 flex flex-col gap-2 px-5">
                     {goals.map((goal, index) => (
                         <div

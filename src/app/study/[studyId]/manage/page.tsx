@@ -70,7 +70,10 @@ export default function Page() {
                 </div>
 
                 {isMemberOpen && (
-                    <MemberModal onClose={() => setIsMemberOpen(false)} />
+                    <MemberModal
+                        isOpen={isMemberOpen}
+                        onClose={() => setIsMemberOpen(false)}
+                    />
                 )}
             </div>
         </>

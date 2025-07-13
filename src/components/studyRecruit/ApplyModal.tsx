@@ -1,25 +1,48 @@
 "use-client";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ApplyModal({
+    isOpen,
     onClose,
     onApply,
 }: {
+    isOpen: boolean;
     onClose: () => void;
     onApply: () => void;
 }) {
     const [applyMent, setApplyMent] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) setIsVisible(true);
+    }, [isOpen]);
+
+    if (!isOpen && !isVisible) return null;
+
+    const closeHandler = () => {
+        setIsVisible(false);
+        setTimeout(() => {
+            onClose();
+        }, 250);
+    };
+
     return (
         <>
-            <div className="fixed inset-0 z-30 bg-[#000000]/30">
-                <div className="absolute top-[137px] left-1/2 z-50 flex h-[355px] w-[340px] -translate-x-1/2 flex-col rounded-[24px] bg-[#FFFFFF] p-5">
+            <div className="fixed inset-0 z-50 bg-[#000000]/30">
+                <div
+                    className={`${
+                        isVisible
+                            ? "animate-modalFadeIn"
+                            : "animate-modalFadeOut"
+                    } absolute top-[137px] left-1/2 z-50 flex h-[355px] w-[340px] -translate-x-1/2 flex-col rounded-[24px] bg-[#FFFFFF] p-5`}
+                >
                     <div className="flex h-[65px] w-full items-center justify-between">
                         <h3 className="text-[var(--color-gray1000)]">
                             스터디 신청
                         </h3>
                         <X
-                            onClick={onClose}
+                            onClick={closeHandler}
                             className="h-6 w-6 cursor-pointer text-[#161616]"
                         />
                     </div>
@@ -38,7 +61,7 @@ export default function ApplyModal({
 
                     <div className="flex h-[90px] w-full items-center gap-2 py-5">
                         <button
-                            onClick={onClose}
+                            onClick={closeHandler}
                             className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
                         >
                             <h5 className="text-[var(--color-gray1000)]">
