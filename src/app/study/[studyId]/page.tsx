@@ -58,7 +58,7 @@ export default function Page() {
                 }`}
             >
                 <div className="absolute right-7 left-11 flex items-center justify-between">
-                    <p className="b2 min-w-0 truncate">
+                    <p className="b2 min-w-0 basis-[35%] truncate">
                         숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
                     </p>
                     <div className="flex items-center gap-2">
