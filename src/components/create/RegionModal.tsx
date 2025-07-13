@@ -39,7 +39,7 @@ export default function RegionModal({
                                 setRegion(r);
                                 onClose();
                             }}
-                            className={`h-[48px] w-[calc(33%-4.1px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
+                            className={`h-[48px] w-[calc(33%-5px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                                 region === r
                                     ? "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
                                     : ""
