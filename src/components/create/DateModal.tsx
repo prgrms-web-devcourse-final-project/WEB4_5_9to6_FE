@@ -21,7 +21,7 @@ export default function DateModal({
         to: endDate ? new Date(endDate) : undefined,
     };
 
-    const handleSelect = (range: DateRange | undefined) => {
+    const selectHandler = (range: DateRange | undefined) => {
         if (!range) return;
 
         if (range.from) {
@@ -39,7 +39,7 @@ export default function DateModal({
                 <DayPicker
                     mode="range"
                     selected={selectedRange}
-                    onSelect={handleSelect}
+                    onSelect={selectHandler}
                     captionLayout="dropdown"
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 30}
