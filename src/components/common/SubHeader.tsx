@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 export default function SubHeader({
     children,
@@ -15,7 +16,10 @@ export default function SubHeader({
     return (
         <>
             <div
-                className={`h5 fixed top-0 z-20 flex h-[62px] w-full cursor-default items-center justify-center ${className}`}
+                className={twMerge(
+                    "h5 fixed top-0 z-20 flex h-[62px] w-full cursor-default items-center justify-center",
+                    className,
+                )}
             >
                 <ChevronLeft
                     strokeWidth={1.2}

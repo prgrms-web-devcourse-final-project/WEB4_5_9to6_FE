@@ -1,3 +1,5 @@
+import Gnb from "@/components/common/Gnb";
+import Header from "@/components/common/Header";
 import MyStudyModal from "@/components/profile/MyStudyModal";
 import ProfileCard from "@/components/profile/ProfileCard";
 import ProfileTabs from "@/components/profile/ProfileTabs";
@@ -12,6 +14,7 @@ export default async function page({
 
     return (
         <>
+            <Header isMyPage={true}> </Header>
             <div className="flex h-screen items-center justify-center pt-15.5">
                 <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
                     <ProfileCard />
@@ -19,6 +22,7 @@ export default async function page({
                     <MyStudyModal />
                 </div>
             </div>
+            <Gnb />
         </>
     );
 }
