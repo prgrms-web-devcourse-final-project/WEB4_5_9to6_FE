@@ -23,8 +23,8 @@ export default function Page() {
     };
     return (
         <>
-            <div className="pt-[62px] pb-[72px]">
-                <div className="min-h-screen min-w-[360px] bg-[var(--color-gray100)] pt-[19px]">
+            <div className="hide-scrollbar h-screen min-w-[360px] overflow-y-auto pb-[72px]">
+                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -38,23 +38,26 @@ export default function Page() {
                         channelHandler={channelHandler}
                         selected={selected}
                     />
+                </div>
+                <div className="min-h-screen pt-[164px]">
+                    <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
+                        {filter.length === 0 && <StudyLists />}
+                        {filter.length > 0 && <SearchResult />}
 
-                    {filter.length === 0 && <StudyLists />}
-                    {filter.length > 0 && <SearchResult />}
+                        {/* 필터 모달 */}
+                        {isModalOpen && (
+                            <FilterModal
+                                onClose={() => setIsModalOpen(false)}
+                                onApply={(filters: string[]) =>
+                                    searchHandler(filters)
+                                }
+                            />
+                        )}
 
-                    {/* 필터 모달 */}
-                    {isModalOpen && (
-                        <FilterModal
-                            onClose={() => setIsModalOpen(false)}
-                            onApply={(filters: string[]) =>
-                                searchHandler(filters)
-                            }
-                        />
-                    )}
-
-                    {/* 스터디 생성버튼 */}
-                    <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
-                        <Plus className="h-6 w-6 text-[var(--color-white)]" />
+                        {/* 스터디 생성버튼 */}
+                        <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
+                            <Plus className="h-6 w-6 text-[var(--color-white)]" />
+                        </div>
                     </div>
                 </div>
             </div>
