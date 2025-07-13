@@ -143,9 +143,9 @@ export default function Quiz({ id }: { id: number }) {
     // 다음 문제로 이동
     const goNextHandler = () => {
         if (id < lastQuiz) {
-            router.push(`/survival-study/quiz/${id + 1}`);
+            router.push(`/survival-study/1/quiz/${id + 1}`);
         } else {
-            router.push("/survival-study/quiz/result");
+            router.push("/survival-study/1/quiz/result");
         }
     };
 
