@@ -41,7 +41,7 @@ export default function FilterModal({
     };
     return (
         <>
-            <div className="fixed inset-0 z-30">
+            <div className="fixed inset-0 z-50">
                 <div className="absolute bottom-0 left-1/2 z-50 mx-[10px] h-[420px] w-full -translate-x-1/2 rounded-[24px] bg-[var(--color-white)]">
                     <div className="mt-[22px] flex w-full items-center justify-between px-5">
                         <p className="text-[18px] font-semibold text-[var(--color-gray1000)]">
