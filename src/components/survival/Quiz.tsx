@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Button from "../common/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useQuizResult } from "@/stores/quizStore";
 
@@ -24,7 +24,7 @@ interface ChoiceType {
 }
 
 export default function Quiz({ id }: { id: number }) {
-    // quiz dummy data
+    // quiz 임시 더미 데이터
     const quizList: QuizType[] = [
         {
             quiz_id: 1,
@@ -130,16 +130,17 @@ export default function Quiz({ id }: { id: number }) {
     // 퀴즈 제출하기 버튼 클릭
     const QuizSubmitHandler = () => {
         if (selected === null || !currentQuiz) return;
-
         // 정답이면 +1
         if (selected === currentQuiz.answer) {
             setScore(score + 1);
-
             console.log("정답입니다.");
         } else {
             console.log("오답입니다.");
         }
+        setIsSubmit(true);
     };
+
+    // 다음 문제로 이동
     const goNextHandler = () => {
         if (id < lastQuiz) {
             router.push(`/survival-study/quiz/${id + 1}`);
@@ -148,61 +149,88 @@ export default function Quiz({ id }: { id: number }) {
         }
     };
 
-    if (!currentQuiz || !currentChoice)
+    // 처음 들어왔을 때 score초기화
+    useEffect(() => {
+        if (id === 1) {
+            setScore(0);
+        }
+    }, [id, setScore]);
+
+    if (!currentQuiz || !currentChoice) {
         return <div>문제를 불러올 수 없습니다.</div>;
+    }
 
     return (
-        <>
-            <div className="mt-6 flex flex-col items-center justify-center">
-                <h4 className="h4">
-                    [{id}번 문제] 빈 칸에 들어갈 단어를 고르시오.
-                </h4>
-                <div className="b2 mt-4">{currentQuiz.question}</div>
-                <div className="mt-6 h-px w-full bg-[var(--color-gray200)]"></div>
-                <div className="mt-6 flex w-full flex-col gap-3">
-                    {choiceArr.map((text, index) => (
+        <div className="mt-6 flex flex-col items-center justify-center">
+            <h4 className="h4">
+                [{id}번 문제] 빈 칸에 들어갈 단어를 고르시오.
+            </h4>
+            <div className="b2 mt-4">{currentQuiz.question}</div>
+            <div className="mt-6 h-px w-full bg-[var(--color-gray200)]"></div>
+
+            {/* 선택지 렌더링 */}
+            <div className="mt-6 flex w-full flex-col gap-3">
+                {choiceArr.map((text, index) => {
+                    const choiceNum = index + 1;
+                    const isCorrect = choiceNum === currentQuiz.answer;
+                    const isSelected = choiceNum === selected;
+
+                    const bgColor = !isSubmit
+                        ? isSelected
+                            ? "bg-[var(--color-gray300)]"
+                            : "hover:bg-[var(--color-gray200)] bg-[var(--color-gray100)]"
+                        : isCorrect
+                          ? "bg-green-200"
+                          : isSelected
+                            ? "bg-red-200"
+                            : "bg-[var(--color-gray100)]";
+
+                    return (
                         <div
                             key={index}
-                            onClick={() => setSelected(index + 1)}
-                            className={`flex h-16 cursor-pointer items-center justify-between rounded-2xl bg-[var(--color-gray100)] pl-5 ${
-                                selected === index + 1
-                                    ? "bg-[var(--color-gray300)]"
-                                    : "hover:bg-[var(--color-gray200)]"
-                            }`}
+                            onClick={() => !isSubmit && setSelected(choiceNum)}
+                            className={`flex h-16 cursor-pointer items-center justify-between rounded-2xl pl-5 ${bgColor}`}
                         >
                             <p className="text-lg">
                                 {`${String.fromCharCode(97 + index)}. ${text}`}
                             </p>
-                            {selected === index + 1 && (
-                                <Check className="mr-7 text-[var(--color-main500)]" />
+                            {isSubmit && isCorrect ? (
+                                <p className="mr-7 font-medium text-[#20A567]">
+                                    정답
+                                </p>
+                            ) : (
+                                isSelected && (
+                                    <Check className="mr-7 text-[var(--color-main500)]" />
+                                )
                             )}
                         </div>
-                    ))}
-                </div>
-                <div className="absolute bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
-                    {!isSubmit ? (
-                        <Button
-                            disabled={!selected}
-                            onClick={QuizSubmitHandler}
-                            className={`mx-5 my-5 ${
-                                selected
-                                    ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
-                                    : "cursor-not-allowed bg-[var(--color-gray200)]"
-                            }`}
-                        >
-                            제출하기
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={!selected}
-                            onClick={goNextHandler}
-                            className="mx-5 my-5 bg-[var(--color-main500)] text-white transition duration-200 hover:bg-[var(--color-main600)]"
-                        >
-                            다음
-                        </Button>
-                    )}
-                </div>
+                    );
+                })}
             </div>
-        </>
+
+            {/* 버튼 */}
+            <div className="absolute bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                {!isSubmit ? (
+                    <Button
+                        disabled={!selected}
+                        onClick={QuizSubmitHandler}
+                        className={`mx-5 my-5 ${
+                            selected
+                                ? "bg-[var(--color-main500)] hover:bg-[var(--color-main600)]"
+                                : "cursor-not-allowed bg-[var(--color-gray200)]"
+                        }`}
+                    >
+                        제출하기
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={goNextHandler}
+                        className="mx-5 my-5 bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
+                    >
+                        다음
+                    </Button>
+                )}
+            </div>
+        </div>
     );
 }
