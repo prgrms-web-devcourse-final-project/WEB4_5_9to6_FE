@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import Input from "../common/Input";
-import { ChevronDown } from "lucide-react";
 import TextArea from "../common/TextArea";
 
 export default function Step5({
@@ -12,40 +11,20 @@ export default function Step5({
     submitCreate: () => void;
 }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [isCategorySet, setIsCategorySet] = useState(0);
-    const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState("");
-    const [name, setName] = useState("");
-    const [nameError, setNameError] = useState(false);
+    const [description, setDescription] = useState("");
+    const [externalLink, setExternalLink] = useState("");
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!description) return;
         continueStep();
         submitCreate();
-
-        if (isCategorySet) {
-            if (!category || nameError) return;
-            continueStep();
-        } else {
-            if (!category || nameError) return;
-            setIsCategorySet(1);
-        }
     };
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
-
-    useEffect(() => {
-        if (
-            category &&
-            !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(category)
-        ) {
-            setNameError(true);
-        } else {
-            setNameError(false);
-        }
-    }, [category]);
 
     return (
         <>
@@ -63,8 +42,12 @@ export default function Step5({
                     >
                         <TextArea
                             placeholder="스터디 소개글을 작성해주세요"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
+                            value={description}
+                            onChange={(e) =>
+                                setDescription(
+                                    e.target.value.replace(/^\s+/, ""),
+                                )
+                            }
                             label="소개글"
                             className="h-[159px] pb-[100px]"
                         />
@@ -75,13 +58,14 @@ export default function Step5({
                         <Input
                             placeholder="강의 링크를 입력해주세요"
                             label="외부 강의 링크 (선택)"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={externalLink}
+                            onChange={(e) => setExternalLink(e.target.value)}
+                            className=""
                         />
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {true ? (
+                    {description ? (
                         <Button type="submit" color="primary">
                             스터디 생성
                         </Button>

@@ -17,13 +17,20 @@ export default function Step2({ continueStep }: { continueStep: () => void }) {
     const [isEndTimeModalOpen, setIsEndTimeModalOpen] = useState(false);
     const [isDateModalOpen, setIsDateModalOpen] = useState(false);
 
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!(daysOfWeek.length && startTime && endTime)) return;
+        continueStep();
+    };
+
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
     return (
         <>
-            <form className="step-form" onSubmit={continueStep}>
+            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >

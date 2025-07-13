@@ -7,10 +7,6 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
     const [goals, setGoals] = useState<string[]>([""]);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
     const changeGoalHandler = (index: number, value: string) => {
         const newGoals = [...goals];
         newGoals[index] = value;
@@ -26,6 +22,10 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
         newGoals.splice(index, 1);
         setGoals(newGoals);
     };
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     return (
         <>
