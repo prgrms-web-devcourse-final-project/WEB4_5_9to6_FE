@@ -7,26 +7,12 @@ import CategoryModal from "./CategoryModal";
 
 export default function Step1({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [isCategorySet, setIsCategorySet] = useState(0);
     const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState<string | null>(null);
+    const [maxMember, setMaxMember] = useState("");
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState(false);
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
     const [isMaxMemberModalOpen, setIsMaxMemberModalOpen] = useState(false);
-
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        continueStep();
-
-        if (isCategorySet) {
-            if (!category || nameError) return;
-            continueStep();
-        } else {
-            if (!category || nameError) return;
-            setIsCategorySet(1);
-        }
-    };
 
     useEffect(() => {
         setIsMounted(true);
@@ -46,7 +32,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
 
     return (
         <>
-            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
+            <form className="step-form" onSubmit={continueStep}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
@@ -114,7 +100,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
             )}
             {isMaxMemberModalOpen && (
                 <MaxMemberModal
-                    maxMember={maxMember ?? "5"}
+                    maxMember={maxMember}
                     setMaxMember={setMaxMember}
                     onClose={() => setIsMaxMemberModalOpen(false)}
                 />
