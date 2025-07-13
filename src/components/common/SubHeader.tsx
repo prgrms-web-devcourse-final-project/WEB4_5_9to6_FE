@@ -15,7 +15,7 @@ export default function SubHeader({
     return (
         <>
             <div
-                className={`h5 fixed top-0 z-2 flex h-[62px] w-full max-w-sm cursor-default items-center justify-center bg-white text-[var(--color-gray1000)] ${className}`}
+                className={`h5 fixed top-0 z-2 flex h-[62px] w-full cursor-default items-center justify-center bg-white text-[var(--color-gray1000)] ${className}`}
             >
                 <ChevronLeft
                     strokeWidth={1.2}
