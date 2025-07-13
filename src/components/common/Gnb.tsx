@@ -7,7 +7,7 @@ export default function Gnb() {
     const pathname = usePathname();
     return (
         <>
-            <div className="fixed bottom-0 z-50 h-18 w-full rounded-2xl bg-white">
+            <div className="fixed bottom-0 z-30 h-18 w-full rounded-2xl bg-white">
                 <div className="mx-10 flex justify-between pt-3.5">
                     <Link
                         href="/"
