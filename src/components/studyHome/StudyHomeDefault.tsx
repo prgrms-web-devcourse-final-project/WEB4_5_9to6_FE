@@ -1,22 +1,51 @@
-import { ChevronDown, Users } from "lucide-react";
+"use client";
+import { ChevronDown, ChevronUp, Users } from "lucide-react";
 import StudyGoal from "../studyRecruit/StudyGoal";
+import { useState } from "react";
 
-export default function studyHomeDefault({ onOpen }: { onOpen: () => void }) {
+export default function StudyHomeDefault({ onOpen }: { onOpen: () => void }) {
+    const [expanded, setExpanded] = useState(false);
+
+    const toggleHandler = () => {
+        setExpanded((prev) => !prev);
+    };
+
     return (
         <>
             {/* 공지사항 */}
-            <div className="flex h-[61px] w-full items-center justify-between bg-[#1D1D1D]/85 px-5 backdrop-blur-2xl">
-                <div className="flex min-w-0 flex-col">
-                    <p className="c2 text-[#D6D6D6]">07.03 공지사항</p>
-                    <p className="c1 truncate text-[#FFFFFF]">
-                        오늘은 제가 예비군 일정으로 스터디장 없이 진행하기
-                        바랍니다. 오늘은 제가 예비군 일정으로 스터디장 없이
-                        진행하기 바랍니다.
-                    </p>
+            <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
+                <div className="flex items-center justify-between">
+                    <div className="flex min-w-0 flex-col">
+                        <p className="c2 text-[#D6D6D6]">07.03 공지사항</p>
+                        <div
+                            className={`relative overflow-hidden transition-all duration-600 ${expanded ? "max-h-[500px]" : "max-h-[61px]"}`}
+                        >
+                            <p
+                                className={`c1 text-[#FFFFFF] ${expanded ? "" : "truncate"}`}
+                            >
+                                오늘은 제가 예비군 일정으로 스터디장 없이
+                                진행하기 바랍니다. 오늘은 제가 예비군 일정으로
+                                스터디장 없이 진행하기 바랍니다.
+                            </p>
+                        </div>
+                    </div>
+                    <button
+                        className="ml-5 h-5 w-5 flex-shrink-0 cursor-pointer text-[#FFFFFF]"
+                        onClick={toggleHandler}
+                    >
+                        {expanded ? <ChevronUp /> : <ChevronDown />}
+                    </button>
                 </div>
-                <button className="ml-5 h-5 w-5 flex-shrink-0 cursor-pointer text-[#FFFFFF]">
-                    <ChevronDown />
-                </button>
+                <div
+                    className={`flex flex-col items-center ${expanded ? "mt-3 max-h-[50px]" : "max-h-0"} overflow-hidden transition-all duration-150`}
+                >
+                    <button
+                        onClick={toggleHandler}
+                        className="h6 right-0 cursor-pointer text-[var(--color-gray500)]"
+                    >
+                        접기
+                    </button>
+                </div>
             </div>
 
             {/* 스터디 정보 */}

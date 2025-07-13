@@ -47,13 +47,15 @@ export default function Page() {
             {/* 스크롤시 헤더 */}
 
             <SubHeader
-                className={`z-40 truncate bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
+                className={`z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
                     showHeader
                         ? "translate-y-0 opacity-100"
                         : "-translate-y-full opacity-0"
                 }`}
             >
-                숲속에서 라틴어 공부할 요정들의 스터디 모임
+                <p className="b2 min-w-0 basis-[50%] truncate">
+                    숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
+                </p>
             </SubHeader>
 
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
