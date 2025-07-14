@@ -24,6 +24,7 @@ export default function SubHeader({
                 <ChevronLeft
                     strokeWidth={1.2}
                     size={36}
+                    color="#161616"
                     className="absolute top-3 left-2.5 cursor-pointer"
                     onClick={() => router.back()}
                 />
