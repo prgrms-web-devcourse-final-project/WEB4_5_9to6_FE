@@ -3,7 +3,7 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/login/Input";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "@/api/auth";
 import {
     useMutation,
@@ -27,6 +27,8 @@ export default function Login() {
 function LoginContent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState(false);
+    const [loginErrorMsg, setLoginErrorMsg] = useState("");
     const router = useRouter();
 
     const { mutate: loginMutate } = useMutation({
@@ -39,17 +41,26 @@ function LoginContent() {
                 router.push("/");
             }
         },
-        onError: (error) => {
+        onError: (error: { status: number }) => {
             console.error(error);
+            if (error.status === 401) {
+                setLoginErrorMsg("아이디나 비밀번호가 틀렸습니다.");
+                setLoginError(true);
+            }
         },
     });
 
     const loginHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!email || !password) {
-            return;
+        if (!email) {
+            setLoginErrorMsg("이메일을 입력해 주세요.");
+            setLoginError(true);
+        } else if (!password) {
+            setLoginErrorMsg("비밀번호를 입력해 주세요.");
+            setLoginError(true);
+        } else {
+            loginMutate();
         }
-        loginMutate();
     };
 
     const kakaotalkHandler = () => {
@@ -58,6 +69,10 @@ function LoginContent() {
     const googleHandler = () => {
         //
     };
+
+    useEffect(() => {
+        setLoginError(false);
+    }, [email, password]);
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
@@ -86,6 +101,15 @@ function LoginContent() {
                         >
                             비밀번호
                         </Input>
+                        <span
+                            className={`h6 mt-[-10px] pl-2 text-[#FF394A] transition-all duration-200 ease-in-out ${
+                                loginError
+                                    ? "max-h-[40px] translate-y-0 opacity-100"
+                                    : "max-h-0 -translate-y-2 opacity-0"
+                            }`}
+                        >
+                            {loginErrorMsg}
+                        </span>
                     </div>
                     <Button type="submit">로그인</Button>
                 </form>
