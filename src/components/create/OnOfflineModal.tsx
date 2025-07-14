@@ -6,16 +6,23 @@ export default function OnOfflineModal({
     setOnOff,
     setRegion,
     setPlaceNull,
+    isOpen,
 }: {
     onClose: () => void;
     onOff: string;
     setOnOff: (onOff: string) => void;
     setRegion: (onOff: string) => void;
     setPlaceNull: () => void;
+    isOpen: boolean;
 }) {
     return (
         <>
-            <BottomModal title="온/오프라인" onClose={onClose} height="140">
+            <BottomModal
+                title="온/오프라인"
+                onClose={onClose}
+                height="140"
+                isOpen={isOpen}
+            >
                 <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
                     <button
                         type="button"

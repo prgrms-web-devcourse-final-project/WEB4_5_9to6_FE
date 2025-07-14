@@ -4,10 +4,12 @@ export default function RegionModal({
     onClose,
     region,
     setRegion,
+    isOpen,
 }: {
     onClose: () => void;
     region: string;
     setRegion: (region: string) => void;
+    isOpen: boolean;
 }) {
     const regions = [
         "서울",
@@ -29,7 +31,12 @@ export default function RegionModal({
 
     return (
         <>
-            <BottomModal title="지역" onClose={onClose} height="360">
+            <BottomModal
+                title="지역"
+                onClose={onClose}
+                height="360"
+                isOpen={isOpen}
+            >
                 <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
                     {regions.map((r) => (
                         <button

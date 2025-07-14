@@ -13,29 +13,35 @@ export default function ApplyModal({
 }) {
     const [applyMent, setApplyMent] = useState("");
     const [isVisible, setIsVisible] = useState(false);
+    const [animationClass, setAnimationClass] = useState("");
 
     useEffect(() => {
-        if (isOpen) setIsVisible(true);
+        if (isOpen) {
+            setIsVisible(true);
+            setAnimationClass("animate-modalFadeIn");
+        } else {
+            setAnimationClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
     }, [isOpen]);
 
-    if (!isOpen && !isVisible) return null;
-
     const closeHandler = () => {
-        setIsVisible(false);
+        setAnimationClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
-        }, 250);
+        }, 300);
     };
+
+    if (!isVisible) return null;
 
     return (
         <>
             <div className="fixed inset-0 z-50 bg-[#000000]/30">
                 <div
-                    className={`${
-                        isVisible
-                            ? "animate-modalFadeIn"
-                            : "animate-modalFadeOut"
-                    } absolute top-[137px] left-1/2 z-50 flex h-[355px] w-[340px] -translate-x-1/2 flex-col rounded-[24px] bg-[#FFFFFF] p-5`}
+                    className={`${animationClass} absolute top-[137px] left-1/2 z-50 flex h-[355px] w-[340px] -translate-x-1/2 flex-col rounded-[24px] bg-[#FFFFFF] p-5`}
                 >
                     <div className="flex h-[65px] w-full items-center justify-between">
                         <h3 className="text-[var(--color-gray1000)]">

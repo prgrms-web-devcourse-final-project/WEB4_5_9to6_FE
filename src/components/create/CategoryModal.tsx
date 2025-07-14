@@ -4,10 +4,12 @@ export default function CategoryModal({
     onClose,
     category,
     setCategory,
+    isOpen,
 }: {
     onClose: () => void;
     category: string;
     setCategory: (category: string) => void;
+    isOpen: boolean;
 }) {
     const categories = [
         "어학",
@@ -19,7 +21,12 @@ export default function CategoryModal({
     ];
 
     return (
-        <BottomModal title="스터디 카테고리" onClose={onClose} height="245">
+        <BottomModal
+            title="스터디 카테고리"
+            onClose={onClose}
+            height="245"
+            isOpen={isOpen}
+        >
             <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
                 {categories.map((c) => (
                     <button

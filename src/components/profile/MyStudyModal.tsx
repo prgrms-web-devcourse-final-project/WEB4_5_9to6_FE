@@ -7,26 +7,35 @@ import { useEffect, useState } from "react";
 export default function MyStudyModal() {
     const { isOpen, closeModal } = useMyStudyModalStore();
     const [isVisible, setIsVisible] = useState(false);
+    const [animationClass, setAnimationClass] = useState("");
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
+            setAnimationClass("animate-modalFadeIn");
+        } else {
+            setAnimationClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
-    if (!isOpen && !isVisible) return null;
     const closeHandler = () => {
-        setIsVisible(false);
+        setAnimationClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
-        }, 250);
+        }, 300);
     };
+
+    if (!isVisible) return null;
 
     return (
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
                 <div
-                    className={`${isVisible ? "animate-modalFadeIn" : "animate-modalFadeOut"} text-gray1000 mx-[10px] mb-10 flex w-full flex-col rounded-3xl bg-white pb-5`}
+                    className={`${animationClass} text-gray1000 mx-[10px] mb-10 flex w-full flex-col rounded-3xl bg-white pb-5`}
                 >
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3>스터디 선택</h3>

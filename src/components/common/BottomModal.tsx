@@ -18,28 +18,36 @@ export default function BottomModal({
     isOpen,
 }: BottomModalProps) {
     const [isVisible, setIsVisible] = useState(false);
+    const [animationClass, setAnimationClass] = useState("");
 
     useEffect(() => {
-        if (isOpen) setIsVisible(true);
+        if (isOpen) {
+            setIsVisible(true);
+            setAnimationClass("animate-modalFadeIn");
+        } else {
+            setAnimationClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
     }, [isOpen]);
 
-    if (!isOpen && !isVisible) return null;
-
     const closeHandler = () => {
-        setIsVisible(false);
+        setAnimationClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
-        }, 250);
+        }, 300);
     };
+
+    if (!isVisible) return null;
 
     return (
         <>
             <div className="fixed inset-0 z-50 bg-[#000000]/30">
                 <div
                     className={`${
-                        isVisible
-                            ? "animate-modalFadeIn"
-                            : "animate-modalFadeOut"
+                        animationClass
                     } absolute right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5`}
                     style={{ height: `${height}px` }}
                 >

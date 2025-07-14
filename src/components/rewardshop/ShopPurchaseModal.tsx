@@ -12,13 +12,20 @@ export default function ShopPurchaseModal() {
         useShopModalStore();
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
+    const [animationClass, setAnimationClass] = useState("");
     const router = useRouter();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
+            setAnimationClass("animate-modalFadeIn");
+        } else {
+            setAnimationClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
         }
-
         if (goodsType === "앱 테마") {
             setType("테마");
         } else if (goodsType === "스터디룸") {
@@ -28,11 +35,13 @@ export default function ShopPurchaseModal() {
         }
     }, [isOpen, goodsType]);
 
-    if (!isOpen && !isVisible) return null;
+    if (!isVisible) return null;
 
     const clickHandler = () => {
-        setIsVisible(false);
-        closeModal();
+        setAnimationClass("animate-modalFadeOut");
+        setTimeout(() => {
+            closeModal();
+        }, 300);
         customAlert({
             message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
             linkLabel: "이동하기",
@@ -44,17 +53,17 @@ export default function ShopPurchaseModal() {
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
                 <div
-                    className={`${isVisible ? "animate-modalFadeIn" : "animate-modalFadeOut"} mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white`}
+                    className={`${animationClass} mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white`}
                 >
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3 className="text-gray1000">{type} 구매</h3>
                         <X
                             size={24}
                             onClick={() => {
-                                setIsVisible(false);
+                                setAnimationClass("animate-modalFadeOut");
                                 setTimeout(() => {
                                     closeModal();
-                                }, 250);
+                                }, 300);
                             }}
                             className="cursor-pointer"
                         />
