@@ -1,18 +1,41 @@
-import BackButton from "@/components/common/BackButton";
-import Quiz from "@/components/survival/Quiz";
+"use client";
 
-export default async function QuizPage({
+import BackButton from "@/components/common/BackButton";
+import ExitModal from "@/components/survival/quiz/ExitModal";
+import Quiz from "@/components/survival/quiz/Quiz";
+import { useEffect, use, useState } from "react";
+
+export default function QuizPage({
     params,
 }: {
     params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
+    const { id } = use(params);
     const quizId = Number(id);
+    const [showExitModal, setShowExitModal] = useState(false);
+    const browserPreventEvent = (event: () => void) => {
+        history.pushState(null, "", location.href);
+        event();
+    };
+
+    useEffect(() => {
+        history.pushState(null, "", location.href);
+        const handler = () => browserPreventEvent(() => setShowExitModal(true));
+        window.addEventListener("popstate", handler);
+        return () => window.removeEventListener("popstate", handler);
+    }, []);
     return (
         <>
+            <ExitModal
+                isOpen={showExitModal}
+                onClose={() => setShowExitModal(false)}
+            />
             <div className="mx-5 flex flex-col">
                 <header className="flex h-15.5 w-full items-center">
-                    <BackButton className="h-6 w-6" />
+                    <BackButton
+                        onExitClick={() => setShowExitModal(true)}
+                        className="h-6 w-6"
+                    />
                 </header>
                 <div className="text-center">
                     <h5 className="h5 mb-3 text-[var(--color-main400)]">

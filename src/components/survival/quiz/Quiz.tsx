@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import Button from "../common/Button";
+import Button from "../../common/Button";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useQuizResult } from "@/stores/quizStore";
@@ -182,7 +182,7 @@ export default function Quiz({ id }: { id: number }) {
                         : isCorrect
                           ? "bg-green-200"
                           : isSelected
-                            ? "bg-red-200"
+                            ? "bg-[var(--color-main600)]/30"
                             : "bg-[var(--color-gray100)]";
 
                     return (
@@ -191,16 +191,16 @@ export default function Quiz({ id }: { id: number }) {
                             onClick={() => !isSubmit && setSelected(choiceNum)}
                             className={`flex h-16 cursor-pointer items-center justify-between rounded-2xl pl-5 ${bgColor}`}
                         >
-                            <p className="text-lg">
+                            <p className="h5 break-words text-[var(--color-gray1000)]">
                                 {`${String.fromCharCode(97 + index)}. ${text}`}
                             </p>
                             {isSubmit && isCorrect ? (
-                                <p className="mr-7 font-medium text-[#20A567]">
+                                <p className="mr-6 font-medium whitespace-nowrap text-[#20A567]">
                                     정답
                                 </p>
                             ) : (
                                 isSelected && (
-                                    <Check className="mr-7 text-[var(--color-main500)]" />
+                                    <Check className="mr-6 text-[var(--color-main500)]" />
                                 )
                             )}
                         </div>

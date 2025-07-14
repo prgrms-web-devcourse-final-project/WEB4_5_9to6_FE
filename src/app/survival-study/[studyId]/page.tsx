@@ -12,7 +12,7 @@ export default function SurvivalStudy() {
     const router = useRouter();
 
     const QuizStartHandler = () => {
-        router.push("/survival-study/quiz/1");
+        router.push("/survival-study/1/quiz/1");
     };
     return (
         <>
