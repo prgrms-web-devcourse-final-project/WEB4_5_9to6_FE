@@ -74,9 +74,13 @@ export default function StudyHomeDefault({ onOpen }: { onOpen: () => void }) {
                     <h3 className="mt-8 text-[var(--color-gray1000)]">
                         학습 관련 링크
                     </h3>
-                    <div className="c1 mt-[10px] mb-[10px] flex h-[50px] w-full items-center rounded-[12px] border border-[var(--color-gray300)] px-4 text-[var-(--color-gray1000)]">
+                    <a
+                        href="https://www.inflearn.com/course/suyaisbest"
+                        target="blank"
+                        className="c1 transiton-all mt-[10px] mb-[10px] flex h-[50px] w-full items-center rounded-[12px] border border-[var(--color-gray300)] px-4 text-[var-(--color-gray1000)] duration-200 ease-in-out hover:text-[var(--color-gray700)]"
+                    >
                         https://www.inflearn.com/course/suyaisbest
-                    </div>
+                    </a>
                 </div>
             </div>
         </>

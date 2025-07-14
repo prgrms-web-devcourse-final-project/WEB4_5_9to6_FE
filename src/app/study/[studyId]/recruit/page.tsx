@@ -85,11 +85,13 @@ export default function Page() {
                     channel={channel}
                     setChannel={setChannel}
                 />
-                {channel === "정보" && <StudyInfo />}
-                {channel === "팀원 현황" && <StudyUsers />}
+                <div className="mb-[100px]">
+                    {channel === "정보" && <StudyInfo />}
+                    {channel === "팀원 현황" && <StudyUsers />}
+                </div>
 
                 {/* 신청하기 버튼 */}
-                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
+                <div className="fixed bottom-0 mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
                     {isApply ? (
                         <Button disabled>신청 완료</Button>
                     ) : (

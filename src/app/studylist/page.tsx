@@ -25,7 +25,7 @@ export default function Page() {
     };
     return (
         <>
-            <div className="hide-scrollbar h-screen min-w-[360px] overflow-y-auto pb-[72px]">
+            <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
                 <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
                     {/* 검색 */}
                     <SearchBar

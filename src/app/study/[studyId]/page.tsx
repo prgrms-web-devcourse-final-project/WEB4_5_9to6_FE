@@ -77,7 +77,7 @@ export default function Page() {
                     </div>
                 </div>
             </SubHeader>
-            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
+            <div className="mb-[90px] flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
                 <StudyHome
                     isStart={isStart}
                     pause={pause}
@@ -86,7 +86,7 @@ export default function Page() {
                 />
 
                 {/* 버튼 */}
-                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
+                <div className="fixed bottom-0 mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
                     {!attend && (
                         <Button color="primary" onClick={attendHandler}>
                             출석체크

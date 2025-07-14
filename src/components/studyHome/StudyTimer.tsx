@@ -14,7 +14,7 @@ export default function StudyTimer({
         <>
             {/* 타이머 */}
             <div className="mt-[117px] flex w-full flex-col items-center justify-center text-[var(--color-gray1000)]">
-                <p className="text-[32px] font-bold">
+                <p className="ml-4 text-[32px] font-bold">
                     {pause ? "쉬는중.." : "스터디중.."}
                 </p>
                 <div className="mt-3 flex">

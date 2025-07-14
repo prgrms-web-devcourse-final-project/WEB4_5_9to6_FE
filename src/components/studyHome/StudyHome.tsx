@@ -74,7 +74,7 @@ export default function StudyHome({
                 <div className="absolute bottom-[30px] left-1/2 z-30 flex -translate-x-1/2">
                     <AvatarDisplay num={5} />
                 </div>
-                <button className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80" onClick={()=>router.push("profile/1/theme")}>
+                <button className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80" onClick={()=>router.push("/profile/1/theme")}>
                     <span className="c2 text-[var(--color-white)]">
                         테마변경
                     </span>
