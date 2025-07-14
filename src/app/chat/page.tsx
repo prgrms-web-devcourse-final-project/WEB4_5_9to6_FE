@@ -14,7 +14,7 @@ export default async function chatPage() {
                     <NoticeBox
                         date={"07.03"}
                         content="알쏭달쏭 입니다. 오늘은 제가 예비군 예정으로 스터디에 참여하지 못할 것 같아요 주간 미션 올려놓을테니 각자 공부해주세요~~화이팅"
-                        className="w-full"
+                        className="w-full bg-white"
                     />
                 </div>
                 <ChattingRoom />

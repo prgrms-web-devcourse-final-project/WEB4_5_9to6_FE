@@ -52,12 +52,94 @@
     height: 14px;
     background: #e02d4d !important;
 }
+.custom-picker > div:last-child > div {
+    display: none;
+}
 
 @layer utilities {
     .tabChoose {
-        @apply hover:text-gray1000 hover:border-b-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-200 ease-in-out hover:border-b-2;
+        @apply hover:text-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-200 ease-in-out;
     }
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
+    }
+
+    @keyframes bounceShort {
+        0% {
+            transform: scale(0.8) rotate(-15deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05) rotate(5deg);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .animate-bounceShort {
+        animation: bounceShort 0.6s ease-out;
+    }
+
+    @keyframes slideFadeDown {
+        0% {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .animate-slideFadeDown {
+        animation: slideFadeDown 0.5s ease-out;
+    }
+
+    @keyframes bounceShort {
+        0% {
+            transform: scale(0.8) rotate(-15deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05) rotate(5deg);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .animate-bounceShort {
+        animation: bounceShort 0.6s ease-out;
+    }
+
+    @keyframes rotateEmoji {
+        0% {
+            transform: rotate(-5deg);
+        }
+        50% {
+            transform: rotate(5deg);
+        }
+
+        100% {
+            transform: rotate(-5deg);
+        }
+    }
+
+    .animate-rotate {
+        animation: rotateEmoji 1s ease-in-out infinite;
+    }
+}
+@layer components {
+    .step-form {
+        @apply relative h-full w-full p-5 pt-10;
+    }
+    .days-btn {
+        @apply aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 hover:border-[var(--color-gray500)];
+    }
+    .days-btn-selected {
+        @apply border-[var(--color-gray1000)] bg-[var(--color-gray100)] hover:border-[var(--color-gray1000)];
     }
 }

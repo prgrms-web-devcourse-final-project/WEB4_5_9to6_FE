@@ -23,7 +23,7 @@ export default function NoticeBox({
     return (
         <>
             <div
-                className={`relative h-fit rounded-2xl bg-white/85 px-4 py-3.5 backdrop-blur ${className}`}
+                className={`relative h-fit rounded-2xl px-4 backdrop-blur-xl ${className}`}
             >
                 <div className="flex items-center justify-between">
                     <p className="c2 text-[var(--color-gray700)]">
@@ -41,7 +41,7 @@ export default function NoticeBox({
                     className={`relative flex transition-all duration-600 ${expanded ? "max-h-[500px]" : "max-h-8"}`}
                 >
                     <p
-                        className={`c1 mr-5 leading-4.5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1 text-ellipsis whitespace-nowrap"}`}
+                        className={`c1 pr-8 leading-4.5 text-[var(--color-gray-1000)] ${expanded ? "line-clamp-none" : "line-clamp-1 text-ellipsis whitespace-nowrap"}`}
                     >
                         {content}
                     </p>
@@ -51,7 +51,7 @@ export default function NoticeBox({
                 >
                     <button
                         onClick={toggleHandler}
-                        className="h6 right-0 cursor-pointer text-[var(--color-gray1000)]"
+                        className="h6 right-0 cursor-pointer pb-2 text-[var(--color-gray1000)]"
                     >
                         접기
                     </button>

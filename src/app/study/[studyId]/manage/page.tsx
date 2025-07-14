@@ -1,0 +1,78 @@
+"use client";
+
+import Button from "@/components/common/Button";
+import MemberModal from "@/components/studyHome/MemberModal";
+import StudyHome from "@/components/studyHome/StudyHome";
+import { Pause, Play } from "lucide-react";
+import { useState } from "react";
+export default function Page() {
+    const [attend, setAttend] = useState(false);
+    const [isStart, setIsStart] = useState(false);
+    const [pause, setPause] = useState(false);
+    const [isMemberOpen, setIsMemberOpen] = useState(false);
+    const finishHandler = () => {
+        setIsStart(false);
+        setPause(false);
+    };
+    return (
+        <>
+            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
+                <StudyHome isStart={isStart} pause={pause} />
+
+                {/* 버튼 */}
+                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
+                    {!attend && (
+                        <div className="flex w-full items-center justify-between gap-2">
+                            <Button
+                                color="gray"
+                                className="basis-[35.9%] cursor-pointer"
+                                onClick={() => setIsMemberOpen(true)}
+                            >
+                                인원관리
+                            </Button>
+                            <Button
+                                color="primary"
+                                className="basis-[64.1%] cursor-pointer"
+                                onClick={() => setAttend(true)}
+                            >
+                                출석체크
+                            </Button>
+                        </div>
+                    )}
+                    {attend && !isStart && (
+                        <Button
+                            color="primary"
+                            onClick={() => setIsStart(true)}
+                        >
+                            스터디 시작
+                        </Button>
+                    )}
+                    {isStart && (
+                        <div className="flex w-full items-center justify-between gap-2">
+                            <button
+                                className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
+                                onClick={finishHandler}
+                            >
+                                <h5 className="text-[var(--color-main500)]">
+                                    그만하기
+                                </h5>
+                            </button>
+                            <Button
+                                color="primary"
+                                className="basis-[64.1%]"
+                                onClick={() => setPause(!pause)}
+                            >
+                                {!pause && <Pause className="h-6 w-6" />}
+                                {pause && <Play className="h-6 w-6" />}
+                            </Button>
+                        </div>
+                    )}
+                </div>
+
+                {isMemberOpen && (
+                    <MemberModal onClose={() => setIsMemberOpen(false)} />
+                )}
+            </div>
+        </>
+    );
+}

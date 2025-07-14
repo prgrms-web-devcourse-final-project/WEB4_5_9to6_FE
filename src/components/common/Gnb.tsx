@@ -7,7 +7,7 @@ export default function Gnb() {
     const pathname = usePathname();
     return (
         <>
-            <div className="fixed bottom-0 h-18 w-full rounded-2xl bg-white">
+            <div className="fixed bottom-0 z-30 h-18 w-full rounded-2xl bg-white">
                 <div className="mx-10 flex justify-between pt-3.5">
                     <Link
                         href="/"
@@ -34,7 +34,7 @@ export default function Gnb() {
                     <Link
                         href="/rewardshop"
                         className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
-                            pathname === "/rewardshop"
+                            pathname.startsWith("/rewardshop")
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
                         }`}
@@ -45,7 +45,7 @@ export default function Gnb() {
                     <Link
                         href="/profile"
                         className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
-                            pathname === "/profile"
+                            pathname.startsWith("/profile")
                                 ? "text-[var(--color-gray1000)]"
                                 : "text-[var(--color-gray500)]"
                         }`}

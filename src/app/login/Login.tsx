@@ -61,7 +61,7 @@ function LoginContent() {
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
-            <div className="mx-2.5 flex flex-col items-center gap-4">
+            <div className="mx-5 flex flex-col items-center gap-4">
                 <img
                     src="/images/logo.png"
                     alt="logo"
