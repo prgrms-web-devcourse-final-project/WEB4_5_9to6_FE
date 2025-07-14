@@ -6,6 +6,7 @@ import { Trash2 } from "lucide-react";
 export default function Step4({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
     const [goals, setGoals] = useState<string[]>([""]);
+    const [goalsError, setGoalsError] = useState<boolean[]>([false]);
 
     const changeGoalHandler = (index: number, value: string) => {
         const newGoals = [...goals];
@@ -26,6 +27,13 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    useEffect(() => {
+        const newErrors = goals.map((goal) => {
+            return goal.length > 0 && (goal.length < 2 || goal.length > 20);
+        });
+        setGoalsError(newErrors);
+    }, [goals]);
 
     return (
         <>
@@ -48,6 +56,8 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
                             )
                         }
                         label="스터디 목표"
+                        error={goalsError[0]}
+                        errorMsg="스터디 목표는 2자 이상, 20자 이하여야 합니다."
                     />
                     {goals.slice(1).map((goal, index) => (
                         <Input
@@ -67,6 +77,8 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
                                     onClick={() => deleteGoalHandler(index + 1)}
                                 />
                             }
+                            error={goalsError[index + 1]}
+                            errorMsg="스터디 목표는 2자 이상, 20자 이하여야 합니다."
                         />
                     ))}
                 </div>
@@ -93,7 +105,11 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
                     )}
                 </div>
                 <div className="h-[] absolute bottom-5 w-[calc(100%-40px)]">
-                    {goals.some((goal) => goal !== "") ? (
+                    {goalsError.some((goalError) => goalError === true) ? (
+                        <Button type="button" disabled>
+                            다음
+                        </Button>
+                    ) : goals.some((goal) => goal !== "") ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button type="submit">건너뛰기</Button>

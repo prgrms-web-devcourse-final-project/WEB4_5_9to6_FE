@@ -13,6 +13,8 @@ export default function Step5({
     const [isMounted, setIsMounted] = useState(false);
     const [description, setDescription] = useState("");
     const [externalLink, setExternalLink] = useState("");
+    const [descriptionError, setDescriptionError] = useState(false);
+    const [externalLinkError, setExternalLinkError] = useState(false);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,6 +27,34 @@ export default function Step5({
     useEffect(() => {
         setIsMounted(true);
     }, []);
+
+    useEffect(() => {
+        if (description) {
+            if (description.length > 500) {
+                setDescriptionError(true);
+            } else {
+                setDescriptionError(false);
+            }
+        } else {
+            setDescriptionError(false);
+        }
+    }, [description]);
+
+    useEffect(() => {
+        if (externalLink) {
+            if (
+                !/^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i.test(
+                    externalLink,
+                )
+            ) {
+                setExternalLinkError(true);
+            } else {
+                setExternalLinkError(false);
+            }
+        } else {
+            setExternalLinkError(false);
+        }
+    }, [externalLink]);
 
     return (
         <>
@@ -50,6 +80,8 @@ export default function Step5({
                             }
                             label="소개글"
                             className="h-[159px] pb-[100px]"
+                            error={descriptionError}
+                            errorMsg="소개글은 500자 이하여야 합니다."
                         />
                     </div>
                     <div
@@ -60,7 +92,8 @@ export default function Step5({
                             label="외부 강의 링크 (선택)"
                             value={externalLink}
                             onChange={(e) => setExternalLink(e.target.value)}
-                            className=""
+                            error={externalLinkError}
+                            errorMsg="링크 형식이 아닙니다."
                         />
                     </div>
                 </div>

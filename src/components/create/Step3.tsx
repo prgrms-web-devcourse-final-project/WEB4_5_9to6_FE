@@ -27,7 +27,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
 
     useEffect(() => {
         if (place) {
-            if (place.length > 20) {
+            if (place.length < 2 || place.length > 20) {
                 setPlaceError(true);
             } else {
                 setPlaceError(false);
@@ -83,7 +83,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                                 setPlace(e.target.value.replace(/^\s+/, ""))
                             }
                             error={placeError}
-                            errorMsg="상세 장소는 20자 이하여야 합니다."
+                            errorMsg="상세 장소는 2자 이상 20자 이하여야 합니다."
                         />
                     </div>
                 </div>
