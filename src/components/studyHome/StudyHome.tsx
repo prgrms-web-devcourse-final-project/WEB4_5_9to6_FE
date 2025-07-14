@@ -95,7 +95,7 @@ export default function StudyHome({
             )}
 
             {isStart && (
-                <div className="z-50 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
+                <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
                     <StudyTimer pause={pause} setIsGoalOpen={setIsGoalOpen} />
                 </div>
             )}
