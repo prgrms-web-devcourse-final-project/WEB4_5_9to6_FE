@@ -19,8 +19,8 @@ export default function ExitModal({
                 <div>
                     <div className="fixed inset-0 z-40 bg-black/30"></div>
                     <div className="fixed inset-0 z-100 flex items-center justify-center p-10">
-                        <div className="z-30 flex w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-white p-6">
-                            <h2 className="h2 mt-10 mb-10">
+                        <div className="z-30 flex w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-white p-7">
+                            <h2 className="h2 mt-4 mb-8">
                                 퀴즈를 종료하시겠어요?
                             </h2>
                             <Image
@@ -31,7 +31,7 @@ export default function ExitModal({
                                 priority
                                 style={{ width: "auto", height: "auto" }}
                             />
-                            <h5 className="h5 mt-5">
+                            <h5 className="h5 mt-4">
                                 지금 나가면 미응시로 처리되어 탈락하게 됩니다.
                             </h5>
                             <div className="mt-12 flex w-full items-center justify-between gap-4">
