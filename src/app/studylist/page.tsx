@@ -14,9 +14,6 @@ export default function Page() {
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState<string[]>([]);
 
-    const channelHandler = (channel: string) => {
-        setSelected(channel);
-    };
     const searchHandler = (filters: string[]) => {
         setFilter(filters);
         setIsModalOpen(false);
@@ -24,7 +21,7 @@ export default function Page() {
     return (
         <>
             <div className="hide-scrollbar h-screen min-w-[360px] overflow-y-auto pb-[72px]">
-                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
+                <div className="fixed top-[60px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -35,11 +32,11 @@ export default function Page() {
                     {/* 채널 */}
                     <Channel
                         filter={filter}
-                        channelHandler={channelHandler}
+                        setSelected={setSelected}
                         selected={selected}
                     />
                 </div>
-                <div className="min-h-screen pt-[164px]">
+                <div className="min-h-screen pt-[154px]">
                     <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
                         {filter.length === 0 && <StudyLists />}
                         {filter.length > 0 && <SearchResult />}

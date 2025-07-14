@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: "http://35.184.113.72/api/v1/",
+    baseURL: "https://studium.cedartodo.uk/api/v1/",
     headers: {
         "Content-Type": "application/json",
     },
