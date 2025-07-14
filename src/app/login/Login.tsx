@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/navigation";
+import { customAlert } from "@/utils/customAlert";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,11 @@ function LoginContent() {
             if (token) {
                 localStorage.setItem("accessToken", token);
                 router.push("/");
+                customAlert({
+                    message: "로그인 되었습니다!",
+                    linkLabel: "닫기",
+                    onClick: () => {},
+                });
             }
         },
         onError: (error: { status: number }) => {
