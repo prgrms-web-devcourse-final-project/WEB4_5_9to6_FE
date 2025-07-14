@@ -54,9 +54,6 @@
 }
 
 @layer utilities {
-    .tabChoose {
-        @apply hover:text-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-200 ease-in-out;
-    }
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
     }
@@ -72,7 +69,6 @@
         opacity: 1;
     }
 }
-
 .animate-modalFadeIn {
     animation: modalFadeIn 0.3s ease-out;
 }
@@ -87,7 +83,6 @@
         opacity: 0;
     }
 }
-
 .animate-modalFadeOut {
     animation: modalFadeOut 0.3s ease-in;
 }

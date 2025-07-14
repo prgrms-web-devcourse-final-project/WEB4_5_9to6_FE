@@ -19,9 +19,9 @@ export default function ShopPurchaseModal() {
             setIsVisible(true);
         }
 
-        if (goodsType === "app") {
+        if (goodsType === "앱 테마") {
             setType("테마");
-        } else if (goodsType === "room") {
+        } else if (goodsType === "스터디룸") {
             setType("스터디룸");
         } else {
             setType("아바타");
