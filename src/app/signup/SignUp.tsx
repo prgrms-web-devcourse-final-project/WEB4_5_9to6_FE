@@ -53,31 +53,32 @@ function SignUpContent() {
 
     return (
         <>
-            <SubHeader>회원가입</SubHeader>
-            <ProgressBar step={step} />
-            {step === 1 ? (
-                <Step1
-                    continueStep={() => setStep(2)}
-                    requestEmail={setEmail}
-                />
-            ) : step === 2 ? (
-                <Step2
-                    continueStep={() => setStep(3)}
-                    requestPassword={setPassword}
-                />
-            ) : step === 3 ? (
-                <Step3
-                    continueStep={() => setStep(4)}
-                    requestNickname={setNickname}
-                />
-            ) : (
-                <Step4
-                    continueStep={() => setStep(5)}
-                    requestBirthday={setBirthday}
-                    requestGender={setGender}
-                    submitSignUp={submitSignUp}
-                />
-            )}
+            <div className="h-full w-full pt-[65px]">
+                <ProgressBar totalStep={5} step={step} />
+                {step === 1 ? (
+                    <Step1
+                        continueStep={() => setStep(2)}
+                        requestEmail={setEmail}
+                    />
+                ) : step === 2 ? (
+                    <Step2
+                        continueStep={() => setStep(3)}
+                        requestPassword={setPassword}
+                    />
+                ) : step === 3 ? (
+                    <Step3
+                        continueStep={() => setStep(4)}
+                        requestNickname={setNickname}
+                    />
+                ) : (
+                    <Step4
+                        continueStep={() => setStep(5)}
+                        requestBirthday={setBirthday}
+                        requestGender={setGender}
+                        submitSignUp={submitSignUp}
+                    />
+                )}
+            </div>
         </>
     );
 }

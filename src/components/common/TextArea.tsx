@@ -1,22 +1,20 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextAreaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
     className?: string;
     error?: boolean;
     errorMsg?: string;
     label?: string;
-    icon?: React.ReactNode;
 }
 
-export default function Input({
+export default function TextArea({
     error,
     errorMsg,
     className = "",
     label,
-    icon,
     ...props
-}: InputProps) {
+}: TextAreaProps) {
     return (
         <>
             <div className="relative flex flex-col gap-1">
@@ -25,9 +23,9 @@ export default function Input({
                         {label}
                     </label>
                 )}
-                <input
+                <textarea
                     className={twMerge(
-                        `h-[54px] w-full rounded-[12px] border border-[var(--color-gray-300)] px-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] duration-200 ease-in-out focus:outline-none ${error && "ring-1 ring-[#FF394A]"} ${icon && "pr-10"}`,
+                        `h-[159px] w-full resize-none overflow-hidden rounded-[12px] border border-[var(--color-gray-300)] p-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] duration-200 ease-in-out focus:outline-none ${error && "ring-1 ring-[#FF394A]"}`,
                         className,
                     )}
                     {...props}
@@ -41,13 +39,6 @@ export default function Input({
                 >
                     {errorMsg}
                 </label>
-                {icon && (
-                    <div
-                        className={`absolute top-[27px] right-3 -translate-y-1/2 cursor-pointer text-[var(--color-gray500)] ${label && "top-[53px]"}`}
-                    >
-                        {icon}
-                    </div>
-                )}
             </div>
         </>
     );

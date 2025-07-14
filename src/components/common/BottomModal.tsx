@@ -14,7 +14,7 @@ export default function BottomModal({
 }: BottomModalProps) {
     return (
         <>
-            <div className="fixed inset-0 z-30 bg-[#000000]/30">
+            <div className="fixed inset-0 z-50 bg-[#000000]/30">
                 <div
                     className={`absolute right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5`}
                     style={{ height: `${height}px` }}

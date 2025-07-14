@@ -62,23 +62,20 @@ export default function Step1({
 
     return (
         <>
-            <form
-                className="relative h-[calc(100%-65px)] w-full p-5 pt-10"
-                onSubmit={(e) => submitHandler(e)}
-            >
+            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     이메일 인증이 필요해요
                 </h1>
                 <p
-                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-1100 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     이메일을 입력하면 메일이 발송돼요.
                 </p>
                 <div className="flex flex-col gap-1">
                     <div
-                        className={`delay-1500 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
+                        className={`delay-1300 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="이메일 입력"
