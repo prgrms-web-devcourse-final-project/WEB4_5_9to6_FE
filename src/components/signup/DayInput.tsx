@@ -19,7 +19,7 @@ export default function DayInput({
 }: DayInputProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelect = (date: Date | undefined) => {
+    const selectHandler = (date: Date | undefined) => {
         if (!date) return;
         setValue(format(date, "yyyy-MM-dd"));
         setIsOpen(false);
@@ -49,7 +49,7 @@ export default function DayInput({
                         <DayPicker
                             mode="single"
                             selected={new Date(value)}
-                            onSelect={handleSelect}
+                            onSelect={selectHandler}
                             captionLayout="dropdown"
                             fromYear={1960}
                             toYear={new Date().getFullYear()}

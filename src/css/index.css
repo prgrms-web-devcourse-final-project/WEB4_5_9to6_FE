@@ -52,6 +52,9 @@
     height: 14px;
     background: #e02d4d !important;
 }
+.custom-picker > div:last-child > div {
+    display: none;
+}
 
 @layer utilities {
     .tabChoose {
@@ -59,5 +62,16 @@
     }
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
+    }
+}
+@layer components {
+    .step-form {
+        @apply relative h-full w-full p-5 pt-10;
+    }
+    .days-btn {
+        @apply aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 hover:border-[var(--color-gray500)];
+    }
+    .days-btn-selected {
+        @apply border-[var(--color-gray1000)] bg-[var(--color-gray100)] hover:border-[var(--color-gray1000)];
     }
 }
