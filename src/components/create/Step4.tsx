@@ -96,9 +96,7 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
                     {goals.some((goal) => goal !== "") ? (
                         <Button type="submit">다음</Button>
                     ) : (
-                        <Button type="submit" color="gray">
-                            건너뛰기
-                        </Button>
+                        <Button type="submit">건너뛰기</Button>
                     )}
                 </div>
             </form>
