@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CreateStudy() {
-    const [step, setStep] = useState(5);
+    const [step, setStep] = useState(1);
     const [category, setCategory] = useState("");
     const [maxMember, setMaxMember] = useState("");
     const [name, setName] = useState("");
