@@ -12,8 +12,8 @@ import Link from "next/link";
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
-    const [search, setSearch] = useState("");
-    const [filter, setFilter] = useState<string[]>([]);
+    const [search, setSearch] = useState(""); //검색어
+    const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
 
     const searchHandler = (filters: string[]) => {
         setFilter(filters);
@@ -21,8 +21,8 @@ export default function Page() {
     };
     return (
         <>
-            <div className="hide-scrollbar h-screen min-w-[360px] overflow-y-auto pb-[72px]">
-                <div className="fixed top-[60px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
+            <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
+                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -39,8 +39,14 @@ export default function Page() {
                 </div>
                 <div className="min-h-screen pt-[154px]">
                     <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
-                        {filter.length === 0 && <StudyLists />}
-                        {filter.length > 0 && <SearchResult />}
+                        {filter.length === 0 && search === "" && <StudyLists />}
+                        {(filter.length > 0 || search !== "") && (
+                            <SearchResult
+                                search={search}
+                                filter={filter}
+                                setFilter={setFilter}
+                            />
+                        )}
 
                         {/* 필터 모달 */}
                         {isModalOpen && (

@@ -42,9 +42,6 @@ export default function StudyGoalModal({
                             className="flex h-[50px] w-full items-center justify-between rounded-[12px] bg-[var(--color-gray100)] px-4 py-4"
                         >
                             <div className="flex items-center gap-2">
-                                <p className="text-[13px] text-[var(--color-gray1000)]">
-                                    {index + 1}주차
-                                </p>
                                 <p className="text-[var(--color-gray1000)]">
                                     {goal}
                                 </p>

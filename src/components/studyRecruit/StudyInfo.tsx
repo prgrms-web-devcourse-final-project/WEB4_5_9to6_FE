@@ -41,9 +41,13 @@ export default function StudyInfo() {
                 <h6 className="mt-6 text-[var(--color-gray1000)]">
                     학습 관련 링크
                 </h6>
-                <p className="b2 mt-[10px] mb-4 text-[var(--color-gray700)]">
+                <a
+                    href="https://www.google.com"
+                    target="blank"
+                    className="b2 mt-[10px] mb-4 text-[var(--color-gray700)] transition-all duration-200 ease-in-out hover:text-[var(--color-gray-400)]"
+                >
                     https://www.google.com
-                </p>
+                </a>
             </div>
         </>
     );
