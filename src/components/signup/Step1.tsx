@@ -13,6 +13,7 @@ export default function Step1({
 }) {
     const [isMounted, setIsMounted] = useState(false);
     const [isSend, setIsSend] = useState(0);
+    const [isSending, setIsSending] = useState(false);
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
     const [emailError, setEmailError] = useState(false);
@@ -20,16 +21,19 @@ export default function Step1({
     const [isVerified, setIsVerified] = useState(false);
 
     const { mutate: sendEmail } = useMutation({
-        mutationFn: sendEmailCode,
+        mutationFn: () => sendEmailCode(email),
         onMutate: () => {
-            setIsSend(1);
+            setIsSending(true);
         },
         onSuccess: (response) => {
+            setIsSend(1);
+            setIsSending(false);
             console.log(response.data);
         },
         onError: (error: { status: number }) => {
             console.error(error);
             setIsSend(0);
+            setIsSending(false);
             if (error.status === 409) {
                 setEmailErrorMsg("이미 가입된 이메일입니다.");
                 setEmailError(true);
@@ -38,7 +42,7 @@ export default function Step1({
     });
 
     const { mutate: verifyEmail } = useMutation({
-        mutationFn: verifyEmailCode,
+        mutationFn: () => verifyEmailCode(email, code),
         onSuccess: (response) => {
             console.log(response.data);
             if (response.data.verified) {
@@ -67,7 +71,7 @@ export default function Step1({
                 setEmailErrorMsg("이메일 형식이 올바르지 않습니다.");
                 setEmailError(true);
             } else {
-                sendEmail({ email });
+                sendEmail();
             }
         }
     };
@@ -83,7 +87,7 @@ export default function Step1({
 
     useEffect(() => {
         if (code.length === 6 && email) {
-            verifyEmail({ email, code });
+            verifyEmail();
         }
     }, [code]);
 
@@ -152,7 +156,7 @@ export default function Step1({
                                     );
                                     setEmailError(true);
                                 } else {
-                                    sendEmail({ email });
+                                    sendEmail();
                                     setCode("");
                                 }
                             }}
@@ -172,7 +176,7 @@ export default function Step1({
                         </>
                     ) : (
                         <>
-                            {email && !emailError ? (
+                            {email && !emailError && !isSending ? (
                                 <Button type="submit">인증메일 발송</Button>
                             ) : (
                                 <Button disabled>인증메일 발송</Button>

@@ -1,6 +1,5 @@
 "use client";
 
-import SubHeader from "@/components/common/SubHeader";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/signup/Step1";
 import Step3 from "@/components/signup/Step3";
@@ -33,23 +32,17 @@ function SignUpContent() {
     const [gender, setGender] = useState("");
     const router = useRouter();
 
-    const submitSignUp = () => {
-        setTimeout(() => {
-            router.push("/signup/success");
-        }, 1500);
-    };
-
-    // const { mutate: submitSignUp } = useMutation({
-    //     mutationFn: () => signUp(email, password, nickname, birthday, gender),
-    //     onSuccess: () => {
-    //         setTimeout(() => {
-    //             router.push("/signup/success");
-    //         }, 1000);
-    //     },
-    //     onError: (error) => {
-    //         console.error(error);
-    //     },
-    // });
+    const { mutate: submitSignUp } = useMutation({
+        mutationFn: () => signUp(email, password, nickname, birthday, gender),
+        onSuccess: () => {
+            setTimeout(() => {
+                router.push("/signup/success");
+            }, 1500);
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
 
     return (
         <>

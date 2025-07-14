@@ -1,19 +1,13 @@
 import { axiosInstance } from "./index";
 
 /* 이메일 인증번호 발송 */
-export const sendEmailCode = async ({ email }: { email: string }) => {
+export const sendEmailCode = async (email: string) => {
     const response = await axiosInstance.post("auth/email/send", { email });
     return response.data;
 };
 
 /* 이메일 인증번호 확인 */
-export const verifyEmailCode = async ({
-    email,
-    code,
-}: {
-    email: string;
-    code: string;
-}) => {
+export const verifyEmailCode = async (email: string, code: string) => {
     const response = await axiosInstance.post("auth/email/verify", {
         email,
         code,
