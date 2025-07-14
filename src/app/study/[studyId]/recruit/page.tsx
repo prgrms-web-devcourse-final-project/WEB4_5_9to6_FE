@@ -11,15 +11,23 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
+import { customAlert } from "@/utils/customAlert";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
     const [isOpen, setIsOpen] = useState(false);
     const [showHeader, setShowHeader] = useState(false);
+    const [isApply, setIsApply] = useState(false);
     const router = useRouter();
 
     const applyHandler = () => {
         setIsOpen(false);
+        setIsApply(true);
+        customAlert({
+            message: "스터디를 신청했어요.곧 연락올거에요!",
+            linkLabel: "닫기",
+            onClick: () => {},
+        });
         //신청자 목록에 추가
     };
 
@@ -37,18 +45,19 @@ export default function Page() {
     return (
         <>
             {/* 스크롤시 헤더 */}
+            <div className="hide-scrollbar overflow-y-auto bg-[var(--color-white)]">
+                <SubHeader
+                    className={`top-0 z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
+                        showHeader
+                            ? "translate-y-0 opacity-100"
+                            : "-translate-y-full opacity-0"
+                    }`}
+                >
+                    <p className="b2 min-w-0 truncate">
+                        숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
+                    </p>
+                </SubHeader>
 
-            <SubHeader
-                className={`z-40 truncate bg-[var(--color-white)]/85 backdrop-blur-xl transition-all duration-200 ease-in-out ${
-                    showHeader
-                        ? "translate-y-0 opacity-100"
-                        : "-translate-y-full opacity-0"
-                }`}
-            >
-                숲속에서 라틴어 공부할 요정들의 스터디 모임
-            </SubHeader>
-
-            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
                 {/* 스터디 이미지 */}
                 <div className="relative h-[256px] w-full">
                     <Image
@@ -75,14 +84,20 @@ export default function Page() {
                     channel={channel}
                     setChannel={setChannel}
                 />
-                {channel === "정보" && <StudyInfo />}
-                {channel === "팀원 현황" && <StudyUsers />}
+                <div className="mb-[100px]">
+                    {channel === "정보" && <StudyInfo />}
+                    {channel === "팀원 현황" && <StudyUsers />}
+                </div>
 
                 {/* 신청하기 버튼 */}
-                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
-                    <Button onClick={() => setIsOpen(true)} color="primary">
-                        신청하기
-                    </Button>
+                <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
+                    {isApply ? (
+                        <Button disabled>신청 완료</Button>
+                    ) : (
+                        <Button onClick={() => setIsOpen(true)} color="primary">
+                            신청하기
+                        </Button>
+                    )}
                 </div>
 
                 {isOpen && (

@@ -8,7 +8,7 @@ export default function StudyGoal() {
     return (
         <>
             <div className="w-full px-5">
-                <h3 className="mt-6">스터디 목표</h3>
+                <h3 className="mt-6">스터디 주간 목표</h3>
                 <div className="mt-[10px] flex flex-col gap-2">
                     {goals.map((goal, index) => (
                         <div
@@ -17,9 +17,6 @@ export default function StudyGoal() {
                         >
                             <p className="text-[var(--color-gray1000)]">
                                 {goal}
-                            </p>
-                            <p className="text-[var(--color-gray1000)]">
-                                {index + 1}주차
                             </p>
                         </div>
                     ))}
