@@ -4,9 +4,11 @@ import { Dispatch, SetStateAction } from "react";
 import BottomModal from "../common/BottomModal";
 
 export default function MenuModal({
+    isOpen,
     onClose,
     setIsUserOpen,
 }: {
+    isOpen: boolean;
     onClose: () => void;
     setIsUserOpen: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -17,7 +19,12 @@ export default function MenuModal({
     };
     return (
         <>
-            <BottomModal title="메뉴" onClose={onClose} height="173">
+            <BottomModal
+                title="메뉴"
+                onClose={onClose}
+                height="173"
+                isOpen={isOpen}
+            >
                 <button
                     className="mt-[18px] flex h-[44px] w-full cursor-pointer items-center justify-between transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
                     onClick={() => router.push("/study/1/studyInfo")}

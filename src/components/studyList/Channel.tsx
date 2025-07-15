@@ -1,15 +1,17 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+
 export default function Channel({
     filter,
-    search,
-    channelHandler,
     selected,
+    setSelected,
 }: {
     filter: string[];
-    search: string;
-    channelHandler: (channel: string) => void;
     selected: string;
+    setSelected: Dispatch<SetStateAction<string>>;
 }) {
     const channels = [
         "전체",
@@ -20,23 +22,29 @@ export default function Channel({
         "수능&내신",
         "기타",
     ];
+
     return (
-        <>
-            <div
-                className={`hide-scrollbar mt-[7px] h-[51px] w-full overflow-x-auto pl-5 ${filter.length > 0 || search !== "" ? "border-b-2 border-b-[var(--color-gray100)]" : "border-b border-b-[var(--color-gray300)]"}`}
-            >
-                <div className="flex h-full items-center gap-4 py-[14px]">
-                    {channels.map((channel) => (
-                        <button
-                            className={`h-[50px] w-auto cursor-pointer border-b-2 border-[var(--color-gray100)]/0 px-4 whitespace-nowrap transition-all duration-200 ease-in-out ${selected === channel ? (filter.length > 0 || search !== "" ? "text-[var(--color-gray1000)]" : "border-b-[var(--color-gray1000)] text-[var(--color-gray1000)]") : "text-[var(--color-gray500)]"}`}
-                            key={channel}
-                            onClick={() => channelHandler(channel)}
+        <div
+            className={`flex h-[50px] w-full gap-4 ${filter.length === 0 && "border-b-gray300 border-b"}`}
+        >
+            <Swiper spaceBetween={16} slidesPerView={"auto"}>
+                {channels.map((channel) => (
+                    <SwiperSlide
+                        key={channel}
+                        style={{ width: "auto" }}
+                        className="!flex items-center justify-start"
+                    >
+                        <div
+                            onClick={() => {
+                                setSelected(channel);
+                            }}
+                            className={`${selected === channel ? `${filter.length === 0 && "tabChoose-active"} text-gray1000` : "text-gray500"} ${filter.length === 0 && "tabChoose"} h-[50px] cursor-pointer py-[14px] text-center`}
                         >
-                            {channel}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </>
+                            <h5>{channel}</h5>
+                        </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </div>
     );
 }

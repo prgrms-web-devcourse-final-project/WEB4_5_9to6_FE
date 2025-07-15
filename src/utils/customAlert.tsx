@@ -30,14 +30,15 @@ const commonOptions = {
         borderRadius: "16px",
         opacity: "90%",
         boxShadow: "0px 4px 16px 0px rgba(0, 0, 0, 0.1)",
-        backdropFilter: "blur(10px)",
+        backdropFilter: "blur(24px)",
+        justify: "between",
     },
 };
 
 export function customAlert({ message, linkLabel, onClick }: ToastOptions) {
     toast(
         ({ closeToast }) => (
-            <div className="items flex w-fit justify-between gap-4">
+            <div className="items flex w-full justify-between gap-4">
                 <h6 className="text-gray1000">{message}</h6>
                 {linkLabel && onClick && (
                     <button
