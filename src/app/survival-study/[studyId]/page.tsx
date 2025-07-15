@@ -4,27 +4,29 @@ import BackButton from "@/components/common/BackButton";
 import Button from "@/components/common/Button";
 import NoticeBox from "@/components/common/NoticeBox";
 import ApplyModal from "@/components/studyRecruit/ApplyModal";
-import SurvivalApplyModal from "@/components/survival/SurvivalApplyModal";
 import SurvivalInfo from "@/components/survival/SurvivalInfo";
 import WinnerModal from "@/components/survival/WinnerModal";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { customAlert } from "@/utils/customAlert";
 
 export default function SurvivalStudy() {
     const router = useRouter();
 
     // 시작요일
-    const quizDay = 3;
+    const quizDay = 2;
 
-    const today = new Date();
+    // const today = new Date();
     const todayDay = new Date().getDay();
-    const [canStart, setCanStart] = useState(false);
     const [isApplied, setIsApplied] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const { changeClass } = useAnimationStore();
+    const canStart = isApplied && todayDay === quizDay;
 
-    const closeModal = () => setShowModal(false);
+    const closeHandler = () => setShowModal(false);
 
     const quizStartHandler = () => {
         router.push("/survival-study/1/quiz/1");
@@ -38,15 +40,24 @@ export default function SurvivalStudy() {
         }
     };
 
-    useEffect(() => {
-        if (isApplied && todayDay === quizDay) {
-            setCanStart(true);
-        }
-    }, [isApplied, todayDay]);
+    const applyHandler = () => {
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            setShowModal(false);
+        }, 300);
+
+        setIsApplied(true);
+        customAlert({
+            message: "서바이벌 스터디가 신청되었습니다!",
+            linkLabel: "닫기",
+            onClick: () => {},
+        });
+        //신청자 목록에 추가
+    };
 
     return (
         <>
-            <div className="h-screen">
+            <div className="relative h-screen">
                 <div className="relative">
                     <Image
                         src="/images/roomImgs/room7.png"
@@ -103,7 +114,13 @@ export default function SurvivalStudy() {
                         </Button>
                     </div>
                 )}
-                <ApplyModal />
+                <ApplyModal
+                    className="absolute bottom-[250px] left-1/2 -translate-x-1/2"
+                    onClose={closeHandler}
+                    onApply={applyHandler}
+                    isOpen={showModal}
+                    showTextArea={false}
+                />
             </div>
             <WinnerModal />
         </>
