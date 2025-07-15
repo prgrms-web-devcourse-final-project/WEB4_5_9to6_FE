@@ -4,14 +4,18 @@ import { useChatMemberList } from "@/stores/chatModalStore";
 import { X } from "lucide-react";
 import avatar from "../../assets/avatar.svg";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 interface MemberType {
     id: number;
     name: string;
 }
 export default function ChatMemberList() {
+    const [isVisible, setIsVisible] = useState(false);
+    const { animationClass, changeClass } = useAnimationStore();
     const { isOpen, closeModal, setWhisperTarget } = useChatMemberList();
-    if (!isOpen) return null;
+
     const teamMembers: MemberType[] = [
         { id: 201, name: "오수보망" },
         { id: 202, name: "근의공식마스터밍디" },
@@ -19,14 +23,38 @@ export default function ChatMemberList() {
         { id: 204, name: "토익100점달성하영" },
     ];
 
+    useEffect(() => {
+        if (isOpen) {
+            setIsVisible(true);
+            changeClass("animate-modalFadeIn");
+        } else {
+            changeClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+    }, [changeClass, isOpen]);
+
+    const closeHandler = () => {
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            closeModal();
+        }, 200);
+    };
+
+    if (!isVisible) return null;
+
     return (
         <>
-            <div className="text-gray1000 flex w-full flex-col overflow-scroll rounded-3xl bg-white pb-5">
+            <div
+                className={`${animationClass} text-gray1000 flex w-full flex-col rounded-3xl bg-white pb-7`}
+            >
                 <div className="mx-5 flex h-16 items-center justify-between">
                     <h3>귓속말할 대상 선택</h3>
                     <X
                         size={20}
-                        onClick={closeModal}
+                        onClick={closeHandler}
                         className="cursor-pointer"
                     />
                 </div>
@@ -34,7 +62,7 @@ export default function ChatMemberList() {
                     <li
                         onClick={() => {
                             setWhisperTarget(null);
-                            closeModal();
+                            closeHandler();
                         }}
                         className="flex h-11 cursor-pointer items-center gap-3 px-5"
                     >
@@ -45,7 +73,7 @@ export default function ChatMemberList() {
                             key={user.id}
                             onClick={() => {
                                 setWhisperTarget(user.id);
-                                closeModal();
+                                closeHandler();
                             }}
                             className="flex h-11 cursor-pointer items-center gap-3 px-5"
                         >

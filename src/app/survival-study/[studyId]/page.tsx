@@ -6,6 +6,7 @@ import NoticeBox from "@/components/common/NoticeBox";
 import ApplyModal from "@/components/studyRecruit/ApplyModal";
 import SurvivalApplyModal from "@/components/survival/SurvivalApplyModal";
 import SurvivalInfo from "@/components/survival/SurvivalInfo";
+import WinnerModal from "@/components/survival/WinnerModal";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -104,6 +105,7 @@ export default function SurvivalStudy() {
                 )}
                 <ApplyModal />
             </div>
+            <WinnerModal />
         </>
     );
 }

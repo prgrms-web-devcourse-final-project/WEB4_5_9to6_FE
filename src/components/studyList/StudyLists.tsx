@@ -3,6 +3,8 @@ import flash from "@/assets/Flash--filled.svg";
 import SurvivalCard from "./SurvivalCard";
 import StudyCard from "../common/StudyCard";
 import avatar from "@/assets/avatar.svg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 export default function StudyLists() {
     return (
@@ -23,29 +25,27 @@ export default function StudyLists() {
                     매주 Ai가 내는 카테고리별 퀴즈를 풀면 생존!
                 </h6>
                 <div className="hide-scrollbar w-full overflow-x-auto">
-                    <div className="mt-[14px] inline-flex gap-[10px]">
-                        <SurvivalCard
-                            category="어학"
-                            title="프랑스어 서바이벌"
-                            content="몽트뤠조르 사투리 위주의 본토 할머니발음 스터디"
-                            startDate="8월 15일"
-                            member="12/30"
-                        />
-                        <SurvivalCard
-                            category="어학"
-                            title="프랑스어 서바이벌"
-                            content="몽트뤠조르 사투리 위주의 본토 할머니발음 스터디"
-                            startDate="8월 15일"
-                            member="12/30"
-                        />
-                        <SurvivalCard
-                            category="어학"
-                            title="프랑스어 서바이벌"
-                            content="몽트뤠조르 사투리 위주의 본토 할머니발음 스터디"
-                            startDate="8월 15일"
-                            member="12/30"
-                        />
-                    </div>
+                    <Swiper
+                        spaceBetween={10}
+                        slidesPerView={"auto"}
+                        className="mt-[14px]"
+                    >
+                        {[...Array(5)].map((_, i) => (
+                            <SwiperSlide
+                                key={i}
+                                style={{ width: "auto" }}
+                                className="!flex items-center justify-start"
+                            >
+                                <SurvivalCard
+                                    category="어학"
+                                    title="프랑스어 서바이벌"
+                                    content="몽트뤠조르 사투리 위주의 본토 할머니발음 스터디"
+                                    startDate="8월 15일"
+                                    member="12/30"
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
 

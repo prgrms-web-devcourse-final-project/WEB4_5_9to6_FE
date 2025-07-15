@@ -6,6 +6,7 @@ interface TimeModalProps {
     onClose: () => void;
     time: string;
     setTime: (value: string) => void;
+    isOpen: boolean;
 }
 
 export default function TimeModal({
@@ -13,11 +14,17 @@ export default function TimeModal({
     onClose,
     time,
     setTime,
+    isOpen,
 }: TimeModalProps) {
     const [hour, minute] = time.split(":");
 
     return (
-        <BottomModal title={title} onClose={onClose} height="295">
+        <BottomModal
+            title={title}
+            onClose={onClose}
+            height="295"
+            isOpen={isOpen}
+        >
             <div className="absolute top-35.5 left-10 h-[40px] w-[calc(100%-80px)] rounded-[8px] bg-[var(--color-gray100)]"></div>
             <Picker
                 value={{ hour, minute }}
