@@ -1,8 +1,6 @@
 "use client";
 import { Users } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 export default function StudyCard({
     category,
     isNew,
@@ -51,8 +49,12 @@ export default function StudyCard({
 
                     {/* 아바타 */}
                     <div className="my-[5px] h-[66px] w-[66px] rounded-[26px] bg-[var(--color-gray100)] p-[10px]">
-                        <Image
-                            src={avatar}
+                        <img
+                            src={
+                                typeof avatar === "string" && avatar
+                                    ? avatar
+                                    : "/avatar.svg"
+                            }
                             alt="아바타이미지"
                             width={46}
                             height={46}

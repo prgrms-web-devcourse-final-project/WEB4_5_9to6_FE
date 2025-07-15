@@ -6,14 +6,17 @@ import StudyLists from "@/components/studyList/StudyLists";
 import SearchResult from "@/components/studyList/SearchResult";
 import SearchBar from "@/components/studyList/SearchBar";
 import Channel from "@/components/studyList/Channel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { studySearch } from "@/api/studies";
+import { Study } from "@/types/study";
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
     const [search, setSearch] = useState(""); //검색어
     const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
+    const [studies, setStudies] = useState<Study[]>([]);
 
     const channelHandler = (channel: string) => {
         setSelected(channel);
@@ -22,6 +25,26 @@ export default function Page() {
         setFilter(filters);
         setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        const fetchStudies = async () => {
+            try {
+                const data: Study[] = await studySearch({
+                    page: 1,
+                    size: 10,
+                    category: "ALL",
+                    region: "ALL",
+                    status: "ALL",
+                    name: "",
+                });
+                setStudies(data);
+            } catch (err) {
+                if (err) console.error("스터디 검색 에러", err);
+            }
+        };
+        fetchStudies();
+    }, []);
+
     return (
         <>
             <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
@@ -43,7 +66,9 @@ export default function Page() {
                 </div>
                 <div className="min-h-screen pt-[164px]">
                     <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
-                        {filter.length === 0 && search === "" && <StudyLists />}
+                        {filter.length === 0 && search === "" && (
+                            <StudyLists studies={studies} />
+                        )}
                         {(filter.length > 0 || search !== "") && (
                             <SearchResult
                                 search={search}

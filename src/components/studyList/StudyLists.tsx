@@ -2,9 +2,76 @@ import Image from "next/image";
 import flash from "@/assets/Flash--filled.svg";
 import SurvivalCard from "./SurvivalCard";
 import StudyCard from "../common/StudyCard";
-import avatar from "@/assets/avatar.svg";
+import { Members, Study } from "@/types/study";
+import { useEffect, useState } from "react";
+import { studyMembers } from "@/api/studies";
 
-export default function StudyLists() {
+export default function StudyLists({ studies }: { studies: Study[] }) {
+    const day: Record<string, string> = {
+        MON: "월",
+        TUE: "화",
+        WED: "수",
+        THU: "목",
+        FRI: "금",
+        SAT: "토",
+        SUN: "일",
+    };
+    const category: Record<string, string> = {
+        LANGUAGE: "어학",
+        JOB: "취업",
+        PROGRAMMING: "프로그래밍",
+        EXAM_PUBLIC: "고시&공무원",
+        EXAM_SCHOOL: "수능&내신",
+        ETC: "기타",
+    };
+    const region: Record<string, string> = {
+        ALL: "전체",
+        ONLINE: "온라인",
+        SEOUL: "서울",
+        INCHEON: "인천",
+        GYEONGGI: "경기",
+        DAEJEON: "대전",
+        GANGWON: "강원",
+        SEJONG: "세종",
+        CHUNGBUK: "충북",
+    };
+
+    const [leaders, setLeaders] = useState<Members[]>([]);
+    const scheduleString = (sche: string[]) => {
+        const order = Object.keys(day);
+        return sche
+            .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+            .map((d) => day[d])
+            .join(", ");
+    };
+    const isNewFunc = (start: string) => {
+        const now = new Date();
+        const startDate = new Date(start);
+        return now < startDate;
+    };
+
+    useEffect(() => {
+        const fetchLeaders = async () => {
+            try {
+                const allLeaders: Members[] = await Promise.all(
+                    studies.map(async (study) => {
+                        const data: Members[] = await studyMembers(
+                            study.studyId,
+                        );
+
+                        return data.find((d) => d.role === "LEADER")!;
+                    }),
+                );
+                setLeaders(allLeaders);
+            } catch (err) {
+                console.error("스터디 리더 에러", err);
+            }
+        };
+
+        if (studies.length > 0) {
+            fetchLeaders();
+        }
+    }, [studies]);
     return (
         <>
             {/* 서바이벌 스터디 */}
@@ -54,33 +121,18 @@ export default function StudyLists() {
                 어떤 스터디를 하고싶나요?
             </h3>
             <div className="mt-[14px] flex flex-col gap-[16px] px-5">
-                <StudyCard
-                    category="수능&내신"
-                    isNew={true}
-                    title="자바를 자바라!!!!!"
-                    avatar={avatar}
-                    schedule="매주 토요일 12:00~16:00"
-                    location="온라인 Slack"
-                    member="3/10"
-                />
-                <StudyCard
-                    category="수능&내신"
-                    isNew={true}
-                    title="자바를 자바라!!!!!"
-                    avatar={avatar}
-                    schedule="매주 토요일 12:00~16:00"
-                    location="온라인 Slack"
-                    member="3/10"
-                />
-                <StudyCard
-                    category="수능&내신"
-                    isNew={true}
-                    title="자바를 자바라!!!!!"
-                    avatar={avatar}
-                    schedule="매주 토요일 12:00~16:00"
-                    location="온라인 Slack"
-                    member="3/10"
-                />
+                {studies.map((study, i) => (
+                    <StudyCard
+                        key={i}
+                        category={category[study.category]}
+                        isNew={isNewFunc(study.startDate)}
+                        title={study.title}
+                        avatar={leaders[i]?.profileImage}
+                        schedule={`매주 ${scheduleString(study.schedules)}요일 ${study.startTime}~${study.endTime}`}
+                        location={region[study.region]}
+                        member={`${study.currentMemberCount} / ${study.maxMemberCount}`}
+                    />
+                ))}
             </div>
         </>
     );
