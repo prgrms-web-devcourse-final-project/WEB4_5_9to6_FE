@@ -17,7 +17,7 @@ export default function SurvivalStudy() {
     const router = useRouter();
 
     // 시작요일
-    const quizDay = 2;
+    const quizDay = 3;
 
     // const today = new Date();
     const todayDay = new Date().getDay();
@@ -87,11 +87,24 @@ export default function SurvivalStudy() {
                     date="07.11"
                 />
                 <SurvivalInfo />
-                {isApplied && canStart ? (
-                    <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                    {!isApplied ? (
+                        <Button
+                            onClick={buttonHandler}
+                            color="primary"
+                            className="mx-5 my-5"
+                        >
+                            신청하기
+                        </Button>
+                    ) : (
                         <Button
                             onClick={quizStartHandler}
-                            className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
+                            disabled={!canStart}
+                            className={`mx-5 my-5 ${
+                                canStart
+                                    ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
+                                    : "cursor-not-allowed bg-[var(--color-gray200)] text-[var(--color-gray500)]"
+                            }`}
                         >
                             <Image
                                 src="/icons/flash.svg"
@@ -102,18 +115,8 @@ export default function SurvivalStudy() {
                             />
                             퀴즈 시작
                         </Button>
-                    </div>
-                ) : (
-                    <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
-                        <Button
-                            onClick={buttonHandler}
-                            color="primary"
-                            className="mx-5 my-5"
-                        >
-                            신청하기
-                        </Button>
-                    </div>
-                )}
+                    )}
+                </div>
                 <ApplyModal
                     className="absolute bottom-[250px] left-1/2 -translate-x-1/2"
                     onClose={closeHandler}
