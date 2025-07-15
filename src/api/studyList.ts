@@ -5,7 +5,7 @@ interface StudyType {
 }
 // 서바이벌 스터디
 export const fetchSurvStudyList = async () => {
-    const response = await axiosInstance.post("studies/search");
+    const response = await axiosInstance.get("studies/1");
     const survivalStudy = response.data.filter(
         (study: StudyType) => study.studyType === "SURVIVAL",
     );
