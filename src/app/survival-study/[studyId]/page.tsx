@@ -52,7 +52,6 @@ export default function SurvivalStudy() {
             linkLabel: "닫기",
             onClick: () => {},
         });
-        //신청자 목록에 추가
     };
 
     return (
@@ -82,7 +81,7 @@ export default function SurvivalStudy() {
                 </div>
 
                 <NoticeBox
-                    content="다음 퀴즈는 7/17 열시에 열릴 예정입니다."
+                    content="다음 퀴즈는 7/17 10시에 열릴 예정입니다."
                     className="rounded-none bg-[var(--color-gray100)]/85"
                     date="07.11"
                 />

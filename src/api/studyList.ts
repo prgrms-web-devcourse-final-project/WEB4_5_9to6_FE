@@ -1,10 +1,15 @@
 import { axiosInstance } from ".";
 
-// study list
-export const fetchStudyList = async () => {
+interface StudyType {
+    studyType: "SURVIVAL" | "DEFAULT";
+}
+// 서바이벌 스터디
+export const fetchSurvStudyList = async () => {
     const response = await axiosInstance.get("studies/1");
-    console.log("스터디 정보", response.data);
-    return response.data;
+    const survivalStudy = response.data.filter(
+        (study: StudyType) => study.studyType === "SURVIVAL",
+    );
+    return survivalStudy;
 };
 
 export const fetchStudyMemberList = async () => {
