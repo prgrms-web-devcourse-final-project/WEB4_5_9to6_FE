@@ -2,7 +2,7 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { sendEmailCode } from "@/api/auth";
+import { sendEmailCode, verifyEmailCode } from "@/api/auth";
 
 export default function Step1({
     continueStep,
@@ -13,35 +13,66 @@ export default function Step1({
 }) {
     const [isMounted, setIsMounted] = useState(false);
     const [isSend, setIsSend] = useState(0);
+    const [isSending, setIsSending] = useState(false);
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
     const [emailError, setEmailError] = useState(false);
+    const [emailErrorMsg, setEmailErrorMsg] = useState("");
+    const [isVerified, setIsVerified] = useState(false);
 
     const { mutate: sendEmail } = useMutation({
-        mutationFn: sendEmailCode,
-        onSuccess: (response) => {
-            console.log(response.data);
-            setIsSend(1);
+        mutationFn: () => sendEmailCode(email),
+        onMutate: () => {
+            setIsSending(true);
         },
-        onError: (error) => {
+        onSuccess: (response) => {
+            setIsSend(1);
+            setIsSending(false);
+            console.log(response.data);
+        },
+        onError: (error: { status: number }) => {
             console.error(error);
+            setIsSend(0);
+            setIsSending(false);
+            if (error.status === 409) {
+                setEmailErrorMsg("이미 가입된 이메일입니다.");
+                setEmailError(true);
+            }
         },
     });
 
-    // test Code
-    const correctCode = "123456";
+    const { mutate: verifyEmail } = useMutation({
+        mutationFn: () => verifyEmailCode(email, code),
+        onSuccess: (response) => {
+            console.log(response.data);
+            if (response.data.verified) {
+                setIsVerified(true);
+            } else {
+                setIsVerified(false);
+            }
+        },
+        onError: (error: { status: number }) => {
+            console.error(error);
+        },
+    });
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (isSend) {
-            if (!email || emailError || code !== correctCode) return;
+            if (!email || emailError || !isVerified) return;
             requestEmail(email);
             continueStep();
         } else {
             if (!email || emailError) return;
-            // sendEmail(email); Todo: 백엔드 로직 완성시 수정
-            setIsSend(1);
+            if (
+                !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(email)
+            ) {
+                setEmailErrorMsg("이메일 형식이 올바르지 않습니다.");
+                setEmailError(true);
+            } else {
+                sendEmail();
+            }
         }
     };
 
@@ -50,15 +81,15 @@ export default function Step1({
     }, []);
 
     useEffect(() => {
-        if (
-            email &&
-            !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(email)
-        ) {
-            setEmailError(true);
-        } else {
-            setEmailError(false);
-        }
+        setEmailError(false);
+        setCode("");
     }, [email]);
+
+    useEffect(() => {
+        if (code.length === 6 && email) {
+            verifyEmail();
+        }
+    }, [code]);
 
     return (
         <>
@@ -82,7 +113,13 @@ export default function Step1({
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             error={emailError}
-                            errorMsg={"이메일 형식이 올바르지 않습니다."}
+                            errorMsg={emailErrorMsg}
+                            readOnly={isVerified}
+                            className={
+                                isVerified
+                                    ? "cursor-default text-[var(--color-gray700)]"
+                                    : ""
+                            }
                         />
                     </div>
                     <div
@@ -92,20 +129,46 @@ export default function Step1({
                             placeholder="인증번호 입력"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
+                            maxLength={6}
+                            readOnly={isVerified}
+                            className={
+                                isVerified
+                                    ? "cursor-default text-[var(--color-gray700)]"
+                                    : ""
+                            }
                         />
                     </div>
-                    <button
-                        className={`mx-auto mt-3 w-20 cursor-pointer text-[var(--color-gray700)] underline underline-offset-4 delay-1000 duration-1000 ease-out hover:text-[var(--color-gray1000)] ${!isSend && "opacity-0"}`}
-                        type="button"
-                        onClick={() => sendEmail(email)}
+                    <div
+                        className={`mx-auto mt-3 w-20 delay-200 duration-1000 ${!isSend && "opacity-0"}`}
                     >
-                        재발송 하기
-                    </button>
+                        <button
+                            className={`cursor-pointer text-[var(--color-gray700)] underline underline-offset-4 duration-200 ease-out ${isVerified ? "hover:text-[var(--color-gray700)]" : "hover:text-[var(--color-gray1000)]"}`}
+                            type="button"
+                            onClick={() => {
+                                if (isVerified) return;
+                                if (
+                                    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(
+                                        email,
+                                    )
+                                ) {
+                                    setEmailErrorMsg(
+                                        "이메일 형식이 올바르지 않습니다.",
+                                    );
+                                    setEmailError(true);
+                                } else {
+                                    sendEmail();
+                                    setCode("");
+                                }
+                            }}
+                        >
+                            재발송 하기
+                        </button>
+                    </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
                     {isSend ? (
                         <>
-                            {code === correctCode ? (
+                            {isVerified ? (
                                 <Button type="submit">계속하기</Button>
                             ) : (
                                 <Button disabled>계속하기</Button>
@@ -113,7 +176,7 @@ export default function Step1({
                         </>
                     ) : (
                         <>
-                            {email && !emailError ? (
+                            {email && !emailError && !isSending ? (
                                 <Button type="submit">인증메일 발송</Button>
                             ) : (
                                 <Button disabled>인증메일 발송</Button>
