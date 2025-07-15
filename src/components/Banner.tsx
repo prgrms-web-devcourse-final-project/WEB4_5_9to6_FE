@@ -12,10 +12,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 export default function Banner() {
     const bannerImages = [
         "/images/banner/banner02.png",
+        "/images/banner/survival.png",
         "/images/banner/banner01.png",
         "/images/banner/banner03.png",
-        "/images/banner/banner04.png",
-        "/images/banner/banner05.png",
     ];
     return (
         <>

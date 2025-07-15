@@ -3,17 +3,46 @@
 import BackButton from "@/components/common/BackButton";
 import Button from "@/components/common/Button";
 import NoticeBox from "@/components/common/NoticeBox";
+import ApplyModal from "@/components/studyRecruit/ApplyModal";
+import SurvivalApplyModal from "@/components/survival/SurvivalApplyModal";
 import SurvivalInfo from "@/components/survival/SurvivalInfo";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function SurvivalStudy() {
     const router = useRouter();
 
-    const QuizStartHandler = () => {
+    // 시작요일
+    const quizDay = 3;
+
+    const today = new Date();
+    const todayDay = new Date().getDay();
+    const [canStart, setCanStart] = useState(false);
+    const [isApplied, setIsApplied] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
+    const closeModal = () => setShowModal(false);
+
+    const quizStartHandler = () => {
         router.push("/survival-study/1/quiz/1");
     };
+
+    const buttonHandler = () => {
+        if (!isApplied) {
+            setShowModal(true);
+        } else if (canStart) {
+            quizStartHandler();
+        }
+    };
+
+    useEffect(() => {
+        if (isApplied && todayDay === quizDay) {
+            setCanStart(true);
+        }
+    }, [isApplied, todayDay]);
+
     return (
         <>
             <div className="h-screen">
@@ -46,21 +75,34 @@ export default function SurvivalStudy() {
                     date="07.11"
                 />
                 <SurvivalInfo />
-                <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
-                    <Button
-                        onClick={QuizStartHandler}
-                        className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
-                    >
-                        <Image
-                            src="/icons/flash.svg"
-                            alt="survival icon"
-                            width={14}
-                            height={14}
-                            style={{ marginBottom: "1px" }}
-                        />
-                        퀴즈 시작
-                    </Button>
-                </div>
+                {isApplied && canStart ? (
+                    <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                        <Button
+                            onClick={quizStartHandler}
+                            className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
+                        >
+                            <Image
+                                src="/icons/flash.svg"
+                                alt="survival icon"
+                                width={14}
+                                height={14}
+                                style={{ marginBottom: "1px" }}
+                            />
+                            퀴즈 시작
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+                        <Button
+                            onClick={buttonHandler}
+                            color="primary"
+                            className="mx-5 my-5"
+                        >
+                            신청하기
+                        </Button>
+                    </div>
+                )}
+                <ApplyModal />
             </div>
         </>
     );
