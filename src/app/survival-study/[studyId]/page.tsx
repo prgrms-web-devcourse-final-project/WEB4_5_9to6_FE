@@ -4,6 +4,7 @@ import BackButton from "@/components/common/BackButton";
 import Button from "@/components/common/Button";
 import NoticeBox from "@/components/common/NoticeBox";
 import SurvivalInfo from "@/components/survival/SurvivalInfo";
+import WinnerModal from "@/components/survival/WinnerModal";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -62,6 +63,7 @@ export default function SurvivalStudy() {
                     </Button>
                 </div>
             </div>
+            <WinnerModal />
         </>
     );
 }

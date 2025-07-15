@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/common/Button";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
 import { X } from "lucide-react";
@@ -11,22 +12,37 @@ export default function ShopPurchaseModal() {
     const { isOpen, closeModal, goodsName, goodsPrice, goodsType, content } =
         useShopModalStore();
     const [type, setType] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
+    const { animationClass, changeClass } = useAnimationStore();
     const router = useRouter();
 
     useEffect(() => {
-        if (goodsType === "app") {
+        if (isOpen) {
+            setIsVisible(true);
+            changeClass("animate-modalFadeIn");
+        } else {
+            changeClass("animate-modalFadeOut");
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+        if (goodsType === "앱 테마") {
             setType("테마");
-        } else if (goodsType === "room") {
+        } else if (goodsType === "스터디룸") {
             setType("스터디룸");
         } else {
             setType("아바타");
         }
-    }, [goodsType]);
+    }, [isOpen, goodsType, changeClass]);
 
-    if (!isOpen) return null;
+    if (!isVisible) return null;
 
     const clickHandler = () => {
-        closeModal();
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            closeModal();
+        }, 200);
         customAlert({
             message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
             linkLabel: "이동하기",
@@ -37,12 +53,19 @@ export default function ShopPurchaseModal() {
     return (
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-                <div className="mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white">
+                <div
+                    className={`${animationClass} mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white`}
+                >
                     <div className="mx-5 flex h-16 items-center justify-between">
                         <h3 className="text-gray1000">{type} 구매</h3>
                         <X
                             size={24}
-                            onClick={closeModal}
+                            onClick={() => {
+                                changeClass("animate-modalFadeOut");
+                                setTimeout(() => {
+                                    closeModal();
+                                }, 200);
+                            }}
                             className="cursor-pointer"
                         />
                     </div>

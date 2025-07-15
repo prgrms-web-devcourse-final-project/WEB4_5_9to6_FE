@@ -57,9 +57,6 @@
 }
 
 @layer utilities {
-    .tabChoose {
-        @apply hover:text-gray1000 flex-1 cursor-pointer py-[14px] text-center transition-colors duration-200 ease-in-out;
-    }
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
     }
@@ -142,4 +139,62 @@
     .days-btn-selected {
         @apply border-[var(--color-gray1000)] bg-[var(--color-gray100)] hover:border-[var(--color-gray1000)];
     }
+}
+
+@keyframes modalFadeIn {
+    0% {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.animate-modalFadeIn {
+    animation: modalFadeIn 0.2s ease-out both;
+}
+
+@keyframes modalFadeOut {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+}
+.animate-modalFadeOut {
+    animation: modalFadeOut 0.2s ease-in both;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tabChoose {
+    @apply hover:text-gray1000 transition-colors duration-200 ease-in-out;
+    position: relative;
+}
+
+.tabChoose::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-gray1000);
+    transform: scaleX(0);
+    transform-origin: left; /* 왼쪽에서 시작 */
+    transition: transform 0.25s ease-in-out;
+}
+
+.tabChoose-active::after {
+    transform: scaleX(1); /* 선택되면 왼쪽부터 채워짐 */
 }

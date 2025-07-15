@@ -18,9 +18,6 @@ export default function Page() {
     const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
     const [studies, setStudies] = useState<Study[]>([]);
 
-    const channelHandler = (channel: string) => {
-        setSelected(channel);
-    };
     const searchHandler = (filters: string[]) => {
         setFilter(filters);
         setIsModalOpen(false);
@@ -59,12 +56,11 @@ export default function Page() {
                     {/* 채널 */}
                     <Channel
                         filter={filter}
-                        search={search}
-                        channelHandler={channelHandler}
+                        setSelected={setSelected}
                         selected={selected}
                     />
                 </div>
-                <div className="min-h-screen pt-[164px]">
+                <div className="min-h-screen pt-[154px]">
                     <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
                         {filter.length === 0 && search === "" && (
                             <StudyLists studies={studies} />
@@ -80,10 +76,11 @@ export default function Page() {
                         {/* 필터 모달 */}
                         {isModalOpen && (
                             <FilterModal
+                                isOpen={isModalOpen}
                                 onClose={() => setIsModalOpen(false)}
-                                onApply={(filters: string[]) =>
-                                    searchHandler(filters)
-                                }
+                                onApply={(filters: string[]) => {
+                                    searchHandler(filters);
+                                }}
                             />
                         )}
 
