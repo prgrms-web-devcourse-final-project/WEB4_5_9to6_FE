@@ -9,12 +9,14 @@ export default function ApplyModal({
     onApply,
     showTextArea = true,
     className,
+    children,
 }: {
     isOpen: boolean;
     onClose: () => void;
     onApply: () => void;
     showTextArea?: boolean;
     className?: string;
+    children?: React.ReactNode;
 }) {
     const [applyMent, setApplyMent] = useState("");
     const [isVisible, setIsVisible] = useState(false);
@@ -57,7 +59,7 @@ export default function ApplyModal({
                             className="h-6 w-6 cursor-pointer text-[#161616]"
                         />
                     </div>
-
+                    {children}
                     {showTextArea && (
                         <>
                             <p className="b2 text-[var(--color-gray1000)]">
@@ -75,7 +77,7 @@ export default function ApplyModal({
                             </div>
                         </>
                     )}
-                    <div className="flex h-[90px] w-full items-center gap-2 py-5">
+                    <div className="mt-10 flex w-full items-center gap-2">
                         <button
                             onClick={closeHandler}
                             className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"

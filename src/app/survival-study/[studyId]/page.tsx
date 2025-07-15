@@ -67,6 +67,7 @@ export default function SurvivalStudy() {
                             width: "100%",
                             maxHeight: "500px",
                         }}
+                        priority
                     />
                     <div className="absolute top-4 left-4">
                         <BackButton className="h-4 w-4" />
@@ -122,7 +123,27 @@ export default function SurvivalStudy() {
                     onApply={applyHandler}
                     isOpen={showModal}
                     showTextArea={false}
-                />
+                >
+                    <p className="b1 mb-2.5">스터디를 신청하시겠습니까?</p>
+                    <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
+                        <div className="flex justify-between">
+                            <p className="b2">스터디명</p>
+                            <p className="b2">프로그래머스 부수기</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p className="b2">스터디주제</p>
+                            <p className="b2">토익</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p className="b2">스터디 요일</p>
+                            <p className="b2">매주 월요일</p>
+                        </div>
+                        <div className="flex justify-between">
+                            <p className="b2">스터디 시간</p>
+                            <p className="b2">19:00~20:00</p>
+                        </div>
+                    </div>
+                </ApplyModal>
             </div>
             <WinnerModal />
         </>
