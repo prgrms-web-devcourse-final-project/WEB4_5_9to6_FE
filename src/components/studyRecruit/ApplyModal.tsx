@@ -48,7 +48,7 @@ export default function ApplyModal({
         <>
             <div className="fixed inset-0 z-50 bg-black/30">
                 <div
-                    className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white p-5`}
+                    className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white px-6 pt-2 pb-5`}
                 >
                     <div className="flex h-[65px] w-full items-center justify-between">
                         <h3 className="text-[var(--color-gray1000)]">
