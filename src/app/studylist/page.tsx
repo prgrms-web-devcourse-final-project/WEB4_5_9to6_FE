@@ -53,9 +53,9 @@ export default function Page() {
                             <FilterModal
                                 isOpen={isModalOpen}
                                 onClose={() => setIsModalOpen(false)}
-                                onApply={(filters: string[]) =>
-                                    searchHandler(filters)
-                                }
+                                onApply={(filters: string[]) => {
+                                    searchHandler(filters);
+                                }}
                             />
                         )}
 

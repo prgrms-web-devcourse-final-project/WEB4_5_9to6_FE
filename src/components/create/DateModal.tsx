@@ -48,7 +48,7 @@ export default function DateModal({
             setAnimationClass("animate-modalFadeOut");
             const timer = setTimeout(() => {
                 setIsVisible(false);
-            }, 300);
+            }, 200);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
@@ -57,7 +57,7 @@ export default function DateModal({
         setAnimationClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
-        }, 300);
+        }, 200);
     };
 
     if (!isVisible) return null;

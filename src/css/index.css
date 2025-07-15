@@ -152,7 +152,7 @@
     }
 }
 .animate-modalFadeIn {
-    animation: modalFadeIn 0.3s ease-out both;
+    animation: modalFadeIn 0.2s ease-out both;
 }
 
 @keyframes modalFadeOut {
@@ -166,7 +166,7 @@
     }
 }
 .animate-modalFadeOut {
-    animation: modalFadeOut 0.3s ease-in both;
+    animation: modalFadeOut 0.2s ease-in both;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

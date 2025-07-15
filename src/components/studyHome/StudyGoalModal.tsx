@@ -3,6 +3,7 @@ import { Check, Circle } from "lucide-react";
 import { useState } from "react";
 import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 export default function StudyGoalModal({
     isOpen,
@@ -27,6 +28,15 @@ export default function StudyGoalModal({
             return updated;
         });
     };
+
+    const { changeClass } = useAnimationStore();
+    const closeHandler = () => {
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            onClose();
+        }, 200);
+    };
+
     return (
         <>
             <BottomModal
@@ -66,7 +76,7 @@ export default function StudyGoalModal({
 
                 <div className="mx-5 mt-auto flex items-center justify-between gap-2">
                     <Button
-                        onClick={onClose}
+                        onClick={closeHandler}
                         color="gray"
                         className="basis-[35.9%] cursor-pointer"
                     >
@@ -75,7 +85,7 @@ export default function StudyGoalModal({
                     <Button
                         color="black"
                         className="basis-[64.1%]"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     >
                         확인완료
                     </Button>

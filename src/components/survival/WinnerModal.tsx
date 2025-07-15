@@ -5,30 +5,31 @@ import { useEffect, useState } from "react";
 import trophy from "../../assets/images/trophy.png";
 import Image from "next/image";
 import Button from "../common/Button";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 export default function WinnerModal() {
     const { isOpen, closeModal } = useWinnerModalStore();
     const [isVisible, setIsVisible] = useState(false);
-    const [animationClass, setAnimationClass] = useState("");
+    const { animationClass, changeClass } = useAnimationStore();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setAnimationClass("animate-modalFadeIn");
+            changeClass("animate-modalFadeIn");
         } else {
-            setAnimationClass("animate-modalFadeOut");
+            changeClass("animate-modalFadeOut");
             const timer = setTimeout(() => {
                 setIsVisible(false);
-            }, 300);
+            }, 200);
             return () => clearTimeout(timer);
         }
-    }, [isOpen]);
+    }, [isOpen, changeClass]);
 
     const closeHandler = () => {
-        setAnimationClass("animate-modalFadeOut");
+        changeClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
-        }, 300);
+        }, 200);
     };
 
     if (!isVisible) return null;

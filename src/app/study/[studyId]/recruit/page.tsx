@@ -12,6 +12,7 @@ import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -19,9 +20,14 @@ export default function Page() {
     const [showHeader, setShowHeader] = useState(false);
     const [isApply, setIsApply] = useState(false);
     const router = useRouter();
+    const { changeClass } = useAnimationStore();
 
     const applyHandler = () => {
-        setIsOpen(false);
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            setIsOpen(false);
+        }, 300);
+
         setIsApply(true);
         customAlert({
             message: "스터디를 신청했어요.곧 연락올거에요!",

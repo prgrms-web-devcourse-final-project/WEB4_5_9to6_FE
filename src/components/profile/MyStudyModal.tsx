@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useMyStudyModalStore } from "@/stores/myStudyModalStore";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -7,26 +8,26 @@ import { useEffect, useState } from "react";
 export default function MyStudyModal() {
     const { isOpen, closeModal } = useMyStudyModalStore();
     const [isVisible, setIsVisible] = useState(false);
-    const [animationClass, setAnimationClass] = useState("");
+    const { animationClass, changeClass } = useAnimationStore();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setAnimationClass("animate-modalFadeIn");
+            changeClass("animate-modalFadeIn");
         } else {
-            setAnimationClass("animate-modalFadeOut");
+            changeClass("animate-modalFadeOut");
             const timer = setTimeout(() => {
                 setIsVisible(false);
-            }, 300);
+            }, 200);
             return () => clearTimeout(timer);
         }
-    }, [isOpen]);
+    }, [isOpen, changeClass]);
 
     const closeHandler = () => {
-        setAnimationClass("animate-modalFadeOut");
+        changeClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
-        }, 300);
+        }, 200);
     };
 
     if (!isVisible) return null;

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 export default function FilterModal({
     isOpen,
@@ -35,6 +36,7 @@ export default function FilterModal({
     const active = ["활동 전체", "활동 전", "활동중"];
     const [regionSelect, setRegionSelect] = useState("");
     const [activeSelect, setActiveSelect] = useState("");
+    const { changeClass } = useAnimationStore();
 
     const regionHandler = (region: string) => {
         setRegionSelect(region);
@@ -85,7 +87,13 @@ export default function FilterModal({
                 </div>
 
                 <Button
-                    onClick={() => onApply([regionSelect, activeSelect])}
+                    onClick={() => {
+                        onApply([regionSelect, activeSelect]);
+                        changeClass("animate-modalFadeOut");
+                        setTimeout(() => {
+                            onClose();
+                        }, 200);
+                    }}
                     color="primary"
                     className="absolute right-5 bottom-5 left-5 w-auto items-center justify-center"
                 >

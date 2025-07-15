@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -18,33 +19,36 @@ export default function BottomModal({
     isOpen,
 }: BottomModalProps) {
     const [isVisible, setIsVisible] = useState(false);
-    const [animationClass, setAnimationClass] = useState("");
+    const { animationClass, changeClass } = useAnimationStore();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setAnimationClass("animate-modalFadeIn");
+            changeClass("animate-modalFadeIn");
         } else {
-            setAnimationClass("animate-modalFadeOut");
+            changeClass("animate-modalFadeOut");
             const timer = setTimeout(() => {
                 setIsVisible(false);
-            }, 300);
+            }, 200);
             return () => clearTimeout(timer);
         }
-    }, [isOpen]);
+    }, [changeClass, isOpen]);
 
     const closeHandler = () => {
-        setAnimationClass("animate-modalFadeOut");
+        changeClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
-        }, 300);
+        }, 200);
     };
 
     if (!isVisible) return null;
 
     return (
         <>
-            <div className="fixed inset-0 z-50 bg-[#000000]/30">
+            <div
+                className={`fixed inset-0 z-50 bg-[#000000]/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
+                onClick={closeHandler}
+            >
                 <div
                     className={`${
                         animationClass

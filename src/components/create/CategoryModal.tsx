@@ -1,3 +1,4 @@
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
 
 export default function CategoryModal({
@@ -20,6 +21,8 @@ export default function CategoryModal({
         "기타",
     ];
 
+    const { changeClass } = useAnimationStore();
+
     return (
         <BottomModal
             title="스터디 카테고리"
@@ -34,7 +37,10 @@ export default function CategoryModal({
                         type="button"
                         onClick={() => {
                             setCategory(c);
-                            onClose();
+                            changeClass("animate-modalFadeOut");
+                            setTimeout(() => {
+                                onClose();
+                            }, 300);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                             category === c

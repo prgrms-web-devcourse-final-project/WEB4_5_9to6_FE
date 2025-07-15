@@ -1,3 +1,4 @@
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
 
 export default function OnOfflineModal({
@@ -15,6 +16,8 @@ export default function OnOfflineModal({
     setPlaceNull: () => void;
     isOpen: boolean;
 }) {
+    const { changeClass } = useAnimationStore();
+
     return (
         <>
             <BottomModal
@@ -30,7 +33,10 @@ export default function OnOfflineModal({
                             setOnOff("온라인");
                             setRegion("온라인");
                             setPlaceNull();
-                            onClose();
+                            changeClass("animate-modalFadeOut");
+                            setTimeout(() => {
+                                onClose();
+                            }, 200);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                             onOff === "온라인" &&
@@ -44,7 +50,10 @@ export default function OnOfflineModal({
                         onClick={() => {
                             setOnOff("오프라인");
                             setRegion("");
-                            onClose();
+                            changeClass("animate-modalFadeOut");
+                            setTimeout(() => {
+                                onClose();
+                            }, 200);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                             onOff === "오프라인"

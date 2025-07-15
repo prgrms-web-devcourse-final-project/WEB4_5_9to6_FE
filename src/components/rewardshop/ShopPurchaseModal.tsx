@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/common/Button";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
 import { X } from "lucide-react";
@@ -12,18 +13,18 @@ export default function ShopPurchaseModal() {
         useShopModalStore();
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
-    const [animationClass, setAnimationClass] = useState("");
+    const { animationClass, changeClass } = useAnimationStore();
     const router = useRouter();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setAnimationClass("animate-modalFadeIn");
+            changeClass("animate-modalFadeIn");
         } else {
-            setAnimationClass("animate-modalFadeOut");
+            changeClass("animate-modalFadeOut");
             const timer = setTimeout(() => {
                 setIsVisible(false);
-            }, 300);
+            }, 200);
             return () => clearTimeout(timer);
         }
         if (goodsType === "앱 테마") {
@@ -33,15 +34,15 @@ export default function ShopPurchaseModal() {
         } else {
             setType("아바타");
         }
-    }, [isOpen, goodsType]);
+    }, [isOpen, goodsType, changeClass]);
 
     if (!isVisible) return null;
 
     const clickHandler = () => {
-        setAnimationClass("animate-modalFadeOut");
+        changeClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
-        }, 300);
+        }, 200);
         customAlert({
             message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
             linkLabel: "이동하기",
@@ -60,10 +61,10 @@ export default function ShopPurchaseModal() {
                         <X
                             size={24}
                             onClick={() => {
-                                setAnimationClass("animate-modalFadeOut");
+                                changeClass("animate-modalFadeOut");
                                 setTimeout(() => {
                                     closeModal();
-                                }, 300);
+                                }, 200);
                             }}
                             className="cursor-pointer"
                         />
