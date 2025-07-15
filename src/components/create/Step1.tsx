@@ -103,6 +103,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                     category={category}
                     setCategory={setCategory}
                     onClose={() => setIsCategoryModalOpen(false)}
+                    isOpen={isCategoryModalOpen}
                 />
             )}
             {isMaxMemberModalOpen && (
@@ -110,6 +111,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                     maxMember={maxMember}
                     setMaxMember={setMaxMember}
                     onClose={() => setIsMaxMemberModalOpen(false)}
+                    isOpen={isMaxMemberModalOpen}
                 />
             )}
         </>

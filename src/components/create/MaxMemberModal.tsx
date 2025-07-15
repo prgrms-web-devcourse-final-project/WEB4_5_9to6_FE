@@ -5,13 +5,20 @@ export default function MaxMemberModal({
     onClose,
     maxMember,
     setMaxMember,
+    isOpen,
 }: {
     onClose: () => void;
     maxMember: string;
     setMaxMember: (value: string) => void;
+    isOpen: boolean;
 }) {
     return (
-        <BottomModal title="최대 인원" onClose={onClose} height="205">
+        <BottomModal
+            title="최대 인원"
+            onClose={onClose}
+            height="205"
+            isOpen={isOpen}
+        >
             <Picker
                 value={{ number: maxMember }}
                 onChange={(value) => {

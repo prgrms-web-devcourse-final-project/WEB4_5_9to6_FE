@@ -102,17 +102,24 @@ export default function StudyHome({
 
             {isMenuOpen && (
                 <MenuModal
+                    isOpen={isMenuOpen}
                     onClose={() => setIsMenuOpen(false)}
                     setIsUserOpen={setIsUserOpen}
                 />
             )}
 
             {isUserOpen && (
-                <StudyUserModal onClose={() => setIsUserOpen(false)} />
+                <StudyUserModal
+                    isOpen={isUserOpen}
+                    onClose={() => setIsUserOpen(false)}
+                />
             )}
 
             {isGoalOpen && (
-                <StudyGoalModal onClose={() => setIsGoalOpen(false)} />
+                <StudyGoalModal
+                    isOpen={isGoalOpen}
+                    onClose={() => setIsGoalOpen(false)}
+                />
             )}
         </>
     );

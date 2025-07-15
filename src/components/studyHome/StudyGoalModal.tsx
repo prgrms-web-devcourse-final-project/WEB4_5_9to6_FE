@@ -3,8 +3,15 @@ import { Check, Circle } from "lucide-react";
 import { useState } from "react";
 import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
-export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
+export default function StudyGoalModal({
+    isOpen,
+    onClose,
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+}) {
     const goals = [
         "히라가나 깜지 3만번 쓰기",
         "스터디 숙제 완수하기",
@@ -21,9 +28,23 @@ export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
             return updated;
         });
     };
+
+    const { changeClass } = useAnimationStore();
+    const closeHandler = () => {
+        changeClass("animate-modalFadeOut");
+        setTimeout(() => {
+            onClose();
+        }, 200);
+    };
+
     return (
         <>
-            <BottomModal title="목표체크" onClose={onClose} height="399">
+            <BottomModal
+                title="목표체크"
+                onClose={onClose}
+                height="399"
+                isOpen={isOpen}
+            >
                 <div className="mt-7 flex flex-col gap-2 px-5">
                     {goals.map((goal, index) => (
                         <div
@@ -55,7 +76,7 @@ export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
 
                 <div className="mx-5 mt-auto flex items-center justify-between gap-2">
                     <Button
-                        onClick={onClose}
+                        onClick={closeHandler}
                         color="gray"
                         className="basis-[35.9%] cursor-pointer"
                     >
@@ -64,7 +85,7 @@ export default function StudyGoalModal({ onClose }: { onClose: () => void }) {
                     <Button
                         color="black"
                         className="basis-[64.1%]"
-                        onClick={onClose}
+                        onClick={closeHandler}
                     >
                         확인완료
                     </Button>

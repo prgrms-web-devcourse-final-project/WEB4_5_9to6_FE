@@ -2,11 +2,14 @@
 import { useState } from "react";
 import Button from "../common/Button";
 import BottomModal from "../common/BottomModal";
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 
 export default function FilterModal({
+    isOpen,
     onClose,
     onApply,
 }: {
+    isOpen: boolean;
     onClose: () => void;
     onApply: (filters: string[]) => void;
 }) {
@@ -33,6 +36,7 @@ export default function FilterModal({
     const active = ["활동 전체", "활동 전", "활동중"];
     const [regionSelect, setRegionSelect] = useState("");
     const [activeSelect, setActiveSelect] = useState("");
+    const { changeClass } = useAnimationStore();
 
     const regionHandler = (region: string) => {
         setRegionSelect(region);
@@ -42,7 +46,12 @@ export default function FilterModal({
     };
     return (
         <>
-            <BottomModal title="필터 항목" onClose={onClose} height="420">
+            <BottomModal
+                title="필터 항목"
+                onClose={onClose}
+                height="420"
+                isOpen={isOpen}
+            >
                 <div className="mt-[18px] ml-[29px]">
                     {/* 지역 */}
                     <p className="text-[12px] font-semibold text-[#000000]">
@@ -78,7 +87,13 @@ export default function FilterModal({
                 </div>
 
                 <Button
-                    onClick={() => onApply([regionSelect, activeSelect])}
+                    onClick={() => {
+                        onApply([regionSelect, activeSelect]);
+                        changeClass("animate-modalFadeOut");
+                        setTimeout(() => {
+                            onClose();
+                        }, 200);
+                    }}
                     color="primary"
                     className="absolute right-5 bottom-5 left-5 w-auto items-center justify-center"
                 >
