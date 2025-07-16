@@ -40,7 +40,7 @@ export default function CategoryModal({
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
                                 onClose();
-                            }, 300);
+                            }, 200);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                             category === c
