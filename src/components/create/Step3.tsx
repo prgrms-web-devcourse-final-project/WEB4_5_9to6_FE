@@ -109,6 +109,7 @@ export default function Step3({
             </form>
             {isOnOfflineModalOpen && (
                 <OnOfflineModal
+                    isOpen={isOnOfflineModalOpen}
                     onClose={() => setIsOnOfflineModalOpen(false)}
                     onOff={onOff}
                     setOnOff={setOnOff}
@@ -118,6 +119,7 @@ export default function Step3({
             )}
             {isRegionModalOpen && (
                 <RegionModal
+                    isOpen={isRegionModalOpen}
                     onClose={() => setIsRegionModalOpen(false)}
                     region={region}
                     setRegion={setRegion}

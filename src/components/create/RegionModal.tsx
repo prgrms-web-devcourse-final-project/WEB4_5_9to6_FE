@@ -1,13 +1,16 @@
+import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
 
 export default function RegionModal({
     onClose,
     region,
     setRegion,
+    isOpen,
 }: {
     onClose: () => void;
     region: string;
     setRegion: (region: string) => void;
+    isOpen: boolean;
 }) {
     const regions = [
         "서울",
@@ -29,17 +32,27 @@ export default function RegionModal({
         "제주",
     ];
 
+    const { changeClass } = useAnimationStore();
+
     return (
         <>
-            <BottomModal title="지역" onClose={onClose} height="415">
-                <div className="flex h-12 w-full flex-wrap gap-2 p-5">
+            <BottomModal
+                title="지역"
+                onClose={onClose}
+                height="360"
+                isOpen={isOpen}
+            >
+                <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
                     {regions.map((r) => (
                         <button
                             key={r}
                             type="button"
                             onClick={() => {
                                 setRegion(r);
-                                onClose();
+                                changeClass("animate-modalFadeOut");
+                                setTimeout(() => {
+                                    onClose();
+                                }, 200);
                             }}
                             className={`h-[48px] w-[calc(33%-5px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
                                 region === r

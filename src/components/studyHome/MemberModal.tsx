@@ -5,7 +5,13 @@ import StudyApplicant from "./StudyApplicant";
 import BottomModal from "../common/BottomModal";
 import ChannelSlideBar from "../common/ChannelSlideBar";
 
-export default function MemberModal({ onClose }: { onClose: () => void }) {
+export default function MemberModal({
+    isOpen,
+    onClose,
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+}) {
     const users = [
         "삼성동오징어(나)",
         "대장동꼴뚜기",
@@ -31,7 +37,12 @@ export default function MemberModal({ onClose }: { onClose: () => void }) {
 
     return (
         <>
-            <BottomModal title="스터디원" onClose={onClose} height="507">
+            <BottomModal
+                title="스터디원"
+                onClose={onClose}
+                height="507"
+                isOpen={isOpen}
+            >
                 <div className="mt-7 flex flex-col">
                     <ChannelSlideBar
                         channels={channels}

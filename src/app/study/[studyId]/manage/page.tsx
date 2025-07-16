@@ -10,6 +10,7 @@ export default function Page() {
     const [isStart, setIsStart] = useState(false);
     const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const finishHandler = () => {
         setIsStart(false);
         setPause(false);
@@ -17,7 +18,12 @@ export default function Page() {
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
-                <StudyHome isStart={isStart} pause={pause} />
+                <StudyHome
+                    isStart={isStart}
+                    pause={pause}
+                    isMenuOpen={isMenuOpen}
+                    setIsMenuOpen={setIsMenuOpen}
+                />
 
                 {/* 버튼 */}
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
@@ -70,7 +76,10 @@ export default function Page() {
                 </div>
 
                 {isMemberOpen && (
-                    <MemberModal onClose={() => setIsMemberOpen(false)} />
+                    <MemberModal
+                        isOpen={isMemberOpen}
+                        onClose={() => setIsMemberOpen(false)}
+                    />
                 )}
             </div>
         </>

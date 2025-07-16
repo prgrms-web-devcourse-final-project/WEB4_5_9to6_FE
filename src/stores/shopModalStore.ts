@@ -18,7 +18,7 @@ export const useShopModalStore = create<ShopModalStoreState>((set) => ({
     isOpen: false,
     goodsName: "항목 없음",
     goodsPrice: 0,
-    goodsType: "app",
+    goodsType: "앱 테마",
     content: null,
     openModal: (content: React.ReactNode) => set({ isOpen: true, content }),
     closeModal: () => set({ isOpen: false, content: null }),

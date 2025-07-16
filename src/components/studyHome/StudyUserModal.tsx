@@ -2,10 +2,21 @@
 import StudyUsers from "../studyRecruit/StudyUsers";
 import BottomModal from "../common/BottomModal";
 
-export default function StudyHomeUser({ onClose }: { onClose: () => void }) {
+export default function StudyHomeUser({
+    isOpen,
+    onClose,
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+}) {
     return (
         <>
-            <BottomModal title="스터디원" onClose={onClose} height="479">
+            <BottomModal
+                title="스터디원"
+                onClose={onClose}
+                height="479"
+                isOpen={isOpen}
+            >
                 <div className="mt-1">
                     <StudyUsers />
                 </div>

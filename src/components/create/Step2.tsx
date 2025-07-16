@@ -135,6 +135,7 @@ export default function Step2({
             </form>
             {isStartTimeModalOpen && (
                 <TimeModal
+                    isOpen={isStartTimeModalOpen}
                     onClose={() => setIsStartTimeModalOpen(false)}
                     title="시작 시간"
                     time={startTime}
@@ -143,6 +144,7 @@ export default function Step2({
             )}
             {isEndTimeModalOpen && (
                 <TimeModal
+                    isOpen={isEndTimeModalOpen}
                     onClose={() => setIsEndTimeModalOpen(false)}
                     title="종료 시간"
                     time={endTime}
@@ -151,6 +153,7 @@ export default function Step2({
             )}
             {isDateModalOpen && (
                 <DateModal
+                    isOpen={isDateModalOpen}
                     startDate={startDate}
                     setStartDate={setStartDate}
                     endDate={endDate}

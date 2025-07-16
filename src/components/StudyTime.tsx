@@ -7,7 +7,7 @@ import StudyCard from "./common/StudyCard";
 
 export default function StudyTime({ avatar }: { avatar: string }) {
     const dummyCard = Array(5).fill(null);
-    const [isLoggedin, setIsLoggedin] = useState(true);
+    const [isLoggedin, setIsLoggedin] = useState(false);
     // 시간에 따른 멘트 설정
     const hours = 12;
     const minutes = 39;
@@ -74,7 +74,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
             ) : (
                 // 비로그인
                 <section>
-                    <h3 className="h3">어설픈도마뱀님의 공부시간</h3>
+                    {/* <h3 className="h3">어설픈도마뱀님의 공부시간</h3> */}
                     <div className="mt-3.5 flex min-h-[165px] w-full flex-col items-center justify-center rounded-2xl bg-white px-[10%]">
                         <p className="h5 mb-7 text-center text-[var(--color-gray1000)]">
                             로그인 후<br />
