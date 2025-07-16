@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
 import StudyCard from "./common/StudyCard";
-import { fetchMyData } from "@/api/fetchUser";
+import { fetchMyData, fetchStudyMember } from "@/api/fetchUser";
 
 export default function StudyTime({ avatar }: { avatar: string }) {
     const dummyCard = Array(5).fill(null);
@@ -46,6 +46,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
             }
         };
         getMyData();
+        fetchStudyMember();
     }, []);
 
     return (
@@ -54,7 +55,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
                 // 로그인상태
                 <section>
                     <h3 className="h3">
-                        {myData?.memberInfo?.nickname} 공부시간
+                        {myData?.memberInfo?.nickname}님의 공부시간
                     </h3>
                     <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-[10%]">
                         <div className="flex pt-6">
