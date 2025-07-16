@@ -19,11 +19,13 @@ export default function Step5({
     const [externalLink, setExternalLink] = useState("");
     const [descriptionError, setDescriptionError] = useState(false);
     const [externalLinkError, setExternalLinkError] = useState(false);
+    const [isPreSubmitted, setIsPreSubmitted] = useState(false);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!description || descriptionError || externalLinkError) return;
+        setIsPreSubmitted(true);
         requestDescription(description);
         requestExternalLink(externalLink);
         continueStep();
@@ -104,7 +106,10 @@ export default function Step5({
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {description && !descriptionError && !externalLinkError ? (
+                    {description &&
+                    !descriptionError &&
+                    !externalLinkError &&
+                    !isPreSubmitted ? (
                         <Button type="submit" color="primary">
                             스터디 생성
                         </Button>
