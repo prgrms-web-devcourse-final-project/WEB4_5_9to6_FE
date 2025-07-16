@@ -108,6 +108,7 @@ export default function Page() {
 
                 {isOpen && (
                     <ApplyModal
+                        className="top-[137px] left-1/2 h-[355px] w-[340px] -translate-x-1/2"
                         isOpen={isOpen}
                         onClose={() => setIsOpen(false)}
                         onApply={() => applyHandler()}
