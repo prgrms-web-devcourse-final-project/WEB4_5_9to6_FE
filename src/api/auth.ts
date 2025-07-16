@@ -1,8 +1,10 @@
-import { axiosInstance } from "./index";
+import { axiosInstance, axiosNotApi } from "./index";
 
 /* 이메일 인증번호 발송 */
 export const sendEmailCode = async (email: string) => {
-    const response = await axiosInstance.post("auth/email/send", { email });
+    const response = await axiosInstance.post("auth/email/send", {
+        email,
+    });
     return response.data;
 };
 
@@ -40,4 +42,8 @@ export const login = async (username: string, password: string) => {
         password,
     });
     return response.data;
+};
+
+export const logout = async () => {
+    return await axiosNotApi.get("auth/logout");
 };

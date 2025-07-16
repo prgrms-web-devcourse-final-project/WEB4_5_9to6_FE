@@ -11,6 +11,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
     const token = localStorage.getItem("accessToken");
     const isLoggedIn = !!token;
     const [myData, setMyData] = useState<UserAllInfo | null>(null);
+
     // 시간에 따른 멘트 설정
     const hours = 12;
     const minutes = 39;
