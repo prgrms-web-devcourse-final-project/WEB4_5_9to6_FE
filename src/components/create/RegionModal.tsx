@@ -12,25 +12,27 @@ export default function RegionModal({
     const regions = [
         "서울",
         "경기",
-        "강원",
         "인천",
-        "부산",
-        "울산",
+        "강원",
         "대구",
         "대전",
+        "울산",
+        "부산",
         "광주",
         "세종",
         "충남",
         "충북",
         "전남",
+        "전북",
         "경남",
         "경북",
+        "제주",
     ];
 
     return (
         <>
-            <BottomModal title="지역" onClose={onClose} height="360">
-                <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
+            <BottomModal title="지역" onClose={onClose} height="415">
+                <div className="flex h-12 w-full flex-wrap gap-2 p-5">
                     {regions.map((r) => (
                         <button
                             key={r}

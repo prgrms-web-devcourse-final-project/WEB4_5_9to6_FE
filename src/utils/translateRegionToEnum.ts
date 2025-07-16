@@ -34,6 +34,8 @@ export const translateRegionToEnum = (region: string) => {
             return "GYEONGBUK";
         case "제주":
             return "JEJU";
+        case "온라인":
+            return "ONLINE";
         default:
             return "";
     }
