@@ -4,13 +4,53 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
 import StudyCard from "./common/StudyCard";
-import { fetchMyData, fetchStudyMember } from "@/api/fetchUser";
+import { fetchMyData } from "@/api/fetchUser";
+import { fetchRandomStudyList, fetchStudyList } from "@/api/studyList";
+import { useRouter } from "next/navigation";
 
 export default function StudyTime({ avatar }: { avatar: string }) {
-    const dummyCard = Array(5).fill(null);
-    const token = localStorage.getItem("accessToken");
-    const isLoggedIn = !!token;
+    const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [myData, setMyData] = useState<UserAllInfo | null>(null);
+    const [myStudyList, setMyStudyList] = useState<StudyInfo[] | null>(null);
+    const [randomList, setRandomList] = useState<StudyInfo[] | null>(null);
+    const dayMap: Record<string, string> = {
+        MON: "월요일",
+        TUE: "화요일",
+        WED: "수요일",
+        THU: "목요일",
+        FRI: "금요일",
+        SAT: "토요일",
+        SUN: "일요일",
+    };
+    const categoryMap: Record<string, string> = {
+        LANGUAGE: "어학",
+        JOB: "취업",
+        PROGRAMMING: "프로그래밍",
+        EXAM_PUBLIC: "고시&공무원",
+        EXAM_SCHOOL: "수능&내신",
+        ETC: "기타",
+    };
+    const regionMap: Record<string, string> = {
+        ONLINE: "온라인",
+        SEOUL: "서울",
+        GYEONGGI: "경기",
+        GANGWON: "강원",
+        INCHEON: "인천",
+        BUSAN: "부산",
+        ULSAN: "울산",
+        DAEGU: "대구",
+        DAEJEON: "대전",
+        GWANGJU: "광주",
+        SEJONG: "세종",
+        CHUNGNAM: "충남",
+        CHUNGBUK: "충북",
+        JEONNAM: "전남",
+        JEONBUK: "전북",
+        GYEONGNAM: "경남",
+        GYEONGBUK: "경북",
+        JEJU: "제주",
+    };
 
     // 시간에 따른 멘트 설정
     const hours = 12;
@@ -37,17 +77,27 @@ export default function StudyTime({ avatar }: { avatar: string }) {
     }
 
     useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        setIsLoggedIn(!!token);
         const getMyData = async () => {
             try {
-                const data = await fetchMyData();
-                setMyData(data);
-                console.log(data);
+                let myInfo = null;
+                let myStudy = null;
+
+                if (token) {
+                    myInfo = await fetchMyData();
+                    myStudy = await fetchStudyList(myInfo?.memberInfo.id);
+                    setMyData(myInfo);
+                    setMyStudyList(myStudy.studies);
+                } else {
+                    const studyList = await fetchRandomStudyList();
+                    setRandomList(studyList);
+                }
             } catch (err) {
-                console.error("내정보 fetch중 에러", err);
+                console.error("데이터 fetch 중 에러", err);
             }
         };
         getMyData();
-        fetchStudyMember();
     }, []);
 
     return (
@@ -99,27 +149,77 @@ export default function StudyTime({ avatar }: { avatar: string }) {
                             로그인 후<br />
                             스터디 정보를 확인해보세요
                         </p>
-                        <Button className="h-9 w-25.5 cursor-pointer rounded-lg bg-[var(--color-main500)] transition duration-200 ease-in-out hover:bg-[var(--color-main600)]">
+                        <Button
+                            onClick={() => router.push("/login")}
+                            className="h-9 w-25.5 cursor-pointer rounded-lg bg-[var(--color-main500)] transition duration-200 ease-in-out hover:bg-[var(--color-main600)]"
+                        >
                             <p className="h6 text-white">로그인</p>
                         </Button>
                     </div>
                 </section>
             )}
-            <section className="mt-8 flex flex-col gap-3">
-                <h3 className="h3">이런 스터디도 있어요</h3>
-                {dummyCard.map((_, i) => (
-                    <StudyCard
-                        key={i}
-                        category="프로그래밍"
-                        isNew={true}
-                        title="모각코 스터디"
-                        avatar={avatar}
-                        schedule="매주 일요일 10:00~15:00"
-                        location="서울 강남"
-                        member="5/10명"
-                    />
-                ))}
-            </section>
+            {isLoggedIn ? (
+                <section>
+                    <h3 className="h3 mt-8">내 스터디</h3>
+                    {myStudyList && myStudyList.length > 0 ? (
+                        myStudyList.map((study, i) => (
+                            <StudyCard
+                                key={i}
+                                category={categoryMap[study.category]}
+                                isNew={new Date(study.start_date) > new Date()}
+                                title={study.title}
+                                avatar={avatar}
+                                schedule={study.schedules
+                                    .map((day) => dayMap[day])
+                                    .join(", ")}
+                                startTime={study.startTime}
+                                endTime={study.endTime}
+                                region={regionMap[study.region]}
+                                member={{
+                                    current: study.currentMemberCount,
+                                    max: study.maxMemberCount,
+                                }}
+                            />
+                        ))
+                    ) : (
+                        // 가입한 스터디가 없을 때
+                        <div className="flex h-[300px] flex-col items-center justify-center">
+                            <p className="b1 mb-5 text-center text-[var(--color-gray800)]">
+                                아직 가입한 스터디가 없어요!
+                            </p>
+                            <Button
+                                onClick={() => router.push("/studylist")}
+                                className="h-9 w-31 cursor-pointer rounded-lg bg-[var(--color-main500)] transition duration-200 ease-in-out hover:bg-[var(--color-main600)]"
+                            >
+                                <p className="b2 text-white">스터디 둘러보기</p>
+                            </Button>
+                        </div>
+                    )}
+                </section>
+            ) : (
+                <section className="mt-8 flex flex-col gap-3.5 pb-25">
+                    <h3 className="h3">이런 스터디도 있어요</h3>
+                    {randomList?.map((study, i) => (
+                        <StudyCard
+                            key={i}
+                            category={categoryMap[study.category]}
+                            isNew={new Date(study.start_date) > new Date()}
+                            title={study.title}
+                            avatar={avatar}
+                            schedule={study.schedules
+                                .map((day) => dayMap[day])
+                                .join(", ")}
+                            startTime={study.startTime}
+                            endTime={study.endTime}
+                            region={regionMap[study.region]}
+                            member={{
+                                current: study.currentMemberCount,
+                                max: study.maxMemberCount,
+                            }}
+                        />
+                    ))}
+                </section>
+            )}
         </>
     );
 }

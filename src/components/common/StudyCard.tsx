@@ -9,16 +9,20 @@ export default function StudyCard({
     title,
     avatar,
     schedule,
-    location,
-    member,
+    region,
+    startTime,
+    endTime,
+    member: { current, max },
 }: {
     category: string;
     isNew: boolean;
     title: string;
     avatar: string;
     schedule: string;
-    location: string;
-    member: string;
+    region: string;
+    startTime: string;
+    endTime: string;
+    member: { current: number; max: number };
 }) {
     const router = useRouter();
     const clickHandler = () => {
@@ -63,13 +67,13 @@ export default function StudyCard({
                 {/* 일정,장소,인원수 */}
                 <div className="h-[53px] border-t border-t-[var(--color-gray200)] text-[#727272]">
                     <p className="c1 mt-[7px] mb-[1px] leading-none">
-                        {schedule}
+                        매주 {schedule} {startTime}~{endTime}
                     </p>
                     <div className="flex justify-between">
-                        <span className="c2">{location}</span>
+                        <span className="c2">{region}</span>
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
-                            {member}
+                            {current}/{max}
                         </div>
                     </div>
                 </div>
