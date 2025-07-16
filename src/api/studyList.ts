@@ -1,15 +1,16 @@
 import { axiosInstance } from ".";
 
-interface StudyType {
-    studyType: "SURVIVAL" | "DEFAULT";
-}
+// interface StudyType {
+//     studyType: "SURVIVAL" | "DEFAULT";
+// }
 // 서바이벌 스터디
 export const fetchSurvStudyList = async () => {
-    const response = await axiosInstance.get("studies/1");
-    const survivalStudy = response.data.filter(
-        (study: StudyType) => study.studyType === "SURVIVAL",
-    );
-    return survivalStudy;
+    const response = await axiosInstance.get("studies/2");
+    return response.data.data;
+    // const survivalStudy = response.data.filter(
+    //     (study: StudyType) => study.studyType === "SURVIVAL",
+    // );
+    // return survivalStudy;
 };
 
 export const fetchStudyMemberList = async () => {

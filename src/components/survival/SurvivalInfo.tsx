@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function SurvivalInfo() {
     const schedule = [
@@ -7,6 +8,10 @@ export default function SurvivalInfo() {
         { goal: "토익 문법, 어휘 2/5 이상 점수 시 생존", reward: "400" },
         { goal: "토익 문법, 어휘 2/5 이상 점수 시 생존", reward: "500" },
     ];
+
+    useEffect(() => {
+        const survStudyData = 
+    },)
     return (
         <>
             <div className="mt-6 mb-7 w-full overflow-scroll px-5">
