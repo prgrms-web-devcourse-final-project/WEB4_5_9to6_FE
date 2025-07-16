@@ -4,8 +4,17 @@ import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
 import OnOfflineModal from "./OnOfflineModal";
 import RegionModal from "./RegionModal";
+import { translateRegionToEnum } from "@/utils/translateRegionToEnum";
 
-export default function Step3({ continueStep }: { continueStep: () => void }) {
+export default function Step3({
+    continueStep,
+    requestRegion,
+    requestPlace,
+}: {
+    continueStep: () => void;
+    requestRegion: (region: string) => void;
+    requestPlace: (place: string) => void;
+}) {
     const [isMounted, setIsMounted] = useState(false);
     const [onOff, setOnOff] = useState("");
     const [region, setRegion] = useState("");
@@ -18,6 +27,9 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
         e.preventDefault();
 
         if (!((onOff === "온라인" || region) && !placeError)) return;
+
+        requestRegion(translateRegionToEnum(region));
+        requestPlace(place);
         continueStep();
     };
 
@@ -39,7 +51,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
 
     return (
         <>
-            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
+            <form className="step-form" onSubmit={submitHandler}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >

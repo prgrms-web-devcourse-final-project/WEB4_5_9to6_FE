@@ -6,7 +6,21 @@ import SelectDays from "./SelectDays";
 import TimeModal from "./TimeModal";
 import DateModal from "./DateModal";
 
-export default function Step2({ continueStep }: { continueStep: () => void }) {
+export default function Step2({
+    continueStep,
+    requestDaysOfWeek,
+    requestStartTime,
+    requestEndTime,
+    requestStartDate,
+    requestEndDate,
+}: {
+    continueStep: () => void;
+    requestDaysOfWeek: (daysOfWeek: string[]) => void;
+    requestStartTime: (startTime: string) => void;
+    requestEndTime: (endTime: string) => void;
+    requestStartDate: (startDate: string) => void;
+    requestEndDate: (endDate: string) => void;
+}) {
     const [isMounted, setIsMounted] = useState(false);
     const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
     const [startTime, setStartTime] = useState("");
@@ -21,6 +35,11 @@ export default function Step2({ continueStep }: { continueStep: () => void }) {
         e.preventDefault();
 
         if (!(daysOfWeek.length && startTime && endTime)) return;
+        requestDaysOfWeek(daysOfWeek);
+        requestStartTime(startTime);
+        requestEndTime(endTime);
+        requestStartDate(startDate);
+        requestEndDate(endDate);
         continueStep();
     };
 
@@ -30,7 +49,7 @@ export default function Step2({ continueStep }: { continueStep: () => void }) {
 
     return (
         <>
-            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
+            <form className="step-form" onSubmit={submitHandler}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >

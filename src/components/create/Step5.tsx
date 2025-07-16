@@ -6,9 +6,13 @@ import TextArea from "../common/TextArea";
 export default function Step5({
     continueStep,
     submitCreate,
+    requestDescription,
+    requestExternalLink,
 }: {
     continueStep: () => void;
     submitCreate: () => void;
+    requestDescription: (description: string) => void;
+    requestExternalLink: (externalLink: string) => void;
 }) {
     const [isMounted, setIsMounted] = useState(false);
     const [description, setDescription] = useState("");
@@ -19,7 +23,9 @@ export default function Step5({
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!description) return;
+        if (!description || descriptionError || externalLinkError) return;
+        requestDescription(description);
+        requestExternalLink(externalLink);
         continueStep();
         submitCreate();
     };
@@ -98,7 +104,7 @@ export default function Step5({
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {description ? (
+                    {description && !descriptionError && !externalLinkError ? (
                         <Button type="submit" color="primary">
                             스터디 생성
                         </Button>
