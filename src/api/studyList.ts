@@ -12,20 +12,8 @@ export const fetchSurvStudyList = async () => {
     return survivalStudy;
 };
 
-export const fetchStudyMemberList = async () => {
-    const response = await axiosInstance.get("studies/1/members");
-    console.log("스터디 멤버 정보", response.data);
-    return response.data;
-};
-
-export const fetchStudyGoals = async () => {
-    const response = await axiosInstance.get("studies/1/goals");
-    console.log("스터디 목표", response.data);
-    return response.data;
-};
-
-export const fetchStudyList = async () => {
-    const response = await axiosInstance.get("studies/1");
-    const survivalStudy = response.data;
-    return survivalStudy;
+export const myStudyList = async (id: number) => {
+    const response = await axiosInstance.get(`members/${id}/studies`);
+    console.log(response.data.data);
+    return response.data.data;
 };
