@@ -92,7 +92,7 @@ function CreateStudyContent() {
                     onClick: () =>
                         router.push(`/study/${response.data.studyId}`),
                 });
-            }, 1500);
+            }, 1000);
         },
         onError: (error) => {
             console.error(error);
