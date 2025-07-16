@@ -4,7 +4,7 @@ import { axiosInstance } from ".";
 //     studyType: "SURVIVAL" | "DEFAULT";
 // }
 // 서바이벌 스터디
-export const fetchSurvStudyList = async () => {
+export const fetchSurvStudy = async () => {
     const response = await axiosInstance.get("studies/2");
     return response.data.data;
     // const survivalStudy = response.data.filter(
