@@ -15,7 +15,6 @@ export const fetchSurvStudyList = async () => {
 // 유저의 스터디 리스트
 export const fetchStudyList = async (id: number) => {
     const response = await axiosInstance.get(`members/${id}/studies`);
-    console.log(response.data.data);
     return response.data.data;
 };
 
@@ -26,6 +25,5 @@ export const fetchRandomStudyList = async () => {
     });
     const list = response.data.data;
     const randomList = [...list].sort(() => 0.5 - Math.random()).slice(0, 5);
-    console.log(randomList);
     return randomList;
 };

@@ -96,7 +96,6 @@ export default function StudyTime() {
                     const myInfo = await fetchMyData();
                     const myStudy = await fetchStudyList(myInfo?.memberInfo.id);
                     const studyList = myStudy.studies;
-                    console.log("마이스터디", myStudy.studies);
 
                     const avatarList = await Promise.all(
                         studyList.map((study: StudyCardWithAvatar) =>
@@ -113,7 +112,6 @@ export default function StudyTime() {
 
                     setMyData(myInfo);
                     setStudyCards(studyCardsWithAvatar);
-                    console.log("리더포함된 정보", studyCardsWithAvatar);
                 } else {
                     const studyList = await fetchRandomStudyList();
                     const avatarList = await Promise.all(
