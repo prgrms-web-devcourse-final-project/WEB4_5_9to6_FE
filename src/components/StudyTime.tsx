@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
 import StudyCard from "./common/StudyCard";
-import { fetchLeaderAvatar, fetchMyData } from "@/api/fetchUser";
+import { fetchLeaderAvatar } from "@/api/fetchUser";
 import { fetchRandomStudyList, fetchStudyList } from "@/api/studyList";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/authStore";
 
 type StudyCardWithAvatar = StudyInfo & {
     leaderAvatar: string | null;
@@ -14,8 +15,8 @@ type StudyCardWithAvatar = StudyInfo & {
 
 export default function StudyTime() {
     const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [myData, setMyData] = useState<UserAllInfo | null>(null);
+    const { myInfo } = useAuthStore();
+    const isLogIn = useAuthStore((state) => state.isLogIn);
     const [studyCards, setStudyCards] = useState<StudyCardWithAvatar[]>([]);
     const getValidAvatar = (avatar?: string | null) =>
         !avatar || avatar.includes("placehold.co")
@@ -84,17 +85,15 @@ export default function StudyTime() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        setIsLoggedIn(!!token);
-        const getMyData = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-                setIsLoggedIn(!!token);
+        const getData = async () => {
+            // zustand 로그인처리되는 동안 fetch발생으로 예외처리
+            if (isLogIn && !myInfo) return;
+            if (isLogIn && myInfo === null) return;
 
+            try {
                 // 로그인 시
-                if (token) {
-                    const myInfo = await fetchMyData();
-                    const myStudy = await fetchStudyList(myInfo?.memberInfo.id);
+                if (isLogIn && myInfo) {
+                    const myStudy = await fetchStudyList(myInfo?.id ?? 0);
                     const studyList = myStudy.studies;
 
                     const avatarList = await Promise.all(
@@ -110,7 +109,6 @@ export default function StudyTime() {
                         }),
                     );
 
-                    setMyData(myInfo);
                     setStudyCards(studyCardsWithAvatar);
                 } else {
                     const studyList = await fetchRandomStudyList();
@@ -119,7 +117,6 @@ export default function StudyTime() {
                             fetchLeaderAvatar(study.studyId),
                         ),
                     );
-
                     const studyCardsWithAvatar = studyList.map((study, i) => ({
                         ...study,
                         leaderAvatar: avatarList[i],
@@ -131,17 +128,15 @@ export default function StudyTime() {
                 console.error("데이터 fetch 중 에러", err);
             }
         };
-        getMyData();
-    }, []);
+        getData();
+    }, [isLogIn, myInfo]);
 
     return (
         <>
-            {isLoggedIn ? (
+            {isLogIn ? (
                 // 로그인상태
                 <section>
-                    <h3 className="h3">
-                        {myData?.memberInfo?.nickname}님의 공부시간
-                    </h3>
+                    <h3 className="h3">{myInfo?.nickname}님의 공부시간</h3>
                     <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-[10%]">
                         <div className="flex pt-6">
                             <div className="flex w-1/2 flex-col">
@@ -192,7 +187,7 @@ export default function StudyTime() {
                     </div>
                 </section>
             )}
-            {isLoggedIn ? (
+            {isLogIn ? (
                 <section className="pb-10">
                     <h3 className="h3 mt-8 pb-3.5">내 스터디</h3>
                     {studyCards && studyCards.length > 0 ? (
