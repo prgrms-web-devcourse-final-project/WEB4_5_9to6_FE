@@ -8,17 +8,20 @@ import SearchBar from "@/components/studyList/SearchBar";
 import Channel from "@/components/studyList/Channel";
 import { useState } from "react";
 import Link from "next/link";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
     const [search, setSearch] = useState(""); //검색어
     const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
+    const isLogIn = useAuthStore((state) => state.isLogIn);
 
     const searchHandler = (filters: string[]) => {
         setFilter(filters);
         setIsModalOpen(false);
     };
+
     return (
         <>
             <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
@@ -60,11 +63,13 @@ export default function Page() {
                         )}
 
                         {/* 스터디 생성버튼 */}
-                        <Link href="/create">
-                            <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
-                                <Plus className="h-6 w-6 text-[var(--color-white)]" />
-                            </div>
-                        </Link>
+                        {isLogIn && (
+                            <Link href="/create">
+                                <div className="fixed right-5 bottom-22 z-30 flex h-[52px] w-[52px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-main400)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main500)]">
+                                    <Plus className="h-6 w-6 text-[var(--color-white)]" />
+                                </div>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
