@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { logout } from "@/api/auth";
 import { customAlert } from "@/utils/customAlert";
+import { useAuthStore } from "@/stores/authStore";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,7 @@ function MyInfoListComponent() {
     const { mutate: logoutMutate } = useMutation({
         mutationFn: logout,
         onSuccess() {
-            localStorage.removeItem("accessToken");
+            useAuthStore.getState().logout();
             router.push("/login");
             customAlert({
                 message: "로그아웃 되었습니다!",
