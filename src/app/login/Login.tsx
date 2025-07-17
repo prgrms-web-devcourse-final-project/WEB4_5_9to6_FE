@@ -83,11 +83,9 @@ function LoginContent() {
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
             <div className="mx-5 flex flex-col items-center gap-4">
-                <img
-                    src="/images/logo.png"
-                    alt="logo"
-                    className="mb-10 w-1/2"
-                />
+                <Link href="/" className="mb-10 w-1/2">
+                    <img src="/images/logo.png" alt="logo" />
+                </Link>
 
                 <form
                     className="flex w-full flex-col gap-4"
