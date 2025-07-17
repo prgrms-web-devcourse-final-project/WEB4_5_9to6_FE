@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
+import { useAuthStore } from "@/stores/authStore";
 import Image from "next/image";
 
 const queryClient = new QueryClient();
@@ -37,7 +38,7 @@ function LoginContent() {
             const token = response?.data.accessToken;
             console.log(response);
             if (token) {
-                localStorage.setItem("accessToken", token);
+                useAuthStore.getState().login(token);
                 router.push("/");
                 customAlert({
                     message: "로그인 되었습니다!",
