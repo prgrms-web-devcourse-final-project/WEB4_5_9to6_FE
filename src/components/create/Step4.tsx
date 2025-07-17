@@ -3,10 +3,29 @@ import Button from "../common/Button";
 import Input from "../common/Input";
 import { Trash2 } from "lucide-react";
 
-export default function Step4({ continueStep }: { continueStep: () => void }) {
+export default function Step4({
+    continueStep,
+    requestGoals,
+}: {
+    continueStep: () => void;
+    requestGoals: (goals: { goalId: number; content: string }[]) => void;
+}) {
     const [isMounted, setIsMounted] = useState(false);
     const [goals, setGoals] = useState<string[]>([""]);
     const [goalsError, setGoalsError] = useState<boolean[]>([false]);
+
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (goalsError.some((goalError) => goalError === true)) return;
+
+        requestGoals(
+            goals
+                .filter((goal) => goal !== "")
+                .map((goal, i) => ({ goalId: i, content: goal })),
+        );
+        continueStep();
+    };
 
     const changeGoalHandler = (index: number, value: string) => {
         const newGoals = [...goals];
@@ -37,7 +56,7 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
 
     return (
         <>
-            <form className="step-form" onSubmit={continueStep}>
+            <form className="step-form" onSubmit={submitHandler}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >

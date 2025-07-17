@@ -8,7 +8,15 @@ export default function StudyCard({
     avatar,
     schedule,
     region,
+<<<<<<< HEAD
     member,
+=======
+    place,
+    startTime,
+    endTime,
+    member: { current, max },
+    studyId,
+>>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
 }: {
     category: string;
     isNew: boolean;
@@ -16,17 +24,25 @@ export default function StudyCard({
     avatar: string;
     schedule: string;
     region: string;
+<<<<<<< HEAD
     member: string;
+=======
+    place?: string;
+    startTime: string;
+    endTime: string;
+    member: { current: number; max: number };
+    studyId: number;
+>>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
 }) {
     const router = useRouter();
-    const clickHandler = () => {
-        router.push("/study/1/recruit");
+    const clickHandler = (id: number) => {
+        router.push(`/study/${id}/recruit`);
     };
     return (
         <>
             <div
                 className="group h-[157px] w-full cursor-pointer rounded-[16px] bg-white px-4"
-                onClick={clickHandler}
+                onClick={() => clickHandler(studyId)}
             >
                 <div className="flex h-[104px] w-full justify-between py-[14px]">
                     <div>
@@ -65,13 +81,19 @@ export default function StudyCard({
                 {/* 일정,장소,인원수 */}
                 <div className="h-[53px] border-t border-t-[var(--color-gray200)] text-[#727272]">
                     <p className="c1 mt-[7px] mb-[1px] leading-none">
-                        {schedule}
+                        매주 {schedule} {startTime}~{endTime}
                     </p>
                     <div className="flex justify-between">
+<<<<<<< HEAD
                         <span className="c2">{region}</span>
+=======
+                        <span className="c2">
+                            {region} {place}
+                        </span>
+>>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
-                            {member}
+                            {current}/{max}
                         </div>
                     </div>
                 </div>
