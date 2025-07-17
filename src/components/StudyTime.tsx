@@ -4,16 +4,23 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
 import StudyCard from "./common/StudyCard";
-import { fetchMyData } from "@/api/fetchUser";
+import { fetchLeaderAvatar, fetchMyData } from "@/api/fetchUser";
 import { fetchRandomStudyList, fetchStudyList } from "@/api/studyList";
 import { useRouter } from "next/navigation";
 
-export default function StudyTime({ avatar }: { avatar: string }) {
+type StudyCardWithAvatar = StudyInfo & {
+    leaderAvatar: string | null;
+};
+
+export default function StudyTime() {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [myData, setMyData] = useState<UserAllInfo | null>(null);
-    const [myStudyList, setMyStudyList] = useState<StudyInfo[] | null>(null);
-    const [randomList, setRandomList] = useState<StudyInfo[] | null>(null);
+    const [studyCards, setStudyCards] = useState<StudyCardWithAvatar[]>([]);
+    const getValidAvatar = (avatar?: string | null) =>
+        !avatar || avatar.includes("placehold.co")
+            ? "/images/avatarImgs/basic2.png"
+            : avatar;
     const dayMap: Record<string, string> = {
         MON: "월요일",
         TUE: "화요일",
@@ -81,17 +88,46 @@ export default function StudyTime({ avatar }: { avatar: string }) {
         setIsLoggedIn(!!token);
         const getMyData = async () => {
             try {
-                let myInfo = null;
-                let myStudy = null;
+                const token = localStorage.getItem("accessToken");
+                setIsLoggedIn(!!token);
 
+                // 로그인 시
                 if (token) {
-                    myInfo = await fetchMyData();
-                    myStudy = await fetchStudyList(myInfo?.memberInfo.id);
+                    const myInfo = await fetchMyData();
+                    const myStudy = await fetchStudyList(myInfo?.memberInfo.id);
+                    const studyList = myStudy.studies;
+                    console.log("마이스터디", myStudy.studies);
+
+                    const avatarList = await Promise.all(
+                        studyList.map((study: StudyCardWithAvatar) =>
+                            fetchLeaderAvatar(study.studyId),
+                        ),
+                    );
+
+                    const studyCardsWithAvatar = studyList.map(
+                        (study: StudyCardWithAvatar, i: number) => ({
+                            ...study,
+                            leaderAvatar: avatarList[i],
+                        }),
+                    );
+
                     setMyData(myInfo);
-                    setMyStudyList(myStudy.studies);
+                    setStudyCards(studyCardsWithAvatar);
+                    console.log("리더포함된 정보", studyCardsWithAvatar);
                 } else {
                     const studyList = await fetchRandomStudyList();
-                    setRandomList(studyList);
+                    const avatarList = await Promise.all(
+                        studyList.map((study) =>
+                            fetchLeaderAvatar(study.studyId),
+                        ),
+                    );
+
+                    const studyCardsWithAvatar = studyList.map((study, i) => ({
+                        ...study,
+                        leaderAvatar: avatarList[i],
+                    }));
+
+                    setStudyCards(studyCardsWithAvatar);
                 }
             } catch (err) {
                 console.error("데이터 fetch 중 에러", err);
@@ -159,16 +195,17 @@ export default function StudyTime({ avatar }: { avatar: string }) {
                 </section>
             )}
             {isLoggedIn ? (
-                <section>
+                <section className="pb-10">
                     <h3 className="h3 mt-8 pb-3.5">내 스터디</h3>
-                    {myStudyList && myStudyList.length > 0 ? (
-                        myStudyList.map((study, i) => (
+                    {studyCards && studyCards.length > 0 ? (
+                        studyCards.map((study, i) => (
                             <StudyCard
+                                studyId={study.studyId}
                                 key={i}
                                 category={categoryMap[study.category]}
                                 isNew={new Date(study.start_date) > new Date()}
                                 title={study.title}
-                                avatar={avatar}
+                                avatar={getValidAvatar(study.leaderAvatar)}
                                 schedule={study.schedules
                                     .map((day) => dayMap[day])
                                     .join(", ")}
@@ -199,13 +236,14 @@ export default function StudyTime({ avatar }: { avatar: string }) {
             ) : (
                 <section className="mt-8 flex flex-col gap-3.5 pb-25">
                     <h3 className="h3">이런 스터디도 있어요</h3>
-                    {randomList?.map((study, i) => (
+                    {studyCards?.map((study, i) => (
                         <StudyCard
                             key={i}
+                            studyId={study.studyId}
                             category={categoryMap[study.category]}
                             isNew={new Date(study.start_date) > new Date()}
                             title={study.title}
-                            avatar={avatar}
+                            avatar={getValidAvatar(study.leaderAvatar)}
                             schedule={study.schedules
                                 .map((day) => dayMap[day])
                                 .join(", ")}
