@@ -13,6 +13,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
+import { useAuthStore } from "@/stores/authStore";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,7 @@ function LoginContent() {
             const token = response?.data.accessToken;
             console.log(response);
             if (token) {
-                localStorage.setItem("accessToken", token);
+                useAuthStore.getState().login(token);
                 router.push("/");
                 customAlert({
                     message: "로그인 되었습니다!",
@@ -83,11 +84,9 @@ function LoginContent() {
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
             <div className="mx-5 flex flex-col items-center gap-4">
-                <img
-                    src="/images/logo.png"
-                    alt="logo"
-                    className="mb-10 w-1/2"
-                />
+                <Link href="/" className="mb-10 w-1/2">
+                    <img src="/images/logo.png" alt="logo" />
+                </Link>
 
                 <form
                     className="flex w-full flex-col gap-4"
