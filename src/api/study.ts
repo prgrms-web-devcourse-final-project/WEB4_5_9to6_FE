@@ -17,23 +17,7 @@ export const createStudy = async ({
     studyType,
     goals,
     online,
-}: {
-    name: string;
-    category: string;
-    maxMembers: number;
-    region: string;
-    place: string;
-    schedules: string[];
-    startTime: string;
-    endTime: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-    externalLink: string;
-    studyType: string;
-    goals: { goalId: number; content: string }[];
-    online: boolean;
-}) => {
+}: CreateStudy) => {
     const response = await axiosInstance.post("studies", {
         name,
         category,
