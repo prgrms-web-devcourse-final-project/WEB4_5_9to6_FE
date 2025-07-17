@@ -4,8 +4,19 @@ import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
 import MaxMemberModal from "./MaxMemberModal";
 import CategoryModal from "./CategoryModal";
+import { translateCategoryToEnum } from "@/utils/translateCategoryToEnum";
 
-export default function Step1({ continueStep }: { continueStep: () => void }) {
+export default function Step1({
+    continueStep,
+    requestCategory,
+    requestMaxMember,
+    requestName,
+}: {
+    continueStep: () => void;
+    requestCategory: (category: string) => void;
+    requestMaxMember: (maxMember: string) => void;
+    requestName: (name: string) => void;
+}) {
     const [isMounted, setIsMounted] = useState(false);
     const [category, setCategory] = useState("");
     const [maxMember, setMaxMember] = useState("");
@@ -18,6 +29,9 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
         e.preventDefault();
 
         if (!(category && maxMember && name && !nameError)) return;
+        requestCategory(translateCategoryToEnum(category));
+        requestMaxMember(maxMember);
+        requestName(name);
         continueStep();
     };
 
@@ -39,7 +53,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
 
     return (
         <>
-            <form className="step-form" onSubmit={(e) => submitHandler(e)}>
+            <form className="step-form" onSubmit={submitHandler}>
                 <h1
                     className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
@@ -83,7 +97,7 @@ export default function Step1({ continueStep }: { continueStep: () => void }) {
                             label="스터디명"
                             value={name}
                             onChange={(e) =>
-                                setName(e.target.value.replace(/\s/g, ""))
+                                setName(e.target.value.replace(/^\s+/, ""))
                             }
                             error={nameError}
                             errorMsg="스터디명은 2자 이상, 20자 이하여야 합니다."

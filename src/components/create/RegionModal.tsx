@@ -15,19 +15,21 @@ export default function RegionModal({
     const regions = [
         "서울",
         "경기",
-        "강원",
         "인천",
-        "부산",
-        "울산",
+        "강원",
         "대구",
         "대전",
+        "울산",
+        "부산",
         "광주",
         "세종",
         "충남",
         "충북",
         "전남",
+        "전북",
         "경남",
         "경북",
+        "제주",
     ];
 
     const { changeClass } = useAnimationStore();
