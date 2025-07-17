@@ -8,15 +8,11 @@ export default function StudyCard({
     avatar,
     schedule,
     region,
-<<<<<<< HEAD
-    member,
-=======
     place,
     startTime,
     endTime,
     member: { current, max },
     studyId,
->>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
 }: {
     category: string;
     isNew: boolean;
@@ -24,15 +20,11 @@ export default function StudyCard({
     avatar: string;
     schedule: string;
     region: string;
-<<<<<<< HEAD
-    member: string;
-=======
     place?: string;
     startTime: string;
     endTime: string;
     member: { current: number; max: number };
     studyId: number;
->>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
 }) {
     const router = useRouter();
     const clickHandler = (id: number) => {
@@ -84,13 +76,9 @@ export default function StudyCard({
                         매주 {schedule} {startTime}~{endTime}
                     </p>
                     <div className="flex justify-between">
-<<<<<<< HEAD
-                        <span className="c2">{region}</span>
-=======
                         <span className="c2">
                             {region} {place}
                         </span>
->>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
                             {current}/{max}

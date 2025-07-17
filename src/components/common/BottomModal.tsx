@@ -47,9 +47,6 @@ export default function BottomModal({
         <>
             <div
                 className={`fixed inset-0 z-50 bg-[#000000]/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
-<<<<<<< HEAD
-                // onClick={closeHandler}
-=======
                 onClick={closeHandler}
             ></div>
             <div
@@ -57,7 +54,6 @@ export default function BottomModal({
                     animationClass
                 } fixed right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5`}
                 style={{ height: `${height}px` }}
->>>>>>> 502be5d9a6844c205ccf888891cafa5e24bc0125
             >
                 <div className="flex items-center justify-between">
                     <h3 className="ml-5 text-[var(--color-gray1000)]">
