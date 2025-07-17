@@ -13,6 +13,16 @@ export default function SelectDays({
         }
     };
 
+    const days = [
+        { day: "월", enum: "MON" },
+        { day: "화", enum: "TUE" },
+        { day: "수", enum: "WED" },
+        { day: "목", enum: "THU" },
+        { day: "금", enum: "FRI" },
+        { day: "토", enum: "SAT" },
+        { day: "일", enum: "SUN" },
+    ];
+
     return (
         <>
             <div className="flex flex-col gap-1">
@@ -20,14 +30,14 @@ export default function SelectDays({
                     스터디 요일
                 </label>
                 <div className="flex flex-wrap gap-2">
-                    {["월", "화", "수", "목", "금", "토", "일"].map((day) => (
+                    {days.map((day) => (
                         <button
-                            className={`days-btn ${daysOfWeek.includes(day) && "days-btn-selected"}`}
-                            onClick={() => toggleDay(day)}
+                            className={`days-btn ${daysOfWeek.includes(day.enum) && "days-btn-selected"}`}
+                            onClick={() => toggleDay(day.enum)}
                             type="button"
-                            key={day}
+                            key={day.enum}
                         >
-                            {day}
+                            {day.day}
                         </button>
                     ))}
                 </div>
