@@ -16,6 +16,7 @@ export const studySearch = async ({
     status,
     name,
 }: StudySearchParams) => {
+    console.log("입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,

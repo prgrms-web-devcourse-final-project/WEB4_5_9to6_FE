@@ -47,7 +47,7 @@ export default function BottomModal({
         <>
             <div
                 className={`fixed inset-0 z-50 bg-[#000000]/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
-                onClick={closeHandler}
+                // onClick={closeHandler}
             >
                 <div
                     className={`${

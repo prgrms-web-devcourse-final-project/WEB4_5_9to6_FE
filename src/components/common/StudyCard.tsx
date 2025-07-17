@@ -7,7 +7,7 @@ export default function StudyCard({
     title,
     avatar,
     schedule,
-    location,
+    region,
     member,
 }: {
     category: string;
@@ -15,7 +15,7 @@ export default function StudyCard({
     title: string;
     avatar: string;
     schedule: string;
-    location: string;
+    region: string;
     member: string;
 }) {
     const router = useRouter();
@@ -68,7 +68,7 @@ export default function StudyCard({
                         {schedule}
                     </p>
                     <div className="flex justify-between">
-                        <span className="c2">{location}</span>
+                        <span className="c2">{region}</span>
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
                             {member}
