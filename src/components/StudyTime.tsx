@@ -160,7 +160,7 @@ export default function StudyTime({ avatar }: { avatar: string }) {
             )}
             {isLoggedIn ? (
                 <section>
-                    <h3 className="h3 mt-8">내 스터디</h3>
+                    <h3 className="h3 mt-8 pb-3.5">내 스터디</h3>
                     {myStudyList && myStudyList.length > 0 ? (
                         myStudyList.map((study, i) => (
                             <StudyCard
