@@ -37,7 +37,7 @@ function SignUpContent() {
         onSuccess: () => {
             setTimeout(() => {
                 router.push("/signup/success");
-            }, 1500);
+            }, 1000);
         },
         onError: (error) => {
             console.error(error);
