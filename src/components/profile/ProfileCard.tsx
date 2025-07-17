@@ -5,7 +5,7 @@ import medal from "../../assets/images/medal.png";
 import avatar from "../../assets/images/avatar.png";
 import ToolTip from "../common/ToolTip";
 
-export default function ProfileCard() {
+export default function ProfileCard({ id }: { id: string }) {
     return (
         <>
             <div className="flex w-full items-center justify-between p-6">

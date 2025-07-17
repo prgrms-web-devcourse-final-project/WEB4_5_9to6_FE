@@ -25,12 +25,10 @@ export default async function page({
 
     return (
         <>
-            <Header isMyPage={true} id={profileId}>
-                {" "}
-            </Header>
+            <Header isMyPage={true}> </Header>
             <div className="flex h-screen items-center justify-center pt-15.5">
                 <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
-                    <ProfileCard />
+                    <ProfileCard id={profileId} />
                     <ProfileTabs />
                     <MyStudyModal />
                 </div>
