@@ -16,12 +16,14 @@ export default function Step4({
     const [isMounted, setIsMounted] = useState(false);
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
+    const [isPreSubmitted, setIsPreSubmitted] = useState(false);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!birthday || !gender) return;
 
+        setIsPreSubmitted(true);
         requestBirthday(birthday);
         requestGender(gender);
         continueStep();
@@ -75,7 +77,7 @@ export default function Step4({
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {birthday && gender ? (
+                    {birthday && gender && !isPreSubmitted ? (
                         <Button type="submit" color="primary">
                             완료하기
                         </Button>
