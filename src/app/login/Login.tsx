@@ -10,9 +10,9 @@ import {
     QueryClient,
     QueryClientProvider,
 } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
+import Image from "next/image";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +20,6 @@ export default function Login() {
     return (
         <QueryClientProvider client={queryClient}>
             <LoginContent />
-            <ReactQueryDevtools />
         </QueryClientProvider>
     );
 }
@@ -82,12 +81,19 @@ function LoginContent() {
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
-            <div className="mx-5 flex flex-col items-center gap-4">
-                <img
-                    src="/images/logo.png"
-                    alt="logo"
-                    className="mb-10 w-1/2"
-                />
+            <div className="flex w-full max-w-screen flex-col items-center gap-4 px-5">
+                <div
+                    onClick={() => router.push("/")}
+                    className="mb-10 w-1/2 cursor-pointer"
+                >
+                    <Image
+                        src="/images/logo.png"
+                        width={400}
+                        height={200}
+                        className="h-auto w-full"
+                        alt="logo"
+                    />
+                </div>
 
                 <form
                     className="flex w-full flex-col gap-4"

@@ -11,11 +11,13 @@ export default function Header({
     notLogin,
     isMyPage,
     className,
+    id,
 }: {
     children?: React.ReactNode;
     notLogin?: boolean;
     isMyPage?: boolean;
     className?: string;
+    id?: string;
 }) {
     const router = useRouter();
     return (
@@ -71,7 +73,9 @@ export default function Header({
                     {!notLogin && (
                         <div className="absolute top-5 right-5 flex items-center gap-3.5">
                             <button
-                                onClick={() => router.push("/profile/1/theme")}
+                                onClick={() =>
+                                    router.push(`/profile/${id}/theme`)
+                                }
                                 className="h6 text-main400 hover:text-main500 cursor-pointer transition-colors duration-200"
                             >
                                 테마변경
@@ -79,7 +83,7 @@ export default function Header({
                             {isMyPage && (
                                 <button
                                     onClick={() =>
-                                        router.push("/profile/1/info")
+                                        router.push(`/profile/${id}/info`)
                                     }
                                     className="h6 text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
                                 >
