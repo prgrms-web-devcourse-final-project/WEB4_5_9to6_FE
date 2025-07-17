@@ -18,3 +18,12 @@ interface UserAllInfo {
     memberInfo: MemberInfo;
     avatarInfo: AvatarInfo;
 }
+
+interface StudyMember {
+    studyMemberId: number;
+    memberId: number;
+    nickName: string;
+    profileImage: string | null;
+    role: "LEADER" | "MEMBER";
+    email: string;
+}
