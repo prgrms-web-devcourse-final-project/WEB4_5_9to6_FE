@@ -1,6 +1,6 @@
 "use client";
 
-import { changePassWord, verfiyPassWord } from "@/api/member";
+import { changePassWord, verfiyPassWord } from "@/api/members";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useAuthStore } from "@/stores/authStore";

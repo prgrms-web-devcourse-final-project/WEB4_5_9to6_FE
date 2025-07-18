@@ -5,7 +5,7 @@ import medal from "../../assets/images/medal.png";
 import avatar from "../../assets/images/avatar.png";
 import ToolTip from "../common/ToolTip";
 import { useEffect, useState } from "react";
-import { fetchMemeberInfo, fetchMemeberPage } from "@/api/member";
+import { fetchMemeberInfo, fetchMemeberPage } from "@/api/members";
 
 export default function ProfileCard({ id }: { id: string }) {
     const [user, setUser] = useState<MemberProfile | null>(null);
