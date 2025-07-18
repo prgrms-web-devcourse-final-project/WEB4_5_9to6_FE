@@ -29,3 +29,29 @@ export interface Members {
     role: "MEMBER" | "LEADER";
     email: string;
 }
+export interface Goal {
+    goalId: number;
+    content: string;
+    type: "WEEKLY";
+}
+export interface StudyInfos {
+    name: string;
+    category: string;
+    maxMembers: number;
+    region: string;
+    place: string | null;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    startDate: string;
+    endDate: string;
+    createdAt: string;
+    status: "READY" | "ACTIVE";
+    description: string;
+    externalLink: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+    goals: Goal[];
+    notice: string;
+    currentMemberCount: number;
+    online: boolean;
+}

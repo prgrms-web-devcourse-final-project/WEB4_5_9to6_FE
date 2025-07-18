@@ -3,7 +3,9 @@ import { axiosInstance } from ".";
 
 // 스터디 정보
 export const studyInfo = async (studyId: number) => {
+    // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}`);
+    console.log(res.data.data);
     return res.data.data;
 };
 
@@ -32,5 +34,10 @@ export const studySearch = async ({
 export const studyMembers = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/members`);
     // console.log(res.data.data);
+    return res.data.data;
+};
+
+export const goalsInfo = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/goals`);
     return res.data.data;
 };
