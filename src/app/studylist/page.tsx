@@ -46,20 +46,28 @@ export default function Page() {
     const observerRef = useRef<HTMLDivElement | null>(null);
 
     const searchHandler = (filters: Filtering) => {
-        if (filters.region === "") {
-            setFilter({ ...filter, region: "ALL", status: filters.status });
-        } else if (filters.status === "") {
-            setFilter({
-                ...filter,
-                region: filters.region,
-                status: "활동 전체",
-            });
-        } else {
-            setFilter(filters);
-        }
+        console.log(
+            "필터링 상태:",
+            filters.region,
+            filters.regionSelect,
+            filters.status,
+            filters.statusSelect,
+        );
+        // if (filters.region === "") {
+        //     setFilter({ ...filter, region: "ALL", status: filters.status });
+        // } else if (filters.status === "") {
+        //     setFilter({
+        //         ...filter,
+        //         region: filters.region,
+        //         status: "활동 전체",
+        //     });
+        // } else {
+        setFilter(filters);
+        // }
+
         setIsModalOpen(false);
     };
-    const isLogIn = useAuthStore((state) => state.isLogIn);
+
     const removeFilter = (type: "region" | "status") => {
         setFilter((prev) => ({
             ...prev,
@@ -68,6 +76,7 @@ export default function Page() {
         }));
     };
 
+    const isLogIn = useAuthStore((state) => state.isLogIn);
     const debouncedInput = useDebounce(search, 200);
 
     //초기화
@@ -77,14 +86,13 @@ export default function Page() {
         setSurvStudies([]);
         setPage(1);
         setHasMore(true);
-    }, [debouncedInput, filter, selected]);
+    }, [filter]);
 
     //데이터 불러오기
     useEffect(() => {
         const fetchStudies = async () => {
             if (isLoading || !hasMore) return;
             setIsLoading(true);
-
             try {
                 const data: Study[] = await studySearch({
                     page,
@@ -94,16 +102,17 @@ export default function Page() {
                     status: "ALL",
                     name: debouncedInput || "",
                 });
-                console.log("데이터 추가요~", data);
-                // let filteredData = data;
+                // console.log("데이터 추가요~", data);
 
+                //활동상태 계산
                 const calActive = (startDate: string) => {
                     const now = new Date();
                     const start = new Date(startDate);
                     return now < start ? "활동 전" : "활동중";
                 };
+
+                //활동상태 필터링
                 let filtered: Study[] = [];
-                //필터
                 if (filter.status !== "활동 전체") {
                     console.log("필터링", filter);
                     filtered = data.filter(
@@ -115,9 +124,6 @@ export default function Page() {
                 // console.log(filtered);
 
                 //서바이벌,일반 분류
-
-                // all = [...all, ...data];
-
                 const defaults = filtered.filter(
                     (s) => s.studyType === "DEFAULT",
                 );
@@ -126,10 +132,12 @@ export default function Page() {
                 setStudies((prev) => [...prev, ...filtered]);
                 setDefaultStudies((prev) => [...prev, ...defaults]);
                 setSurvStudies((prev) => [...prev, ...surv]);
-                console.log("서바이벌 스터디", survStudies);
-                if (data.length < 10) {
+                // console.log("서바이벌 스터디", survStudies);
+
+                //마지막 페이지
+                if (data.length < 20) {
                     setHasMore(false);
-                    console.log("finished!!", hasMore);
+                    // console.log("finished!!", hasMore);
                 }
             } catch (err) {
                 if (err) console.error("스터디 검색 에러", err);
@@ -139,6 +147,8 @@ export default function Page() {
         };
         fetchStudies();
     }, [page]);
+
+    //페이지네이션
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -147,7 +157,7 @@ export default function Page() {
                     setPage((prev) => prev + 1);
                 }
             },
-            { threshold: 0.1, rootMargin: "100px" },
+            { threshold: 0.1, rootMargin: "50px" },
         );
 
         if (observerRef.current) observer.observe(observerRef.current);
@@ -159,7 +169,7 @@ export default function Page() {
 
     return (
         <>
-            <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
+            <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
                 <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)] px-5">
                     {/* 검색 */}
                     <SearchBar
@@ -176,8 +186,8 @@ export default function Page() {
                     />
                 </div>
 
-                <div className="min-h-screen pt-[145px]">
-                    <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
+                <div className="mt-[156px] h-full">
+                    <div className="h-full w-full pt-[19px] pb-[30px]">
                         {/* 필터링 뱃지 */}
                         {(filter.regionSelect || filter.statusSelect) && (
                             <div className="mt-[-10px] flex h-6 items-center gap-[8px] px-5">
@@ -206,7 +216,7 @@ export default function Page() {
                             search={search}
                         />
 
-                        {/* 🧲 무한스크롤 감지용 div */}
+                        {/* 무한스크롤 감지 */}
                         <div ref={observerRef} className="h-[2px]" />
 
                         {/* 필터 모달 */}
@@ -231,6 +241,7 @@ export default function Page() {
                     </div>
                 </div>
             </div>
+            {/* </div> */}
         </>
     );
 }

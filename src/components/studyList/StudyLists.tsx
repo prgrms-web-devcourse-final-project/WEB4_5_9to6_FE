@@ -49,8 +49,6 @@ export default function StudyLists({
         SEJONG: "세종",
         CHUNGBUK: "충북",
     };
-    // const [defaultStudies, setDefaultStudies] = useState<Study[]>([]);
-    // const [survStudies, setSurvStudies] = useState<Study[]>([]);
     const [leaders, setLeaders] = useState<Members[]>([]);
 
     const scheduleString = (sche: string[]) => {
@@ -85,11 +83,6 @@ export default function StudyLists({
         };
         if (studies.length > 0) {
             fetchLeaders();
-            // setDefaultStudies(studies.filter((s) => s.studyType === "DEFAULT"));
-            // setSurvStudies(studies.filter((s) => s.studyType === "SURVIVAL"));
-            // console.log(studies);
-            // console.log(survStudies);
-            // console.log(defaultStudies);
         }
     }, [studies, survStudies, defaultStudies]);
 

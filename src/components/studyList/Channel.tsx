@@ -34,7 +34,7 @@ export default function Channel({
     return (
         <>
             <div
-                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect && "border-b-gray300 border-b"} ${!filter.regionSelect && !filter.statusSelect ? "h-[50px]" : "h-[45px]"}`}
+                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect ? "border-b-gray300 h-[50px] border-b" : "h-[45px]"}`}
             >
                 <Swiper spaceBetween={16} slidesPerView={"auto"}>
                     {channels.map((channel) => (

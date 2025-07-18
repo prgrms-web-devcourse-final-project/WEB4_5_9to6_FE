@@ -67,7 +67,6 @@ export default function FilterModal({
 
     const regionHandler = (region: string) => {
         setRegionSelected(region);
-        console.log(regionSelected);
     };
     const activeHandler = (active: string) => {
         setActiveSelected(active);
