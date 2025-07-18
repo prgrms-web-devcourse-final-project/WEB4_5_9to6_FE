@@ -19,6 +19,8 @@ export default function StudyLists({
     survStudies: Study[] | undefined;
     search: string;
 }) {
+    console.log("리스트로 온 일반", defaultStudies);
+    console.log("리스트로 온 서바이벌", survStudies);
     const day: Record<string, string> = {
         MON: "월",
         TUE: "화",

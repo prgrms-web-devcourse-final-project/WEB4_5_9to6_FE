@@ -18,7 +18,7 @@ export const defaultSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    // console.log("입력받은값:", page, size, category, region, status, name,studyType);
+    console.log("일반 입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -28,7 +28,7 @@ export const defaultSearch = async ({
         name,
         studyType: "DEFAULT",
     });
-    // console.log(res.data);
+    console.log("일반 출력값", res.data.data);
     return res.data.data;
 };
 
@@ -41,7 +41,15 @@ export const survSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    // console.log("입력받은값:", page, size, category, region, status, name,studyType);
+    console.log(
+        "서바이벌 입력받은값:",
+        page,
+        size,
+        category,
+        region,
+        status,
+        name,
+    );
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -51,7 +59,7 @@ export const survSearch = async ({
         name,
         studyType: "SURVIVAL",
     });
-    // console.log(res.data);
+    console.log("서바이벌 출력값", res.data.data);
     return res.data.data;
 };
 

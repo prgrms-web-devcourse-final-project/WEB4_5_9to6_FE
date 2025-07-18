@@ -40,6 +40,10 @@ export default function Page() {
     }); //지역,활동상태
 
     const searchHandler = (filters: Filtering) => {
+        console.log("필터링값들:", filters);
+        if (filters.status === "") filters.status = "활동 전체";
+        if (filters.region === "") filters.region = "ALL";
+        console.log("필터링값들updated:", filters);
         setFilter(filters);
         setIsModalOpen(false);
     };
@@ -103,7 +107,7 @@ export default function Page() {
         queryFn: () =>
             survSearch({
                 page: 1,
-                size: 10,
+                size: 15,
                 category: category[selected],
                 region: filter.region,
                 status: "ALL",
@@ -115,13 +119,14 @@ export default function Page() {
         filter.status === "활동 전체"
             ? (defaultData?.pages.flat() ?? [])
             : (defaultData?.pages.flat() ?? []).filter(
-                  (s) => calActive(s.startDate) === filter.status,
+                  (s) => calActive(s.startDate) === filter?.status,
               );
-
     const survStudies =
         filter.status === "활동 전체"
-            ? survData
-            : survData!.filter((s) => calActive(s.startDate) === filter.status);
+            ? (survData ?? [])
+            : (survData ?? []).filter(
+                  (s) => calActive(s.startDate) === filter?.status,
+              );
     //페이지네이션
     useEffect(() => {
         const observer = new IntersectionObserver(
