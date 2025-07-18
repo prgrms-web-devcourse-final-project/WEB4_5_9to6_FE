@@ -6,14 +6,17 @@ import Input from "@/components/common/Input";
 import { useAuthStore } from "@/stores/authStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChangeNickname() {
     const [nickname, setNickname] = useState("");
+    const [nicknameError, setNicknameError] = useState(false);
+    const [nicknameErrorMsg, setNicknameErrorMsg] = useState("");
     const { refetch } = useAuthStore();
     const rotuer = useRouter();
 
     const clickHandler = async () => {
+        if (!nickname || nicknameError) return;
         try {
             await changeNickName(nickname);
             refetch();
@@ -28,16 +31,34 @@ export default function ChangeNickname() {
         }
     };
 
+    useEffect(() => {
+        if (nickname) {
+            if (nickname.length < 2 || nickname.length > 10) {
+                setNicknameErrorMsg("닉네임은 2자 이상, 10자 이하여야 합니다.");
+                setNicknameError(true);
+            } else if (!/^[a-zA-Z가-힣0-9]+$/.test(nickname)) {
+                setNicknameErrorMsg("영문, 한글, 숫자만 사용할 수 있습니다.");
+                setNicknameError(true);
+            } else {
+                setNicknameError(false);
+            }
+        } else {
+            setNicknameError(false);
+        }
+    }, [nickname]);
+
     return (
         <>
             <div className="flex h-full flex-col justify-between bg-white p-5">
                 <div className="flex flex-col">
                     <p className="b2 text-gray1000 mb-2">닉네임</p>
                     <Input
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
                         type="text"
                         placeholder="닉네임을 입력하세요"
+                        value={nickname}
+                        onChange={(e) => setNickname(e.target.value)}
+                        error={nicknameError}
+                        errorMsg={nicknameErrorMsg}
                     />
                 </div>
 

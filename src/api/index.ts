@@ -5,14 +5,7 @@ export const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
-    withCredentials: true,
-});
 
-export const axiosNotApi = axios.create({
-    baseURL: "https://studium.cedartodo.uk/",
-    headers: {
-        "Content-Type": "application/json",
-    },
     withCredentials: true,
 });
 
@@ -23,6 +16,15 @@ axiosInstance.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
+});
+
+export const axiosNotApi = axios.create({
+    baseURL: "https://studium.cedartodo.uk/",
+    headers: {
+        "Content-Type": "application/json",
+    },
+
+    withCredentials: true,
 });
 
 axiosNotApi.interceptors.request.use((config) => {

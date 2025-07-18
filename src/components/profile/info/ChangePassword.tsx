@@ -6,26 +6,35 @@ import Input from "@/components/common/Input";
 import { useAuthStore } from "@/stores/authStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordCheck, setNewPasswordCheck] = useState("");
+    const [currentPasswordError, setCurrentPasswordError] = useState(false);
+    const [newPasswordError, setNewPasswordError] = useState(false);
+    const [newPasswordCheckError, setNewPasswordCheckError] = useState(false);
+    const [newPasswordErrorMsg, setNewPasswordErrorMsg] = useState("");
 
     const { refetch } = useAuthStore();
     const rotuer = useRouter();
 
     const clickHandler = async () => {
+        if (
+            !newPassword ||
+            !newPasswordCheck ||
+            newPasswordError ||
+            newPasswordCheckError
+        )
+            return;
+
+        setCurrentPasswordError(false);
         try {
             const res = await verfiyPassWord(currentPassword);
             if (!res) {
-                customAlert({
-                    message:
-                        "기존 비밀번호가 일치하지 않습니다\n입력 값을 확인하세요!",
-                    linkLabel: "닫기",
-                    onClick: () => {},
-                });
+                setCurrentPasswordError(true);
+                return;
             }
             await changePassWord(currentPassword, newPassword);
             refetch();
@@ -40,34 +49,89 @@ export default function ChangePassword() {
         }
     };
 
+    useEffect(() => {
+        if (newPassword) {
+            if (newPassword.length < 8 || newPassword.length > 16) {
+                setNewPasswordErrorMsg(
+                    "비밀번호는 8자 이상, 16자 이하여야 합니다.",
+                );
+                setNewPasswordError(true);
+            } else if (
+                !/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9가-힣])/.test(
+                    newPassword,
+                )
+            ) {
+                setNewPasswordErrorMsg(
+                    "특수문자, 영문, 숫자를 모두 포함해야 합니다.",
+                );
+                setNewPasswordError(true);
+            } else {
+                setNewPasswordError(false);
+            }
+
+            if (currentPassword === newPassword) {
+                setNewPasswordErrorMsg(
+                    "새로운 비밀번호가 아닙니다. 다시 입력해주세요.",
+                );
+                setNewPasswordError(true);
+            } else {
+                setNewPasswordError(false);
+            }
+            setNewPasswordCheck("");
+        } else {
+            setNewPasswordError(false);
+        }
+    }, [currentPassword, newPassword]);
+
+    useEffect(() => {
+        if (newPasswordCheck && !(newPassword === newPasswordCheck)) {
+            setNewPasswordCheckError(true);
+        } else {
+            setNewPasswordCheckError(false);
+        }
+    }, [newPasswordCheck, newPassword]);
+
     return (
         <>
             <div className="flex h-full flex-col justify-between bg-white p-5">
                 <div className="flex flex-col">
                     <p className="b2 text-gray1000 mb-2">기존 비밀번호</p>
                     <Input
-                        type="text"
-                        className="mb-4"
+                        type="password"
                         placeholder="기존 비밀번호를 입력해 주세요"
                         value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        onChange={(e) =>
+                            setCurrentPassword(
+                                e.target.value.replace(/\s/g, ""),
+                            )
+                        }
+                        error={currentPasswordError}
+                        errorMsg="기존 비밀번호가 일치하지 않습니다!"
                     />
-                    <p className="b2 text-gray1000 mb-2">새 비밀번호</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2">새 비밀번호</p>
                     <Input
-                        type="text"
-                        className="mb-4"
+                        type="password"
                         placeholder="변경할 비밀번호를 입력해 주세요"
                         value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        onChange={(e) =>
+                            setNewPassword(e.target.value.replace(/\s/g, ""))
+                        }
+                        error={newPasswordError}
+                        errorMsg={newPasswordErrorMsg}
                     />
 
-                    <p className="b2 text-gray1000 mb-2">비밀번호 확인</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2">비밀번호 확인</p>
                     <Input
-                        type="text"
-                        className="mb-4"
+                        type="password"
                         placeholder="비밀번호를 한번 더 입력해 주세요"
                         value={newPasswordCheck}
-                        onChange={(e) => setNewPasswordCheck(e.target.value)}
+                        onChange={(e) =>
+                            setNewPasswordCheck(
+                                e.target.value.replace(/\s/g, ""),
+                            )
+                        }
+                        error={newPasswordCheckError}
+                        errorMsg="비밀번호가 일치하지 않습니다."
                     />
                 </div>
                 <Button color="black" onClick={clickHandler}>
