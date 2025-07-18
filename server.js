@@ -1,17 +1,17 @@
+// server.js
 const { createServer } = require("https");
 const { parse } = require("url");
 const next = require("next");
 const fs = require("fs");
-
-const dev = true;
-const app = next({ dev });
+const hostname = "localhost";
+const port = 3000;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
-
 const httpsOptions = {
     key: fs.readFileSync("./localhost-key.pem"),
     cert: fs.readFileSync("./localhost.pem"),
 };
-
 app.prepare().then(() => {
     createServer(httpsOptions, async (req, res) => {
         try {
@@ -22,8 +22,8 @@ app.prepare().then(() => {
             res.statusCode = 500;
             res.end("internal server error");
         }
-    }).listen(3000, (err) => {
+    }).listen(port, (err) => {
         if (err) throw err;
-        console.log(`> Ready on https://localhost:3000`);
+        console.log(`> Ready on https://${hostname}:${port}`);
     });
 });
