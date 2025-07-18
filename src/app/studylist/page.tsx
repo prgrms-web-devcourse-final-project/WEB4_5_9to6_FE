@@ -126,7 +126,7 @@ export default function Page() {
                 setStudies((prev) => [...prev, ...filtered]);
                 setDefaultStudies((prev) => [...prev, ...defaults]);
                 setSurvStudies((prev) => [...prev, ...surv]);
-
+                console.log("서바이벌 스터디", survStudies);
                 if (data.length < 10) {
                     setHasMore(false);
                     console.log("finished!!", hasMore);
@@ -160,7 +160,7 @@ export default function Page() {
     return (
         <>
             <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
-                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
+                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)] px-5">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}

@@ -145,14 +145,20 @@ export default function StudyLists({
                     <div className="mt-[14px] flex flex-col gap-[16px] px-5">
                         {defaultStudies.map((study, i) => (
                             <StudyCard
+                                studyId={study.studyId}
                                 key={i}
                                 category={category[study.category]}
                                 isNew={isNewFunc(study.startDate)}
                                 title={study.title}
                                 avatar={leaders[i]?.profileImage}
-                                schedule={`매주 ${scheduleString(study.schedules)}요일 ${study.startTime}~${study.endTime}`}
+                                schedule={scheduleString(study.schedules)}
+                                startTime={study.startTime}
+                                endTime={study.endTime}
                                 region={region[study.region]}
-                                member={`${study.currentMemberCount} / ${study.maxMemberCount}`}
+                                member={{
+                                    current: study.currentMemberCount,
+                                    max: study.maxMemberCount,
+                                }}
                             />
                         ))}
                     </div>
