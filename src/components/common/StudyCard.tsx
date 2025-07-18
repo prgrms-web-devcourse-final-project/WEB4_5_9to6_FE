@@ -18,7 +18,7 @@ export default function StudyCard({
     category: string;
     isNew: boolean;
     title: string;
-    avatar: string;
+    avatar: string | undefined;
     schedule: string;
     region: string;
     place?: string;

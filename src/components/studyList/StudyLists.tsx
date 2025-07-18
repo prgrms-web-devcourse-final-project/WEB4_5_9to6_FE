@@ -5,10 +5,11 @@ import StudyCard from "../common/StudyCard";
 // import avatar from "@/assets/avatar.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Members, Study } from "@/types/study";
 import { studyMembers } from "@/api/studies";
 import StudyResult from "./SearchResult";
+import { useQueries } from "@tanstack/react-query";
 
 export default function StudyLists({
     defaultStudies,
@@ -49,7 +50,7 @@ export default function StudyLists({
         SEJONG: "세종",
         CHUNGBUK: "충북",
     };
-    const [leaders, setLeaders] = useState<Members[]>([]);
+    // const [leaders, setLeaders] = useState<Members[]>([]);
 
     const scheduleString = (sche: string[]) => {
         const order = Object.keys(day);
@@ -64,27 +65,16 @@ export default function StudyLists({
         return now < startDate;
     };
 
-    useEffect(() => {
-        const fetchLeaders = async () => {
-            try {
-                const allLeaders: Members[] = await Promise.all(
-                    defaultStudies.map(async (study) => {
-                        const data: Members[] = await studyMembers(
-                            study.studyId,
-                        );
-
-                        return data.find((d) => d.role === "LEADER")!;
-                    }),
-                );
-                setLeaders(allLeaders);
-            } catch (err) {
-                console.error("스터디 리더 에러", err);
-            }
-        };
-        if (defaultStudies.length > 0) {
-            fetchLeaders();
-        }
-    }, [survStudies, defaultStudies]);
+    const leaderQueries = useQueries({
+        queries: defaultStudies.map((study) => ({
+            queryKey: ["studyMembers", study.studyId],
+            queryFn: () => studyMembers(study.studyId),
+            select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
+            enabled: defaultStudies.length > 0,
+            staleTime: 1000 * 60 * 3,
+        })),
+    });
+    const leaders = leaderQueries.map((q) => q.data);
 
     return (
         <>
