@@ -75,8 +75,8 @@ export default function Login() {
                 >
                     <Image
                         src="/images/logo.png"
-                        width={400}
-                        height={200}
+                        width={372}
+                        height={72}
                         className="h-auto w-full"
                         alt="logo"
                     />
