@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Button from "./common/Button";
 import StudyCard from "./common/StudyCard";
@@ -8,6 +7,8 @@ import { fetchLeaderAvatar } from "@/api/fetchUser";
 import { fetchRandomStudyList, fetchStudyList } from "@/api/studyList";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 type StudyCardWithAvatar = StudyInfo & {
     leaderAvatar: string | null;
@@ -16,8 +17,8 @@ type StudyCardWithAvatar = StudyInfo & {
 export default function StudyTime() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
-    const isLogIn = useAuthStore((state) => state.isLogIn);
-    const [studyCards, setStudyCards] = useState<StudyCardWithAvatar[]>([]);
+    const [isLogIn, setIsLogIn] = useState<boolean | null>(null);
+
     const getValidAvatar = (avatar?: string | null) =>
         !avatar || avatar.includes("placehold.co")
             ? "/images/avatarImgs/basic2.png"
@@ -84,49 +85,56 @@ export default function StudyTime() {
         icon = "/icons/Star-struck.svg";
     }
 
+    // 로그인 시
+    const { data: userData, isLoading: isLoadingUser } = useQuery({
+        queryKey: ["myInfo", myInfo?.id],
+        queryFn: async () => {
+            const myStudy = await fetchStudyList(myInfo?.id ?? 0);
+            const studyList = myStudy.studies;
+            console.log("내 스터디", studyList);
+            const avatarList = await Promise.all(
+                studyList.map((study: StudyCardWithAvatar) => {
+                    console.log("fetchLeaderAvatar 호출", study.studyId);
+                    return fetchLeaderAvatar(study.studyId);
+                }),
+            );
+            return studyList.map((study: StudyCardWithAvatar, i: number) => ({
+                ...study,
+                leaderAvatar: avatarList[i],
+            }));
+        },
+        enabled: isLogIn === true && !!myInfo,
+        retry: 0,
+    });
+
+    // 비로그인 시
+    const { data: guestData, isLoading: isLoadingGuest } = useQuery({
+        queryKey: ["guestStudy"],
+        queryFn: async () => {
+            const randomList = await fetchRandomStudyList();
+            console.log("랜덤리스트", randomList);
+            const avatarList = await Promise.all(
+                randomList.map((study: StudyCardWithAvatar) => {
+                    console.log("랜덤 호출", study.studyId);
+                    return fetchLeaderAvatar(study.studyId);
+                }),
+            );
+            return randomList.map((study: StudyCardWithAvatar, i: number) => ({
+                ...study,
+                leaderAvatar: avatarList[i],
+            }));
+        },
+        enabled: isLogIn === false,
+        retry: 0,
+    });
+
+    const studyCards =
+        isLogIn === true ? userData : isLogIn === false ? guestData : [];
+
     useEffect(() => {
-        const getData = async () => {
-            if (isLogIn || !myInfo) return;
-            try {
-                // 비로그인 시
-                if (!isLogIn) {
-                    const studyList = await fetchRandomStudyList();
-                    const avatarList = await Promise.all(
-                        studyList.map((study) =>
-                            fetchLeaderAvatar(study.studyId),
-                        ),
-                    );
-                    const studyCardsWithAvatar = studyList.map((study, i) => ({
-                        ...study,
-                        leaderAvatar: avatarList[i],
-                    }));
-                    setStudyCards(studyCardsWithAvatar);
-
-                    // 로그인 시
-                } else {
-                    const myStudy = await fetchStudyList(myInfo?.id ?? 0);
-                    const studyList = myStudy.studies;
-
-                    const avatarList = await Promise.all(
-                        studyList.map((study: StudyCardWithAvatar) =>
-                            fetchLeaderAvatar(study.studyId),
-                        ),
-                    );
-
-                    const studyCardsWithAvatar = studyList.map(
-                        (study: StudyCardWithAvatar, i: number) => ({
-                            ...study,
-                            leaderAvatar: avatarList[i],
-                        }),
-                    );
-                    setStudyCards(studyCardsWithAvatar);
-                }
-            } catch (err) {
-                console.error("데이터 fetch 중 에러", err);
-            }
-        };
-        getData();
-    }, [isLogIn, myInfo]);
+        const token = localStorage.getItem("accessToken");
+        setIsLogIn(!!token);
+    }, []);
 
     return (
         <>
@@ -189,29 +197,35 @@ export default function StudyTime() {
                     <h3 className="h3 mt-8 pb-3.5">내 스터디</h3>
 
                     {studyCards && studyCards.length > 0 ? (
-                        <div className="flex flex-col gap-3.5 pb-25">
-                            {studyCards.map((study, i) => (
-                                <StudyCard
-                                    key={i}
-                                    studyId={study.studyId}
-                                    category={categoryMap[study.category]}
-                                    isNew={
-                                        new Date(study.start_date) > new Date()
-                                    }
-                                    title={study.title}
-                                    avatar={getValidAvatar(study.leaderAvatar)}
-                                    schedule={study.schedules
-                                        .map((day) => dayMap[day])
-                                        .join(", ")}
-                                    startTime={study.startTime}
-                                    endTime={study.endTime}
-                                    region={regionMap[study.region]}
-                                    member={{
-                                        current: study.currentMemberCount,
-                                        max: study.maxMemberCount,
-                                    }}
-                                />
-                            ))}
+                        <div className="flex flex-col gap-3.5 pb-24">
+                            {studyCards.map(
+                                (study: StudyCardWithAvatar, i: number) => (
+                                    <StudyCard
+                                        key={i}
+                                        studyId={study.studyId}
+                                        category={categoryMap[study.category]}
+                                        isNew={
+                                            new Date(study.start_date) >
+                                            new Date()
+                                        }
+                                        title={study.title}
+                                        avatar={getValidAvatar(
+                                            study.leaderAvatar,
+                                        )}
+                                        schedule={study.schedules
+                                            .map((day) => dayMap[day])
+                                            .join(", ")}
+                                        startTime={study.startTime}
+                                        endTime={study.endTime}
+                                        region={regionMap[study.region]}
+                                        member={{
+                                            current: study.currentMemberCount,
+                                            max: study.maxMemberCount,
+                                        }}
+                                        studyType={study.studyType}
+                                    />
+                                ),
+                            )}
                         </div>
                     ) : (
                         // 가입한 스터디가 없을 때
@@ -229,28 +243,31 @@ export default function StudyTime() {
                     )}
                 </section>
             ) : (
-                <section className="mt-8 flex flex-col gap-3.5 pb-25">
+                <section className="mt-8 flex flex-col gap-3.5 pb-24">
                     <h3 className="h3">이런 스터디도 있어요</h3>
-                    {studyCards?.map((study, i) => (
-                        <StudyCard
-                            key={i}
-                            studyId={study.studyId}
-                            category={categoryMap[study.category]}
-                            isNew={new Date(study.start_date) > new Date()}
-                            title={study.title}
-                            avatar={getValidAvatar(study.leaderAvatar)}
-                            schedule={study.schedules
-                                .map((day) => dayMap[day])
-                                .join(", ")}
-                            startTime={study.startTime}
-                            endTime={study.endTime}
-                            region={regionMap[study.region]}
-                            member={{
-                                current: study.currentMemberCount,
-                                max: study.maxMemberCount,
-                            }}
-                        />
-                    ))}
+                    {studyCards?.map(
+                        (study: StudyCardWithAvatar, i: number) => (
+                            <StudyCard
+                                key={i}
+                                studyId={study.studyId}
+                                category={categoryMap[study.category]}
+                                isNew={new Date(study.start_date) > new Date()}
+                                title={study.title}
+                                avatar={getValidAvatar(study.leaderAvatar)}
+                                schedule={study.schedules
+                                    .map((day) => dayMap[day])
+                                    .join(", ")}
+                                startTime={study.startTime}
+                                endTime={study.endTime}
+                                region={regionMap[study.region]}
+                                member={{
+                                    current: study.currentMemberCount,
+                                    max: study.maxMemberCount,
+                                }}
+                                studyType={study.studyType}
+                            />
+                        ),
+                    )}
                 </section>
             )}
         </>
