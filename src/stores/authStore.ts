@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { fetchMyInfo } from "@/api/member";
+import { fetchMyInfo } from "@/api/members";
 
 export const useAuthStore = create<AuthStore>((set) => ({
     isLogIn: false,
@@ -14,10 +14,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 },
                 isLogIn: true,
             });
+            console.log(useAuthStore.getState().myInfo);
         }
     },
     login: (token: string) => {
-        set({ isLogIn: true });
         localStorage.setItem("accessToken", token);
         useAuthStore.getState().refetch();
     },

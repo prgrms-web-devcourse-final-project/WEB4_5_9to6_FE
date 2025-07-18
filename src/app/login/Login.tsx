@@ -71,10 +71,12 @@ function LoginContent() {
     };
 
     const kakaotalkHandler = () => {
-        //
+        window.location.href =
+            "https://studium.cedartodo.uk/oauth2/authorization/kakao";
     };
     const googleHandler = () => {
-        //
+        window.location.href =
+            "https://studium.cedartodo.uk/oauth2/authorization/google";
     };
 
     useEffect(() => {
