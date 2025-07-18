@@ -4,6 +4,7 @@ import localfont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthInitializer from "@/components/login/AuthInitializer";
+import TanstackProvider from "@/providers/TanstackProvider";
 
 const pretendard = localfont({
     variable: "--font-pretendard",
@@ -23,7 +24,7 @@ export default function RootLayout({
     return (
         <html lang="ko" suppressHydrationWarning>
             <body className={`${pretendard.variable}`}>
-                {children}
+                <TanstackProvider> {children}</TanstackProvider>
                 <ToastContainer limit={1} />
                 <AuthInitializer />
             </body>

@@ -5,27 +5,13 @@ import Input from "@/components/login/Input";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { login } from "@/api/auth";
-import {
-    useMutation,
-    QueryClient,
-    QueryClientProvider,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 import Image from "next/image";
 
-const queryClient = new QueryClient();
-
 export default function Login() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <LoginContent />
-        </QueryClientProvider>
-    );
-}
-
-function LoginContent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState(false);

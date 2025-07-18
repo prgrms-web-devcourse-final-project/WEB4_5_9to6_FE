@@ -6,24 +6,11 @@ import Step3 from "@/components/signup/Step3";
 import Step2 from "@/components/signup/Step2";
 import Step4 from "@/components/signup/Step4";
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/api/auth";
 import { useRouter } from "next/navigation";
 
-const client = new QueryClient();
-
 export default function SignUp() {
-    return (
-        <QueryClientProvider client={client}>
-            <SignUpContent />
-            <ReactQueryDevtools />
-        </QueryClientProvider>
-    );
-}
-
-function SignUpContent() {
     const [step, setStep] = useState(1);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

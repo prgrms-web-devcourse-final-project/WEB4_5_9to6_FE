@@ -4,27 +4,15 @@ import Image from "next/image";
 import google from "../../../../public/images/google.png";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-    QueryClient,
-    QueryClientProvider,
-    useMutation,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/api/auth";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
+import { useEffect, useState } from "react";
 
-const queryClient = new QueryClient();
-
-export default function MyInfoList() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <MyInfoListComponent />
-        </QueryClientProvider>
-    );
-}
-
-function MyInfoListComponent() {
+export default function MyInfoList({ data }: { data: MemberInfo }) {
     const router = useRouter();
+    const [userInfo, setUserInfo] = useState<MemberInfo | null>(null);
 
     const { mutate: logoutMutate } = useMutation({
         mutationFn: logout,
@@ -42,6 +30,17 @@ function MyInfoListComponent() {
         },
     });
 
+    useEffect(() => {
+        const getProfile = async () => {
+            try {
+                setUserInfo(data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        getProfile();
+    }, [data]);
+
     return (
         <>
             <div className="border-t-gray200 border-b-gray200 mx-5 flex items-center border-t border-b py-5">
@@ -52,7 +51,7 @@ function MyInfoListComponent() {
                     alt="계정"
                     className="mr-1 h-[14px] w-[14px]"
                 />
-                <p className="b2 text-gray1000">79gun79@gmail.com</p>
+                <p className="b2 text-gray1000">{userInfo?.email}</p>
             </div>
             <div className="border-b-gray200 mx-5 flex items-center border-b py-5">
                 <p className="b2 text-gray1000">닉네임</p>
@@ -61,7 +60,7 @@ function MyInfoListComponent() {
                     onClick={() => router.push("info/name")}
                     className="b2 text-gray1000 cursor-pointer"
                 >
-                    죽음의고양이
+                    {userInfo?.nickname}
                 </p>
                 <ChevronRight
                     onClick={() => router.push("info/name")}
