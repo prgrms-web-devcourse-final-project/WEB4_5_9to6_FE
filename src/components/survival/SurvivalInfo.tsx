@@ -73,7 +73,7 @@ export default function SurvivalInfo() {
 
     return (
         <>
-            <div className="mt-6 mb-7 w-full overflow-scroll px-5">
+            <div className="mt-6 mb-7 w-full px-5">
                 <div className="flex h-6 items-center justify-center gap-1.5">
                     <div className="c2 h-full rounded-lg bg-[var(--color-gray1000)] px-2 text-white">
                         {categoryMap[survData?.category ?? 0]}

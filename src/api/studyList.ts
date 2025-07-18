@@ -5,7 +5,9 @@ interface StudyType {
 }
 // 서바이벌 스터디(데이터확인용)
 export const fetchSurvStudyList = async () => {
-    const response = await axiosInstance.get("studies/1");
+    const response = await axiosInstance.post("studies/search", {
+        name: "",
+    });
     const survivalStudy = response.data.filter(
         (study: StudyType) => study.studyType === "SURVIVAL",
     );
