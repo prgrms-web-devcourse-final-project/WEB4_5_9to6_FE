@@ -9,11 +9,15 @@ import WinnerModal from "@/components/survival/WinnerModal";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { customAlert } from "@/utils/customAlert";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSurvival } from "@/api/studyList";
 
 export default function SurvivalStudy() {
+    const params = useParams();
+    const studyId = Number(params?.studyId);
     const router = useRouter();
 
     // 시작요일
@@ -26,17 +30,33 @@ export default function SurvivalStudy() {
     const { changeClass } = useAnimationStore();
     const canStart = isApplied && todayDay === quizDay;
 
-    const closeHandler = () => setShowModal(false);
-
-    const quizStartHandler = () => {
-        router.push("/survival-study/1/quiz/1");
+    const dayMap: Record<string, string> = {
+        MON: "월요일",
+        TUE: "화요일",
+        WED: "수요일",
+        THU: "목요일",
+        FRI: "금요일",
+        SAT: "토요일",
+        SUN: "일요일",
     };
 
-    const buttonHandler = () => {
+    const closeHandler = () => setShowModal(false);
+
+    const quizStartHandler = (studyId: number) => {
+        router.push(`/survival-study/${studyId}/quiz/1`);
+    };
+
+    const { data: study, isLoading } = useQuery({
+        queryKey: ["survivalStudy", studyId],
+        queryFn: () => fetchSurvival(studyId),
+        enabled: !!studyId,
+    });
+
+    const buttonHandler = (studyId: number) => {
         if (!isApplied) {
             setShowModal(true);
         } else if (canStart) {
-            quizStartHandler();
+            quizStartHandler(studyId);
         }
     };
 
@@ -81,16 +101,12 @@ export default function SurvivalStudy() {
                     </button>
                 </div>
 
-                <NoticeBox
-                    content="다음 퀴즈는 7/17 10시에 열릴 예정입니다."
-                    className="rounded-none bg-[var(--color-gray100)]/85"
-                    date="07.11"
-                />
-                <SurvivalInfo />
+                <NoticeBox notice={study?.notice} />
+                <SurvivalInfo study={study} />
                 <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
                     {!isApplied ? (
                         <Button
-                            onClick={buttonHandler}
+                            onClick={() => buttonHandler(study.studyId)}
                             color="primary"
                             className="mx-5 my-5"
                         >
@@ -98,7 +114,7 @@ export default function SurvivalStudy() {
                         </Button>
                     ) : (
                         <Button
-                            onClick={quizStartHandler}
+                            onClick={() => buttonHandler(study?.studyId)}
                             disabled={!canStart}
                             className={`mx-5 my-5 ${
                                 canStart
@@ -127,20 +143,22 @@ export default function SurvivalStudy() {
                     <p className="b1 mb-2.5">스터디를 신청하시겠습니까?</p>
                     <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
                         <div className="flex justify-between">
-                            <p className="b2">스터디명</p>
-                            <p className="b2">프로그래머스 부수기</p>
+                            <p className="b2">스터디 이름</p>
+                            <p className="b2">{study.description}</p>
                         </div>
                         <div className="flex justify-between">
-                            <p className="b2">스터디주제</p>
-                            <p className="b2">토익</p>
+                            <p className="b2">스터디 주제</p>
+                            <p className="b2">{study.category}</p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 요일</p>
-                            <p className="b2">매주 월요일</p>
+                            <p className="b2">매주 {dayMap[study.schedules]}</p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 시간</p>
-                            <p className="b2">19:00~20:00</p>
+                            <p className="b2">
+                                {study.startTime}~{study.endTime}
+                            </p>
                         </div>
                     </div>
                 </ApplyModal>
