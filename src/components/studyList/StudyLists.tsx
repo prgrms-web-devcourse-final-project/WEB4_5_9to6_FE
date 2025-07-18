@@ -1,6 +1,6 @@
 import Image from "next/image";
 import flash from "@/assets/Flash--filled.svg";
-import SurvivalCard from "./SurvivalCard";
+import SurvivalCard from "../common/SurvivalCard";
 import StudyCard from "../common/StudyCard";
 // import avatar from "@/assets/avatar.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -108,6 +108,7 @@ export default function StudyLists({
                                     className="!flex items-center justify-start"
                                 >
                                     <SurvivalCard
+                                        studyId={study.studyId}
                                         category={study.category}
                                         title={study.title}
                                         content="몽트뤠조르 사투리 위주의 본토 할머니발음 스터디"
