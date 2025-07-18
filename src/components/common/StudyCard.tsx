@@ -9,26 +9,40 @@ export default function StudyCard({
     title,
     avatar,
     schedule,
-    location,
-    member,
+    region,
+    place,
+    startTime,
+    endTime,
+    member: { current, max },
+    studyId,
+    studyType,
 }: {
     category: string;
     isNew: boolean;
     title: string;
     avatar: string;
     schedule: string;
-    location: string;
-    member: string;
+    region: string;
+    place?: string;
+    startTime: string;
+    endTime: string;
+    member: { current: number; max: number };
+    studyId: number;
+    studyType: "DEFAULT" | "SURVIVAL";
 }) {
     const router = useRouter();
-    const clickHandler = () => {
-        router.push("/study/1/recruit");
+    const clickHandler = (id: number) => {
+        if (studyType === "DEFAULT") {
+            router.push(`/study/${id}/recruit`);
+        } else {
+            router.push(`/survival-study/${id}`);
+        }
     };
     return (
         <>
             <div
                 className="group h-[157px] w-full cursor-pointer rounded-[16px] bg-white px-4"
-                onClick={clickHandler}
+                onClick={() => clickHandler(studyId)}
             >
                 <div className="flex h-[104px] w-full justify-between py-[14px]">
                     <div>
@@ -37,6 +51,12 @@ export default function StudyCard({
                             <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[var(--color-gray1000)]">
                                 {category}
                             </div>
+                            {studyType === "SURVIVAL" && (
+                                <div className="c2 h-full rounded-[8px] bg-[var(--color-main100)] px-2 text-[#FF395C]">
+                                    서바이벌
+                                </div>
+                            )}
+
                             {isNew && (
                                 <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C]">
                                     New
@@ -63,13 +83,15 @@ export default function StudyCard({
                 {/* 일정,장소,인원수 */}
                 <div className="h-[53px] border-t border-t-[var(--color-gray200)] text-[#727272]">
                     <p className="c1 mt-[7px] mb-[1px] leading-none">
-                        {schedule}
+                        매주 {schedule} {startTime}~{endTime}
                     </p>
                     <div className="flex justify-between">
-                        <span className="c2">{location}</span>
+                        <span className="c2">
+                            {region} {place}
+                        </span>
                         <div className="c1 flex items-center gap-1">
                             <Users className="h-3 w-3" />
-                            {member}
+                            {current}/{max}
                         </div>
                     </div>
                 </div>

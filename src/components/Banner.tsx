@@ -11,10 +11,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Banner() {
     const bannerImages = [
-        "/images/banner/banner02.png",
-        "/images/banner/survival.png",
-        "/images/banner/banner01.png",
-        "/images/banner/banner03.png",
+        "/images/banner/_banner01.jpg",
+        "/images/banner/_banner02.jpg",
+        "/images/banner/_banner03.jpg",
     ];
     return (
         <>
@@ -22,7 +21,7 @@ export default function Banner() {
                 <Swiper
                     spaceBetween={50}
                     slidesPerView={1}
-                    autoplay={{ delay: 5000 }}
+                    autoplay={{ delay: 3000 }}
                     navigation={{
                         nextEl: ".swiper-button-next-custom",
                         prevEl: ".swiper-button-prev-custom",

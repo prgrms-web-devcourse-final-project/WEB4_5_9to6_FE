@@ -2,40 +2,30 @@
 
 import Image from "next/image";
 import google from "../../../../public/images/google.png";
+import kakaotalk from "../../../../public/images/kakaotalk.png";
+import logo from "../../../../public/images/signup.png";
+
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-    QueryClient,
-    QueryClientProvider,
-    useMutation,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/api/auth";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 
-const queryClient = new QueryClient();
-
 export default function MyInfoList() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <MyInfoListComponent />
-        </QueryClientProvider>
-    );
-}
-
-function MyInfoListComponent() {
     const router = useRouter();
+    const { myInfo } = useAuthStore();
 
     const { mutate: logoutMutate } = useMutation({
         mutationFn: logout,
         onSuccess() {
-            useAuthStore.getState().logout();
             router.push("/login");
             customAlert({
                 message: "로그아웃 되었습니다!",
                 linkLabel: "닫기",
                 onClick: () => {},
             });
+            useAuthStore.getState().logout();
         },
         onError(error) {
             console.error("로그아웃 실패:", error);
@@ -47,12 +37,28 @@ function MyInfoListComponent() {
             <div className="border-t-gray200 border-b-gray200 mx-5 flex items-center border-t border-b py-5">
                 <p className="b2 text-gray1000">내 계정</p>
                 <span className="flex-grow"></span>
-                <Image
-                    src={google}
-                    alt="계정"
-                    className="mr-1 h-[14px] w-[14px]"
-                />
-                <p className="b2 text-gray1000">79gun79@gmail.com</p>
+                {myInfo?.socialType === "GOOGLE" && (
+                    <Image
+                        src={google}
+                        alt="계정"
+                        className="mr-2 h-[14px] w-[14px]"
+                    />
+                )}
+                {myInfo?.socialType === "KAKAO" && (
+                    <Image
+                        src={kakaotalk}
+                        alt="계정"
+                        className="mr-2 h-[14px] w-[14px]"
+                    />
+                )}
+                {myInfo?.socialType === "LOCAL" && (
+                    <Image
+                        src={logo}
+                        alt="계정"
+                        className="mr-2 h-[24px] w-[24px]"
+                    />
+                )}
+                <p className="b2 text-gray1000">{myInfo?.email}</p>
             </div>
             <div className="border-b-gray200 mx-5 flex items-center border-b py-5">
                 <p className="b2 text-gray1000">닉네임</p>
@@ -61,7 +67,7 @@ function MyInfoListComponent() {
                     onClick={() => router.push("info/name")}
                     className="b2 text-gray1000 cursor-pointer"
                 >
-                    죽음의고양이
+                    {myInfo?.nickname}
                 </p>
                 <ChevronRight
                     onClick={() => router.push("info/name")}

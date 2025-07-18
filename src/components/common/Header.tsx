@@ -5,6 +5,9 @@ import { Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { useAuthStore } from "@/stores/authStore";
+import { useEffect, useState } from "react";
+import { customAlert } from "@/utils/customAlert";
 
 export default function Header({
     children,
@@ -18,6 +21,15 @@ export default function Header({
     className?: string;
 }) {
     const router = useRouter();
+    const { myInfo } = useAuthStore();
+    const [id, setId] = useState(0);
+
+    useEffect(() => {
+        if (myInfo) {
+            setId(myInfo.id);
+        }
+    }, [myInfo]);
+
     return (
         <>
             <div className="fixed z-20 h-15.5 w-full">
@@ -34,17 +46,7 @@ export default function Header({
                                 {children}
                             </h3>
                         ) : (
-                            <Link
-                                href="/"
-                                onClick={() => {
-                                    if (typeof window !== "undefined") {
-                                        window.scrollTo({
-                                            top: 0,
-                                            behavior: "smooth",
-                                        });
-                                    }
-                                }}
-                            >
+                            <Link href="/">
                                 <Image
                                     src="/images/logo-default.png"
                                     alt="logo"
@@ -71,16 +73,30 @@ export default function Header({
                     {!notLogin && (
                         <div className="absolute top-5 right-5 flex items-center gap-3.5">
                             <button
-                                onClick={() => router.push("/profile/1/theme")}
+                                onClick={() => {
+                                    if (id === 0) {
+                                        router.push("/");
+                                        customAlert({
+                                            message:
+                                                "잘못된 접근입니다. 로그인 후, 시도해주세요.",
+                                        });
+                                    } else {
+                                        router.push(`/profile/${id}/theme`);
+                                    }
+                                }}
                                 className="h6 text-main400 hover:text-main500 cursor-pointer transition-colors duration-200"
                             >
                                 테마변경
                             </button>
                             {isMyPage && (
                                 <button
-                                    onClick={() =>
-                                        router.push("/profile/1/info")
-                                    }
+                                    onClick={() => {
+                                        if (id === 0) {
+                                            router.push("/");
+                                        } else {
+                                            router.push(`/profile/${id}/info`);
+                                        }
+                                    }}
                                     className="h6 text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
                                 >
                                     내 정보 수정

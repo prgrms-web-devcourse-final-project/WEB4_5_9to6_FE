@@ -1,10 +1,21 @@
 "use client";
+import { useAuthStore } from "@/stores/authStore";
 import { House, Store, ClipboardList, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Gnb() {
     const pathname = usePathname();
+    const { myInfo } = useAuthStore();
+    const [id, setId] = useState(0);
+
+    useEffect(() => {
+        if (myInfo) {
+            setId(myInfo.id);
+        }
+    }, [myInfo]);
+
     return (
         <>
             <div className="fixed bottom-0 z-30 h-18 w-full rounded-2xl bg-white">
@@ -32,7 +43,7 @@ export default function Gnb() {
                         <p className="c2">스터디 목록</p>
                     </Link>
                     <Link
-                        href="/rewardshop"
+                        href={`/rewardshop/${id === 0 ? "" : id}`}
                         className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname.startsWith("/rewardshop")
                                 ? "text-[var(--color-gray1000)]"
@@ -43,7 +54,7 @@ export default function Gnb() {
                         <p className="c2">리워드 상점</p>
                     </Link>
                     <Link
-                        href="/profile"
+                        href={`/profile/${id === 0 ? "" : id}`}
                         className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname.startsWith("/profile")
                                 ? "text-[var(--color-gray1000)]"

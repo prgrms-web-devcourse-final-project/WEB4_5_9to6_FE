@@ -3,14 +3,17 @@
 import { Ghost } from "lucide-react";
 import Image from "next/image";
 import avatar from "../../../assets/images/avatar.png";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function MyInfoCard() {
+    const { myInfo } = useAuthStore();
+
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-5 pt-4 pb-12">
                 <span className="not-only:bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
-                        src={avatar}
+                        src={myInfo?.avatarInfo.avatarImage || avatar}
                         alt="프로필"
                         className="h-15 w-15 object-fill"
                     />
@@ -18,7 +21,9 @@ export default function MyInfoCard() {
                         <Ghost size={16} className="text-white" />
                     </span>
                 </span>
-                <p className="text-gray1000 text-2xl font-bold">죽음의고양이</p>
+                <p className="text-gray1000 text-2xl font-bold">
+                    {myInfo?.nickname}
+                </p>
             </div>
         </>
     );
