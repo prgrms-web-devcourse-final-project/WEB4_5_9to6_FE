@@ -10,12 +10,12 @@ import { useState } from "react";
 
 export default function ChangeNickname() {
     const [nickname, setNickname] = useState("");
-    const { myInfo, refetch } = useAuthStore();
+    const { refetch } = useAuthStore();
     const rotuer = useRouter();
 
     const clickHandler = async () => {
         try {
-            await changeNickName(myInfo?.id || 0, nickname);
+            await changeNickName(nickname);
             refetch();
             customAlert({
                 message: "닉네임이 변경되었습니다!",

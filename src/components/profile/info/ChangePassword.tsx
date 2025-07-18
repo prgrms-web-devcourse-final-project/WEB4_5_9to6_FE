@@ -13,12 +13,12 @@ export default function ChangePassword() {
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordCheck, setNewPasswordCheck] = useState("");
 
-    const { myInfo, refetch } = useAuthStore();
+    const { refetch } = useAuthStore();
     const rotuer = useRouter();
 
     const clickHandler = async () => {
         try {
-            const res = await verfiyPassWord(myInfo?.id || 0, currentPassword);
+            const res = await verfiyPassWord(currentPassword);
             if (!res) {
                 customAlert({
                     message:
@@ -27,12 +27,7 @@ export default function ChangePassword() {
                     onClick: () => {},
                 });
             }
-            await changePassWord(
-                myInfo?.id || 0,
-                currentPassword,
-                newPassword,
-                newPasswordCheck,
-            );
+            await changePassWord(currentPassword, newPassword);
             refetch();
             customAlert({
                 message: "비밀번호가 변경되었습니다!",
