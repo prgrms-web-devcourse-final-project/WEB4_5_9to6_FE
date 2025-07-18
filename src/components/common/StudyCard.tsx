@@ -15,6 +15,7 @@ export default function StudyCard({
     endTime,
     member: { current, max },
     studyId,
+    studyType,
 }: {
     category: string;
     isNew: boolean;
@@ -27,10 +28,15 @@ export default function StudyCard({
     endTime: string;
     member: { current: number; max: number };
     studyId: number;
+    studyType: "DEFAULT" | "SURVIVAL";
 }) {
     const router = useRouter();
     const clickHandler = (id: number) => {
-        router.push(`/study/${id}/recruit`);
+        if (studyType === "DEFAULT") {
+            router.push(`/study/${id}/recruit`);
+        } else {
+            router.push(`/survival-study/${id}`);
+        }
     };
     return (
         <>
@@ -45,6 +51,12 @@ export default function StudyCard({
                             <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[var(--color-gray1000)]">
                                 {category}
                             </div>
+                            {studyType === "SURVIVAL" && (
+                                <div className="c2 h-full rounded-[8px] bg-[var(--color-main100)] px-2 text-[#FF395C]">
+                                    서바이벌
+                                </div>
+                            )}
+
                             {isNew && (
                                 <div className="c2 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C]">
                                     New
