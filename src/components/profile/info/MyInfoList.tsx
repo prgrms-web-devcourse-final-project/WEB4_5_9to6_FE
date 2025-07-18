@@ -2,17 +2,19 @@
 
 import Image from "next/image";
 import google from "../../../../public/images/google.png";
+import kakaotalk from "../../../../public/images/kakaotalk.png";
+import logo from "../../../../public/images/signup.png";
+
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/api/auth";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
-import { useEffect, useState } from "react";
 
-export default function MyInfoList({ data }: { data: MemberInfo }) {
+export default function MyInfoList() {
     const router = useRouter();
-    const [userInfo, setUserInfo] = useState<MemberInfo | null>(null);
+    const { myInfo } = useAuthStore();
 
     const { mutate: logoutMutate } = useMutation({
         mutationFn: logout,
@@ -30,28 +32,33 @@ export default function MyInfoList({ data }: { data: MemberInfo }) {
         },
     });
 
-    useEffect(() => {
-        const getProfile = async () => {
-            try {
-                setUserInfo(data);
-            } catch (e) {
-                console.error(e);
-            }
-        };
-        getProfile();
-    }, [data]);
-
     return (
         <>
             <div className="border-t-gray200 border-b-gray200 mx-5 flex items-center border-t border-b py-5">
                 <p className="b2 text-gray1000">내 계정</p>
                 <span className="flex-grow"></span>
-                <Image
-                    src={google}
-                    alt="계정"
-                    className="mr-1 h-[14px] w-[14px]"
-                />
-                <p className="b2 text-gray1000">{userInfo?.email}</p>
+                {myInfo?.socialType === "GOOGLE" && (
+                    <Image
+                        src={google}
+                        alt="계정"
+                        className="mr-2 h-[14px] w-[14px]"
+                    />
+                )}
+                {myInfo?.socialType === "KAKAO" && (
+                    <Image
+                        src={kakaotalk}
+                        alt="계정"
+                        className="mr-2 h-[14px] w-[14px]"
+                    />
+                )}
+                {myInfo?.socialType === "LOCAL" && (
+                    <Image
+                        src={logo}
+                        alt="계정"
+                        className="mr-2 h-[24px] w-[24px]"
+                    />
+                )}
+                <p className="b2 text-gray1000">{myInfo?.email}</p>
             </div>
             <div className="border-b-gray200 mx-5 flex items-center border-b py-5">
                 <p className="b2 text-gray1000">닉네임</p>
@@ -60,7 +67,7 @@ export default function MyInfoList({ data }: { data: MemberInfo }) {
                     onClick={() => router.push("info/name")}
                     className="b2 text-gray1000 cursor-pointer"
                 >
-                    {userInfo?.nickname}
+                    {myInfo?.nickname}
                 </p>
                 <ChevronRight
                     onClick={() => router.push("info/name")}

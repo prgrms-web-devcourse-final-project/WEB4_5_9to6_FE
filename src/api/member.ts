@@ -15,3 +15,34 @@ export const fetchMemeberInfo = async (memberId: number) => {
     const response = await axiosInstance.get(`members/${memberId}/info`);
     return response.data;
 };
+
+export const changeNickName = async (memberId: number, nickname: string) => {
+    const response = await axiosInstance.put(`members/${memberId}/info`, {
+        nickname,
+    });
+    return response.data;
+};
+
+export const verfiyPassWord = async (memberId: number, password: string) => {
+    const response = await axiosInstance.post(
+        `members/${memberId}/password/verify`,
+        {
+            password,
+        },
+    );
+    return response.data.method;
+};
+
+export const changePassWord = async (
+    memberId: number,
+    currentPassword: string,
+    newPassword: string,
+    newPasswordCheck: string,
+) => {
+    const response = await axiosInstance.put(`members/${memberId}/info`, {
+        currentPassword,
+        newPassword,
+        newPasswordCheck,
+    });
+    return response.data;
+};
