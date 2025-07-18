@@ -10,7 +10,7 @@ export const studyInfo = async (studyId: number) => {
 };
 
 // 일반 스터디 검색
-export const studySearch = async ({
+export const defaultSearch = async ({
     page,
     size,
     category,
@@ -18,7 +18,7 @@ export const studySearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    console.log("입력받은값:", page, size, category, region, status, name);
+    // console.log("입력받은값:", page, size, category, region, status, name,studyType);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -26,10 +26,35 @@ export const studySearch = async ({
         region,
         status,
         name,
+        studyType: "DEFAULT",
     });
     // console.log(res.data);
     return res.data.data;
 };
+
+//서바이벌 스터디 검색
+export const survSearch = async ({
+    page,
+    size,
+    category,
+    region,
+    status,
+    name,
+}: StudySearchParams) => {
+    // console.log("입력받은값:", page, size, category, region, status, name,studyType);
+    const res = await axiosInstance.post("studies/search", {
+        page,
+        size,
+        category,
+        region,
+        status,
+        name,
+        studyType: "SURVIVAL",
+    });
+    // console.log(res.data);
+    return res.data.data;
+};
+
 //스터디 멤버 정보
 export const studyMembers = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/members`);

@@ -7,9 +7,11 @@ import SearchBar from "@/components/studyList/SearchBar";
 import Channel from "@/components/studyList/Channel";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { studySearch } from "@/api/studies";
+import { defaultSearch, survSearch } from "@/api/studies";
 import { Study } from "@/types/study";
+import { useAuthStore } from "@/stores/authStore";
 import useDebounce from "@/hooks/useDebounce";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 const category: Record<string, string> = {
     전체: "ALL",
     어학: "LANGUAGE",
@@ -25,7 +27,6 @@ interface Filtering {
     regionSelect: boolean;
     statusSelect: boolean;
 }
-import { useAuthStore } from "@/stores/authStore";
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,34 +38,9 @@ export default function Page() {
         regionSelect: false,
         statusSelect: false,
     }); //지역,활동상태
-    const [studies, setStudies] = useState<Study[]>([]);
-    const [defaultStudies, setDefaultStudies] = useState<Study[]>([]);
-    const [survStudies, setSurvStudies] = useState<Study[]>([]);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-    const observerRef = useRef<HTMLDivElement | null>(null);
 
     const searchHandler = (filters: Filtering) => {
-        console.log(
-            "필터링 상태:",
-            filters.region,
-            filters.regionSelect,
-            filters.status,
-            filters.statusSelect,
-        );
-        // if (filters.region === "") {
-        //     setFilter({ ...filter, region: "ALL", status: filters.status });
-        // } else if (filters.status === "") {
-        //     setFilter({
-        //         ...filter,
-        //         region: filters.region,
-        //         status: "활동 전체",
-        //     });
-        // } else {
         setFilter(filters);
-        // }
-
         setIsModalOpen(false);
     };
 
@@ -76,85 +52,86 @@ export default function Page() {
         }));
     };
 
-    const isLogIn = useAuthStore((state) => state.isLogIn);
-    const debouncedInput = useDebounce(search, 200);
+    const isLogIn = useAuthStore((state) => state.isLogIn); //유저정보
+    const debouncedInput = useDebounce(search, 200); //검색
+    const observerRef = useRef<HTMLDivElement | null>(null); //무한스크롤
 
+    //활동상태 계산
+    const calActive = (startDate: string) => {
+        const now = new Date();
+        const start = new Date(startDate);
+        return now < start ? "활동 전" : "활동중";
+    };
     //초기화
-    useEffect(() => {
-        setStudies([]);
-        setDefaultStudies([]);
-        setSurvStudies([]);
-        setPage(1);
-        setHasMore(true);
-    }, [filter]);
+    // useEffect(() => {
+    //     setStudies([]);
+    //     setDefaultStudies([]);
+    //     setSurvStudies([]);
+    //     setPage(1);
+    //     setHasMore(true);
+    // }, [filter]);
 
     //데이터 불러오기
-    useEffect(() => {
-        const fetchStudies = async () => {
-            if (isLoading || !hasMore) return;
-            setIsLoading(true);
-            try {
-                const data: Study[] = await studySearch({
-                    page,
-                    size: 20,
-                    category: category[selected],
-                    region: filter.region,
-                    status: "ALL",
-                    name: debouncedInput || "",
-                });
-                // console.log("데이터 추가요~", data);
+    //일반 스터디 검색
+    const {
+        data: defaultData,
+        fetchNextPage: fetchNextDefault,
+        hasNextPage: hasMoreDefault,
+        isFetchingNextPage: isLoadingDefault,
+    } = useInfiniteQuery<Study[], Error>({
+        queryKey: ["defaultStudies", filter, debouncedInput, selected],
+        queryFn: ({ pageParam = 1 }) =>
+            defaultSearch({
+                page: pageParam as number,
+                size: 12,
+                category: category[selected],
+                region: filter.region,
+                status: "ALL",
+                name: debouncedInput || "",
+            }),
+        getNextPageParam: (lastPage, allPages) =>
+            lastPage.length < 12 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 3, //3분
+    });
 
-                //활동상태 계산
-                const calActive = (startDate: string) => {
-                    const now = new Date();
-                    const start = new Date(startDate);
-                    return now < start ? "활동 전" : "활동중";
-                };
+    const {
+        data: survData,
+        // isLoading:isLoadingSurv,
+    } = useQuery<Study[], Error>({
+        queryKey: ["survStudies", filter, debouncedInput, selected],
+        queryFn: () =>
+            survSearch({
+                page: 1,
+                size: 10,
+                category: category[selected],
+                region: filter.region,
+                status: "ALL",
+                name: debouncedInput || "",
+            }),
+        staleTime: 1000 * 60 * 3,
+    });
+    const defaultStudies =
+        filter.status === "활동 전체"
+            ? (defaultData?.pages.flat() ?? [])
+            : (defaultData?.pages.flat() ?? []).filter(
+                  (s) => calActive(s.startDate) === filter.status,
+              );
 
-                //활동상태 필터링
-                let filtered: Study[] = [];
-                if (filter.status !== "활동 전체") {
-                    console.log("필터링", filter);
-                    filtered = data.filter(
-                        (s) => calActive(s.startDate) === filter.status,
-                    );
-                } else {
-                    filtered = data;
-                }
-                // console.log(filtered);
-
-                //서바이벌,일반 분류
-                const defaults = filtered.filter(
-                    (s) => s.studyType === "DEFAULT",
-                );
-                const surv = filtered.filter((s) => s.studyType === "SURVIVAL");
-
-                setStudies((prev) => [...prev, ...filtered]);
-                setDefaultStudies((prev) => [...prev, ...defaults]);
-                setSurvStudies((prev) => [...prev, ...surv]);
-                // console.log("서바이벌 스터디", survStudies);
-
-                //마지막 페이지
-                if (data.length < 20) {
-                    setHasMore(false);
-                    // console.log("finished!!", hasMore);
-                }
-            } catch (err) {
-                if (err) console.error("스터디 검색 에러", err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchStudies();
-    }, [page]);
-
+    const survStudies =
+        filter.status === "활동 전체"
+            ? survData
+            : survData!.filter((s) => calActive(s.startDate) === filter.status);
     //페이지네이션
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting && hasMore && !isLoading) {
-                    console.log("로딩 추가페이지!");
-                    setPage((prev) => prev + 1);
+                if (
+                    entries[0].isIntersecting &&
+                    !isLoadingDefault &&
+                    hasMoreDefault
+                ) {
+                    fetchNextDefault();
                 }
             },
             { threshold: 0.1, rootMargin: "50px" },
@@ -165,7 +142,7 @@ export default function Page() {
         return () => {
             if (observerRef.current) observer.unobserve(observerRef.current);
         };
-    }, [hasMore, isLoading]);
+    }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
 
     return (
         <>
@@ -210,7 +187,6 @@ export default function Page() {
                             </div>
                         )}
                         <StudyLists
-                            studies={studies}
                             defaultStudies={defaultStudies}
                             survStudies={survStudies}
                             search={search}
@@ -241,7 +217,6 @@ export default function Page() {
                     </div>
                 </div>
             </div>
-            {/* </div> */}
         </>
     );
 }

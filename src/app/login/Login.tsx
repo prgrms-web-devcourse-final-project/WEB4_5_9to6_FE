@@ -5,28 +5,13 @@ import Input from "@/components/login/Input";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { login } from "@/api/auth";
-import {
-    useMutation,
-    QueryClient,
-    QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
-
-const queryClient = new QueryClient();
+import Image from "next/image";
 
 export default function Login() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <LoginContent />
-            <ReactQueryDevtools />
-        </QueryClientProvider>
-    );
-}
-
-function LoginContent() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginError, setLoginError] = useState(false);
@@ -83,10 +68,19 @@ function LoginContent() {
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
-            <div className="mx-5 flex flex-col items-center gap-4">
-                <Link href="/" className="mb-10 w-1/2">
-                    <img src="/images/logo.png" alt="logo" />
-                </Link>
+            <div className="flex w-full max-w-screen flex-col items-center gap-4 px-5">
+                <div
+                    onClick={() => router.push("/")}
+                    className="mb-10 w-1/2 cursor-pointer"
+                >
+                    <Image
+                        src="/images/logo.png"
+                        width={372}
+                        height={72}
+                        className="h-auto w-full"
+                        alt="logo"
+                    />
+                </div>
 
                 <form
                     className="flex w-full flex-col gap-4"

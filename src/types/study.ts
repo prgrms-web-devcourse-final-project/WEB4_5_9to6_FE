@@ -5,6 +5,7 @@ export interface StudySearchParams {
     region: string;
     status: string;
     name: string;
+    studyType?: "DEFAULT" | "SURVIVAL";
 }
 export interface Study {
     studyId: number;

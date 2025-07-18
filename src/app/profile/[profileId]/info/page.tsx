@@ -2,7 +2,7 @@ import SubHeader from "@/components/common/SubHeader";
 import MyInfoCard from "@/components/profile/info/MyInfoCard";
 import MyInfoList from "@/components/profile/info/MyInfoList";
 
-export default function page() {
+export default async function page() {
     return (
         <>
             <SubHeader>내 정보 수정</SubHeader>

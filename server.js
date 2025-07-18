@@ -1,3 +1,4 @@
+// server.js
 const { createServer } = require("https");
 const { parse } = require("url");
 const next = require("next");
@@ -23,6 +24,6 @@ app.prepare().then(() => {
         }
     }).listen(port, (err) => {
         if (err) throw err;
-        console.log(` Ready on https://${hostname}:${port}`);
+        console.log(`> Ready on https://${hostname}:${port}`);
     });
 });
