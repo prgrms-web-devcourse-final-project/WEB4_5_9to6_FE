@@ -12,7 +12,7 @@ import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
-import { useAnimationStore } from "@/stores/modalAnimationStore";
+// import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { studyInfo } from "@/api/studies";
 import { StudyInfos } from "@/types/study";
 
@@ -24,22 +24,22 @@ export default function Page() {
     const [study, setStudy] = useState<StudyInfos>();
     const router = useRouter();
     const params = useParams();
-    const { changeClass } = useAnimationStore();
+    // const { changeClass } = useAnimationStore();
 
-    const applyHandler = () => {
-        changeClass("animate-modalFadeOut");
-        setTimeout(() => {
-            setIsOpen(false);
-        }, 300);
+    // const applyHandler = () => {
+    //     changeClass("animate-modalFadeOut");
+    //     setTimeout(() => {
+    //         setIsOpen(false);
+    //     }, 300);
 
-        setIsApply(true);
-        customAlert({
-            message: "스터디를 신청했어요.곧 연락올거에요!",
-            linkLabel: "닫기",
-            onClick: () => {},
-        });
-        //신청자 목록에 추가
-    };
+    //     setIsApply(true);
+    //     customAlert({
+    //         message: "스터디를 신청했어요.곧 연락올거에요!",
+    //         linkLabel: "닫기",
+    //         onClick: () => {},
+    //     });
+    //     //신청자 목록에 추가
+    // };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -98,8 +98,6 @@ export default function Page() {
                             <ChevronLeft className="h-5 w-5 text-[#161616]" />
                         </button>
                         <h2 className="absolute bottom-5 left-5 z-20 text-[var(--color-white)]">
-                            {/* <p>숲속에서 함께 라틴어 공부할</p>
-                        <p className="mt-[10px]">요정들의 스터디 모임</p> */}
                             {study.name}
                         </h2>
                     </div>
@@ -110,7 +108,7 @@ export default function Page() {
                         channel={channel}
                         setChannel={setChannel}
                     />
-                    <div className="mb-[100px]">
+                    <div className="mb-[120px]">
                         {channel === "정보" && (
                             <StudyInfo
                                 maxMembers={study.maxMembers}
@@ -145,7 +143,15 @@ export default function Page() {
                             className="top-[137px] left-1/2 h-[355px] w-[340px] -translate-x-1/2"
                             isOpen={isOpen}
                             onClose={() => setIsOpen(false)}
-                            onApply={() => applyHandler()}
+                            onApply={() => {
+                                setIsApply(true);
+                                customAlert({
+                                    message:
+                                        "스터디를 신청했어요.곧 연락올거에요!",
+                                    linkLabel: "닫기",
+                                    onClick: () => {},
+                                });
+                            }}
                         />
                     )}
                 </div>
