@@ -74,3 +74,13 @@ export const goalsInfo = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/goals`);
     return res.data.data;
 };
+
+//스터디 신청
+export const studyApply = async (studyId: number, introduction: string) => {
+    console.log("스터디 신청 일단들어모");
+    const res = await axiosInstance.post(`studies/${studyId}/application`, {
+        introduction,
+    });
+    console.log(res.data);
+    // return res.data.data;
+};
