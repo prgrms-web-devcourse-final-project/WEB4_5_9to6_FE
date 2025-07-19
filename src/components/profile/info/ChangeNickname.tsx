@@ -4,6 +4,7 @@ import { changeNickName } from "@/api/member";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useAuthStore } from "@/stores/authStore";
+import { useProfileStore } from "@/stores/memberStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,7 +13,8 @@ export default function ChangeNickname() {
     const [nickname, setNickname] = useState("");
     const [nicknameError, setNicknameError] = useState(false);
     const [nicknameErrorMsg, setNicknameErrorMsg] = useState("");
-    const { refetch } = useAuthStore();
+    const { myInfo, refetch } = useAuthStore();
+    const { fetch } = useProfileStore();
     const rotuer = useRouter();
 
     const clickHandler = async () => {
@@ -20,6 +22,7 @@ export default function ChangeNickname() {
         try {
             await changeNickName(nickname);
             refetch();
+            fetch(myInfo?.id || 0);
             customAlert({
                 message: "닉네임이 변경되었습니다!",
                 linkLabel: "닫기",

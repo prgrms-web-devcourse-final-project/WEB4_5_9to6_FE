@@ -1,14 +1,18 @@
 "use client";
 
+import { useProfileStore } from "@/stores/memberStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useMyStudyModalStore } from "@/stores/myStudyModalStore";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
+import MyStudyItem from "./MyStudyItem";
 
 export default function MyStudyModal() {
-    const { isOpen, closeModal } = useMyStudyModalStore();
     const [isVisible, setIsVisible] = useState(false);
+    const { isOpen, closeModal, studyIndex, changeIndex } =
+        useMyStudyModalStore();
     const { animationClass, changeClass } = useAnimationStore();
+    const { data } = useProfileStore();
 
     useEffect(() => {
         if (isOpen) {
@@ -46,27 +50,17 @@ export default function MyStudyModal() {
                             className="cursor-pointer"
                         />
                     </div>
-                    <div
-                        onClick={closeHandler}
-                        className="hover:bg-gray200 flex h-11 cursor-pointer items-center justify-between px-5"
-                    >
-                        <h6 className="">수코딩 강의로 배우는 프론트엔드</h6>
-                        <Check size={20} className="text-main500" />
-                    </div>
-                    <div
-                        onClick={closeHandler}
-                        className="hover:bg-gray200 flex h-11 cursor-pointer items-center justify-between px-5"
-                    >
-                        <h6 className="">영어 마스터 스터디</h6>
-                        <Check size={20} className="text-white" />
-                    </div>
-                    <div
-                        onClick={closeHandler}
-                        className="hover:bg-gray200 flex h-11 cursor-pointer items-center justify-between px-5"
-                    >
-                        <h6 className="">죽음의 서바이벌</h6>
-                        <Check size={20} className="text-white" />
-                    </div>
+                    {data?.userStudies.map((v, i) => (
+                        <MyStudyItem
+                            key={i}
+                            closeHandler={() => {
+                                changeIndex(i);
+                                closeHandler();
+                            }}
+                            title={v.title}
+                            selected={studyIndex === i}
+                        />
+                    ))}
                 </div>
             </div>
         </>

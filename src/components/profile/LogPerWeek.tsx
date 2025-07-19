@@ -2,17 +2,17 @@
 
 import { Check, Minus } from "lucide-react";
 
-export default function LogPerWeek() {
+export default function LogPerWeek({ study }: { study?: StudyInfo }) {
     return (
         <>
             <div className="w-full rounded-2xl bg-white p-5">
                 <h6 className="text-gray700 mb-[14px]">주간 출석 현황</h6>
-                <div className="mb-8 flex gap-[9px]">
+                <div className="mb-8 flex items-center justify-between">
                     <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
                         <Check size={16} className="text-white" />
                     </span>
                     <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
-                        <Check size={16} className="text-white" />
+                        <Check size={12} className="text-white" />
                     </span>
                     <span className="bg-gray1000 flex h-8 w-8 items-center justify-center rounded-full">
                         <Minus size={16} className="text-white" />

@@ -2,38 +2,26 @@
 
 import Image from "next/image";
 import medal from "../../assets/images/medal.png";
-import avatar from "../../assets/images/avatar.png";
 import ToolTip from "../common/ToolTip";
-import { useEffect, useState } from "react";
-import { fetchMemeberInfo, fetchMemeberPage } from "@/api/member";
+import { useEffect } from "react";
+import { useProfileStore } from "@/stores/memberStore";
 
 export default function ProfileCard({ id }: { id: string }) {
-    const [user, setUser] = useState<MemberProfile | null>(null);
-    const [userInfo, setUserInfo] = useState<MemberInfo | null>(null);
+    const { data, data2, data3, fetch } = useProfileStore();
 
     useEffect(() => {
-        const getProfile = async () => {
-            try {
-                const { data } = await fetchMemeberPage(Number(id));
-                setUser(data);
-                const { data2 } = await fetchMemeberInfo(Number(id));
-                setUserInfo(data2);
-            } catch (e) {
-                console.error(e);
-            }
-        };
-        getProfile();
-    }, [id]);
+        if (!data || !data2 || !data3) fetch(Number(id));
+    }, [id, data, data2, data3, fetch]);
 
     return (
         <>
             <div className="flex w-full items-center justify-between p-6">
                 <div className="flex flex-col gap-1">
                     <p className="text-gray1000 text-2xl font-bold">
-                        {user?.nickname}
+                        {data?.nickname}
                     </p>
                     <p className="text-gray700 b2 mb-4">
-                        가입된 스터디 {user?.userStudies.length}개
+                        가입된 스터디 {data?.joinedStudyCount}개
                     </p>
                     <div className="flex items-center gap-1">
                         <Image
@@ -41,7 +29,7 @@ export default function ProfileCard({ id }: { id: string }) {
                             alt="리워드"
                             className="h-auto w-6"
                         />
-                        <h2 className="text-gray1000">{user?.rewardPoints}P</h2>
+                        <h2 className="text-gray1000">{data?.rewardPoints}P</h2>
                         <ToolTip>
                             <h5 className="mb-1">❓ 이게 무엇인가요?</h5>
                             <span className="b2 whitespace-pre-line">
@@ -65,11 +53,15 @@ export default function ProfileCard({ id }: { id: string }) {
                         </ToolTip>
                     </div>
                 </div>
-                <span className="bg-gray200 flex h-26 w-26 items-center justify-center rounded-[40px]">
+                <span className="bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
-                        src={userInfo?.avatarImage || avatar}
+                        src={
+                            data2?.avatarImage ||
+                            "/images/avatarImgs/basic1.png"
+                        }
                         alt="프로필"
-                        className="h-15 w-15 object-fill"
+                        className="h-12 w-12 object-fill"
+                        fill
                     />
                 </span>
             </div>

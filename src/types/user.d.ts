@@ -41,3 +41,9 @@ interface MemberInfo {
     nickname: string;
     avatarImage: string | null;
 }
+
+interface MemberStudies {
+    memberId: number;
+    nickname: string;
+    studies: StudyInfo[];
+}
