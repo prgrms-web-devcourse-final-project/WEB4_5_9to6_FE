@@ -1,6 +1,8 @@
 "use client";
 import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import defaultImg from "../../../public/images/avatarImgs/basic2.png";
+import Image from "next/image";
 export default function StudyCard({
     category,
     isNew,
@@ -69,11 +71,12 @@ export default function StudyCard({
 
                     {/* 아바타 */}
                     <div className="my-[5px] h-[66px] w-[66px] rounded-[26px] bg-[var(--color-gray100)] p-[10px]">
-                        <img
+                        <Image
                             src={
-                                typeof avatar === "string" && avatar
-                                    ? avatar
-                                    : "/avatar.svg"
+                                avatar &&
+                                avatar?.includes("https://placehold.co/100x100")
+                                    ? defaultImg
+                                    : avatar || defaultImg
                             }
                             alt="아바타이미지"
                             width={46}
