@@ -1,8 +1,9 @@
 import { studyMembers } from "@/api/studies";
-import avatar from "@/assets/avatar.svg";
+import avatar from "../../../public/images/avatarImgs/basic2.png";
 import { Members } from "@/types/study";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function StudyUsers() {
     // const users = [
@@ -47,14 +48,15 @@ export default function StudyUsers() {
                                     className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-[16px] bg-[var(--color-gray100)]"
                                     onClick={() => router.push("/profile/info")}
                                 >
-                                    <img
+                                    <Image
                                         src={
                                             member.profileImage
                                                 ? member.profileImage
                                                 : avatar
                                         }
                                         alt="아바타"
-                                        className="h-8 w-8"
+                                        height={32}
+                                        width={32}
                                     />
                                 </div>
                                 <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">

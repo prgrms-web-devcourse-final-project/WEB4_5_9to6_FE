@@ -18,7 +18,7 @@ export const defaultSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    console.log("일반 입력받은값:", page, size, category, region, status, name);
+    // console.log("일반 입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -28,7 +28,7 @@ export const defaultSearch = async ({
         name,
         studyType: "DEFAULT",
     });
-    console.log("일반 출력값", res.data.data);
+    // console.log("일반 출력값", res.data.data);
     return res.data.data;
 };
 
@@ -41,15 +41,15 @@ export const survSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    console.log(
-        "서바이벌 입력받은값:",
-        page,
-        size,
-        category,
-        region,
-        status,
-        name,
-    );
+    // console.log(
+    //     "서바이벌 입력받은값:",
+    //     page,
+    //     size,
+    //     category,
+    //     region,
+    //     status,
+    //     name,
+    // );
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -59,7 +59,7 @@ export const survSearch = async ({
         name,
         studyType: "SURVIVAL",
     });
-    console.log("서바이벌 출력값", res.data.data);
+    // console.log("서바이벌 출력값", res.data.data);
     return res.data.data;
 };
 
@@ -77,10 +77,23 @@ export const goalsInfo = async (studyId: number) => {
 
 //스터디 신청
 export const studyApply = async (studyId: number, introduction: string) => {
-    console.log("스터디 신청 일단들어모");
     const res = await axiosInstance.post(`studies/${studyId}/application`, {
         introduction,
     });
-    console.log(res.data);
-    // return res.data.data;
+    // console.log(res.data);
+    return res.data.data;
+};
+
+//스터디 신청자 목록 조회
+export const getApplicants = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/applications-list`);
+    console.log("신청자 목록:", res.data.data);
+    return res.data.data;
+};
+
+//스터디 멤버 여부 확인
+export const checkIsMember = async (studyId: number) => {
+    console.log("스터디아이디:", studyId);
+    const res = await axiosInstance.get(`studies/${studyId}/members/me/check`);
+    return res.data.data;
 };

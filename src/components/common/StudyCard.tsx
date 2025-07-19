@@ -3,6 +3,8 @@ import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import defaultImg from "../../../public/images/avatarImgs/basic2.png";
 import Image from "next/image";
+// import { useQuery } from "@tanstack/react-query";
+import { checkIsMember } from "@/api/studies";
 export default function StudyCard({
     category,
     isNew,
@@ -31,13 +33,20 @@ export default function StudyCard({
     studyType: "DEFAULT" | "SURVIVAL";
 }) {
     const router = useRouter();
-    const clickHandler = (id: number) => {
+    const clickHandler = async (id: number) => {
+        const isMember = await checkIsMember(id);
+        // console.log("isMember", isMember);
         if (studyType === "DEFAULT") {
-            router.push(`/study/${id}/recruit`);
+            if (isMember.isMember === true) router.push(`/study/${id}`);
+            else router.push(`/study/${id}/recruit`);
         } else {
             router.push(`/survival-study/${id}`);
         }
     };
+    // const { data: isMember } = useQuery({
+    //     queryKey: ["members", studyId],
+    //     queryFn: async () => await checkIsMember(studyId),
+    // });
     return (
         <>
             <div
@@ -73,7 +82,7 @@ export default function StudyCard({
                     <div className="my-[5px] h-[66px] w-[66px] rounded-[26px] bg-[var(--color-gray100)] p-[10px]">
                         <Image
                             src={
-                                avatar &&
+                                typeof avatar === "string" &&
                                 avatar?.includes("https://placehold.co/100x100")
                                     ? defaultImg
                                     : avatar || defaultImg

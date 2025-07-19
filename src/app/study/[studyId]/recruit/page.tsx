@@ -13,8 +13,10 @@ import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
 // import { useAnimationStore } from "@/stores/modalAnimationStore";
-import { studyInfo } from "@/api/studies";
-import { StudyInfos } from "@/types/study";
+import { getApplicants, studyInfo } from "@/api/studies";
+import { Members, StudyInfos } from "@/types/study";
+import { useAuthStore } from "@/stores/authStore";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -24,6 +26,11 @@ export default function Page() {
     const [study, setStudy] = useState<StudyInfos>();
     const router = useRouter();
     const params = useParams();
+    const id = params?.studyId;
+    const studyId = typeof id === "string" ? parseInt(id) : undefined;
+    const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
+    const myInfo = useAuthStore((state) => state.myInfo);
+    // console.log("유저정보", myInfo);
     // const { changeClass } = useAnimationStore();
 
     // const applyHandler = () => {
@@ -68,6 +75,22 @@ export default function Page() {
         };
         fetchStudy();
     }, [params?.studyId]);
+    const { data: userData } = useQuery({
+        queryKey: ["userData", studyId],
+        queryFn: async () => {
+            if (!studyId) throw new Error("스터디 아이디가 없습니다");
+            return await getApplicants(studyId);
+        },
+        enabled: !!studyId,
+    });
+    useEffect(() => {
+        if (userData && myInfo?.id) {
+            const isApplied = userData.some(
+                (m: Members) => m.memberId === myInfo.id,
+            );
+            setIsApply(isApplied);
+        }
+    }, [userData, myInfo]);
     return (
         <>
             {/* 스크롤시 헤더 */}
@@ -126,14 +149,23 @@ export default function Page() {
 
                     {/* 신청하기 버튼 */}
                     <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
-                        {isApply ? (
-                            <Button disabled>신청 완료</Button>
-                        ) : (
+                        {isLogIn &&
+                            (isApply ? (
+                                <Button disabled>신청 완료</Button>
+                            ) : (
+                                <Button
+                                    onClick={() => setIsOpen(true)}
+                                    color="primary"
+                                >
+                                    신청하기
+                                </Button>
+                            ))}
+                        {!isLogIn && (
                             <Button
-                                onClick={() => setIsOpen(true)}
-                                color="primary"
+                                onClick={() => router.push("/login")}
+                                color="white"
                             >
-                                신청하기
+                                로그인이 필요합니다.
                             </Button>
                         )}
                     </div>
