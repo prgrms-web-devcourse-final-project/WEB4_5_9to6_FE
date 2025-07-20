@@ -93,7 +93,21 @@ export const getApplicants = async (studyId: number) => {
 
 //스터디 멤버 여부 확인
 export const checkIsMember = async (studyId: number) => {
-    console.log("스터디아이디:", studyId);
+    // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}/members/me/check`);
+    return res.data.data;
+};
+
+//스터디 가입 승인/거절
+export const respondToApplication = async (
+    studyId: number,
+    memberId: number,
+    applicationResult: string,
+) => {
+    console.log("스터디 승인 직전!!", studyId, memberId, applicationResult);
+    const res = await axiosInstance.post(
+        `studies/${studyId}/applications/respond`,
+        { memberId, applicationResult },
+    );
     return res.data.data;
 };

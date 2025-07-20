@@ -4,7 +4,7 @@ import { studyInfo } from "@/api/studies";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
-import { Study } from "@/types/study";
+import { StudyInfos } from "@/types/study";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -44,7 +44,7 @@ export default function Page() {
         });
     };
 
-    const { data: studyData } = useQuery<Study>({
+    const { data: studyData } = useQuery<StudyInfos>({
         queryKey: ["studyId", studyId],
         queryFn: async () => await studyInfo(studyId!),
         enabled: !!studyId,
@@ -72,7 +72,7 @@ export default function Page() {
             >
                 <div className="absolute right-7 left-11 flex items-center justify-between">
                     <p className="b2 ml-2 min-w-0 basis-[40%] truncate">
-                        {studyData?.title}
+                        {studyData?.name}
                     </p>
                     <div className="flex items-center gap-4">
                         <MessageSquare
@@ -91,13 +91,23 @@ export default function Page() {
                 </div>
             </SubHeader>
             <div className="mb-[90px] flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
-                <StudyHome
-                    isStart={isStart}
-                    pause={pause}
-                    isMenuOpen={isMenuOpen}
-                    setIsMenuOpen={setIsMenuOpen}
-                />
-
+                {studyData && (
+                    <StudyHome
+                        notice={studyData?.notice}
+                        schedules={studyData.schedules}
+                        startTime={studyData.startTime}
+                        endTime={studyData.endTime}
+                        region={studyData.region}
+                        name={studyData.name}
+                        exLink={studyData?.externalLink}
+                        maxMembers={studyData.maxMembers}
+                        currentMemberCount={studyData.currentMemberCount}
+                        isStart={isStart}
+                        pause={pause}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                    />
+                )}
                 {/* 버튼 */}
                 <div className="fixed bottom-0 mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
                     {!attend && (

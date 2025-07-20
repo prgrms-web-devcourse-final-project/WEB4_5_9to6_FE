@@ -75,6 +75,7 @@ export default function StudyLists({
         })),
     });
     const leaders = leaderQueries.map((q) => q.data);
+    // console.log("리더아이디", leaders[1]?.memberId);
 
     return (
         <>
@@ -142,6 +143,7 @@ export default function StudyLists({
                                 max: study.maxMemberCount,
                             }}
                             studyType="DEFAULT"
+                            leaderId={leaders[i]?.memberId}
                         />
                     ))}
                 </div>

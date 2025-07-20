@@ -3,29 +3,63 @@ import { ChevronDown, ChevronUp, Users } from "lucide-react";
 import StudyGoal from "../studyRecruit/StudyGoal";
 import { useState } from "react";
 
-export default function StudyHomeDefault({ onOpen }: { onOpen: () => void }) {
+export default function StudyHomeDefault({
+    notice,
+    schedules,
+    startTime,
+    endTime,
+    region,
+    name,
+    exLink,
+    maxMembers,
+    currentMemberCount,
+    onOpen,
+}: {
+    notice: string | undefined;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    region: string;
+    name: string;
+    exLink: string | undefined;
+    maxMembers: number;
+    currentMemberCount: number;
+    onOpen: () => void;
+}) {
     const [expanded, setExpanded] = useState(false);
-
+    const day: Record<string, string> = {
+        MON: "월",
+        TUE: "화",
+        WED: "수",
+        THU: "목",
+        FRI: "금",
+        SAT: "토",
+        SUN: "일",
+    };
+    const scheduleString = (sche: string[]) => {
+        const order = Object.keys(day);
+        return sche
+            .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+            .map((d) => day[d])
+            .join(", ");
+    };
     const toggleHandler = () => {
         setExpanded((prev) => !prev);
     };
-
     return (
         <>
             {/* 공지사항 */}
             <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
                 <div className="flex items-center justify-between">
                     <div className="flex min-w-0 flex-col">
-                        <p className="c2 text-[#D6D6D6]">07.03 공지사항</p>
+                        <p className="c2 text-[#D6D6D6]">공지사항</p>
                         <div
                             className={`relative overflow-hidden transition-all duration-600 ${expanded ? "max-h-[500px]" : "max-h-[61px]"}`}
                         >
                             <p
                                 className={`c1 text-[#FFFFFF] ${expanded ? "" : "truncate"}`}
                             >
-                                오늘은 제가 예비군 일정으로 스터디장 없이
-                                진행하기 바랍니다. 오늘은 제가 예비군 일정으로
-                                스터디장 없이 진행하기 바랍니다.
+                                {notice}
                             </p>
                         </div>
                     </div>
@@ -55,15 +89,18 @@ export default function StudyHomeDefault({ onOpen }: { onOpen: () => void }) {
                     onClick={onOpen}
                 >
                     <Users className="h-[14px] w-[14px]" />
-                    <span className="c2">9/15</span>
+                    <span className="c2">
+                        {currentMemberCount}/{maxMembers}
+                    </span>
                 </button>
 
                 {/* 제목,일정 */}
                 <p className="mt-3 ml-5 text-[22px] font-semibold text-[var(--color-gray1000)]">
-                    숲속에서 함께 라틴어 공부
+                    {name}
                 </p>
                 <p className="b2 mt-2 ml-5 text-[var(--color-gray700)]">
-                    매주 수요일 · 15:00~18:00 · 온라인(Zoom)
+                    매주 {schedules && scheduleString(schedules)}요일 ·{" "}
+                    {startTime}~{endTime} · {region}
                 </p>
 
                 {/* 스터디 목표 */}
@@ -75,11 +112,11 @@ export default function StudyHomeDefault({ onOpen }: { onOpen: () => void }) {
                         학습 관련 링크
                     </h3>
                     <a
-                        href="https://www.inflearn.com/course/suyaisbest"
+                        href={exLink}
                         target="blank"
                         className="c1 transiton-all mt-[10px] mb-[10px] flex h-[50px] w-full items-center rounded-[12px] border border-[var(--color-gray300)] px-4 text-[var-(--color-gray1000)] duration-200 ease-in-out hover:text-[var(--color-gray700)]"
                     >
-                        https://www.inflearn.com/course/suyaisbest
+                        {exLink}
                     </a>
                 </div>
             </div>

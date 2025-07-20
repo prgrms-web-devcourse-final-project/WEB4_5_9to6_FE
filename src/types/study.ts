@@ -56,3 +56,12 @@ export interface StudyInfos {
     currentMemberCount: number;
     online: boolean;
 }
+
+export interface studyApplicant {
+    applicantId: number;
+    memberId: number;
+    name: string;
+    state: "WAIT" | "ACCEPT" | "REJECT";
+    introduction: string;
+    avatarImage: string | null;
+}

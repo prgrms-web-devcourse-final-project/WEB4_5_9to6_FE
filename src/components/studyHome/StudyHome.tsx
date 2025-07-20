@@ -14,12 +14,31 @@ import MenuModal from "./MenuModal";
 import StudyUserModal from "@/components/studyHome/StudyUserModal";
 import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
 import AvatarDisplay from "./AvatarDisplay";
+
 export default function StudyHome({
+    notice,
+    schedules,
+    startTime,
+    endTime,
+    region,
+    name,
+    exLink,
+    maxMembers,
+    currentMemberCount,
     isStart,
     pause,
     isMenuOpen,
     setIsMenuOpen,
 }: {
+    notice: string | undefined;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    region: string;
+    name: string;
+    exLink: string | undefined;
+    maxMembers: number;
+    currentMemberCount: number;
     isStart: boolean;
     pause: boolean;
     isMenuOpen: boolean;
@@ -91,7 +110,18 @@ export default function StudyHome({
             </div>
 
             {!isStart && (
-                <StudyHomeDefault onOpen={() => setIsUserOpen(true)} />
+                <StudyHomeDefault
+                    notice={notice}
+                    schedules={schedules}
+                    startTime={startTime}
+                    endTime={endTime}
+                    region={region}
+                    name={name}
+                    exLink={exLink}
+                    maxMembers={maxMembers}
+                    currentMemberCount={currentMemberCount}
+                    onOpen={() => setIsUserOpen(true)}
+                />
             )}
 
             {isStart && (

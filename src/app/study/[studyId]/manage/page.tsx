@@ -1,9 +1,13 @@
 "use client";
 
+import { studyInfo } from "@/api/studies";
 import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/MemberModal";
 import StudyHome from "@/components/studyHome/StudyHome";
+import { StudyInfos } from "@/types/study";
+import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 export default function Page() {
     const [attend, setAttend] = useState(false);
@@ -11,19 +15,40 @@ export default function Page() {
     const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const params = useParams();
+    const id = params?.studyId;
+    const studyId = typeof id === "string" ? parseInt(id) : null;
+
     const finishHandler = () => {
         setIsStart(false);
         setPause(false);
     };
+    const { data: studyData } = useQuery<StudyInfos>({
+        queryKey: ["studyId", studyId],
+        queryFn: async () => await studyInfo(studyId!),
+        enabled: !!studyId,
+    });
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
-                <StudyHome
-                    isStart={isStart}
-                    pause={pause}
-                    isMenuOpen={isMenuOpen}
-                    setIsMenuOpen={setIsMenuOpen}
-                />
+                {studyData && (
+                    <StudyHome
+                        notice={studyData?.notice}
+                        schedules={studyData.schedules}
+                        startTime={studyData.startTime}
+                        endTime={studyData.endTime}
+                        region={studyData.region}
+                        name={studyData.name}
+                        exLink={studyData?.externalLink}
+                        maxMembers={studyData.maxMembers}
+                        currentMemberCount={studyData.currentMemberCount}
+                        isStart={isStart}
+                        pause={pause}
+                        isMenuOpen={isMenuOpen}
+                        setIsMenuOpen={setIsMenuOpen}
+                    />
+                )}
 
                 {/* 버튼 */}
                 <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
