@@ -1,30 +1,77 @@
-export default function StudyDefaultInfo() {
+interface DefaultInfoProps {
+    maxMembers: number;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    startDate: string;
+    endDate: string;
+}
+export default function StudyDefaultInfo({
+    maxMembers,
+    schedules,
+    startTime,
+    endTime,
+    startDate,
+    endDate,
+}: DefaultInfoProps) {
+    const day: Record<string, string> = {
+        MON: "월",
+        TUE: "화",
+        WED: "수",
+        THU: "목",
+        FRI: "금",
+        SAT: "토",
+        SUN: "일",
+    };
+    const scheduleString = (sche: string[]) => {
+        const order = Object.keys(day);
+        return sche
+            .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+            .map((d) => day[d])
+            .join(", ");
+    };
+    const changeDate = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth() + 1;
+
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth() + 1;
+
+        const format = (month: number) => (month < 10 ? `0${month}` : month);
+
+        const monthDiff =
+            (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+
+        return `${startYear}.${format(startMonth)}~${endYear}.${format(endMonth)} (${monthDiff}개월)`;
+    };
     return (
         <>
-            {/* <div className="w-full px-5">
-                <h3 className="mt-6 text-[var(--color-gray1000)]">기본정보</h3> */}
             <div className="mt-6 w-full">
                 <div className="flex justify-between text-[var(--color-gray1000)]">
                     <h6>팀원</h6>
-                    <h6>최대 6명</h6>
+                    <h6>최대 {maxMembers}명</h6>
                 </div>
 
                 <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
                     <h6>스터디 요일</h6>
-                    <h6>매주 월, 수 ,금</h6>
+                    <h6>매주 {scheduleString(schedules)}</h6>
                 </div>
 
                 <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
                     <h6>스터디 시간</h6>
-                    <h6>18:00~20:00</h6>
+                    <h6>
+                        {startTime}~{endTime}
+                    </h6>
                 </div>
 
                 <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
                     <h6>기간</h6>
-                    <h6>2025.03~2025.05 (3개월)</h6>
+                    <h6>{changeDate(startDate, endDate)}</h6>
                 </div>
             </div>
-            {/* </div> */}
         </>
     );
 }

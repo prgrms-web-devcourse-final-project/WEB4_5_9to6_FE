@@ -10,7 +10,9 @@ export default function layout({
 }) {
     return (
         <>
-            <Header>스터디 목록</Header>
+            <Header className="bg-[var(--color-gray100)] backdrop-blur-none">
+                스터디 목록
+            </Header>
             {children}
             <Gnb />
         </>

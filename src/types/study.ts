@@ -1,0 +1,58 @@
+export interface StudySearchParams {
+    page: number;
+    size: number;
+    category: string;
+    region: string;
+    status: string;
+    name: string;
+    studyType?: "DEFAULT" | "SURVIVAL";
+}
+export interface Study {
+    studyId: number;
+    title: string;
+    category: string;
+    currentMemberCount: number;
+    maxMemberCount: number;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    status: "READY" | "ACTIVE";
+    createdAt: string;
+    startDate: string;
+    region: string;
+    studyType: "SURVIVAL" | "DEFAULT";
+}
+export interface Members {
+    studyMemberId: number;
+    memberId: number;
+    nickName: string;
+    profileImage: string;
+    role: "MEMBER" | "LEADER";
+    email: string;
+}
+export interface Goal {
+    goalId: number;
+    content: string;
+    type: "WEEKLY";
+}
+export interface StudyInfos {
+    name: string;
+    category: string;
+    maxMembers: number;
+    region: string;
+    place: string | null;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    startDate: string;
+    endDate: string;
+    createdAt: string;
+    status: "READY" | "ACTIVE";
+    description: string;
+    externalLink: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+    goals: Goal[];
+    notice: string;
+    currentMemberCount: number;
+    online: boolean;
+}
