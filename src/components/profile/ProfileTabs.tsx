@@ -6,7 +6,7 @@ import MyLogList from "./MyLogList";
 import ChannelSlideBar from "../common/ChannelSlideBar";
 import { useProfileStore } from "@/stores/memberStore";
 
-export default function ProfileTabs() {
+export default function ProfileTabs({ id }: { id: string }) {
     const { data } = useProfileStore();
     const tabs = [`내 스터디 ${data?.joinedStudyCount}`, "활동로그"];
     const [isTab, setTab] = useState<string>("");
@@ -33,7 +33,7 @@ export default function ProfileTabs() {
                 {isTab === `내 스터디 ${data?.joinedStudyCount || 0}` && (
                     <MyStudyList />
                 )}
-                {isTab === "활동로그" && <MyLogList />}
+                {isTab === "활동로그" && <MyLogList id={id} />}
             </div>
         </>
     );

@@ -30,7 +30,9 @@ export default function ProfileCard({ id }: { id: string }) {
                             alt="리워드"
                             className="h-auto w-6"
                         />
-                        <h2 className="text-gray1000">{data?.rewardPoints}P</h2>
+                        <h2 className="text-gray1000">
+                            {data?.rewardPoints || 0}P
+                        </h2>
                         <ToolTip>
                             <h5 className="mb-1">❓ 이게 무엇인가요?</h5>
                             <span className="b2 whitespace-pre-line">

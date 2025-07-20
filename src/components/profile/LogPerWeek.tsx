@@ -1,29 +1,34 @@
 "use client";
 
-import { fetchAllTime } from "@/api/timer";
-import { useAuthStore } from "@/stores/authStore";
+import { fetchStudyWeeklyAllTime } from "@/api/timer";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Minus } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function LogPerWeek({ study }: { study?: StudyInfo }) {
-    const { myInfo } = useAuthStore();
+export default function LogPerWeek({
+    id,
+    study,
+}: {
+    id: string;
+    study?: StudyInfo;
+}) {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
 
-    const { data } = useQuery({
-        queryKey: ["all-time", myInfo],
-        enabled: !!myInfo?.id,
-        queryFn: () => fetchAllTime(myInfo!.id),
+    const { data: studyWeekTime } = useQuery({
+        queryKey: ["study-all-time", id, study?.studyId],
+        enabled: !!study?.studyId,
+        queryFn: () => fetchStudyWeeklyAllTime(study!.studyId, Number(id)),
     });
 
     useEffect(() => {
-        if (data?.totalStudyTime != null) {
-            const total = data.totalStudyTime;
+        console.log("이거", studyWeekTime);
+        if (studyWeekTime?.weekTotalStudyTime != null) {
+            const total = studyWeekTime.weekTotalStudyTime;
             setHours(Math.floor(total / 60));
             setMinutes(total % 60);
         }
-    }, [data]);
+    }, [studyWeekTime]);
 
     return (
         <>
@@ -33,15 +38,7 @@ export default function LogPerWeek({ study }: { study?: StudyInfo }) {
                     <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
                         <Check size={16} className="text-white" />
                     </span>
-                    <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
-                        <Check size={12} className="text-white" />
-                    </span>
-                    <span className="bg-gray1000 flex h-8 w-8 items-center justify-center rounded-full">
-                        <Minus size={16} className="text-white" />
-                    </span>
-                    <span className="bg-main500 flex h-8 w-8 items-center justify-center rounded-full">
-                        <Check size={16} className="text-white" />
-                    </span>
+
                     <span className="bg-gray1000 flex h-8 w-8 items-center justify-center rounded-full">
                         <Minus size={16} className="text-white" />
                     </span>
@@ -49,7 +46,7 @@ export default function LogPerWeek({ study }: { study?: StudyInfo }) {
                     <span className="bg-gray100 flex h-8 w-8 items-center justify-center rounded-full"></span>
                 </div>
                 <hr className="text-gray200 mb-5" />
-                <h6 className="text-gray700 mb-[14px]">주간 미션 진척도</h6>
+                <h6 className="text-gray700 mb-[14px]">주차별 미션 진척도</h6>
                 <div className="mb-8 gap-[9px]">
                     <span className="flex items-center justify-start">
                         <p className="c2 text-gray1000 w-12">1주차</p>

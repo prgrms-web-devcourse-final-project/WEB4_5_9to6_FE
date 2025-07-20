@@ -3,8 +3,26 @@
 import Image from "next/image";
 import medal from "../../assets/images/medal.png";
 import ToolTip from "../common/ToolTip";
+import { useProfileStore } from "@/stores/memberStore";
+import { useEffect } from "react";
+import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "next/navigation";
 
-export default function ShopCard() {
+export default function ShopCard({ id }: { id: string }) {
+    const { myInfo } = useAuthStore();
+    const { data, fetch } = useProfileStore();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (myInfo && myInfo.id !== Number(id)) {
+            router.replace("/");
+        }
+    }, [myInfo, id, router]);
+
+    useEffect(() => {
+        if (!data) fetch(Number(id));
+    }, [id, data, fetch]);
+
     return (
         <>
             <div className="flex flex-col p-5">
@@ -31,7 +49,9 @@ export default function ShopCard() {
                         </span>
                     </ToolTip>
                 </div>
-                <p className="text-gray1000 text-[26px] font-bold">5,600P</p>
+                <p className="text-gray1000 text-[26px] font-bold">
+                    {data?.rewardPoints || 0}P
+                </p>
             </div>
         </>
     );

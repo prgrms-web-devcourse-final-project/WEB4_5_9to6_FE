@@ -8,7 +8,7 @@ import { useMyStudyModalStore } from "@/stores/myStudyModalStore";
 import { useProfileStore } from "@/stores/memberStore";
 import LogSurvival from "./LogSurvival";
 
-export default function MyLogList() {
+export default function MyLogList({ id }: { id: string }) {
     const { openModal, studyIndex } = useMyStudyModalStore();
     const { data, data3 } = useProfileStore();
     console.log(data3);
@@ -38,7 +38,7 @@ export default function MyLogList() {
                     {(data3 || [])[studyIndex].studyType === "SURVIVAL" ? (
                         <LogSurvival study={(data3 || [])[studyIndex]} />
                     ) : (
-                        <LogPerWeek study={data?.userStudies[studyIndex]} />
+                        <LogPerWeek id={id} study={(data3 || [])[studyIndex]} />
                     )}
                 </div>
             )}
