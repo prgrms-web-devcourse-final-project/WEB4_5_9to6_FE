@@ -152,7 +152,7 @@ export default function Page() {
     return (
         <>
             <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
-                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)] px-5">
+                <div className="fixed top-[62px] z-50 w-full bg-[var(--color-gray100)] px-5">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -172,7 +172,7 @@ export default function Page() {
                     <div className="h-full w-full pt-[19px] pb-[30px]">
                         {/* 필터링 뱃지 */}
                         {(filter.regionSelect || filter.statusSelect) && (
-                            <div className="mt-[-10px] flex h-6 items-center gap-[8px] px-5">
+                            <div className="fixed top-[146px] left-5 z-[999] flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
                                 {filter.regionSelect && (
                                     <button
                                         className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
