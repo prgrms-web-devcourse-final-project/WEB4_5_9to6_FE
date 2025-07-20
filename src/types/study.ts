@@ -26,7 +26,7 @@ export interface Members {
     studyMemberId: number;
     memberId: number;
     nickName: string;
-    profileImage: string;
+    profileImage: string | null;
     role: "MEMBER" | "LEADER";
     email: string;
 }

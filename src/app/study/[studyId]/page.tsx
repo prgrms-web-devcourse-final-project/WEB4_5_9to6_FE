@@ -1,6 +1,6 @@
 "use client";
 
-import { studyInfo } from "@/api/studies";
+import { fetchStudyInfo } from "@/api/studies";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
@@ -46,7 +46,7 @@ export default function Page() {
 
     const { data: studyData } = useQuery<StudyInfos>({
         queryKey: ["studyId", studyId],
-        queryFn: async () => await studyInfo(studyId!),
+        queryFn: async () => await fetchStudyInfo(studyId!),
         enabled: !!studyId,
     });
 

@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import BottomModal from "../common/BottomModal";
 
@@ -13,6 +13,10 @@ export default function MenuModal({
     setIsUserOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const router = useRouter();
+    const params = useParams();
+    const id = params?.studyId;
+    const studyId = typeof id === "string" ? parseInt(id) : null;
+
     const userModalHandler = () => {
         setIsUserOpen(true);
         onClose();
@@ -27,7 +31,9 @@ export default function MenuModal({
             >
                 <button
                     className="mt-[18px] flex h-[44px] w-full cursor-pointer items-center justify-between transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
-                    onClick={() => router.push("/study/1/studyInfo")}
+                    onClick={() => {
+                        router.push(`/study/${studyId}/studyInfo`);
+                    }}
                 >
                     <h6 className="ml-5 text-[var(--color-gray1000)]">
                         스터디 정보

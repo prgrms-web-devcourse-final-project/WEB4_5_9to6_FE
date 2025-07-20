@@ -42,8 +42,8 @@ export default function StudyCard({
         const isMember = await checkIsMember(id);
         // console.log("isMember", isMember);
         if (studyType === "DEFAULT") {
-            console.log("유저정보", userInfo);
-            console.log("리더아이디", leaderId);
+            // console.log("유저정보", userInfo);
+            // console.log("리더아이디", leaderId);
             if (leaderId && leaderId === userInfo?.id) {
                 router.push(`/study/${id}/manage`);
             } else if (isMember.isMember === true) router.push(`/study/${id}`);

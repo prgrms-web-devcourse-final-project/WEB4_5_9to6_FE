@@ -13,7 +13,7 @@ import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
 // import { useAnimationStore } from "@/stores/modalAnimationStore";
-import { getApplicants, studyInfo } from "@/api/studies";
+import { fetchStudyInfo, getApplicants } from "@/api/studies";
 import { Members, StudyInfos } from "@/types/study";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
@@ -30,23 +30,6 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
-    // console.log("유저정보", myInfo);
-    // const { changeClass } = useAnimationStore();
-
-    // const applyHandler = () => {
-    //     changeClass("animate-modalFadeOut");
-    //     setTimeout(() => {
-    //         setIsOpen(false);
-    //     }, 300);
-
-    //     setIsApply(true);
-    //     customAlert({
-    //         message: "스터디를 신청했어요.곧 연락올거에요!",
-    //         linkLabel: "닫기",
-    //         onClick: () => {},
-    //     });
-    //     //신청자 목록에 추가
-    // };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -66,7 +49,7 @@ export default function Page() {
             // console.log(typeof id);
             if (typeof id === "string") {
                 try {
-                    const data: StudyInfos = await studyInfo(parseInt(id));
+                    const data: StudyInfos = await fetchStudyInfo(parseInt(id));
                     setStudy(data);
                 } catch (err) {
                     console.error("스터디 정보 에러:", err);

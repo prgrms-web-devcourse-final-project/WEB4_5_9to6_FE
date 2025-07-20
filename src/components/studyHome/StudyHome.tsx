@@ -14,6 +14,7 @@ import MenuModal from "./MenuModal";
 import StudyUserModal from "@/components/studyHome/StudyUserModal";
 import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
 import AvatarDisplay from "./AvatarDisplay";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function StudyHome({
     notice,
@@ -45,6 +46,7 @@ export default function StudyHome({
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const router = useRouter();
+    const userInfo = useAuthStore((state) => state.myInfo);
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
@@ -100,7 +102,9 @@ export default function StudyHome({
                 {!isStart && (
                     <button
                         className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80"
-                        onClick={() => router.push("/profile/1/theme")}
+                        onClick={() =>
+                            router.push(`/profile/${userInfo?.id}/theme`)
+                        }
                     >
                         <span className="c2 text-[var(--color-white)]">
                             테마변경

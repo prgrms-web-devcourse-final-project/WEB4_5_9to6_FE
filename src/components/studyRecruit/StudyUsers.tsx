@@ -1,5 +1,5 @@
 import { studyMembers } from "@/api/studies";
-import avatar from "../../../public/images/avatarImgs/basic2.png";
+import defaultImg from "../../../public/images/avatarImgs/basic2.png";
 import { Members } from "@/types/study";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -50,9 +50,14 @@ export default function StudyUsers() {
                                 >
                                     <Image
                                         src={
-                                            member.profileImage
-                                                ? member.profileImage
-                                                : avatar
+                                            typeof member.profileImage ===
+                                                "string" &&
+                                            member.profileImage?.includes(
+                                                "https://placehold.co/100x100",
+                                            )
+                                                ? defaultImg
+                                                : member.profileImage ||
+                                                  defaultImg
                                         }
                                         alt="아바타"
                                         height={32}
