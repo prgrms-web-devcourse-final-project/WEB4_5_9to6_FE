@@ -1,8 +1,30 @@
 "use client";
 
+import { fetchAllTime } from "@/api/timer";
+import { useAuthStore } from "@/stores/authStore";
+import { useQuery } from "@tanstack/react-query";
 import { Check, Minus } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function LogPerWeek({ study }: { study?: StudyInfo }) {
+    const { myInfo } = useAuthStore();
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+
+    const { data } = useQuery({
+        queryKey: ["all-time", myInfo],
+        enabled: !!myInfo?.id,
+        queryFn: () => fetchAllTime(myInfo!.id),
+    });
+
+    useEffect(() => {
+        if (data?.totalStudyTime != null) {
+            const total = data.totalStudyTime;
+            setHours(Math.floor(total / 60));
+            setMinutes(total % 60);
+        }
+    }, [data]);
+
     return (
         <>
             <div className="w-full rounded-2xl bg-white p-5">
@@ -49,9 +71,9 @@ export default function LogPerWeek({ study }: { study?: StudyInfo }) {
                 <hr className="text-gray200 mb-5" />
                 <h6 className="text-gray700 mb-[14px]">주간 내 타이머</h6>
                 <div className="text-gray1000 mb-5 flex items-baseline gap-[2px]">
-                    <span className="text-[32px]">3</span>
+                    <span className="text-[32px]">{hours}</span>
                     <span className="text-base">시간</span>
-                    <span className="text-[32px]">16</span>
+                    <span className="text-[32px]">{minutes}</span>
                     <span className="text-base">분</span>
                 </div>
             </div>

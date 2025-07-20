@@ -50,17 +50,19 @@ export default function MyStudyModal() {
                             className="cursor-pointer"
                         />
                     </div>
-                    {data?.userStudies.map((v, i) => (
-                        <MyStudyItem
-                            key={i}
-                            closeHandler={() => {
-                                changeIndex(i);
-                                closeHandler();
-                            }}
-                            title={v.title}
-                            selected={studyIndex === i}
-                        />
-                    ))}
+                    <div className="max-h-[60vh] overflow-y-scroll">
+                        {data?.userStudies.map((v, i) => (
+                            <MyStudyItem
+                                key={i}
+                                closeHandler={() => {
+                                    changeIndex(i);
+                                    closeHandler();
+                                }}
+                                title={v.title}
+                                selected={studyIndex === i}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

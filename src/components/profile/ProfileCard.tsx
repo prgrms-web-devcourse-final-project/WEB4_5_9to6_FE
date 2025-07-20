@@ -5,6 +5,7 @@ import medal from "../../assets/images/medal.png";
 import ToolTip from "../common/ToolTip";
 import { useEffect } from "react";
 import { useProfileStore } from "@/stores/memberStore";
+import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function ProfileCard({ id }: { id: string }) {
     const { data, data2, data3, fetch } = useProfileStore();
@@ -55,12 +56,10 @@ export default function ProfileCard({ id }: { id: string }) {
                 </div>
                 <span className="bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
-                        src={
-                            data2?.avatarImage ||
-                            "/images/avatarImgs/basic1.png"
-                        }
+                        src={getValidAvatar(data2?.avatarImage)}
                         alt="프로필"
                         className="h-12 w-12 object-fill"
+                        sizes="48px"
                         fill
                     />
                 </span>
