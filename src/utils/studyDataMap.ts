@@ -3,13 +3,13 @@ export const getValidAvatar = (avatar?: string | null) =>
         ? "/images/avatarImgs/basic2.png"
         : avatar;
 export const dayMap: Record<string, string> = {
-    MON: "월요일",
-    TUE: "화요일",
-    WED: "수요일",
-    THU: "목요일",
-    FRI: "금요일",
-    SAT: "토요일",
-    SUN: "일요일",
+    MON: "월",
+    TUE: "화",
+    WED: "수",
+    THU: "목",
+    FRI: "금",
+    SAT: "토",
+    SUN: "일",
 };
 export const categoryMap: Record<string, string> = {
     LANGUAGE: "어학",
@@ -38,4 +38,21 @@ export const regionMap: Record<string, string> = {
     GYEONGNAM: "경남",
     GYEONGBUK: "경북",
     JEJU: "제주",
+};
+
+export const scheduleString = (sche: string[]) => {
+    const day: Record<string, string> = {
+        MON: "월",
+        TUE: "화",
+        WED: "수",
+        THU: "목",
+        FRI: "금",
+        SAT: "토",
+        SUN: "일",
+    };
+    const order = Object.keys(day);
+    return sche
+        .sort((a, b) => order.indexOf(a) - order.indexOf(b))
+        .map((d) => day[d])
+        .join(", ");
 };

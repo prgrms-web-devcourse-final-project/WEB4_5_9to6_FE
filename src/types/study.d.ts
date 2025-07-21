@@ -31,40 +31,62 @@ interface CreateStudy {
     online: boolean;
 }
 
-const dayMap: Record<string, string> = {
-    MON: "월요일",
-    TUE: "화요일",
-    WED: "수요일",
-    THU: "목요일",
-    FRI: "금요일",
-    SAT: "토요일",
-    SUN: "일요일",
-};
-const categoryMap: Record<string, string> = {
-    LANGUAGE: "어학",
-    JOB: "취업",
-    PROGRAMMING: "프로그래밍",
-    EXAM_PUBLIC: "고시&공무원",
-    EXAM_SCHOOL: "수능&내신",
-    ETC: "기타",
-};
-const regionMap: Record<string, string> = {
-    ONLINE: "온라인",
-    SEOUL: "서울",
-    GYEONGGI: "경기",
-    GANGWON: "강원",
-    INCHEON: "인천",
-    BUSAN: "부산",
-    ULSAN: "울산",
-    DAEGU: "대구",
-    DAEJEON: "대전",
-    GWANGJU: "광주",
-    SEJONG: "세종",
-    CHUNGNAM: "충남",
-    CHUNGBUK: "충북",
-    JEONNAM: "전남",
-    JEONBUK: "전북",
-    GYEONGNAM: "경남",
-    GYEONGBUK: "경북",
-    JEJU: "제주",
-};
+// 스터디 목록 관련
+interface StudySearchParams {
+    page: number;
+    size: number;
+    category: string;
+    region: string;
+    status: string;
+    name: string;
+    studyType?: "DEFAULT" | "SURVIVAL";
+}
+interface Study {
+    studyId: number;
+    title: string;
+    category: string;
+    currentMemberCount: number;
+    maxMemberCount: number;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    status: "READY" | "ACTIVE";
+    createdAt: string;
+    startDate: string;
+    region: string;
+    studyType: "SURVIVAL" | "DEFAULT";
+}
+interface Members {
+    studyMemberId: number;
+    memberId: number;
+    nickName: string;
+    profileImage: string;
+    role: "MEMBER" | "LEADER";
+    email: string;
+}
+interface Goal {
+    goalId: number;
+    content: string;
+    type: "WEEKLY";
+}
+interface StudyInfos {
+    name: string;
+    category: string;
+    maxMembers: number;
+    region: string;
+    place: string | null;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    startDate: string;
+    endDate: string;
+    createdAt: string;
+    status: "READY" | "ACTIVE";
+    description: string;
+    externalLink: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+    goals: Goal[];
+    notice: string;
+    currentMemberCount: number;
+    online: boolean;
+}
