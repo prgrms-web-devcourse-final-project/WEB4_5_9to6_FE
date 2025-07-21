@@ -9,7 +9,7 @@ type StudyCardWithAvatar = StudyInfo & {
 
 interface ProfileStore {
     data: MemberProfile | null;
-    data2: MemberInfo | null;
+    data2: MemberInfoType | null;
     data3: StudyCardWithAvatar[] | null;
     memberId: number;
     loading: boolean;

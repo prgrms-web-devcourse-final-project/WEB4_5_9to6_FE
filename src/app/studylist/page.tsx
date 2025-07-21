@@ -8,7 +8,6 @@ import Channel from "@/components/studyList/Channel";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { defaultSearch, survSearch } from "@/api/studies";
-import { Study } from "@/types/study";
 import { useAuthStore } from "@/stores/authStore";
 import useDebounce from "@/hooks/useDebounce";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
