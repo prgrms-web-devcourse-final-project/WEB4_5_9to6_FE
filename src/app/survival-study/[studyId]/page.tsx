@@ -46,7 +46,6 @@ export default function SurvivalStudy() {
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
     });
-    const isMember = apply?.isMember;
     const canStart = apply;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
@@ -60,7 +59,7 @@ export default function SurvivalStudy() {
         router.push(`/survival-study/${studyId}/quiz/1`);
     };
     const buttonHandler = (studyId: number) => {
-        if (!isMember) {
+        if (!apply) {
             setShowModal(true);
         } else if (canStart) {
             if (!studyId) {
@@ -86,10 +85,10 @@ export default function SurvivalStudy() {
 
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {
-        if (myInfo === null && !isMember) {
+        if (myInfo === null && !apply) {
             router.push("/");
         }
-    }, [myInfo, isMember, router]);
+    }, [myInfo, apply, router]);
 
     return (
         <>
@@ -121,7 +120,7 @@ export default function SurvivalStudy() {
                 <NoticeBox notice={study?.notice} />
                 <SurvivalInfo study={study} />
                 <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
-                    {!isMember ? (
+                    {!apply ? (
                         <Button
                             onClick={() => buttonHandler(study.studyId)}
                             color="primary"
