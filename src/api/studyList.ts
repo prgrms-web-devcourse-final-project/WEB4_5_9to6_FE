@@ -32,3 +32,14 @@ export const fetchStudyMember = async (studyId: number) => {
     const response = await axiosInstance.get(`studies/${studyId}/members`);
     return response.data.data;
 };
+
+export const survivalApply = async (studyId: number, memberId: number) => {
+    const response = await axiosInstance.post(
+        `studies/${studyId}/applications/respond`,
+        {
+            memberId,
+            applicationResult: "ACCEPT",
+        },
+    );
+    return response.data;
+};

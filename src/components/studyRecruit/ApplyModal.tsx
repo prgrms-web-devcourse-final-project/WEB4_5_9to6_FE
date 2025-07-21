@@ -55,6 +55,21 @@ export default function ApplyModal({
             console.error("신청 실패", error);
         },
     });
+
+    const survivalApply = useMutation({
+        mutationFn: () => {
+            if (studyId === null) throw new Error("잘못된 스터디 ID");
+            return survivalApply(studyId, memberId);
+        },
+        onSuccess: (data) => {
+            console.log("서바이벌 신청 성공", data);
+            onClose();
+            onApply();
+        },
+        onError: (error) => {
+            console.error("서바이벌 신청 실패", error);
+        },
+    });
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
