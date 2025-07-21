@@ -1,6 +1,6 @@
 import Image from "next/image";
 import studyImg from "@/assets/studyImg.png";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
     Bell,
     ChevronLeft,
@@ -26,6 +26,8 @@ export default function StudyHome({
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const router = useRouter();
+    const params = useParams();
+    const studyId = params?.studyId;
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
@@ -55,7 +57,7 @@ export default function StudyHome({
                         <div className="flex items-center gap-2">
                             <button
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
-                                onClick={() => router.push("/chat")}
+                                onClick={() => router.push(`${studyId}/chat`)}
                             >
                                 <MessageSquare className="h-5 w-5 text-[#161616]" />
                             </button>

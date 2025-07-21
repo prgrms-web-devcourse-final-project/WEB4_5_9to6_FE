@@ -1,18 +1,53 @@
 "use client";
 
 import { SendHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChatMemberList from "./ChatMemberList";
 import { useChatMemberList } from "@/stores/chatModalStore";
+import { CompatClient, IMessage, over } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import { useParams } from "next/navigation";
 
 interface MemberType {
     id: number;
     name: string;
 }
+
+let stompClient: CompatClient;
+
 export default function MessageInput() {
     const { whisperTarget, closeModal } = useChatMemberList();
     const [message, setMessage] = useState("");
     const { openModal, isOpen } = useChatMemberList();
+    const params = useParams();
+    const studyId = Number(params.studyId);
+
+    const connect = () => {
+        const socket = new SockJS("https://studium.cedartodo.uk/ws-stomp");
+        stompClient = over(socket);
+
+        const token = localStorage.getItem("accessToken");
+
+        stompClient.connect(
+            { Authorization: `Bearer ${token}` },
+            onConnected,
+            onError,
+        );
+    };
+
+    const onConnected = () => {
+        console.log("웹소켓 연결됨");
+        stompClient.subscribe(`/subscribe/${studyId}`, onMessageReceived);
+        stompClient.subscribe(`/user/queue/messages`, onMessageReceived);
+    };
+
+    const onError = (error: any) => {
+        console.error("웹소켓 연결 실패:", error);
+    };
+    const onMessageReceived = (message: IMessage) => {
+        const body = JSON.parse(message.body);
+        console.log("받은 메시지:", body);
+    };
 
     const teamMembers: MemberType[] = [
         { id: 201, name: "오수보망" },
@@ -22,13 +57,23 @@ export default function MessageInput() {
     ];
 
     const sendMessage = () => {
-        if (!message) {
-            return;
+        if (stompClient && stompClient.connected) {
+            const msgPayload = {
+                content: message,
+                studyId,
+            };
+            stompClient.send(
+                `/publish/chat.send/${studyId}`,
+                {},
+                JSON.stringify(msgPayload),
+            );
+            setMessage("");
         }
-        console.log("보낸 메시지:", message);
-        console.log("누구한테?:", whisperTarget);
-        setMessage("");
     };
+
+    useEffect(() => {
+        connect();
+    }, []);
 
     return (
         <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-8">

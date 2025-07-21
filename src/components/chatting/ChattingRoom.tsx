@@ -131,24 +131,6 @@ export default async function ChattingRoom() {
             sent_at: "08:18",
             activated: true,
         },
-        // {
-        //     chat_id: 14,
-        //     room_id: 1,
-        //     receiver_id: null,
-        //     sender_id: 202,
-        //     content: "저사람 뭐야 (수근수근)",
-        //     sent_at: "08:18",
-        //     activated: true,
-        // },
-        // {
-        //     chat_id: 15,
-        //     room_id: 1,
-        //     receiver_id: null,
-        //     sender_id: 202,
-        //     content: "저사람 뭐야 (수근수근)",
-        //     sent_at: "08:18",
-        //     activated: true,
-        // },
     ];
 
     const getNicknameById = (id: number | null) => {

@@ -49,7 +49,6 @@ export default function Page() {
         queryFn: async () => await studyInfo(studyId!),
         enabled: !!studyId,
     });
-
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 56) {
@@ -77,7 +76,7 @@ export default function Page() {
                     <div className="flex items-center gap-4">
                         <MessageSquare
                             className="h-5 w-5 cursor-pointer"
-                            onClick={() => router.push("/chat")}
+                            onClick={() => router.push(`/${studyId}/chat`)}
                         />
                         <Bell
                             className="h-5 w-5 cursor-pointer"
