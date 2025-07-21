@@ -17,7 +17,9 @@ export default function ChangeNickname({ id }: { id: string }) {
     const { fetch } = useProfileStore();
     const router = useRouter();
 
-    const clickHandler = async () => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (!nickname || nicknameError) return;
         try {
             await changeNickName(nickname);
@@ -59,7 +61,10 @@ export default function ChangeNickname({ id }: { id: string }) {
 
     return (
         <>
-            <div className="flex h-full flex-col justify-between bg-white p-5">
+            <form
+                onSubmit={(e) => submitHandler(e)}
+                className="flex h-full flex-col justify-between bg-white p-5"
+            >
                 <div className="flex flex-col">
                     <p className="b2 text-gray1000 mb-2">닉네임</p>
                     <Input
@@ -72,10 +77,14 @@ export default function ChangeNickname({ id }: { id: string }) {
                     />
                 </div>
 
-                <Button onClick={clickHandler} color="black">
+                <Button
+                    type="submit"
+                    color="black"
+                    disabled={!nickname || nicknameError}
+                >
                     변경하기
                 </Button>
-            </div>
+            </form>
         </>
     );
 }

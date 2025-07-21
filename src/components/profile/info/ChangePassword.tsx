@@ -20,7 +20,8 @@ export default function ChangePassword({ id }: { id: string }) {
     const { myInfo, refetch } = useAuthStore();
     const router = useRouter();
 
-    const clickHandler = async () => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (
             !newPassword ||
             !newPasswordCheck ||
@@ -98,9 +99,16 @@ export default function ChangePassword({ id }: { id: string }) {
         }
     }, [newPasswordCheck, newPassword]);
 
+    useEffect(() => {
+        setCurrentPasswordError(false);
+    }, [currentPassword]);
+
     return (
         <>
-            <div className="flex h-full flex-col justify-between bg-white p-5">
+            <form
+                onSubmit={(e) => submitHandler(e)}
+                className="flex h-full flex-col justify-between bg-white p-5"
+            >
                 <div className="flex flex-col">
                     <p className="b2 text-gray1000 mb-2">기존 비밀번호</p>
                     <Input
@@ -141,10 +149,21 @@ export default function ChangePassword({ id }: { id: string }) {
                         errorMsg="비밀번호가 일치하지 않습니다."
                     />
                 </div>
-                <Button color="black" onClick={clickHandler}>
+                <Button
+                    type="submit"
+                    color="black"
+                    disabled={
+                        !currentPassword ||
+                        !newPassword ||
+                        !newPasswordCheck ||
+                        currentPasswordError ||
+                        newPasswordError ||
+                        newPasswordCheckError
+                    }
+                >
                     비밀번호 변경
                 </Button>
-            </div>
+            </form>
         </>
     );
 }
