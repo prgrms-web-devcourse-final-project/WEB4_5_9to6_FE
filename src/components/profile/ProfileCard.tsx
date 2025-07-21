@@ -11,7 +11,7 @@ export default function ProfileCard({ id }: { id: string }) {
     const { data, data2, data3, fetch } = useProfileStore();
 
     useEffect(() => {
-        if (!data || !data2 || !data3) fetch(Number(id));
+        fetch(Number(id));
     }, [id, data, data2, data3, fetch]);
 
     return (

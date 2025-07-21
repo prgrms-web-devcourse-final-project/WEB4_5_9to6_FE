@@ -6,6 +6,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
+import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function MyInfoCard({ id }: { id: string }) {
     const { myInfo } = useAuthStore();
@@ -23,12 +24,10 @@ export default function MyInfoCard({ id }: { id: string }) {
             <div className="flex flex-col items-center justify-center gap-5 pt-4 pb-12">
                 <span className="not-only:bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
-                        src={
-                            myInfo?.avatarInfo.avatarImage ||
-                            "/images/avatarImgs/basic1.png"
-                        }
+                        src={getValidAvatar(myInfo?.avatarInfo.avatarImage)}
                         alt="프로필"
                         className="h-12 w-12 object-fill"
+                        sizes="48px"
                         fill
                     />
                     <span className="bg-gray700 absolute right-0 bottom-0 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full">
