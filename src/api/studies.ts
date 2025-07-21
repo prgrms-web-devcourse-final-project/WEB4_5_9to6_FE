@@ -1,4 +1,4 @@
-import { StudySearchParams } from "@/types/study";
+import { StudySearchParams } from "@/types/studyInfo";
 import { axiosInstance } from ".";
 
 // 스터디 정보

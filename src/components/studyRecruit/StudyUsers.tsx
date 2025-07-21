@@ -1,6 +1,6 @@
 import { studyMembers } from "@/api/studies";
 import avatar from "../../../public/images/avatarImgs/basic2.png";
-import { Members } from "@/types/study";
+import { Members } from "@/types/studyInfo";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";

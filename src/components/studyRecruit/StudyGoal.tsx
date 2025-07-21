@@ -1,5 +1,5 @@
 import { goalsInfo } from "@/api/studies";
-import { Goal } from "@/types/study";
+import { Goal } from "@/types/studyInfo";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

@@ -6,7 +6,7 @@ import StudyCard from "../common/StudyCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 // import { useEffect, useState } from "react";
-import { Members, Study } from "@/types/study";
+import { Members, Study } from "@/types/studyInfo";
 import { studyMembers } from "@/api/studies";
 import StudyResult from "./SearchResult";
 import { useQueries } from "@tanstack/react-query";

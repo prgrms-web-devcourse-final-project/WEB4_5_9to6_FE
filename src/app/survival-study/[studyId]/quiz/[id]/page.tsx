@@ -10,7 +10,6 @@ export default function QuizPage() {
     const params = useParams();
     const quizId = Number(params.id);
     const studyId = Number(params.studyId);
-    console.log("params", params);
     const [showExitModal, setShowExitModal] = useState(false);
     const browserPreventEvent = (event: () => void) => {
         history.pushState(null, "", location.href);

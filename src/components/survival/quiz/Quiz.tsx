@@ -34,7 +34,6 @@ export default function Quiz({
 
         enabled: !!studyId && !!quizId,
     });
-    console.log(quizData);
 
     const { data: studyMembeData } = useQuery<StudyMember[]>({
         queryKey: ["studyMemberId", studyId],
@@ -60,14 +59,13 @@ export default function Quiz({
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         return Math.floor(diffDays / 7) + 1;
     };
-    console.log("startDate =", study?.startDate);
 
     const currentWeek = study?.startDate
         ? getCurrentWeekNum(study.startDate)
         : null;
 
     const currentWeekData = quizData?.find((w) => w.week === currentWeek);
-    console.log("currentWeek =", currentWeek);
+    console.log("현재 몇주차? =", currentWeek);
 
     const currentQuiz = currentWeekData?.quizzes.find(
         (q) => q.quizId === quizId,
@@ -103,7 +101,7 @@ export default function Quiz({
                 (member) => member.memberId === myInfo?.id,
             );
             if (!myStudyMemberId) {
-                console.error("내 멤버아이디를 찾을 수 없음");
+                console.error("내 스멤아이디를 찾을 수 없음");
                 return;
             }
             try {
@@ -118,11 +116,8 @@ export default function Quiz({
                     `quiz/${studyId}/weeks/${currentWeek}/results`,
                     payload,
                 );
-            } catch (err: any) {
-                console.error(
-                    "score 저장 중 에러",
-                    err.response?.data || err.message,
-                );
+            } catch (err) {
+                console.error("score 저장 중 에러", err);
             }
             router.push(`/survival-study/${studyId}/quiz/result`);
         }

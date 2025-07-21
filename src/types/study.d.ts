@@ -1,4 +1,4 @@
-interface GoalType {
+interface Goal {
     goalId: number;
     content: string;
     type: string;

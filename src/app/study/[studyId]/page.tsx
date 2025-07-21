@@ -4,7 +4,7 @@ import { studyInfo } from "@/api/studies";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
-import { Study } from "@/types/study";
+import { Study } from "@/types/studyInfo";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {

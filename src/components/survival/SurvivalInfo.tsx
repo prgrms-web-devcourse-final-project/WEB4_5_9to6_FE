@@ -24,7 +24,9 @@ export default function SurvivalInfo({ study }: { study: StudyInfo }) {
                 </h2>
                 <p className="mt-1.5 text-center text-[var(--color-gray700)]">
                     매주{" "}
-                    {study?.schedules?.map((day) => dayMap[day]).join(", ")}{" "}
+                    {study?.schedules
+                        ?.map((day: string) => dayMap[day])
+                        .join(", ")}{" "}
                     {study?.startTime}~{study?.endTime} ·{" "}
                     {regionMap[study?.region ?? 0]}
                 </p>
@@ -35,25 +37,27 @@ export default function SurvivalInfo({ study }: { study: StudyInfo }) {
             <hr className="mx-5 mt-6 text-[var(--color-gray200)]" />
             <div className="mb-7 w-full px-5">
                 <h3 className="mt-6">서바이벌 목표</h3>
-                <div className="mt-[10px] flex flex-col gap-2">
-                    {study?.goals?.slice(0, 4).map((schedule, index) => (
-                        <div
-                            key={index}
-                            className="flex h-[50px] w-full items-center justify-between rounded-[12px] bg-[var(--color-gray100)] px-4 py-4"
-                        >
-                            <div className="flex">
-                                <p className="c1 mr-3 font-medium text-[var(--color-gray1000)]">
-                                    {index + 1}주차
-                                </p>
-                                <p className="c1 text-[var(--color-gray1000)]">
-                                    {schedule.content}
+                <div className="mt-[10px] flex cursor-default flex-col gap-2">
+                    {study?.goals
+                        ?.slice(0, 4)
+                        .map((schedule: Goal, index: number) => (
+                            <div
+                                key={index}
+                                className="flex h-[50px] w-full items-center justify-between rounded-[12px] bg-[var(--color-gray100)] px-4 py-4"
+                            >
+                                <div className="flex">
+                                    <p className="c1 mr-3 font-medium text-[var(--color-gray1000)]">
+                                        {index + 1}주차
+                                    </p>
+                                    <p className="c1 text-[var(--color-gray1000)]">
+                                        {schedule?.content}
+                                    </p>
+                                </div>
+                                <p className="text-[var(--color-main400)]">
+                                    {100 * (index + 1)}P
                                 </p>
                             </div>
-                            <p className="text-[var(--color-main400)]">
-                                {100 * (index + 1)}P
-                            </p>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
         </>
