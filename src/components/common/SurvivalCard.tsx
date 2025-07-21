@@ -2,12 +2,14 @@ import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function SurvivalStudy({
+    studyId,
     category,
     title,
     content,
     startDate,
     member,
 }: {
+    studyId: number;
     category: string;
     title: string;
     content: string;
@@ -19,7 +21,7 @@ export default function SurvivalStudy({
         <>
             <div
                 className="h-[206px] w-[188px] cursor-pointer rounded-[16px] bg-gradient-to-b from-[#E93D5B] via-[#D32D4A] to-[#BA1A37] px-4 text-white"
-                onClick={() => router.push("/survival-study/1")}
+                onClick={() => router.push(`/survival-study/${studyId}`)}
             >
                 <p className="c2 mt-[17px]">{category}</p>
                 <h4 className="mt-3">{title}</h4>
