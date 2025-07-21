@@ -7,6 +7,7 @@ import { useProfileStore } from "@/stores/memberStore";
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
+import { customAlert } from "@/utils/customAlert";
 
 export default function ShopCard({ id }: { id: string }) {
     const { myInfo } = useAuthStore();
@@ -15,6 +16,7 @@ export default function ShopCard({ id }: { id: string }) {
 
     useEffect(() => {
         if (myInfo && myInfo.id !== Number(id)) {
+            customAlert({ message: "❗ 잘못된 경로의 접근입니다!" });
             router.replace("/");
         }
     }, [myInfo, id, router]);

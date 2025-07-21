@@ -9,13 +9,13 @@ import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ChangeNickname() {
+export default function ChangeNickname({ id }: { id: string }) {
     const [nickname, setNickname] = useState("");
     const [nicknameError, setNicknameError] = useState(false);
     const [nicknameErrorMsg, setNicknameErrorMsg] = useState("");
     const { myInfo, refetch } = useAuthStore();
     const { fetch } = useProfileStore();
-    const rotuer = useRouter();
+    const router = useRouter();
 
     const clickHandler = async () => {
         if (!nickname || nicknameError) return;
@@ -28,11 +28,18 @@ export default function ChangeNickname() {
                 linkLabel: "닫기",
                 onClick: () => {},
             });
-            rotuer.back();
+            router.back();
         } catch (e) {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        if (myInfo && myInfo.id !== Number(id)) {
+            customAlert({ message: "❗ 잘못된 경로의 접근입니다!" });
+            router.replace("/");
+        }
+    }, [myInfo, id, router]);
 
     useEffect(() => {
         if (nickname) {

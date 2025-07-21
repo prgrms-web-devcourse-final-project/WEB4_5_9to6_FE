@@ -8,7 +8,7 @@ import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ChangePassword() {
+export default function ChangePassword({ id }: { id: string }) {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordCheck, setNewPasswordCheck] = useState("");
@@ -17,8 +17,8 @@ export default function ChangePassword() {
     const [newPasswordCheckError, setNewPasswordCheckError] = useState(false);
     const [newPasswordErrorMsg, setNewPasswordErrorMsg] = useState("");
 
-    const { refetch } = useAuthStore();
-    const rotuer = useRouter();
+    const { myInfo, refetch } = useAuthStore();
+    const router = useRouter();
 
     const clickHandler = async () => {
         if (
@@ -43,11 +43,18 @@ export default function ChangePassword() {
                 linkLabel: "닫기",
                 onClick: () => {},
             });
-            rotuer.back();
+            router.back();
         } catch (e) {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        if (myInfo && myInfo.id !== Number(id)) {
+            customAlert({ message: "❗ 잘못된 경로의 접근입니다!" });
+            router.replace("/");
+        }
+    }, [myInfo, id, router]);
 
     useEffect(() => {
         if (newPassword) {
