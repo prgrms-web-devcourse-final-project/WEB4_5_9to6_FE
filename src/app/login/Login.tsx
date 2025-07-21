@@ -20,18 +20,14 @@ export default function Login() {
 
     const { mutate: loginMutate } = useMutation({
         mutationFn: () => login(email, password),
-        onSuccess: (response) => {
-            const token = response?.data.accessToken;
-            console.log(response);
-            if (token) {
-                useAuthStore.getState().login(token);
-                router.push("/");
-                customAlert({
-                    message: "로그인 되었습니다!",
-                    linkLabel: "닫기",
-                    onClick: () => {},
-                });
-            }
+        onSuccess: () => {
+            useAuthStore.getState().login();
+            router.push("/");
+            customAlert({
+                message: "로그인 되었습니다!",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
         },
         onError: (error: { status: number }) => {
             console.error(error);

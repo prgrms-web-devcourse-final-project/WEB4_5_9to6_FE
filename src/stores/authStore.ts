@@ -3,6 +3,7 @@ import { fetchMyInfo } from "@/api/members";
 
 export const useAuthStore = create<AuthStore>((set) => ({
     isLogIn: false,
+    isFetched: false,
     myInfo: null,
     refetch: async () => {
         const response = await fetchMyInfo();
@@ -16,13 +17,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
             });
             console.log(useAuthStore.getState().myInfo);
         }
+        set({ isFetched: true });
     },
-    login: (token: string) => {
-        localStorage.setItem("accessToken", token);
+    login: () => {
         useAuthStore.getState().refetch();
     },
     logout: () => {
         set({ isLogIn: false, myInfo: null });
-        localStorage.removeItem("accessToken");
     },
 }));

@@ -19,7 +19,8 @@ interface User {
 interface AuthStore {
     isLogIn: boolean;
     myInfo: User | null;
+    isFetched: boolean;
     refetch: () => Promise<void>;
-    login: (token: string) => void;
+    login: () => void;
     logout: () => void;
 }

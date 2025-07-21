@@ -8,7 +8,6 @@ import { fetchRandomStudyList, fetchStudyList } from "@/api/studyList";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
 type StudyCardWithAvatar = StudyInfo & {
     leaderAvatar: string | null;
@@ -17,7 +16,8 @@ type StudyCardWithAvatar = StudyInfo & {
 export default function StudyTime() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
-    const [isLogIn, setIsLogIn] = useState<boolean | null>(null);
+    const isLogIn = useAuthStore((state) => state.isLogIn);
+    const isFetched = useAuthStore((state) => state.isFetched);
 
     const getValidAvatar = (avatar?: string | null) =>
         !avatar || avatar.includes("placehold.co")
@@ -86,7 +86,7 @@ export default function StudyTime() {
     }
 
     // 로그인 시
-    const { data: userData, isLoading: isLoadingUser } = useQuery({
+    const { data: userData } = useQuery({
         queryKey: ["myInfo", myInfo?.id],
         queryFn: async () => {
             const myStudy = await fetchStudyList(myInfo?.id ?? 0);
@@ -103,12 +103,12 @@ export default function StudyTime() {
                 leaderAvatar: avatarList[i],
             }));
         },
-        enabled: isLogIn === true && !!myInfo,
+        enabled: isFetched && isLogIn && !!myInfo,
         retry: 0,
     });
 
     // 비로그인 시
-    const { data: guestData, isLoading: isLoadingGuest } = useQuery({
+    const { data: guestData } = useQuery({
         queryKey: ["guestStudy"],
         queryFn: async () => {
             const randomList = await fetchRandomStudyList();
@@ -124,17 +124,12 @@ export default function StudyTime() {
                 leaderAvatar: avatarList[i],
             }));
         },
-        enabled: isLogIn === false,
+        enabled: isFetched && !isLogIn,
         retry: 0,
     });
 
     const studyCards =
         isLogIn === true ? userData : isLogIn === false ? guestData : [];
-
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        setIsLogIn(!!token);
-    }, []);
 
     return (
         <>
