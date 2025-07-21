@@ -1,6 +1,9 @@
 "use-client";
+import { studyApply } from "@/api/studies";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ApplyModal({
@@ -21,6 +24,9 @@ export default function ApplyModal({
     const [applyMent, setApplyMent] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
+    const params = useParams();
+    const id = params?.studyId;
+    const studyId = typeof id === "string" ? parseInt(id) : null;
 
     useEffect(() => {
         if (isOpen) {
@@ -35,6 +41,20 @@ export default function ApplyModal({
         }
     }, [isOpen, changeClass]);
 
+    const applyMutation = useMutation({
+        mutationFn: () => {
+            if (studyId === null) throw new Error("잘못된 스터디 ID");
+            return studyApply(studyId, applyMent);
+        },
+        onSuccess: (data) => {
+            console.log("신청 성공", data);
+            onClose();
+            onApply();
+        },
+        onError: (error) => {
+            console.error("신청 실패", error);
+        },
+    });
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
@@ -87,16 +107,13 @@ export default function ApplyModal({
                             </h5>
                         </button>
                         <button
-                            onClick={onApply}
+                            onClick={() => applyMutation.mutate()}
                             className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
                         >
                             <h5 className="text-[var(--color-white)]">
                                 신청하기
                             </h5>
                         </button>
-                        {/* <Button color="primary" onClick={onApply}>
-                            신청하기
-                        </Button> */}
                     </div>
                 </div>
             </div>

@@ -27,3 +27,17 @@ interface StudyMember {
     role: "LEADER" | "MEMBER";
     email: string;
 }
+
+interface MemberProfile {
+    nickname: string;
+    joinedStudyCount: number;
+    rewardPoints: number;
+    winCount: number;
+    userStudies: StudyInfo[];
+}
+
+interface MemberInfo {
+    email: string;
+    nickname: string;
+    avatarImage: string | null;
+}

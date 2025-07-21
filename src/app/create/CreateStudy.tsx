@@ -11,19 +11,8 @@ import { customAlert } from "@/utils/customAlert";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const client = new QueryClient();
 
 export default function CreateStudy() {
-    return (
-        <QueryClientProvider client={client}>
-            <CreateStudyContent />
-        </QueryClientProvider>
-    );
-}
-
-function CreateStudyContent() {
     const [step, setStep] = useState(1);
     const [category, setCategory] = useState("");
     const [maxMember, setMaxMember] = useState("");
