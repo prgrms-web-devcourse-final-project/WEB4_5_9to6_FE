@@ -11,6 +11,7 @@ interface ProfileStore {
     data: MemberProfile | null;
     data2: MemberInfo | null;
     data3: StudyCardWithAvatar[] | null;
+    memberId: number;
     loading: boolean;
     fetch: (id: number) => Promise<void>;
     reset: () => void;
@@ -20,6 +21,7 @@ export const useProfileStore = create<ProfileStore>((set) => ({
     data: null,
     data2: null,
     data3: null,
+    memberId: 0,
     loading: false,
     error: null,
 
@@ -29,6 +31,8 @@ export const useProfileStore = create<ProfileStore>((set) => ({
             const res = await fetchMemeberPage(id);
             const res2 = await fetchMemeberInfo(id);
             const res3 = await fetchStudyList(id);
+
+            const memberId = res3.memberId;
 
             const avatarList = await Promise.all(
                 res3.studies.map((study: StudyCardWithAvatar) => {
@@ -47,6 +51,7 @@ export const useProfileStore = create<ProfileStore>((set) => ({
                 data: res.data,
                 data2: res2.data,
                 data3: studyList,
+                memberId: memberId,
                 loading: false,
             });
         } catch (e) {
@@ -54,5 +59,12 @@ export const useProfileStore = create<ProfileStore>((set) => ({
         }
     },
 
-    reset: () => set({ data: null, data2: null, data3: null, loading: false }),
+    reset: () =>
+        set({
+            data: null,
+            data2: null,
+            data3: null,
+            memberId: 0,
+            loading: false,
+        }),
 }));

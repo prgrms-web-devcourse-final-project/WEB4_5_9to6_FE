@@ -8,11 +8,12 @@ import { useProfileStore } from "@/stores/memberStore";
 import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function ProfileCard({ id }: { id: string }) {
-    const { data, data2, data3, fetch } = useProfileStore();
+    const { data, data2, data3, memberId, fetch } = useProfileStore();
 
     useEffect(() => {
-        fetch(Number(id));
-    }, [id, data, data2, data3, fetch]);
+        if (memberId !== Number(id)) fetch(Number(id));
+        if (!data || !data2 || !data3) fetch(Number(id));
+    }, [id, data, data2, data3, memberId, fetch]);
 
     return (
         <>
