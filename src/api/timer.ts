@@ -1,5 +1,6 @@
 import { axiosInstance } from ".";
 
+// 특정 스터디 최근 7일간 일별 공부시간
 export const fetchStudyWeeklyDailyTime = async (
     studyId: number,
     memberId: number,
@@ -10,6 +11,7 @@ export const fetchStudyWeeklyDailyTime = async (
     return response.data.data;
 };
 
+// 특정 스터디 최근 7일간 누적 공부시간
 export const fetchStudyWeeklyAllTime = async (
     studyId: number,
     memberId: number,
@@ -20,6 +22,7 @@ export const fetchStudyWeeklyAllTime = async (
     return response.data.data;
 };
 
+// 전체 누적 공부시간
 export const fetchAllTime = async (memberId: number) => {
     const response = await axiosInstance.get(`timer/${memberId}/all-time`);
     return response.data.data;

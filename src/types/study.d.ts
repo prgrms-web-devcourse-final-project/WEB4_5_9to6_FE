@@ -90,3 +90,10 @@ interface StudyInfos {
     currentMemberCount: number;
     online: boolean;
 }
+
+interface Attendance {
+    attendanceId: number;
+    attendanceDate: string;
+    dayOfWeek: string;
+    attend: boolean;
+}
