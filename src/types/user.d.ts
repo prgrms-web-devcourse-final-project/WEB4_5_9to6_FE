@@ -7,7 +7,7 @@ interface MemberInfo {
     rewardPoints: number;
     role: "ROLE_USER" | "ADMIN";
     socialType: "LOCAL" | "GOOGLE" | "KAKAO";
-    winCount: number;
+    winCount: number | null;
 }
 interface AvatarInfo {
     avatarImage: string | null;

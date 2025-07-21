@@ -9,6 +9,7 @@ interface NoticeBoxProps {
     isLeader?: boolean;
     onSave?: (newNotice: string) => void;
 }
+
 export default function NoticeBox({
     notice,
     className,

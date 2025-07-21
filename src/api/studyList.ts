@@ -1,16 +1,5 @@
 import { axiosInstance } from "./index";
 
-// 서바이벌 스터디
-// export const fetchSurvStudyList = async () => {
-//     const response = await axiosInstance.post("studies/search", {
-//         name: "",
-//     });
-//     const survivalStudy = response.data.filter(
-//         (study: StudyType) => study.studyType === "SURVIVAL",
-//     );
-//     return survivalStudy;
-// };
-
 // 유저의 스터디 리스트
 export const fetchStudyList = async (id: number) => {
     const response = await axiosInstance.get(`members/${id}/studies`);
@@ -29,5 +18,17 @@ export const fetchRandomStudyList = async () => {
 
 export const fetchSurvival = async (id: number) => {
     const response = await axiosInstance.get(`studies/${id}`);
+    return response.data.data;
+};
+
+export const fetchIsApplied = async (studyId: number) => {
+    const response = await axiosInstance.get(
+        `studies/${studyId}/members/me/check`,
+    );
+    return response.data.data;
+};
+
+export const fetchStudyMember = async (studyId: number) => {
+    const response = await axiosInstance.get(`studies/${studyId}/members`);
     return response.data.data;
 };

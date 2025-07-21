@@ -1,35 +1,7 @@
 import Image from "next/image";
+import { regionMap, categoryMap, dayMap } from "../../utils/mappings";
 
 export default function SurvivalInfo({ study }: { study: StudyInfo }) {
-    const categoryMap: Record<string, string> = {
-        ALL: "전체",
-        LANGUAGE: "어학",
-        JOB: "취업",
-        PROGRAMMING: "프로그래밍",
-        EXAM_PUBLIC: "고시&공무원",
-        EXAM_SCHOOL: "수능&내신",
-        ETC: "기타",
-    };
-    const dayMap: Record<string, string> = {
-        MON: "월요일",
-        TUE: "화요일",
-        WED: "수요일",
-        THU: "목요일",
-        FRI: "금요일",
-        SAT: "토요일",
-        SUN: "일요일",
-    };
-    const regionMap: Record<string, string> = {
-        ONLINE: "온라인",
-        SEOUL: "서울",
-        INCHEON: "인천",
-        GYEONGGI: "경기",
-        DAEJEON: "대전",
-        GANGWON: "강원",
-        SEJONG: "세종",
-        CHUNGBUK: "충북",
-    };
-
     return (
         <>
             <div className="mt-6 mb-7 w-full px-5">
@@ -57,7 +29,7 @@ export default function SurvivalInfo({ study }: { study: StudyInfo }) {
                     {regionMap[study?.region ?? 0]}
                 </p>
                 <h4 className="h4 mt-6.5 text-center">
-                    참가자 :{study?.currentMemberCount}명
+                    참가자 : {study?.currentMemberCount}명
                 </h4>
             </div>
             <hr className="mx-5 mt-6 text-[var(--color-gray200)]" />

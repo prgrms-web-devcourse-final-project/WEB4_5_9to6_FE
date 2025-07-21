@@ -3,15 +3,14 @@
 import BackButton from "@/components/common/BackButton";
 import ExitModal from "@/components/survival/quiz/ExitModal";
 import Quiz from "@/components/survival/quiz/Quiz";
-import { useEffect, use, useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function QuizPage({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
-    const { id } = use(params);
-    const quizId = Number(id);
+export default function QuizPage() {
+    const params = useParams();
+    const quizId = Number(params.id);
+    const studyId = Number(params.studyId);
+    console.log("params", params);
     const [showExitModal, setShowExitModal] = useState(false);
     const browserPreventEvent = (event: () => void) => {
         history.pushState(null, "", location.href);
@@ -44,7 +43,7 @@ export default function QuizPage({
                     <h1 className="h1 mb-9.5">1주차</h1>
                     <hr className="text-[var(--color-gray200)]" />
                 </div>
-                <Quiz id={quizId} />
+                <Quiz quizId={quizId} studyId={studyId} />
             </div>
         </>
     );

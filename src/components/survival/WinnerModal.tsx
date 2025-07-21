@@ -2,10 +2,11 @@
 
 import { useWinnerModalStore } from "@/stores/winnerModalStore";
 import { useEffect, useState } from "react";
-import trophy from "../../assets/images/trophy.png";
-import Image from "next/image";
+// import trophy from "../../assets/images/trophy.png";
+// import Image from "next/image";
 import Button from "../common/Button";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function WinnerModal() {
     const { isOpen, closeModal } = useWinnerModalStore();
@@ -46,10 +47,10 @@ export default function WinnerModal() {
                         <p className="text-main400 mb-5 text-[28px] font-bold">
                             +2,500P
                         </p>
-                        <Image
-                            src={trophy}
-                            alt="트로피"
-                            className="mb-8 h-35 w-35 transition-all duration-200 hover:brightness-120"
+                        <DotLottieReact
+                            src="https://lottie.host/711210fb-9240-4a0f-b624-6668baac5430/Z7uh4wOSJ6.lottie"
+                            loop
+                            autoplay
                         />
                         <h4 className="text-gray1000">축하드립니다!</h4>
                         <h4 className="text-gray1000 mb-12">

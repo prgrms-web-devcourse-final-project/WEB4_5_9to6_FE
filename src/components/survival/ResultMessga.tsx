@@ -5,6 +5,7 @@ import Button from "../common/Button";
 import { useRouter } from "next/navigation";
 import { useQuizResult } from "@/stores/quizStore";
 import { useWinnerModalStore } from "@/stores/winnerModalStore";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function ResultMessage() {
     const { openModal } = useWinnerModalStore();
@@ -30,13 +31,11 @@ export default function ResultMessage() {
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
                 {isPass ? (
-                    <div className="animate-bounceShort -rotate-10">
-                        <Image
-                            src="/icons/thumb-up.svg"
-                            alt="thumbup"
-                            width={120}
-                            height={120}
-                            priority
+                    <div className="">
+                        <DotLottieReact
+                            src="https://lottie.host/bb7e10dd-08e1-4c7c-9cef-3b2df68b979c/c3d3wpoXAr.lottie"
+                            loop
+                            autoplay
                         />
                     </div>
                 ) : (

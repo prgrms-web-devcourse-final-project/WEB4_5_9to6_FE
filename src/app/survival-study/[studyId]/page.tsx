@@ -10,52 +10,63 @@ import { useAnimationStore } from "@/stores/modalAnimationStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSurvival } from "@/api/studyList";
+import { fetchIsApplied, fetchSurvival } from "@/api/studyList";
+import { useAuthStore } from "@/stores/authStore";
+import { useSurvivalStore } from "@/stores/survivalStore";
+import { dayMap, categoryMap } from "@/utils/mappings";
 
 export default function SurvivalStudy() {
     const params = useParams();
     const studyId = Number(params?.studyId);
     const router = useRouter();
+    const { myInfo } = useAuthStore();
+    const { setStudy } = useSurvivalStore();
 
     // 시작요일
-    const quizDay = 3;
+    // const quizDay = 7;
 
     // const today = new Date();
-    const todayDay = new Date().getDay();
-    const [isApplied, setIsApplied] = useState(false);
+    // const todayDay = new Date().getDay();
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
-    const canStart = isApplied && todayDay === quizDay;
-
-    const dayMap: Record<string, string> = {
-        MON: "월요일",
-        TUE: "화요일",
-        WED: "수요일",
-        THU: "목요일",
-        FRI: "금요일",
-        SAT: "토요일",
-        SUN: "일요일",
-    };
 
     const closeHandler = () => setShowModal(false);
 
-    const quizStartHandler = (studyId: number) => {
-        router.push(`/survival-study/${studyId}/quiz/1`);
-    };
-
-    const { data: study, isLoading } = useQuery({
+    const { data: study } = useQuery({
         queryKey: ["survivalStudy", studyId],
         queryFn: () => fetchSurvival(studyId),
         enabled: !!studyId,
     });
 
+    const { data: isApplied } = useQuery({
+        queryKey: ["isApplied", studyId, myInfo?.id],
+        queryFn: () => fetchIsApplied(studyId),
+        enabled: !!studyId && !!myInfo?.id,
+    });
+
+    const canStart = isApplied;
+
+    // 서바이벌 data, studyId, studyMemberId 전역으로 저장
+    useEffect(() => {
+        if (study) {
+            setStudy({ ...study, studyId });
+        }
+    }, [setStudy, studyId, study]);
+
+    const quizStartHandler = (studyId: number) => {
+        router.push(`/survival-study/${studyId}/quiz/1`);
+    };
     const buttonHandler = (studyId: number) => {
         if (!isApplied) {
             setShowModal(true);
         } else if (canStart) {
+            if (!studyId) {
+                console.error("studyId is undefined");
+                return;
+            }
             quizStartHandler(studyId);
         }
     };
@@ -66,13 +77,19 @@ export default function SurvivalStudy() {
             setShowModal(false);
         }, 300);
 
-        setIsApplied(true);
         customAlert({
             message: "서바이벌 스터디가 신청되었습니다!",
             linkLabel: "닫기",
             onClick: () => {},
         });
     };
+
+    // 노로그인/노가입 사용자는 홈으로 보내버림
+    useEffect(() => {
+        if (myInfo === null && !isApplied) {
+            router.push("/");
+        }
+    }, [myInfo, isApplied, router]);
 
     return (
         <>
@@ -93,7 +110,7 @@ export default function SurvivalStudy() {
                         <BackButton className="h-4 w-4" />
                     </div>
                     <button className="absolute right-4 bottom-4 h-6.5 w-14.5 rounded-3xl bg-[#1d1d1d]/80">
-                        <Link href="/profile/123/theme">
+                        <Link href={`/profile/${myInfo?.id}/theme`}>
                             <p className="c2 px-2 pt-0.5 text-white">
                                 테마변경
                             </p>
@@ -114,9 +131,9 @@ export default function SurvivalStudy() {
                         </Button>
                     ) : (
                         <Button
-                            onClick={() => buttonHandler(study?.studyId)}
+                            onClick={() => buttonHandler(studyId)}
                             disabled={!canStart}
-                            className={`mx-5 my-5 ${
+                            className={`mx-5 ${
                                 canStart
                                     ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
                                     : "cursor-not-allowed bg-[var(--color-gray200)] text-[var(--color-gray500)]"
@@ -144,20 +161,22 @@ export default function SurvivalStudy() {
                     <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
                         <div className="flex justify-between">
                             <p className="b2">스터디 이름</p>
-                            <p className="b2">{study.description}</p>
+                            <p className="b2">{study?.description}</p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 주제</p>
-                            <p className="b2">{study.category}</p>
+                            <p className="b2">{categoryMap[study?.category]}</p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 요일</p>
-                            <p className="b2">매주 {dayMap[study.schedules]}</p>
+                            <p className="b2">
+                                매주 {dayMap[study?.schedules]}
+                            </p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 시간</p>
                             <p className="b2">
-                                {study.startTime}~{study.endTime}
+                                {study?.startTime}~{study?.endTime}
                             </p>
                         </div>
                     </div>
