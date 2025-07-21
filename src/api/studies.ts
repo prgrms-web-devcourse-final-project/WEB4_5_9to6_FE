@@ -1,5 +1,4 @@
-import { StudySearchParams } from "@/types/studyInfo";
-import { axiosInstance } from ".";
+import { axiosInstance } from "./index";
 
 // 스터디 정보
 export const studyInfo = async (studyId: number) => {
@@ -95,5 +94,11 @@ export const getApplicants = async (studyId: number) => {
 export const checkIsMember = async (studyId: number) => {
     console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}/members/me/check`);
+    return res.data.data;
+};
+
+//스터디 주간 출석체크 조회
+export const checkWeekAttendance = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/attendance`);
     return res.data.data;
 };

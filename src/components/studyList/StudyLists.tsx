@@ -6,10 +6,10 @@ import StudyCard from "../common/StudyCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 // import { useEffect, useState } from "react";
-import { Members, Study } from "@/types/studyInfo";
 import { studyMembers } from "@/api/studies";
 import StudyResult from "./SearchResult";
 import { useQueries } from "@tanstack/react-query";
+import { categoryMap, regionMap, scheduleString } from "@/utils/studyDataMap";
 
 export default function StudyLists({
     defaultStudies,
@@ -20,45 +20,6 @@ export default function StudyLists({
     survStudies: Study[] | undefined;
     search: string;
 }) {
-    // console.log("리스트로 온 일반", defaultStudies);
-    // console.log("리스트로 온 서바이벌", survStudies);
-    const day: Record<string, string> = {
-        MON: "월",
-        TUE: "화",
-        WED: "수",
-        THU: "목",
-        FRI: "금",
-        SAT: "토",
-        SUN: "일",
-    };
-    const category: Record<string, string> = {
-        LANGUAGE: "어학",
-        JOB: "취업",
-        PROGRAMMING: "프로그래밍",
-        EXAM_PUBLIC: "고시&공무원",
-        EXAM_SCHOOL: "수능&내신",
-        ETC: "기타",
-    };
-    const region: Record<string, string> = {
-        ALL: "전체",
-        ONLINE: "온라인",
-        SEOUL: "서울",
-        INCHEON: "인천",
-        GYEONGGI: "경기",
-        DAEJEON: "대전",
-        GANGWON: "강원",
-        SEJONG: "세종",
-        CHUNGBUK: "충북",
-    };
-    // const [leaders, setLeaders] = useState<Members[]>([]);
-
-    const scheduleString = (sche: string[]) => {
-        const order = Object.keys(day);
-        return sche
-            .sort((a, b) => order.indexOf(a) - order.indexOf(b))
-            .map((d) => day[d])
-            .join(", ");
-    };
     const isNewFunc = (start: string) => {
         const now = new Date();
         const startDate = new Date(start);
@@ -129,14 +90,14 @@ export default function StudyLists({
                         <StudyCard
                             key={i}
                             studyId={study.studyId}
-                            category={category[study.category]}
+                            category={categoryMap[study.category]}
                             isNew={isNewFunc(study.startDate)}
                             title={study.title}
                             avatar={leaders[i]?.profileImage}
                             schedule={scheduleString(study.schedules)}
                             startTime={study.startTime}
                             endTime={study.endTime}
-                            region={region[study.region]}
+                            region={regionMap[study.region]}
                             member={{
                                 current: study.currentMemberCount,
                                 max: study.maxMemberCount,

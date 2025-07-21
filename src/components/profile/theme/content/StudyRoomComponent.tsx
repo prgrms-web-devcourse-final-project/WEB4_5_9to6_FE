@@ -15,10 +15,10 @@ export default function StudyRoomComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const [src, setSrc] = useState(`/images/roomImgs/room1.png`);
+    const [src, setSrc] = useState(`/images/roomImgs/room0.png`);
 
     useEffect(() => {
-        setSrc(`/images/roomImgs/room${index + 1}.png`);
+        setSrc(`/images/roomImgs/room${index}.png`);
     }, [index]); // 클라이언트에서 동작하게끔 구성
     return (
         <>

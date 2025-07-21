@@ -31,10 +31,11 @@ export default function ResultMessage() {
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
                 {isPass ? (
-                    <div className="-rotate-15">
+                    <div className="relative">
                         <DotLottieReact
                             src="https://lottie.host/ea118c2f-d2b3-4872-8c48-db0fb1c7bd56/ezGBcAOaUd.lottie"
                             autoplay
+                            loop
                             style={{ width: "100%" }}
                         />
                         <Image
@@ -43,7 +44,7 @@ export default function ResultMessage() {
                             width={120}
                             height={120}
                             priority
-                            className=""
+                            className="animate-slideFadeDown abolute z-20"
                         />
                     </div>
                 ) : (

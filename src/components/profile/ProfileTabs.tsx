@@ -1,14 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyStudyList from "./MyStudyList";
 import MyLogList from "./MyLogList";
 import ChannelSlideBar from "../common/ChannelSlideBar";
+import { useProfileStore } from "@/stores/memberStore";
 
-export default function ProfileTabs() {
-    const myStudyLength = 3;
-    const tabs = [`내 스터디 ${myStudyLength}`, "활동로그"];
-    const [isTab, setTab] = useState(`내 스터디 ${myStudyLength}`);
+export default function ProfileTabs({ id }: { id: string }) {
+    const { data } = useProfileStore();
+    const tabs = [`내 스터디 ${data?.joinedStudyCount}`, "활동로그"];
+    const [isTab, setTab] = useState<string>("");
+
+    useEffect(() => {
+        if (data) {
+            setTab(`내 스터디 ${data?.joinedStudyCount}`);
+        }
+    }, [data]);
+
+    if (!data || !isTab) return null;
+
     return (
         <>
             <ChannelSlideBar
@@ -20,8 +30,10 @@ export default function ProfileTabs() {
                 className="max-h-[calc(100vh-330px)] overflow-y-auto px-5 py-6"
                 style={{ scrollPaddingBottom: "136px" }}
             >
-                {isTab === `내 스터디 ${myStudyLength}` && <MyStudyList />}
-                {isTab === "활동로그" && <MyLogList />}
+                {isTab === `내 스터디 ${data?.joinedStudyCount || 0}` && (
+                    <MyStudyList />
+                )}
+                {isTab === "활동로그" && <MyLogList id={id} />}
             </div>
         </>
     );

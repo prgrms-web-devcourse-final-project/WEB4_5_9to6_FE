@@ -26,7 +26,6 @@ export default function Quiz({
     const { myInfo } = useAuthStore();
     const [isSubmit, setIsSubmit] = useState(false);
     const isSurvived = score >= 3;
-    const is_passed = score >= 3;
 
     const { data: quizData } = useQuery<WeekQuiz[]>({
         queryKey: ["quiz"],
@@ -85,10 +84,6 @@ export default function Quiz({
         setIsSubmit(true);
     };
 
-    console.log("studyId:", studyId);
-    console.log("currentWeek:", currentWeek);
-    console.log("score:", score);
-
     // 다음 문제로 이동
     const goNextHandler = async () => {
         if (quizId < lastQuiz) {
@@ -108,7 +103,6 @@ export default function Quiz({
                 const payload = {
                     studyMemberId: myStudyMemberId.studyMemberId,
                     isSurvived,
-                    is_passed,
                 };
                 console.log("보내는 데이터", JSON.stringify(payload));
 
@@ -116,6 +110,7 @@ export default function Quiz({
                     `quiz/${studyId}/weeks/${currentWeek}/results`,
                     payload,
                 );
+                console.log("score 전달완료", payload);
             } catch (err) {
                 console.error("score 저장 중 에러", err);
             }
