@@ -3,29 +3,156 @@
 import { Plus } from "lucide-react";
 import FilterModal from "@/components/studyList/FilterModal";
 import StudyLists from "@/components/studyList/StudyLists";
-import SearchResult from "@/components/studyList/SearchResult";
 import SearchBar from "@/components/studyList/SearchBar";
 import Channel from "@/components/studyList/Channel";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { defaultSearch, survSearch } from "@/api/studies";
+import { Study } from "@/types/study";
 import { useAuthStore } from "@/stores/authStore";
+import useDebounce from "@/hooks/useDebounce";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+const category: Record<string, string> = {
+    전체: "ALL",
+    어학: "LANGUAGE",
+    취업: "JOB",
+    프로그래밍: "PROGRAMMING",
+    "고시&공무원": "EXAM_PUBLIC",
+    "수능&내신": "EXAM_SCHOOL",
+    기타: "ETC",
+};
+interface Filtering {
+    region: string;
+    status: string;
+    regionSelect: boolean;
+    statusSelect: boolean;
+}
 
 export default function Page() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selected, setSelected] = useState("전체");
     const [search, setSearch] = useState(""); //검색어
-    const [filter, setFilter] = useState<string[]>([]); //지역,활동상태
-    const isLogIn = useAuthStore((state) => state.isLogIn);
+    const [filter, setFilter] = useState<Filtering>({
+        region: "ALL",
+        status: "활동 전체",
+        regionSelect: false,
+        statusSelect: false,
+    }); //지역,활동상태
 
-    const searchHandler = (filters: string[]) => {
+    const searchHandler = (filters: Filtering) => {
+        console.log("필터링값들:", filters);
+        if (filters.status === "") filters.status = "활동 전체";
+        if (filters.region === "") filters.region = "ALL";
+        console.log("필터링값들updated:", filters);
         setFilter(filters);
         setIsModalOpen(false);
     };
 
+    const removeFilter = (type: "region" | "status") => {
+        setFilter((prev) => ({
+            ...prev,
+            [type]: type === "region" ? "ALL" : "활동 전체",
+            [`${type}Select`]: false,
+        }));
+    };
+
+    const isLogIn = useAuthStore((state) => state.isLogIn); //유저정보
+    const debouncedInput = useDebounce(search, 200); //검색
+    const observerRef = useRef<HTMLDivElement | null>(null); //무한스크롤
+
+    //활동상태 계산
+    const calActive = (startDate: string) => {
+        const now = new Date();
+        const start = new Date(startDate);
+        return now < start ? "활동 전" : "활동중";
+    };
+    //초기화
+    // useEffect(() => {
+    //     setStudies([]);
+    //     setDefaultStudies([]);
+    //     setSurvStudies([]);
+    //     setPage(1);
+    //     setHasMore(true);
+    // }, [filter]);
+
+    //데이터 불러오기
+    //일반 스터디 검색
+    const {
+        data: defaultData,
+        fetchNextPage: fetchNextDefault,
+        hasNextPage: hasMoreDefault,
+        isFetchingNextPage: isLoadingDefault,
+    } = useInfiniteQuery<Study[], Error>({
+        queryKey: ["defaultStudies", filter, debouncedInput, selected],
+        queryFn: ({ pageParam = 1 }) =>
+            defaultSearch({
+                page: pageParam as number,
+                size: 12,
+                category: category[selected],
+                region: filter.region,
+                status: "ALL",
+                name: debouncedInput || "",
+            }),
+        getNextPageParam: (lastPage, allPages) =>
+            lastPage.length < 12 ? undefined : allPages.length + 1,
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 3, //3분
+    });
+
+    const {
+        data: survData,
+        // isLoading:isLoadingSurv,
+    } = useQuery<Study[], Error>({
+        queryKey: ["survStudies", filter, debouncedInput, selected],
+        queryFn: () =>
+            survSearch({
+                page: 1,
+                size: 15,
+                category: category[selected],
+                region: filter.region,
+                status: "ALL",
+                name: debouncedInput || "",
+            }),
+        staleTime: 1000 * 60 * 3,
+    });
+    const defaultStudies =
+        filter.status === "활동 전체"
+            ? (defaultData?.pages.flat() ?? [])
+            : (defaultData?.pages.flat() ?? []).filter(
+                  (s) => calActive(s.startDate) === filter?.status,
+              );
+    const survStudies =
+        filter.status === "활동 전체"
+            ? (survData ?? [])
+            : (survData ?? []).filter(
+                  (s) => calActive(s.startDate) === filter?.status,
+              );
+    //페이지네이션
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries[0].isIntersecting &&
+                    !isLoadingDefault &&
+                    hasMoreDefault
+                ) {
+                    fetchNextDefault();
+                }
+            },
+            { threshold: 0.1, rootMargin: "50px" },
+        );
+
+        if (observerRef.current) observer.observe(observerRef.current);
+
+        return () => {
+            if (observerRef.current) observer.unobserve(observerRef.current);
+        };
+    }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
+
     return (
         <>
-            <div className="hide-scrollbar mb-[72px] h-screen min-w-[360px] overflow-y-auto">
-                <div className="fixed top-[62px] z-20 w-full bg-[var(--color-gray100)]/60 px-5 backdrop-blur-xl">
+            <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
+                <div className="fixed top-[62px] z-50 w-full bg-[var(--color-gray100)] px-5">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -40,23 +167,45 @@ export default function Page() {
                         selected={selected}
                     />
                 </div>
-                <div className="min-h-screen pt-[154px]">
-                    <div className="min-h-screen w-full bg-[var(--color-gray100)] pt-[19px]">
-                        {filter.length === 0 && search === "" && <StudyLists />}
-                        {(filter.length > 0 || search !== "") && (
-                            <SearchResult
-                                search={search}
-                                filter={filter}
-                                setFilter={setFilter}
-                            />
+
+                <div className="mt-[156px] h-full">
+                    <div className="h-full w-full pt-[19px] pb-[30px]">
+                        {/* 필터링 뱃지 */}
+                        {(filter.regionSelect || filter.statusSelect) && (
+                            <div className="fixed top-[146px] left-5 z-[999] flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
+                                {filter.regionSelect && (
+                                    <button
+                                        className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
+                                        onClick={() => removeFilter("region")}
+                                    >
+                                        {filter.region}
+                                    </button>
+                                )}
+                                {filter.statusSelect && (
+                                    <button
+                                        className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
+                                        onClick={() => removeFilter("status")}
+                                    >
+                                        {filter.status}
+                                    </button>
+                                )}
+                            </div>
                         )}
+                        <StudyLists
+                            defaultStudies={defaultStudies}
+                            survStudies={survStudies}
+                            search={search}
+                        />
+
+                        {/* 무한스크롤 감지 */}
+                        <div ref={observerRef} className="h-[2px]" />
 
                         {/* 필터 모달 */}
                         {isModalOpen && (
                             <FilterModal
                                 isOpen={isModalOpen}
                                 onClose={() => setIsModalOpen(false)}
-                                onApply={(filters: string[]) => {
+                                onApply={(filters: Filtering) => {
                                     searchHandler(filters);
                                 }}
                             />

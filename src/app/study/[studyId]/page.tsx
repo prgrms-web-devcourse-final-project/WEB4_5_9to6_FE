@@ -1,9 +1,12 @@
 "use client";
 
+import { studyInfo } from "@/api/studies";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
+import { Study } from "@/types/study";
 import { customAlert } from "@/utils/customAlert";
+import { useQuery } from "@tanstack/react-query";
 import {
     Bell,
     EllipsisVertical,
@@ -11,7 +14,7 @@ import {
     Pause,
     Play,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
@@ -23,6 +26,9 @@ export default function Page() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const router = useRouter();
+    const params = useParams();
+    const id = params?.studyId;
+    const studyId = typeof id === "string" ? parseInt(id) : null;
 
     const finishHandler = () => {
         setIsStart(false);
@@ -37,6 +43,13 @@ export default function Page() {
             onClick: () => {},
         });
     };
+
+    const { data: studyData } = useQuery<Study>({
+        queryKey: ["studyId", studyId],
+        queryFn: async () => await studyInfo(studyId!),
+        enabled: !!studyId,
+    });
+
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 56) {
@@ -59,7 +72,7 @@ export default function Page() {
             >
                 <div className="absolute right-7 left-11 flex items-center justify-between">
                     <p className="b2 ml-2 min-w-0 basis-[40%] truncate">
-                        숲속에서 함께 라틴어 공부할 요정들의 스터디 모임
+                        {studyData?.title}
                     </p>
                     <div className="flex items-center gap-4">
                         <MessageSquare
