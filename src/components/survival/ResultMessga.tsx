@@ -31,11 +31,19 @@ export default function ResultMessage() {
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
                 {isPass ? (
-                    <div className="">
+                    <div className="-rotate-15">
                         <DotLottieReact
-                            src="https://lottie.host/bb7e10dd-08e1-4c7c-9cef-3b2df68b979c/c3d3wpoXAr.lottie"
-                            loop
+                            src="https://lottie.host/ea118c2f-d2b3-4872-8c48-db0fb1c7bd56/ezGBcAOaUd.lottie"
                             autoplay
+                            style={{ width: "100%" }}
+                        />
+                        <Image
+                            src="/icons/thumb-up.svg"
+                            alt="thumbup"
+                            width={120}
+                            height={120}
+                            priority
+                            className=""
                         />
                     </div>
                 ) : (
