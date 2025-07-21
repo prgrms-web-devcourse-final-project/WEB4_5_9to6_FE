@@ -29,7 +29,7 @@ export default async function page({
             <div className="flex h-screen items-center justify-center pt-15.5">
                 <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
                     <ProfileCard id={profileId} />
-                    <ProfileTabs />
+                    <ProfileTabs id={profileId} />
                     <MyStudyModal />
                 </div>
             </div>
