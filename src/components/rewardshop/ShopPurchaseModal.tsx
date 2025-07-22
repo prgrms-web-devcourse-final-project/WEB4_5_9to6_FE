@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/common/Button";
+import { useProfileStore } from "@/stores/memberStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
@@ -14,6 +15,7 @@ export default function ShopPurchaseModal() {
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
+    const { data } = useProfileStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -75,7 +77,9 @@ export default function ShopPurchaseModal() {
                     <div className="bg-gray100 mx-5 mb-[10px] rounded-xl p-4">
                         <div className="mb-1.5 flex items-center justify-between">
                             <p className="b2 text-gray1000">내 리워드</p>
-                            <h6 className="text-gray1000">5,600P</h6>
+                            <h6 className="text-gray1000">
+                                {data?.rewardPoints || 0}P
+                            </h6>
                         </div>
                         <div className="mb-3.5 flex items-center justify-between">
                             <p className="b2 text-gray1000">{goodsName}</p>
@@ -86,13 +90,21 @@ export default function ShopPurchaseModal() {
                         <hr className="text-gray200 mb-3.5" />
                         <div className="flex items-center justify-between">
                             <p className="b2 text-gray1000">구매 후 리워드</p>
-                            <h6 className="text-gray1000">
-                                {(5600 - goodsPrice).toLocaleString()}P
+                            <h6
+                                className={` ${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
+                            >
+                                {(data?.rewardPoints || 0) - goodsPrice >= 0
+                                    ? `${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`
+                                    : "리워드가 충분하지 않습니다!"}
                             </h6>
                         </div>
                     </div>
                     <div className="z-10 rounded-xl bg-white p-5">
-                        <Button onClick={clickHandler}>구매하기</Button>
+                        {(data?.rewardPoints || 0) - goodsPrice >= 0 ? (
+                            <Button onClick={clickHandler}>구매하기</Button>
+                        ) : (
+                            <Button disabled>구매불가</Button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -6,44 +6,34 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function ShopRoomComponent({
+    id,
     name,
-    index,
+    price,
+    owned,
     selected,
     onSelect,
 }: {
+    id: number;
     name: string;
-    index: number;
+    price: number;
+    owned: boolean;
     selected: boolean;
     onSelect: () => void;
 }) {
-    const [src, setSrc] = useState(`/images/roomImgs/room1.png`);
+    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
-        setSrc(`/images/roomImgs/room${index}.png`);
-    }, [index]); // 클라이언트에서 동작하게끔 구성
+        setSrc(`/images/rewardItems/${id}.png`);
+    }, [id]);
 
     const { openModal, nameChange, priceChange } = useShopModalStore();
 
-    const purchasedData = [
-        true,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-    ];
-    const priceData = [0, 500, 500, 500, 800, 800, 1000, 1000, 2000];
-
     const clickHandler = () => {
-        const isPurchased = purchasedData[index];
-        if (isPurchased) {
+        if (owned) {
             onSelect();
         } else {
             nameChange(name);
-            priceChange(priceData[index]);
+            priceChange(price);
             openModal(
                 <div className="relative aspect-[80/45] h-40">
                     <Image
@@ -72,20 +62,23 @@ export default function ShopRoomComponent({
                 <div
                     onClick={clickHandler}
                     className="relative aspect-[80/45] cursor-pointer"
+                    style={{ minHeight: "120px" }} // ✅ 추가
                 >
                     <Image
                         src={src}
                         alt="스터디룸"
                         fill
-                        className="absolute inset-0 rounded-xl"
+                        sizes="100%"
+                        onError={() => setSrc("/images/rewardItems/11.png")}
+                        className="absolute inset-0 rounded-xl object-cover"
                     />
                     <div
-                        className={`${purchasedData[index] ? "bg-black/0" : "bg-black/50"} temaChoose`}
+                        className={`${owned ? "bg-black/0" : "bg-black/50"} temaChoose`}
                     ></div>
-                    {!purchasedData[index] && (
+                    {!owned && (
                         <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
                             <Lock size={18} className="mb-1 text-white" />
-                            <p className="h6 text-white">{priceData[index]}P</p>
+                            <p className="h6 text-white">{price}P</p>
                         </div>
                     )}
                 </div>
