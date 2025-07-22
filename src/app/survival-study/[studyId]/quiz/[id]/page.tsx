@@ -3,21 +3,20 @@
 import BackButton from "@/components/common/BackButton";
 import ExitModal from "@/components/survival/quiz/ExitModal";
 import Quiz from "@/components/survival/quiz/Quiz";
-import { useEffect, use, useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function QuizPage({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
-    const { id } = use(params);
-    const quizId = Number(id);
+export default function QuizPage() {
+    const params = useParams();
+    const quizId = Number(params.id);
+    const studyId = Number(params.studyId);
     const [showExitModal, setShowExitModal] = useState(false);
     const browserPreventEvent = (event: () => void) => {
         history.pushState(null, "", location.href);
         event();
     };
 
+    // 퀴즈 중간에 뒤로가기 방지
     useEffect(() => {
         history.pushState(null, "", location.href);
         const handler = () => browserPreventEvent(() => setShowExitModal(true));
@@ -37,14 +36,8 @@ export default function QuizPage({
                         className="h-6 w-6"
                     />
                 </header>
-                <div className="text-center">
-                    <h5 className="h5 mb-3 text-[var(--color-main400)]">
-                        서바이벌 Quiz
-                    </h5>
-                    <h1 className="h1 mb-9.5">1주차</h1>
-                    <hr className="text-[var(--color-gray200)]" />
-                </div>
-                <Quiz id={quizId} />
+
+                <Quiz quizId={quizId} studyId={studyId} />
             </div>
         </>
     );

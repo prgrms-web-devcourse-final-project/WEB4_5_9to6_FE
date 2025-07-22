@@ -19,12 +19,13 @@ export default function ShopRoomComponent({
     const [src, setSrc] = useState(`/images/roomImgs/room1.png`);
 
     useEffect(() => {
-        setSrc(`/images/roomImgs/room${index + 1}.png`);
+        setSrc(`/images/roomImgs/room${index}.png`);
     }, [index]); // 클라이언트에서 동작하게끔 구성
 
     const { openModal, nameChange, priceChange } = useShopModalStore();
 
     const purchasedData = [
+        true,
         true,
         true,
         false,
@@ -34,7 +35,7 @@ export default function ShopRoomComponent({
         false,
         false,
     ];
-    const priceData = [500, 500, 500, 800, 800, 1000, 1000, 2000];
+    const priceData = [0, 500, 500, 500, 800, 800, 1000, 1000, 2000];
 
     const clickHandler = () => {
         const isPurchased = purchasedData[index];

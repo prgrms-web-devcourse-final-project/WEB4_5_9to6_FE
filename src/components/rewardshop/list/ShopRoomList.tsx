@@ -13,6 +13,7 @@ export default function ShopRoomList() {
         <>
             <div className="mx-5 mb-[90px] flex flex-col gap-6">
                 {[
+                    "기본",
                     "천상정원",
                     "스페이스 엣지",
                     "도쿄 뒷골목",

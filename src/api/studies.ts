@@ -1,5 +1,4 @@
-import { StudySearchParams } from "@/types/study";
-import { axiosInstance } from ".";
+import { axiosInstance } from "./index";
 
 // 스터디 정보
 export const fetchStudyInfo = async (studyId: number) => {
@@ -154,4 +153,10 @@ export const getNotice = async (studyId: number) => {
 export const patchNotice = async (studyId: number) => {
     const res = await axiosInstance.patch(`studies/${studyId}/notification`);
     return res.data.message;
+};
+/////
+//스터디 주간 출석체크 조회
+export const checkWeekAttendance = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/attendance`);
+    return res.data.data;
 };
