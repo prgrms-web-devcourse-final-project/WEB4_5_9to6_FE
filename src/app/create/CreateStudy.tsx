@@ -1,6 +1,6 @@
 "use client";
 
-import { createStudy } from "@/api/study";
+import { createStudy } from "@/api/studies";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/create/Step1";
 import Step2 from "@/components/create/Step2";
