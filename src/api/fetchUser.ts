@@ -1,5 +1,6 @@
 import { axiosInstance } from ".";
 
+// 리더 아바타 추출하는 api
 export const fetchLeaderAvatar = async (id: number) => {
     const response = await axiosInstance.get(`studies/${id}/members`);
     const members: StudyMember[] = response.data.data;
