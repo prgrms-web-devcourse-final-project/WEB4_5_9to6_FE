@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchIsApplied, fetchSurvival } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
-import { dayMap, categoryMap } from "@/utils/mappings";
+import { dayMap, categoryMap } from "@/utils/studyDataMap";
 
 export default function SurvivalStudy() {
     const params = useParams();
