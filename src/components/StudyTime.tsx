@@ -9,7 +9,12 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { regionMap, categoryMap, dayMap } from "../utils/mappings";
+import {
+    getValidAvatar,
+    categoryMap,
+    dayMap,
+    regionMap,
+} from "@/utils/studyDataMap";
 
 type StudyCardWithAvatar = StudyInfo & {
     leaderAvatar: string | null;
@@ -19,11 +24,6 @@ export default function StudyTime() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const [isLogIn, setIsLogIn] = useState<boolean | null>(null);
-
-    const getValidAvatar = (avatar?: string | null) =>
-        !avatar || avatar.includes("placehold.co")
-            ? "/images/avatarImgs/basic2.png"
-            : avatar;
 
     // 시간에 따른 멘트 설정
     const hours = 12;

@@ -14,7 +14,6 @@ import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
 // import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { getApplicants, studyInfo } from "@/api/studies";
-import { Members, StudyInfos } from "@/types/study";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 

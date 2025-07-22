@@ -10,7 +10,7 @@ export default function page() {
                     <h5 className="text-gray1000 mb-6">
                         리워드 상점을 이용해보세요
                     </h5>
-                    <Link href="/rewardshop/1">
+                    <Link href="/login">
                         <Button color="primary" className="w-30">
                             로그인
                         </Button>

@@ -41,21 +41,21 @@ export default function MyInfoList() {
                     <Image
                         src={google}
                         alt="계정"
-                        className="mr-2 h-[14px] w-[14px]"
+                        className="mr-1 h-[14px] w-[14px]"
                     />
                 )}
                 {myInfo?.socialType === "KAKAO" && (
                     <Image
                         src={kakaotalk}
                         alt="계정"
-                        className="mr-2 h-[14px] w-[14px]"
+                        className="mr-1 h-[14px] w-[14px]"
                     />
                 )}
                 {myInfo?.socialType === "LOCAL" && (
                     <Image
                         src={logo}
                         alt="계정"
-                        className="mr-2 h-[24px] w-[24px]"
+                        className="mr-1 h-[24px] w-[24px]"
                     />
                 )}
                 <p className="b2 text-gray1000">{myInfo?.email}</p>

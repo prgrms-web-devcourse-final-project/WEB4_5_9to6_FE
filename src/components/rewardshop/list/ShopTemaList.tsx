@@ -14,11 +14,11 @@ export default function ShopTemaList() {
             <div className="mx-5 mb-[90px] grid grid-cols-2 gap-6">
                 {[
                     "기본",
+                    "블랙",
+                    "그린",
                     "그린 & 블랙",
                     "블루 & 블랙",
                     "오렌지 & 블랙",
-                    "핑크",
-                    "그린",
                 ].map((v) => (
                     <ShopTemaComponent
                         key={v}
