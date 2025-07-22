@@ -11,14 +11,12 @@ export default function ShopRoomComponent({
     price,
     owned,
     selected,
-    onSelect,
 }: {
     id: number;
     name: string;
     price: number;
     owned: boolean;
     selected: boolean;
-    onSelect: () => void;
 }) {
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
@@ -26,12 +24,12 @@ export default function ShopRoomComponent({
         setSrc(`/images/rewardItems/${id}.png`);
     }, [id]);
 
-    const { openModal, nameChange, priceChange } = useShopModalStore();
+    const { openModal, idChange, nameChange, priceChange } =
+        useShopModalStore();
 
     const clickHandler = () => {
-        if (owned) {
-            onSelect();
-        } else {
+        if (!owned) {
+            idChange(id);
             nameChange(name);
             priceChange(price);
             openModal(

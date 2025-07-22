@@ -9,14 +9,12 @@ export default function ShopTemaComponent({
     price,
     owned,
     selected,
-    onSelect,
 }: {
     id: number;
     name: string;
     price: number;
     owned: boolean;
     selected: boolean;
-    onSelect: () => void;
 }) {
     const gradientColors = [
         {
@@ -45,12 +43,12 @@ export default function ShopTemaComponent({
         },
     ];
 
-    const { openModal, nameChange, priceChange } = useShopModalStore();
+    const { openModal, idChange, nameChange, priceChange } =
+        useShopModalStore();
 
     const clickHandler = () => {
-        if (owned) {
-            onSelect();
-        } else {
+        if (!owned) {
+            idChange(id);
             nameChange(name + " 테마");
             priceChange(price || 0);
             openModal(

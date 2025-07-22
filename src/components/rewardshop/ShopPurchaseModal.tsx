@@ -1,22 +1,44 @@
 "use client";
 
+import { purchaseRewardItems } from "@/api/item";
 import Button from "@/components/common/Button";
 import { useProfileStore } from "@/stores/memberStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ShopPurchaseModal() {
-    const { isOpen, closeModal, goodsName, goodsPrice, goodsType, content } =
-        useShopModalStore();
+export default function ShopPurchaseModal({ id }: { id: string }) {
+    const {
+        isOpen,
+        closeModal,
+        goodsId,
+        goodsName,
+        goodsPrice,
+        goodsType,
+        content,
+    } = useShopModalStore();
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
     const { data } = useProfileStore();
     const router = useRouter();
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: async ({ itemId }: { itemId: number }) =>
+            await purchaseRewardItems(itemId),
+        onSuccess: (response) => {
+            queryClient.invalidateQueries({ queryKey: ["ownItems"] });
+            console.log(response);
+        },
+        onError(err) {
+            console.log(err);
+        },
+    });
 
     useEffect(() => {
         if (isOpen) {
@@ -41,6 +63,7 @@ export default function ShopPurchaseModal() {
     if (!isVisible) return null;
 
     const clickHandler = () => {
+        mutation.mutate({ itemId: goodsId });
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
@@ -48,7 +71,7 @@ export default function ShopPurchaseModal() {
         customAlert({
             message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
             linkLabel: "이동하기",
-            onClick: () => router.push("/profile/1/theme"),
+            onClick: () => router.push(`/profile/${id}/theme`),
         });
     };
 
@@ -91,7 +114,7 @@ export default function ShopPurchaseModal() {
                         <div className="flex items-center justify-between">
                             <p className="b2 text-gray1000">구매 후 리워드</p>
                             <h6
-                                className={` ${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
+                                className={`${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
                             >
                                 {(data?.rewardPoints || 0) - goodsPrice >= 0
                                     ? `${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`

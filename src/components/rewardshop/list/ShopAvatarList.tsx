@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ShopAvatarComponent from "../content/ShopAvatarComponent";
 import "swiper/css";
+import { useMemo } from "react";
 
 export default function ShopAvatarList({
     faceData,
@@ -12,26 +12,27 @@ export default function ShopAvatarList({
     topData,
     ownData,
 }: {
-    faceData: rewardItems[];
-    hatData: rewardItems[];
-    hairData: rewardItems[];
-    topData: rewardItems[];
-    ownData: ownItems[];
+    faceData: RewardItems[];
+    hatData: RewardItems[];
+    hairData: RewardItems[];
+    topData: RewardItems[];
+    ownData: OwnItems[];
 }) {
+    const selectedItemMap = useMemo(() => {
+        const map: Record<string, number> = {
+            FACE: 0,
+            HAT: 0,
+            HAIR: 0,
+            TOP: 0,
+        };
+        ownData?.forEach((v) => {
+            if (v.used) {
+                map[v.type] = v.item_id;
+            }
+        });
+        return map;
+    }, [ownData]);
     const ownedItemIds = new Set(ownData?.map((v) => v.item_id));
-    const [avatar, setAvatar] = useState({
-        FACE: 0,
-        HAT: 0,
-        HAIR: 0,
-        TOP: 0,
-    });
-
-    const avatarHandler = (
-        part: "FACE" | "HAT" | "HAIR" | "TOP",
-        index: number,
-    ) => {
-        setAvatar((v) => ({ ...v, [part]: index }));
-    };
 
     return (
         <>
@@ -47,7 +48,7 @@ export default function ShopAvatarList({
                             .filter((v) => v.name !== "빈 얼굴")
                             .map((v, i) => (
                                 <SwiperSlide
-                                    key={v.itemId}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -61,9 +62,8 @@ export default function ShopAvatarList({
                                         price={v.price}
                                         part="FACE"
                                         owned={ownedItemIds.has(v.itemId)}
-                                        selected={avatar.FACE === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("FACE", i)
+                                        selected={
+                                            v.itemId === selectedItemMap["FACE"]
                                         }
                                     />
                                 </SwiperSlide>
@@ -81,7 +81,7 @@ export default function ShopAvatarList({
                             .filter((v) => v.name !== "빈 모자")
                             .map((v, i) => (
                                 <SwiperSlide
-                                    key={v.itemId}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -95,9 +95,8 @@ export default function ShopAvatarList({
                                         price={v.price}
                                         part="HAT"
                                         owned={ownedItemIds.has(v.itemId)}
-                                        selected={avatar.HAT === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("HAT", i)
+                                        selected={
+                                            v.itemId === selectedItemMap["HAT"]
                                         }
                                     />
                                 </SwiperSlide>
@@ -115,7 +114,7 @@ export default function ShopAvatarList({
                             .filter((v) => v.name !== "빈 머리")
                             .map((v, i) => (
                                 <SwiperSlide
-                                    key={v.itemId}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -129,9 +128,8 @@ export default function ShopAvatarList({
                                         price={v.price}
                                         part="HAIR"
                                         owned={ownedItemIds.has(v.itemId)}
-                                        selected={avatar.HAIR === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("HAIR", i)
+                                        selected={
+                                            v.itemId === selectedItemMap["HAIR"]
                                         }
                                     />
                                 </SwiperSlide>
@@ -149,7 +147,7 @@ export default function ShopAvatarList({
                             .filter((v) => v.name !== "빈 상의")
                             .map((v, i) => (
                                 <SwiperSlide
-                                    key={v.itemId}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -163,9 +161,8 @@ export default function ShopAvatarList({
                                         price={v.price}
                                         part="TOP"
                                         owned={ownedItemIds.has(v.itemId)}
-                                        selected={avatar.TOP === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("TOP", i)
+                                        selected={
+                                            v.itemId === selectedItemMap["TOP"]
                                         }
                                     />
                                 </SwiperSlide>

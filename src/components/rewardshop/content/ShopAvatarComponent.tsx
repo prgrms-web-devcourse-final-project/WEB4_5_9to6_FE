@@ -12,7 +12,6 @@ interface AvatarType {
     owned: boolean;
     part: "FACE" | "HAT" | "HAIR" | "TOP";
     selected: boolean;
-    avatarHandler: () => void;
 }
 
 export default function ShopAvatarComponent({
@@ -22,7 +21,6 @@ export default function ShopAvatarComponent({
     owned,
     part,
     selected,
-    avatarHandler,
 }: AvatarType) {
     const [src, setSrc] = useState(`/images/rewardItems/21.png`);
 
@@ -30,12 +28,12 @@ export default function ShopAvatarComponent({
         setSrc(`/images/rewardItems/${id}.png`);
     }, [part, id]);
 
-    const { openModal, nameChange, priceChange } = useShopModalStore();
+    const { openModal, idChange, nameChange, priceChange } =
+        useShopModalStore();
 
     const clickHandler = () => {
-        if (owned) {
-            avatarHandler();
-        } else {
+        if (!owned) {
+            idChange(id);
             nameChange(name);
             priceChange(price);
             openModal(

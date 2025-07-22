@@ -1,21 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import ShopTemaComponent from "../content/ShopTemaComponent";
 
 export default function ShopTemaList({
     data,
     ownData,
 }: {
-    data: rewardItems[];
-    ownData: ownItems[];
+    data: RewardItems[];
+    ownData: OwnItems[];
 }) {
-    const [isSelected, setSelected] = useState(1);
+    const selectedItemId = ownData?.find((v) => v.used)?.item_id;
     const ownedItemIds = new Set(ownData?.map((v) => v.item_id));
-
-    const selectHandler = (id: number) => {
-        setSelected(id);
-    };
 
     return (
         <>
@@ -29,8 +24,7 @@ export default function ShopTemaList({
                             name={v.name}
                             price={v.price}
                             owned={ownedItemIds.has(v.itemId)}
-                            selected={isSelected === v.itemId}
-                            onSelect={() => selectHandler(v.itemId)}
+                            selected={v.itemId === selectedItemId}
                         />
                     ))}
             </div>
