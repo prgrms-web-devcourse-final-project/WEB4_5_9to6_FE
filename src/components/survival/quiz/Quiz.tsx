@@ -19,10 +19,10 @@ export default function Quiz({
     studyId: number;
 }) {
     const [selected, setSelected] = useState<number | null>(null);
-    const [answerSheet, setAnswerSheet] = useState<number[]>([]);
     const router = useRouter();
     const lastQuiz = 5;
-    const { setScore, score } = useQuizResult();
+    const { setScore, score, answerSheet, addAnswer, setAnswerSheet } =
+        useQuizResult();
     const { study } = useSurvivalStore();
     const { myInfo } = useAuthStore();
     const [isSubmit, setIsSubmit] = useState(false);
@@ -45,8 +45,9 @@ export default function Quiz({
     useEffect(() => {
         if (quizId === 1) {
             setScore(0);
+            setAnswerSheet([]);
         }
-    }, [quizId, setScore]);
+    }, [quizId, setScore, setAnswerSheet]);
     if (!study) {
         return null;
     }
@@ -81,7 +82,7 @@ export default function Quiz({
         }
 
         // 선택한 답안 저장
-        setAnswerSheet((prev) => [...prev, selected]);
+        addAnswer(selected);
         setIsSubmit(true);
     };
 
@@ -113,6 +114,7 @@ export default function Quiz({
                     isSurvived,
                 };
                 console.log("보내는 데이터", JSON.stringify(payload));
+                await axiosInstance.post("quiz/grading", gradingPost);
 
                 // 생존여부 전달
                 await axiosInstance.post(
@@ -120,7 +122,7 @@ export default function Quiz({
                     payload,
                 );
                 // 내가 선택한 답안 전달
-                await axiosInstance.post("quiz/grading", gradingPost);
+
                 console.log("grading 전달완료", gradingPost);
                 console.log("score 전달완료", payload);
             } catch (err) {
