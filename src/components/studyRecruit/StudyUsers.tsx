@@ -49,16 +49,7 @@ export default function StudyUsers() {
                                     onClick={() => router.push("/profile/info")}
                                 >
                                     <Image
-                                        src={
-                                            typeof member.profileImage ===
-                                                "string" &&
-                                            member.profileImage?.includes(
-                                                "https://placehold.co/100x100",
-                                            )
-                                                ? defaultImg
-                                                : member.profileImage ||
-                                                  defaultImg
-                                        }
+                                        src={member.profileImage || defaultImg}
                                         alt="아바타"
                                         height={32}
                                         width={32}

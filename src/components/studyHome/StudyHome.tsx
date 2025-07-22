@@ -10,13 +10,13 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 import StudyHomeDefault from "@/components/studyHome/StudyHomeDefault";
 import StudyTimer from "@/components/studyHome/StudyTimer";
-import MenuModal from "./MenuModal";
-import StudyUserModal from "@/components/studyHome/StudyUserModal";
-import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
 import AvatarDisplay from "./AvatarDisplay";
 import { useAuthStore } from "@/stores/authStore";
-
+import MenuModal from "./modal/MenuModal";
+import StudyGoalModal from "./modal/StudyGoalModal";
+import StudyUserModal from "./modal/StudyUserModal";
 export default function StudyHome({
+    studyId,
     notice,
     schedules,
     startTime,
@@ -31,6 +31,7 @@ export default function StudyHome({
     isMenuOpen,
     setIsMenuOpen,
 }: {
+    studyId: number;
     notice: string | undefined;
     schedules: string[];
     startTime: string;
@@ -151,6 +152,7 @@ export default function StudyHome({
 
             {isGoalOpen && (
                 <StudyGoalModal
+                    studyId={studyId}
                     isOpen={isGoalOpen}
                     onClose={() => setIsGoalOpen(false)}
                 />

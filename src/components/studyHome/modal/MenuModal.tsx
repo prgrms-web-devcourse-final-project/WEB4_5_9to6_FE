@@ -1,7 +1,7 @@
+import BottomModal from "@/components/common/BottomModal";
 import { ChevronRight } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
-import BottomModal from "../common/BottomModal";
 
 export default function MenuModal({
     isOpen,

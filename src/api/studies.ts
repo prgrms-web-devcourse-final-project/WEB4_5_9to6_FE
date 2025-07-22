@@ -104,10 +104,54 @@ export const respondToApplication = async (
     memberId: number,
     applicationResult: string,
 ) => {
-    console.log("스터디 승인 직전!!", studyId, memberId, applicationResult);
+    // console.log("스터디 승인", studyId, memberId, applicationResult);
     const res = await axiosInstance.post(
         `studies/${studyId}/applications/respond`,
         { memberId, applicationResult },
     );
     return res.data.data;
+};
+
+//출석체크
+export const postAttendance = async (studyId: number) => {
+    const res = await axiosInstance.post(`studies/${studyId}/attendance`);
+    return res.data.data;
+};
+
+//주간 출석체크 확인
+export const getAttendance = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/attendance`);
+    return res.data.data;
+};
+
+//스터디 목표 목록 조회
+export const getGoals = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/goals`);
+    return res.data.data;
+};
+
+// 스터디 목표 달성 여부 조회
+export const getCheckGoal = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/check-goal`);
+    return res.data.data;
+};
+
+//스터디 목표 달성 등록
+export const postGoalsCompleted = async (studyId: number, goalId: number) => {
+    // console.log("넘어왔어", studyId, goalId);
+    const res = await axiosInstance.post(`studies/${studyId}/goal/${goalId}`);
+    // console.log("목표달성", res.data.message);
+    return res.data.message;
+};
+
+//스터디 공지사항 조회
+export const getNotice = async (studyId: number) => {
+    const res = await axiosInstance.get(`studies/${studyId}/notification`);
+    return res.data.data;
+};
+
+//스터디 공지사항 수정
+export const patchNotice = async (studyId: number) => {
+    const res = await axiosInstance.patch(`studies/${studyId}/notification`);
+    return res.data.message;
 };

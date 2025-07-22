@@ -84,7 +84,7 @@ export default function SurvivalStudy() {
                 <NoticeBox
                     content="다음 퀴즈는 7/17 10시에 열릴 예정입니다."
                     className="rounded-none bg-[var(--color-gray100)]/85"
-                    date="07.11"
+                    color="default"
                 />
                 <SurvivalInfo />
                 <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">

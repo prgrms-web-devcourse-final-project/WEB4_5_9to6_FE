@@ -86,12 +86,7 @@ export default function StudyCard({
                     {/* 아바타 */}
                     <div className="my-[5px] h-[66px] w-[66px] rounded-[26px] bg-[var(--color-gray100)] p-[10px]">
                         <Image
-                            src={
-                                typeof avatar === "string" &&
-                                avatar?.includes("https://placehold.co/100x100")
-                                    ? defaultImg
-                                    : avatar || defaultImg
-                            }
+                            src={avatar || defaultImg}
                             alt="아바타이미지"
                             width={46}
                             height={46}

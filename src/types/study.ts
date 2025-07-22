@@ -33,7 +33,7 @@ export interface Members {
 export interface Goal {
     goalId: number;
     content: string;
-    type: "WEEKLY";
+    type?: "WEEKLY";
 }
 export interface StudyInfos {
     name: string;
@@ -64,4 +64,28 @@ export interface studyApplicant {
     state: "WAIT" | "ACCEPT" | "REJECT";
     introduction: string;
     avatarImage: string | null;
+}
+export interface studyAttendance {
+    attendanceId: number;
+    attendanceDate: string;
+    dayOfWeek:
+        | "MONDAY"
+        | "TUESDAY"
+        | "WEDNESDAY"
+        | "THURSDAY"
+        | "FRIDAY"
+        | "SATURDAY"
+        | "SUNDAY";
+    attend: boolean;
+}
+export interface studyUserAttendance {
+    studyMemberId: number;
+    attendances: studyAttendance[];
+}
+
+//studies/{studyId}/check-goal 스터디 목표 달성 여부 조회 결과
+export interface CheckGoal {
+    goalId: number;
+    content: string;
+    achieved: boolean;
 }

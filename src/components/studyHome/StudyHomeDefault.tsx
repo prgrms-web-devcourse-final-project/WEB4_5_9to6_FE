@@ -1,7 +1,8 @@
 "use client";
-import { ChevronDown, ChevronUp, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import StudyGoal from "../studyRecruit/StudyGoal";
-import { useState } from "react";
+// import { useState } from "react";
+import NoticeBox from "../common/NoticeBox";
 
 export default function StudyHomeDefault({
     notice,
@@ -26,7 +27,7 @@ export default function StudyHomeDefault({
     currentMemberCount: number;
     onOpen: () => void;
 }) {
-    const [expanded, setExpanded] = useState(false);
+    // const [expanded, setExpanded] = useState(false);
     const day: Record<string, string> = {
         MON: "월",
         TUE: "화",
@@ -43,13 +44,18 @@ export default function StudyHomeDefault({
             .map((d) => day[d])
             .join(", ");
     };
-    const toggleHandler = () => {
-        setExpanded((prev) => !prev);
-    };
+    // const toggleHandler = () => {
+    //     setExpanded((prev) => !prev);
+    // };
     return (
         <>
             {/* 공지사항 */}
-            <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
+            <NoticeBox
+                content={notice}
+                className="rounded-none bg-[#1D1D1D]/85 py-3"
+                color="hall"
+            />
+            {/* <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
                 <div className="flex items-center justify-between">
                     <div className="flex min-w-0 flex-col">
                         <p className="c2 text-[#D6D6D6]">공지사항</p>
@@ -80,7 +86,7 @@ export default function StudyHomeDefault({
                         접기
                     </button>
                 </div>
-            </div>
+            </div> */}
 
             {/* 스터디 정보 */}
             <div className="mt-3 w-full">
@@ -111,13 +117,19 @@ export default function StudyHomeDefault({
                     <h3 className="mt-8 text-[var(--color-gray1000)]">
                         학습 관련 링크
                     </h3>
-                    <a
-                        href={exLink}
-                        target="blank"
-                        className="c1 transiton-all mt-[10px] mb-[10px] flex h-[50px] w-full items-center rounded-[12px] border border-[var(--color-gray300)] px-4 text-[var-(--color-gray1000)] duration-200 ease-in-out hover:text-[var(--color-gray700)]"
-                    >
-                        {exLink}
-                    </a>
+                    {exLink ? (
+                        <a
+                            href={exLink}
+                            target="blank"
+                            className="c1 transiton-all mt-[10px] mb-[10px] flex h-[50px] w-full items-center rounded-[12px] border border-[var(--color-gray300)] px-4 text-[var-(--color-gray1000)] duration-200 ease-in-out hover:text-[var(--color-gray700)]"
+                        >
+                            {exLink}
+                        </a>
+                    ) : (
+                        <h6 className="mt-[10px] mb-[10px] text-[var(--color-gray500)]">
+                            링크가 없습니다.
+                        </h6>
+                    )}
                 </div>
             </div>
         </>

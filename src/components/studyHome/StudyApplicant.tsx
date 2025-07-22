@@ -81,7 +81,8 @@ export default function StudyApplicant({
                                                     a.avatarImage || defaultImg
                                                 }
                                                 alt="아바타"
-                                                className="h-8 w-8"
+                                                width={32}
+                                                height={32}
                                             />
                                         </div>
                                         {/* 이름,하고싶은말 */}

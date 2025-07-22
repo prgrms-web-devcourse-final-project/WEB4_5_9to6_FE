@@ -1,9 +1,9 @@
 // import { X } from "lucide-react";
 import { useState } from "react";
-import StudyUsers from "../studyRecruit/StudyUsers";
-import StudyApplicant from "./StudyApplicant";
-import BottomModal from "../common/BottomModal";
-import ChannelSlideBar from "../common/ChannelSlideBar";
+import StudyUsers from "../../studyRecruit/StudyUsers";
+import StudyApplicant from "../StudyApplicant";
+import BottomModal from "../../common/BottomModal";
+import ChannelSlideBar from "../../common/ChannelSlideBar";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { getApplicants } from "@/api/studies";
