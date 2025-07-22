@@ -93,7 +93,7 @@
     }
 
     .animate-slideFadeDown {
-        animation: slideFadeDown 0.5s ease-out;
+        animation: slideFadeDown 0.6s ease-out;
     }
 
     @keyframes bounceShort {

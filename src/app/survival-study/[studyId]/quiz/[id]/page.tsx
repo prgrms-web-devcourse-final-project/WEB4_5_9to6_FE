@@ -10,13 +10,13 @@ export default function QuizPage() {
     const params = useParams();
     const quizId = Number(params.id);
     const studyId = Number(params.studyId);
-    console.log("params", params);
     const [showExitModal, setShowExitModal] = useState(false);
     const browserPreventEvent = (event: () => void) => {
         history.pushState(null, "", location.href);
         event();
     };
 
+    // 퀴즈 중간에 뒤로가기 방지
     useEffect(() => {
         history.pushState(null, "", location.href);
         const handler = () => browserPreventEvent(() => setShowExitModal(true));
@@ -36,13 +36,7 @@ export default function QuizPage() {
                         className="h-6 w-6"
                     />
                 </header>
-                <div className="text-center">
-                    <h5 className="h5 mb-3 text-[var(--color-main400)]">
-                        서바이벌 Quiz
-                    </h5>
-                    <h1 className="h1 mb-9.5">1주차</h1>
-                    <hr className="text-[var(--color-gray200)]" />
-                </div>
+
                 <Quiz quizId={quizId} studyId={studyId} />
             </div>
         </>

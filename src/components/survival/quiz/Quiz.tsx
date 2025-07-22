@@ -21,20 +21,19 @@ export default function Quiz({
     const [selected, setSelected] = useState<number | null>(null);
     const router = useRouter();
     const lastQuiz = 5;
-    const { setScore, score } = useQuizResult();
+    const { setScore, score, answerSheet, addAnswer, setAnswerSheet } =
+        useQuizResult();
     const { study } = useSurvivalStore();
     const { myInfo } = useAuthStore();
     const [isSubmit, setIsSubmit] = useState(false);
     const isSurvived = score >= 3;
-    const is_passed = score >= 3;
 
     const { data: quizData } = useQuery<WeekQuiz[]>({
-        queryKey: ["quiz"],
+        queryKey: ["quiz", studyId, quizId],
         queryFn: () => fetchQuizData(studyId),
 
         enabled: !!studyId && !!quizId,
     });
-    console.log(quizData);
 
     const { data: studyMembeData } = useQuery<StudyMember[]>({
         queryKey: ["studyMemberId", studyId],
@@ -46,8 +45,9 @@ export default function Quiz({
     useEffect(() => {
         if (quizId === 1) {
             setScore(0);
+            setAnswerSheet([]);
         }
-    }, [quizId, setScore]);
+    }, [quizId, setScore, setAnswerSheet]);
     if (!study) {
         return null;
     }
@@ -60,18 +60,14 @@ export default function Quiz({
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         return Math.floor(diffDays / 7) + 1;
     };
-    console.log("startDate =", study?.startDate);
 
-    const currentWeek = study?.startDate
-        ? getCurrentWeekNum(study.startDate)
-        : null;
+    const currentWeek = getCurrentWeekNum(study.startDate);
 
     const currentWeekData = quizData?.find((w) => w.week === currentWeek);
-    console.log("currentWeek =", currentWeek);
+    console.log("현재 몇주차? =", currentWeek);
 
-    const currentQuiz = currentWeekData?.quizzes.find(
-        (q) => q.quizId === quizId,
-    );
+    // 퀴즈 번호 인덱스로 계산
+    const currentQuiz = currentWeekData?.quizzes[quizId - 1];
     const correctAnswer = currentQuiz?.answer;
 
     // 퀴즈 제출하기 버튼 클릭
@@ -84,12 +80,11 @@ export default function Quiz({
         } else {
             console.log("오답입니다.");
         }
+
+        // 선택한 답안 저장
+        addAnswer(selected);
         setIsSubmit(true);
     };
-
-    console.log("studyId:", studyId);
-    console.log("currentWeek:", currentWeek);
-    console.log("score:", score);
 
     // 다음 문제로 이동
     const goNextHandler = async () => {
@@ -103,26 +98,35 @@ export default function Quiz({
                 (member) => member.memberId === myInfo?.id,
             );
             if (!myStudyMemberId) {
-                console.error("내 멤버아이디를 찾을 수 없음");
+                console.error("내 스멤아이디를 찾을 수 없음");
                 return;
             }
+
+            const gradingPost = {
+                myStudyMemberId,
+                studyId,
+                week: currentWeek,
+                answerSheet,
+            };
             try {
                 const payload = {
                     studyMemberId: myStudyMemberId.studyMemberId,
                     isSurvived,
-                    is_passed,
                 };
                 console.log("보내는 데이터", JSON.stringify(payload));
+                await axiosInstance.post("quiz/grading", gradingPost);
 
+                // 생존여부 전달
                 await axiosInstance.post(
                     `quiz/${studyId}/weeks/${currentWeek}/results`,
                     payload,
                 );
-            } catch (err: any) {
-                console.error(
-                    "score 저장 중 에러",
-                    err.response?.data || err.message,
-                );
+                // 내가 선택한 답안 전달
+
+                console.log("grading 전달완료", gradingPost);
+                console.log("score 전달완료", payload);
+            } catch (err) {
+                console.error("score 저장 중 에러", err);
             }
             router.push(`/survival-study/${studyId}/quiz/result`);
         }
@@ -133,6 +137,13 @@ export default function Quiz({
     }
     return (
         <div className="mt-6 flex flex-col items-center justify-center">
+            <div className="text-center">
+                <h5 className="h5 mb-3 text-[var(--color-main400)]">
+                    서바이벌 Quiz
+                </h5>
+                <h1 className="h1 mb-9.5">{currentWeek}주차</h1>
+                <hr className="text-[var(--color-gray200)]" />
+            </div>
             <h4 className="h4">
                 [{quizId}번 문제] 빈 칸에 들어갈 단어를 고르시오.
             </h4>

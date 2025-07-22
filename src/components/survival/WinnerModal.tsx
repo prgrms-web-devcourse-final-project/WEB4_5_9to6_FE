@@ -49,7 +49,6 @@ export default function WinnerModal() {
                         </p>
                         <DotLottieReact
                             src="https://lottie.host/711210fb-9240-4a0f-b624-6668baac5430/Z7uh4wOSJ6.lottie"
-                            loop
                             autoplay
                         />
                         <h4 className="text-gray1000">축하드립니다!</h4>

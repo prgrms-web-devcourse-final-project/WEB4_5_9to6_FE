@@ -1,4 +1,4 @@
-import { axiosInstance } from ".";
+import { axiosInstance } from "./index";
 
 // 스터디 정보
 export const studyInfo = async (studyId: number) => {

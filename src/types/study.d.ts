@@ -68,7 +68,7 @@ interface Study {
     endTime: string;
     status: "READY" | "ACTIVE";
     createdAt: string;
-    startDate: string;
+    start_date: string;
     region: string;
     studyType: "SURVIVAL" | "DEFAULT";
 }

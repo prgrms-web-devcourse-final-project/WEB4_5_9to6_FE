@@ -16,7 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchIsApplied, fetchSurvival } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
-import { dayMap, categoryMap } from "@/utils/mappings";
+import { dayMap, categoryMap } from "@/utils/studyDataMap";
 
 export default function SurvivalStudy() {
     const params = useParams();
@@ -41,13 +41,12 @@ export default function SurvivalStudy() {
         enabled: !!studyId,
     });
 
-    const { data: isApplied } = useQuery({
+    const { data: apply } = useQuery({
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
     });
-
-    const canStart = isApplied;
+    const canStart = apply;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
     useEffect(() => {
@@ -60,7 +59,7 @@ export default function SurvivalStudy() {
         router.push(`/survival-study/${studyId}/quiz/1`);
     };
     const buttonHandler = (studyId: number) => {
-        if (!isApplied) {
+        if (!apply) {
             setShowModal(true);
         } else if (canStart) {
             if (!studyId) {
@@ -86,14 +85,14 @@ export default function SurvivalStudy() {
 
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {
-        if (myInfo === null && !isApplied) {
+        if (myInfo === null && !apply) {
             router.push("/");
         }
-    }, [myInfo, isApplied, router]);
+    }, [myInfo, apply, router]);
 
     return (
         <>
-            <div className="relative h-screen">
+            <div className="relative mb-10 h-screen">
                 <div className="relative">
                     <Image
                         src="/images/roomImgs/room7.png"
@@ -120,8 +119,8 @@ export default function SurvivalStudy() {
 
                 <NoticeBox notice={study?.notice} />
                 <SurvivalInfo study={study} />
-                <div className="flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
-                    {!isApplied ? (
+                <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
+                    {!apply ? (
                         <Button
                             onClick={() => buttonHandler(study.studyId)}
                             color="primary"
@@ -133,7 +132,7 @@ export default function SurvivalStudy() {
                         <Button
                             onClick={() => buttonHandler(studyId)}
                             disabled={!canStart}
-                            className={`mx-5 ${
+                            className={`mx-5 my-5 ${
                                 canStart
                                     ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
                                     : "cursor-not-allowed bg-[var(--color-gray200)] text-[var(--color-gray500)]"
@@ -161,7 +160,7 @@ export default function SurvivalStudy() {
                     <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
                         <div className="flex justify-between">
                             <p className="b2">스터디 이름</p>
-                            <p className="b2">{study?.description}</p>
+                            <p className="b2">{study?.name}</p>
                         </div>
                         <div className="flex justify-between">
                             <p className="b2">스터디 주제</p>
