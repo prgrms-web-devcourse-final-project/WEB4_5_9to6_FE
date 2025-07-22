@@ -70,7 +70,7 @@ export default function DateModal({
             <div
                 className={`${
                     animationClass
-                } z-2 flex w-sm justify-center rounded-[24px] bg-white p-4`}
+                } z-2 mx-5 flex max-w-sm justify-center rounded-[24px] bg-white p-4`}
             >
                 <DayPicker
                     mode="range"
