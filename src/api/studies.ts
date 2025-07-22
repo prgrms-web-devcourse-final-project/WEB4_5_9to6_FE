@@ -65,7 +65,6 @@ export const survSearch = async ({
 //스터디 멤버 정보
 export const studyMembers = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/members`);
-    // console.log(res.data.data);
     return res.data.data;
 };
 

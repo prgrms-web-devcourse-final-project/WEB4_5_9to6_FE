@@ -1,19 +1,18 @@
 "use client";
 
 import { SendHorizontal } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatMemberList from "./ChatMemberList";
 import { useChatMemberList } from "@/stores/chatModalStore";
-import { CompatClient, IMessage, over } from "@stomp/stompjs";
+import { IMessage, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useParams } from "next/navigation";
+import { studyMembers } from "@/api/studies";
 
 interface MemberType {
     id: number;
     name: string;
 }
-
-let stompClient: CompatClient;
 
 export default function MessageInput() {
     const { whisperTarget, closeModal } = useChatMemberList();
@@ -21,29 +20,48 @@ export default function MessageInput() {
     const { openModal, isOpen } = useChatMemberList();
     const params = useParams();
     const studyId = Number(params.studyId);
+    const token = localStorage.getItem("accessToken");
+    const clientRef = useRef<Client | null>(null);
+    const [members, setMembers] = useState<ChatMember[]>([]);
 
-    const connect = () => {
-        const socket = new SockJS("https://studium.cedartodo.uk/ws-stomp");
-        stompClient = over(socket);
+    useEffect(() => {
+        studyMembers(studyId);
+    }, [studyId]);
+    useEffect(() => {
+        if (!token) {
+            console.warn("토큰 없음: 웹소켓 연결안됨");
+            return;
+        }
 
-        const token = localStorage.getItem("accessToken");
+        const client = new Client({
+            connectHeaders: {
+                Authorization: `Bearer ${token}`,
+            },
+            webSocketFactory: () =>
+                new SockJS("https://studium.cedartodo.uk/ws-connect"),
+            onConnect: (frame) => {
+                console.log("웹소켓 연결됨");
+                client.subscribe(`/subscribe/${studyId}`, onMessageReceived);
+                client.subscribe(`/user/queue/messages`, onMessageReceived);
+                console.log("🟢 연결됨", frame);
+                console.log("헤더 목록:", frame.headers);
+            },
+            onStompError: (error) => {
+                console.error("웹소켓 연결 실패:", error);
+            },
+            debug: function (str) {
+                console.log(str);
+            },
+        });
 
-        stompClient.connect(
-            { Authorization: `Bearer ${token}` },
-            onConnected,
-            onError,
-        );
-    };
+        clientRef.current = client;
+        client.activate();
 
-    const onConnected = () => {
-        console.log("웹소켓 연결됨");
-        stompClient.subscribe(`/subscribe/${studyId}`, onMessageReceived);
-        stompClient.subscribe(`/user/queue/messages`, onMessageReceived);
-    };
+        return () => {
+            client.deactivate();
+        };
+    }, [studyId, token]);
 
-    const onError = (error: any) => {
-        console.error("웹소켓 연결 실패:", error);
-    };
     const onMessageReceived = (message: IMessage) => {
         const body = JSON.parse(message.body);
         console.log("받은 메시지:", body);
@@ -57,23 +75,27 @@ export default function MessageInput() {
     ];
 
     const sendMessage = () => {
-        if (stompClient && stompClient.connected) {
+        if (!message.trim()) return;
+
+        const client = clientRef.current;
+        if (client && client.connected) {
             const msgPayload = {
                 content: message,
                 studyId,
+                receiverId: whisperTarget?.id ?? null,
             };
-            stompClient.send(
+
+            (client as any).send(
                 `/publish/chat.send/${studyId}`,
                 {},
                 JSON.stringify(msgPayload),
             );
+
             setMessage("");
+        } else {
+            console.warn("웹소켓 연결이 아직 안 됐습니다.");
         }
     };
-
-    useEffect(() => {
-        connect();
-    }, []);
 
     return (
         <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-8">
