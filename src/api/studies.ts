@@ -1,6 +1,6 @@
 import { axiosInstance } from ".";
 
-// 스터디 정보
+// 스터디 상세 정보 조회
 export const studyInfo = async (studyId: number) => {
     // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}`);
@@ -101,4 +101,43 @@ export const checkIsMember = async (studyId: number) => {
 export const checkWeekAttendance = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/attendance`);
     return res.data.data;
+};
+
+/* 스터디 생성 */
+export const createStudy = async ({
+    name,
+    category,
+    maxMembers,
+    region,
+    place,
+    schedules,
+    startTime,
+    endTime,
+    startDate,
+    endDate,
+    description,
+    externalLink,
+    studyType,
+    goals,
+    online,
+}: CreateStudy) => {
+    const response = await axiosInstance.post("studies", {
+        name,
+        category,
+        maxMembers,
+        region,
+        place,
+        schedules,
+        startTime,
+        endTime,
+        startDate,
+        endDate,
+        description,
+        externalLink,
+        studyType,
+        goals,
+        online,
+    });
+
+    return response.data;
 };
