@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { regionMap, categoryMap, dayMap } from "../../utils/mappings";
+import { regionMap, categoryMap, dayMap } from "../../utils/studyDataMap";
 
 export default function SurvivalInfo({ study }: { study: StudyInfo }) {
     return (
