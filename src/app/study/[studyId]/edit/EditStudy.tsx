@@ -1,43 +1,89 @@
 "use client";
 
+import { studyInfo } from "@/api/studies";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/create/Step1";
 import Step2 from "@/components/create/Step2";
 import Step3 from "@/components/create/Step3";
 import Step4 from "@/components/create/Step4";
 import Step5 from "@/components/create/Step5";
-import { customAlert } from "@/utils/customAlert";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useStudyStore } from "@/stores/studyStore";
+// import { customAlert } from "@/utils/customAlert";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function EditStudy() {
+    const studyId = parseInt(useParams<{ studyId: string }>().studyId);
     const [step, setStep] = useState(1);
-    const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState("");
-    const [name, setName] = useState("");
-    const [daysOfWeek, setDaysOfWeek] = useState([]);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [region, setRegion] = useState("");
-    const [place, setPlace] = useState("");
-    const [goals, setGoals] = useState([]);
-    const [description, setDescription] = useState("");
-    const [externalLink, setExternalLink] = useState("");
-    const router = useRouter();
+    // const router = useRouter();
+    const isFetched = useStudyStore((state) => state.isFetched);
 
-    const submitCreate = () => {
-        setTimeout(() => {
-            router.push("/studylist");
-            // API 연결 후 라우터 다시 작성
-            customAlert({
-                message: `스터디 생성이 완료되었어요!\n스터디룸을 확인해보세요.`,
-                linkLabel: "이동하기",
-                onClick: () => router.push("/study/1"),
-            });
-        }, 1500);
-    };
+    const { data: fetchStudyData } = useQuery({
+        queryKey: ["fetch-study", studyId],
+        enabled: !!studyId,
+        queryFn: () => studyInfo(studyId),
+    });
+
+    // const { mutate: submitCreate } = useMutation({
+    //     mutationFn: () =>
+    //         createStudy({
+    //             name,
+    //             category,
+    //             maxMembers: +maxMember,
+    //             region,
+    //             place,
+    //             schedules: daysOfWeek,
+    //             startTime,
+    //             endTime,
+    //             startDate,
+    //             endDate,
+    //             description,
+    //             externalLink,
+    //             studyType: "DEFAULT",
+    //             goals,
+    //             online: region === "온라인",
+    //         }),
+    //     onMutate: () => {
+    //         console.log(
+    //             name,
+    //             category,
+    //             +maxMember,
+    //             region,
+    //             place,
+    //             daysOfWeek,
+    //             startTime,
+    //             endTime,
+    //             startDate,
+    //             endDate,
+    //             description,
+    //             externalLink,
+    //             "DEFAULT",
+    //             goals,
+    //             region === "온라인",
+    //         );
+    //     },
+    //     onSuccess: (response) => {
+    //         console.log(response);
+    //         setTimeout(() => {
+    //             router.push("/study/[studyId]");
+    //             customAlert({
+    //                 message: `스터디 수정이 완료되었어요.`,
+    //                 linkLabel: "",
+    //                 onClick: () => {},
+    //             });
+    //         }, 1000);
+    //     },
+    //     onError: (error) => {
+    //         console.error(error);
+    //     },
+    // });
+
+    useEffect(() => {
+        if (!isFetched) {
+            useStudyStore.getState().fetchStudy(fetchStudyData);
+        }
+    }, [isFetched]);
 
     return (
         <>
