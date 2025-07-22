@@ -10,7 +10,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 export default function ResultMessage() {
     const { openModal } = useWinnerModalStore();
     const score = useQuizResult((state) => state.score);
-    const isPass = score >= 3;
+    const isSurvived = score >= 3;
     const router = useRouter();
 
     return (
@@ -19,7 +19,7 @@ export default function ResultMessage() {
                 <h5 className="h5 mb-3 text-[var(--color-main400)]">
                     서바이벌 Quiz
                 </h5>
-                {isPass ? (
+                {isSurvived ? (
                     <h1 className="h1 mb-9.5">결과</h1>
                 ) : (
                     <h1 className="h1 mb-9.5">탈락</h1>
@@ -30,13 +30,11 @@ export default function ResultMessage() {
                 <h3 className="h3 mb-10">
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
-                {isPass ? (
-                    <div className="relative">
+                {isSurvived ? (
+                    <div className="relative w-full">
                         <DotLottieReact
-                            src="https://lottie.host/ea118c2f-d2b3-4872-8c48-db0fb1c7bd56/ezGBcAOaUd.lottie"
+                            src="https://lottie.host/bb7e10dd-08e1-4c7c-9cef-3b2df68b979c/c3d3wpoXAr.lottie"
                             autoplay
-                            loop
-                            style={{ width: "100%" }}
                         />
                         <Image
                             src="/icons/thumb-up.svg"
@@ -44,7 +42,7 @@ export default function ResultMessage() {
                             width={120}
                             height={120}
                             priority
-                            className="animate-slideFadeDown abolute z-20"
+                            className="animate-bounceShort absolute top-1/2 left-1/2 z-20 -translate-x-2/3 -translate-y-1/2 -rotate-15"
                         />
                     </div>
                 ) : (
@@ -60,7 +58,7 @@ export default function ResultMessage() {
                 )}
             </div>
             <div className="fixed bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
-                {isPass ? (
+                {isSurvived ? (
                     <Button
                         onClick={() => {
                             router.push("/survival-study/1");

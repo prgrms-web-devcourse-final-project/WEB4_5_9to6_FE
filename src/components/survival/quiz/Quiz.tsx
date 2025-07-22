@@ -19,6 +19,7 @@ export default function Quiz({
     studyId: number;
 }) {
     const [selected, setSelected] = useState<number | null>(null);
+    const [answerSheet, setAnswerSheet] = useState<number[]>([]);
     const router = useRouter();
     const lastQuiz = 5;
     const { setScore, score } = useQuizResult();
@@ -28,7 +29,7 @@ export default function Quiz({
     const isSurvived = score >= 3;
 
     const { data: quizData } = useQuery<WeekQuiz[]>({
-        queryKey: ["quiz"],
+        queryKey: ["quiz", studyId, quizId],
         queryFn: () => fetchQuizData(studyId),
 
         enabled: !!studyId && !!quizId,
@@ -59,16 +60,13 @@ export default function Quiz({
         return Math.floor(diffDays / 7) + 1;
     };
 
-    const currentWeek = study?.startDate
-        ? getCurrentWeekNum(study.startDate)
-        : null;
+    const currentWeek = getCurrentWeekNum(study.startDate);
 
     const currentWeekData = quizData?.find((w) => w.week === currentWeek);
     console.log("현재 몇주차? =", currentWeek);
 
-    const currentQuiz = currentWeekData?.quizzes.find(
-        (q) => q.quizId === quizId,
-    );
+    // 퀴즈 번호 인덱스로 계산
+    const currentQuiz = currentWeekData?.quizzes[quizId - 1];
     const correctAnswer = currentQuiz?.answer;
 
     // 퀴즈 제출하기 버튼 클릭
@@ -81,6 +79,9 @@ export default function Quiz({
         } else {
             console.log("오답입니다.");
         }
+
+        // 선택한 답안 저장
+        setAnswerSheet((prev) => [...prev, selected]);
         setIsSubmit(true);
     };
 
@@ -99,6 +100,13 @@ export default function Quiz({
                 console.error("내 스멤아이디를 찾을 수 없음");
                 return;
             }
+
+            const gradingPost = {
+                myStudyMemberId,
+                studyId,
+                week: currentWeek,
+                answerSheet,
+            };
             try {
                 const payload = {
                     studyMemberId: myStudyMemberId.studyMemberId,
@@ -106,10 +114,14 @@ export default function Quiz({
                 };
                 console.log("보내는 데이터", JSON.stringify(payload));
 
+                // 생존여부 전달
                 await axiosInstance.post(
                     `quiz/${studyId}/weeks/${currentWeek}/results`,
                     payload,
                 );
+                // 내가 선택한 답안 전달
+                await axiosInstance.post("quiz/grading", gradingPost);
+                console.log("grading 전달완료", gradingPost);
                 console.log("score 전달완료", payload);
             } catch (err) {
                 console.error("score 저장 중 에러", err);
@@ -123,6 +135,13 @@ export default function Quiz({
     }
     return (
         <div className="mt-6 flex flex-col items-center justify-center">
+            <div className="text-center">
+                <h5 className="h5 mb-3 text-[var(--color-main400)]">
+                    서바이벌 Quiz
+                </h5>
+                <h1 className="h1 mb-9.5">{currentWeek}주차</h1>
+                <hr className="text-[var(--color-gray200)]" />
+            </div>
             <h4 className="h4">
                 [{quizId}번 문제] 빈 칸에 들어갈 단어를 고르시오.
             </h4>
