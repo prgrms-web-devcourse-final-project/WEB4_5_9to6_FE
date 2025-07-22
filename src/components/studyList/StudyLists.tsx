@@ -92,7 +92,7 @@ export default function StudyLists({
                             key={i}
                             studyId={study.studyId}
                             category={categoryMap[study.category]}
-                            isNew={isNewFunc(study.startDate)}
+                            isNew={isNewFunc(study.start_date)}
                             title={study.title}
                             avatar={leaders[i]?.profileImage}
                             schedule={scheduleString(study.schedules)}
