@@ -78,7 +78,11 @@ export default function ShopAvatarList({
                         className="mb-6"
                     >
                         {(hatData || [])
-                            .filter((v) => v.name !== "빈 모자")
+                            .filter(
+                                (v) =>
+                                    v.name !== "빈 모자" &&
+                                    ![48, 49, 50].includes(v.itemId),
+                            )
                             .map((v, i) => (
                                 <SwiperSlide
                                     key={i}

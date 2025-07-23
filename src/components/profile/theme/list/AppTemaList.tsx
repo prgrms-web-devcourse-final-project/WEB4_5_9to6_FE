@@ -1,27 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppTemaComponent from "../content/AppTemaComponent";
 
-export default function AppTemaList() {
-    const [isSelected, setSelected] = useState("기본");
+export default function AppTemaList({ ownData }: { ownData: OwnItems[] }) {
+    const [isSelected, setSelected] = useState(1);
 
-    const selectHandler = (name: string) => {
-        setSelected(name);
+    const selectHandler = (id: number) => {
+        setSelected(id);
     };
+
+    useEffect(() => {
+        const selectedItemId = ownData?.find((v) => v.used)?.itemId;
+        setSelected(selectedItemId || 0);
+    }, [ownData]);
+
     return (
         <>
             <div className="mx-5 mb-[90px] grid grid-cols-2 gap-6">
-                {["기본", "그린 & 블랙", "블루 & 블랙", "오렌지 & 블랙"].map(
-                    (v) => (
-                        <AppTemaComponent
-                            key={v}
-                            name={v}
-                            selected={isSelected === v}
-                            onSelect={() => selectHandler(v)}
-                        />
-                    ),
-                )}
+                {(ownData || []).map((v, i) => (
+                    <AppTemaComponent
+                        key={i}
+                        id={v.itemId}
+                        ownId={v.ownItemId}
+                        name={v.name}
+                        selected={isSelected === v.itemId}
+                        onSelect={() => selectHandler(v.itemId)}
+                    />
+                ))}
             </div>
         </>
     );
