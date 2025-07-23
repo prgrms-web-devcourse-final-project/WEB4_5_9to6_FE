@@ -45,7 +45,6 @@ export default function ShopAvatarComponent({
                         sizes="72px"
                         className="absolute inset-0 rounded-xl"
                     />
-                    <div className="temaChoose"></div>
                 </div>,
             );
         }

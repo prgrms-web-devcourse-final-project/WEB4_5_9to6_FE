@@ -33,7 +33,6 @@ export default function ShopTemaComponent({
                     <p className="c2 absolute right-3 bottom-3 text-white/40">
                         Studium
                     </p>
-                    <div className="temaChoose"></div>
                 </div>,
             );
         }

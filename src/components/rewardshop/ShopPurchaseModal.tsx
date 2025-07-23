@@ -120,7 +120,7 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
                             >
                                 {(data?.rewardPoints || 0) - goodsPrice >= 0
                                     ? `${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`
-                                    : "리워드가 충분하지 않습니다!"}
+                                    : "리워드가 부족합니다!"}
                             </h6>
                         </div>
                     </div>

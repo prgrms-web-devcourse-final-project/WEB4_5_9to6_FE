@@ -40,7 +40,6 @@ export default function ShopRoomComponent({
                         fill
                         className="absolute inset-0 rounded-xl"
                     />
-                    <div className="temaChoose"></div>
                 </div>,
             );
         }
