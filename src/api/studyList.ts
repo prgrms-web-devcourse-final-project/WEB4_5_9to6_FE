@@ -1,17 +1,5 @@
 import { axiosInstance } from "./index";
 
-interface StudyType {
-    studyType: "SURVIVAL" | "DEFAULT";
-}
-// 서바이벌 스터디(데이터확인용)
-export const fetchSurvStudyList = async () => {
-    const response = await axiosInstance.get("studies/1");
-    const survivalStudy = response.data.filter(
-        (study: StudyType) => study.studyType === "SURVIVAL",
-    );
-    return survivalStudy;
-};
-
 // 유저의 스터디 리스트
 export const fetchStudyList = async (id: number) => {
     const response = await axiosInstance.get(`members/${id}/studies`);
@@ -26,4 +14,32 @@ export const fetchRandomStudyList = async () => {
     const list = response.data.data;
     const randomList = [...list].sort(() => 0.5 - Math.random()).slice(0, 5);
     return randomList;
+};
+
+export const fetchSurvival = async (id: number) => {
+    const response = await axiosInstance.get(`studies/${id}`);
+    return response.data.data;
+};
+
+export const fetchIsApplied = async (studyId: number) => {
+    const response = await axiosInstance.get(
+        `studies/${studyId}/members/me/check`,
+    );
+    return response.data.data;
+};
+
+export const fetchStudyMember = async (studyId: number) => {
+    const response = await axiosInstance.get(`studies/${studyId}/members`);
+    return response.data.data;
+};
+
+export const fetchSurvApply = async (studyId: number, memberId: number) => {
+    const response = await axiosInstance.post(
+        `studies/${studyId}/applications/respond`,
+        {
+            memberId,
+            applicationResult: "ACCEPT",
+        },
+    );
+    return response.data;
 };

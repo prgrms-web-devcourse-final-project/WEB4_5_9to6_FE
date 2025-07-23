@@ -97,7 +97,7 @@ export default function StudyCard({
                 {/* 일정,장소,인원수 */}
                 <div className="h-[53px] border-t border-t-[var(--color-gray200)] text-[#727272]">
                     <p className="c1 mt-[7px] mb-[1px] leading-none">
-                        매주 {schedule} {startTime}~{endTime}
+                        매주 {schedule}요일 {startTime}~{endTime}
                     </p>
                     <div className="flex justify-between">
                         <span className="c2">

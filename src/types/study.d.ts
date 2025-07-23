@@ -1,17 +1,28 @@
+interface Goal {
+    goalId: number;
+    content: string;
+    type: string;
+}
 interface StudyInfo {
-    studyId: number;
-    title: string;
-    currentMemberCount: number;
-    maxMemberCount: number;
+    name: string;
     category: string;
+    maxMembers: number;
     region: string;
-    place: string | null;
-    start_date: string;
-    end_date: string;
+    place?: string;
     schedules: string[];
     startTime: string;
     endTime: string;
+    startDate: string;
+    endDate: string;
+    createdAt: string;
+    status?: string;
+    description?: string;
+    externalLink: string;
     studyType: "DEFAULT" | "SURVIVAL";
+    goals?: Goal[];
+    online: boolean;
+    notice?: string;
+    currentMemberCount?: number;
 }
 // "members/{memberId}"의 마이페이지의 userStudies 조회
 // "members/{memberId}/studies"의 멤버별 studies 조회
@@ -57,7 +68,7 @@ interface Study {
     endTime: string;
     status: "READY" | "ACTIVE";
     createdAt: string;
-    startDate: string;
+    start_date: string;
     region: string;
     studyType: "SURVIVAL" | "DEFAULT";
 }

@@ -16,7 +16,7 @@ import {
     regionMap,
 } from "@/utils/studyDataMap";
 
-type StudyCardWithAvatar = StudyInfo & {
+type StudyCardWithAvatar = Study & {
     leaderAvatar: string | null;
 };
 
