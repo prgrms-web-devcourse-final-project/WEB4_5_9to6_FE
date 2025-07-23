@@ -37,7 +37,10 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 client.subscribe(`/user/queue/messages`, onMessageReceived);
                 client.subscribe(
                     `/subscribe/${studyId}/participants`,
-                    onParticipant,
+                    (message) => {
+                        console.log("참가자", message.body);
+                        // onParticipant,
+                    },
                 );
             },
             onStompError: (error) => {
