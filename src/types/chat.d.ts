@@ -13,6 +13,7 @@ interface ChatMember {
     memberId: number;
     nickName: string;
     status: "ONLINE";
+    email?: string;
 }
 
 declare module "sockjs-client" {

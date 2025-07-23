@@ -10,7 +10,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
     const myId = useAuthStore((state) => state.myInfo?.id);
     const setMessages = useChatStore((state) => state.setMessages);
     const messages = useChatStore((state) => state.messages);
-    const members = useParticipantStore().participants;
+    const members = useParticipantStore((state) => state.participants);
 
     useEffect(() => {
         const loadMessageHandler = async () => {

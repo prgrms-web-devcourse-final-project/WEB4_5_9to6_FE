@@ -7,19 +7,26 @@ import { useChatMemberList } from "@/stores/chatModalStore";
 import { IMessage, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useChatStore, useParticipantStore } from "@/stores/chatStore";
+import { studyMembers } from "@/api/studies";
 
 export default function MessageInput({ studyId }: { studyId: number }) {
     const { whisperTarget, closeModal } = useChatMemberList();
     const [message, setMessage] = useState("");
     const { openModal, isOpen } = useChatMemberList();
+    const [memberList, setMemberList] = useState<Members[]>([]);
     const clientRef = useRef<Client | null>(null);
-    const [myToken, setMyToken] = useState<string | null>(null);
     const addMessage = useChatStore((state) => state.addMessage);
-    const members = useParticipantStore().participants;
+    const members = useParticipantStore((state) => state.participants);
 
     useEffect(() => {
+        const fetchMembers = async () => {
+            const data = await studyMembers(studyId);
+            setMemberList(data);
+        };
+        fetchMembers();
+    }, [studyId]);
+    useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        setMyToken(token);
         if (!token) {
             console.warn("토큰 없음: 웹소켓 연결안됨");
             return;
@@ -27,7 +34,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
 
         const client = new Client({
             connectHeaders: {
-                Authorization: `Bearer ${myToken}`,
+                Authorization: `Bearer ${token}`,
             },
             webSocketFactory: () =>
                 new SockJS("https://studium.cedartodo.uk/ws-connect"),
@@ -37,10 +44,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 client.subscribe(`/user/queue/messages`, onMessageReceived);
                 client.subscribe(
                     `/subscribe/${studyId}/participants`,
-                    (message) => {
-                        console.log("참가자", message.body);
-                        // onParticipant,
-                    },
+                    onParticipant,
                 );
             },
             onStompError: (error) => {
@@ -57,7 +61,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         return () => {
             client.deactivate();
         };
-    }, [studyId, myToken]);
+    }, [studyId]);
 
     const onParticipant = (message: IMessage) => {
         const body = JSON.parse(message.body);
@@ -67,8 +71,9 @@ export default function MessageInput({ studyId }: { studyId: number }) {
     };
 
     const onMessageReceived = (message: IMessage) => {
+        console.log("수신된 원본 메시지:", message);
         const body = JSON.parse(message.body);
-        console.log("받은 메시지:", body);
+        console.log("파싱된 메시지 내용:", body);
         addMessage(body);
     };
 
@@ -93,23 +98,27 @@ export default function MessageInput({ studyId }: { studyId: number }) {
             }
 
             msgPayload = {
-                receiverEmail: targetMember.email, // 멤버 정보에 email 있어야 함
+                receiverEmail: targetMember.email,
                 receiverNickname: targetMember.nickName,
                 content: message,
             };
         } else {
             msgPayload = {
+                receiverEmail: null,
+                receiverNickname: null,
                 content: message,
             };
         }
+        console.log("메시지 전송:", msgPayload);
 
         client.publish({
-            destination: `/publish/chat.send/${studyId}`,
+            destination: `/chat.send/${studyId}`,
             body: JSON.stringify(msgPayload),
         });
-
+        console.log("보낼 payload:", msgPayload);
         setMessage("");
     };
+
     return (
         <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-8">
             <div className="relative flex items-end justify-between gap-3">

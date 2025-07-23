@@ -12,7 +12,7 @@ export default function ChatMemberList({ studyId }: { studyId: number }) {
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
     const { isOpen, closeModal, setWhisperTarget } = useChatMemberList();
-    const members = useParticipantStore().participants;
+    const members = useParticipantStore((state) => state.participants);
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
