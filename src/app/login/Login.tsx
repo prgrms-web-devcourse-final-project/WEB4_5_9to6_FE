@@ -111,8 +111,8 @@ export default function Login() {
                     <Button type="submit">로그인</Button>
                 </form>
 
-                <div className="flex w-full justify-between text-[var(--color-gray1000)]">
-                    <button className="cursor-pointer">비밀번호 찾기</button>
+                <div className="flex w-full justify-end text-[var(--color-gray1000)]">
+                    {/* <button className="cursor-pointer">비밀번호 찾기</button> */}
                     <Link href="/signup" className="cursor-pointer">
                         회원가입
                     </Link>
