@@ -3,9 +3,8 @@ import { create } from "zustand";
 
 interface OwnItemStore {
     ownItems: OwnItems[];
-    groupedOwnItems: Record<string, OwnItems[]>;
-
     fetchItemsOwn: () => Promise<void>;
+    groupedOwnItems: Record<string, OwnItems[]>;
 }
 
 export const useOwnItemStore = create<OwnItemStore>((set) => ({
@@ -14,20 +13,19 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
     fetchItemsOwn: async () => {
         try {
             const data = await fetchOwnItems();
+            const sorted = data.sort(
+                (a: OwnItems, b: OwnItems) => a.itemId - b.itemId,
+            );
 
             const grouped: Record<string, OwnItems[]> = {};
-            for (const item of data) {
+            for (const item of sorted) {
                 const type = item.type;
                 if (!grouped[type]) grouped[type] = [];
                 grouped[type].push(item);
             }
 
-            Object.keys(grouped).forEach((type) => {
-                grouped[type].sort((a, b) => a.item_id - b.item_id);
-            });
-
             set({
-                ownItems: data,
+                ownItems: sorted,
                 groupedOwnItems: grouped,
             });
         } catch (err) {

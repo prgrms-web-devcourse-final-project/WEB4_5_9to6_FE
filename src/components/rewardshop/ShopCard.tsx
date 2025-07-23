@@ -22,8 +22,8 @@ export default function ShopCard({ id }: { id: string }) {
     }, [myInfo, id, router]);
 
     useEffect(() => {
-        if (!data) fetch(Number(id));
-    }, [id, data, fetch]);
+        fetch(Number(id));
+    }, [id, fetch]);
 
     return (
         <>

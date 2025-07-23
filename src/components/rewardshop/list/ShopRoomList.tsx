@@ -9,8 +9,8 @@ export default function ShopRoomList({
     data: RewardItems[];
     ownData: OwnItems[];
 }) {
-    const selectedItemId = ownData?.find((v) => v.used)?.item_id;
-    const ownedItemIds = new Set(ownData?.map((v) => v.item_id));
+    const selectedItemId = ownData?.find((v) => v.used)?.itemId;
+    const ownedItemIds = new Set(ownData?.map((v) => v.itemId));
 
     return (
         <>

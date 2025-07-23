@@ -4,9 +4,10 @@ import { purchaseRewardItems } from "@/api/item";
 import Button from "@/components/common/Button";
 import { useProfileStore } from "@/stores/memberStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,15 +25,16 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
-    const { data } = useProfileStore();
+    const { data, fetch } = useProfileStore();
     const router = useRouter();
-    const queryClient = useQueryClient();
+    const { fetchItemsOwn } = useOwnItemStore();
 
     const mutation = useMutation({
         mutationFn: async ({ itemId }: { itemId: number }) =>
             await purchaseRewardItems(itemId),
-        onSuccess: (response) => {
-            queryClient.invalidateQueries({ queryKey: ["ownItems"] });
+        onSuccess: async (response) => {
+            await fetchItemsOwn();
+            await fetch(Number(id));
             console.log(response);
         },
         onError(err) {
@@ -101,7 +103,7 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
                         <div className="mb-1.5 flex items-center justify-between">
                             <p className="b2 text-gray1000">내 리워드</p>
                             <h6 className="text-gray1000">
-                                {data?.rewardPoints || 0}P
+                                {data?.rewardPoints.toLocaleString() || 0}P
                             </h6>
                         </div>
                         <div className="mb-3.5 flex items-center justify-between">

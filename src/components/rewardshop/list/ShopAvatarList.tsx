@@ -27,12 +27,12 @@ export default function ShopAvatarList({
         };
         ownData?.forEach((v) => {
             if (v.used) {
-                map[v.type] = v.item_id;
+                map[v.type] = v.itemId;
             }
         });
         return map;
     }, [ownData]);
-    const ownedItemIds = new Set(ownData?.map((v) => v.item_id));
+    const ownedItemIds = new Set(ownData?.map((v) => v.itemId));
 
     return (
         <>
