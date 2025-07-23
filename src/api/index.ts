@@ -5,6 +5,7 @@ export const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+
     withCredentials: true,
 });
 
@@ -13,5 +14,6 @@ export const axiosNotApi = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
+
     withCredentials: true,
 });

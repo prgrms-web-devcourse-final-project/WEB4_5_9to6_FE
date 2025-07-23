@@ -1,4 +1,4 @@
-export interface StudySearchParams {
+interface StudySearchParams {
     page: number;
     size: number;
     category: string;
@@ -7,7 +7,7 @@ export interface StudySearchParams {
     name: string;
     studyType?: "DEFAULT" | "SURVIVAL";
 }
-export interface Study {
+interface Study {
     studyId: number;
     title: string;
     category: string;
@@ -22,7 +22,7 @@ export interface Study {
     region: string;
     studyType: "SURVIVAL" | "DEFAULT";
 }
-export interface Members {
+interface Members {
     studyMemberId: number;
     memberId: number;
     nickName: string;
@@ -30,12 +30,12 @@ export interface Members {
     role: "MEMBER" | "LEADER";
     email: string;
 }
-export interface Goal {
+interface Goal {
     goalId: number;
     content: string;
     type: "WEEKLY";
 }
-export interface StudyInfos {
+interface StudyInfos {
     name: string;
     category: string;
     maxMembers: number;

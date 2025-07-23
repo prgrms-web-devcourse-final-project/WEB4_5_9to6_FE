@@ -15,39 +15,39 @@ export default function ShopTemaComponent({
     const gradientColors = [
         {
             name: "기본",
-            gradient: "from-black via-[#741E2D] to-[#FF395C]",
+            gradient: "from-[#D31D3E] via-[#E02D4D] to-[#FF395C]",
             purchased: true,
             price: 0,
         },
         {
-            name: "그린 & 블랙",
-            gradient: "from-black via-[#0F6153] to-[#00C5A4]",
+            name: "블랙",
+            gradient: "from-[#1D1214] via-[#2C1D20] to-[#C2203D]",
             purchased: true,
             price: 500,
-        },
-        {
-            name: "블루 & 블랙",
-            gradient: "from-black via-[#1B1F8F] to-[#484EFD]",
-            purchased: false,
-            price: 500,
-        },
-        {
-            name: "오렌지 & 블랙",
-            gradient: "from-black via-[#A64C10] to-[#FE6F0F]",
-            purchased: false,
-            price: 500,
-        },
-        {
-            name: "핑크",
-            gradient: "from-[#FF899E] via-[#FF395C] to-[#DC2344]",
-            purchased: false,
-            price: 2000,
         },
         {
             name: "그린",
             gradient: "from-[#2FDBBE] via-[#00C5A4] to-[#28A18D]",
             purchased: false,
             price: 2000,
+        },
+        {
+            name: "그린 & 블랙",
+            gradient: "from-black via-[#0F6153] to-[#00C5A4]",
+            purchased: true,
+            price: 800,
+        },
+        {
+            name: "블루 & 블랙",
+            gradient: "from-black via-[#1B1F8F] to-[#484EFD]",
+            purchased: false,
+            price: 800,
+        },
+        {
+            name: "오렌지 & 블랙",
+            gradient: "from-black via-[#A64C10] to-[#FE6F0F]",
+            purchased: false,
+            price: 800,
         },
     ];
 

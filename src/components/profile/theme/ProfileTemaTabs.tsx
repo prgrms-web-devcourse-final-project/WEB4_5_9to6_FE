@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppTemaList from "./list/AppTemaList";
 import StudyRoomList from "./list/StudyRoomList";
 import MyAvatarList from "./list/MyAvatarList";
 import Button from "@/components/common/Button";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
+import { useAuthStore } from "@/stores/authStore";
+import { customAlert } from "@/utils/customAlert";
+import { useRouter } from "next/navigation";
 
-export default function ProfileTemaTabs() {
+export default function ProfileTemaTabs({ id }: { id: string }) {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
     const [isTab, setTab] = useState("앱 테마");
+    const { myInfo } = useAuthStore();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (myInfo && myInfo.id !== Number(id)) {
+            customAlert({ message: "❗ 잘못된 경로의 접근입니다!" });
+            router.replace("/");
+        }
+    }, [myInfo, id, router]);
 
     return (
         <>
