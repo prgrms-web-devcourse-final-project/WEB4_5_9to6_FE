@@ -1,7 +1,6 @@
 import Image from "next/image";
 import defaultImg from "../../../public/images/avatarImgs/basic2.png";
 import Button from "../common/Button";
-import { studyApplicant } from "@/types/study";
 import { respondToApplication } from "@/api/studies";
 import { useParams } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";

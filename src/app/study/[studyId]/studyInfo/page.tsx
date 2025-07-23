@@ -5,7 +5,6 @@ import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import StudyHomeInfo from "@/components/studyHome/StudyHomeInfo";
 import StudyUsers from "@/components/studyRecruit/StudyUsers";
 import { useAuthStore } from "@/stores/authStore";
-import { Members } from "@/types/study";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";

@@ -4,7 +4,6 @@ import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
 import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/modal/MemberModal";
 import StudyHome from "@/components/studyHome/StudyHome";
-import { StudyInfos, studyUserAttendance } from "@/types/study";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
@@ -30,7 +29,7 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        if (res.data.data === "출석 체크 완료.") {
+        if (res === "출석 체크 완료.") {
             await refetchAttendance();
             customAlert({
                 message: "출석체크 완료! 오늘도 화이팅이에요!",

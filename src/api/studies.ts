@@ -114,12 +114,14 @@ export const respondToApplication = async (
 //출석체크
 export const postAttendance = async (studyId: number) => {
     const res = await axiosInstance.post(`studies/${studyId}/attendance`);
+    console.log("출석체크", res.data.data);
     return res.data.data;
 };
 
 //주간 출석체크 확인
 export const getAttendance = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/attendance`);
+    console.log("주간출석체크확인", res.data.data);
     return res.data.data;
 };
 
@@ -146,12 +148,14 @@ export const postGoalsCompleted = async (studyId: number, goalId: number) => {
 //스터디 공지사항 조회
 export const getNotice = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/notification`);
-    return res.data.data;
+    return res.data.data.notice;
 };
 
 //스터디 공지사항 수정
-export const patchNotice = async (studyId: number) => {
-    const res = await axiosInstance.patch(`studies/${studyId}/notification`);
+export const patchNotice = async (studyId: number, notice: string) => {
+    const res = await axiosInstance.patch(`studies/${studyId}/notification`, {
+        notice,
+    });
     return res.data.message;
 };
 /////

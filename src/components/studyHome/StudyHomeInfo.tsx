@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import StudyDefaultInfo from "../studyRecruit/StudyDefaultInfo";
 import { useParams } from "next/navigation";
 import { fetchStudyInfo } from "@/api/studies";
-import { StudyInfos } from "@/types/study";
 
 export default function StudyHomeInfo() {
     const params = useParams();

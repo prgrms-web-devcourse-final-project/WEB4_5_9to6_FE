@@ -1,13 +1,13 @@
-interface StudySearchParams {
-    page: number;
-    size: number;
-    category: string;
-    region: string;
-    status: string;
-    name: string;
-    studyType?: "DEFAULT" | "SURVIVAL";
-}
-interface Study {
+// interface StudySearchParams {
+//     page: number;
+//     size: number;
+//     category: string;
+//     region: string;
+//     status: string;
+//     name: string;
+//     studyType?: "DEFAULT" | "SURVIVAL";
+// }
+interface StudyList {
     studyId: number;
     title: string;
     category: string;
@@ -20,44 +20,45 @@ interface Study {
     createdAt: string;
     startDate: string;
     region: string;
+    place?: string;
     studyType: "SURVIVAL" | "DEFAULT";
 }
-interface Members {
-    studyMemberId: number;
-    memberId: number;
-    nickName: string;
-    profileImage: string | null;
-    role: "MEMBER" | "LEADER";
-    email: string;
-}
-interface Goal {
-    goalId: number;
-    content: string;
-    type?: "WEEKLY";
-}
-interface StudyInfos {
-    name: string;
-    category: string;
-    maxMembers: number;
-    region: string;
-    place: string | null;
-    schedules: string[];
-    startTime: string;
-    endTime: string;
-    startDate: string;
-    endDate: string;
-    createdAt: string;
-    status: "READY" | "ACTIVE";
-    description: string;
-    externalLink: string;
-    studyType: "DEFAULT" | "SURVIVAL";
-    goals: Goal[];
-    notice: string;
-    currentMemberCount: number;
-    online: boolean;
-}
+// interface Members {
+//     studyMemberId: number;
+//     memberId: number;
+//     nickName: string;
+//     profileImage: string | null;
+//     role: "MEMBER" | "LEADER";
+//     email: string;
+// }
+// interface Goal {
+//     goalId: number;
+//     content: string;
+//     type?: "WEEKLY";
+// }
+// interface StudyInfos {
+//     name: string;
+//     category: string;
+//     maxMembers: number;
+//     region: string;
+//     place: string | null;
+//     schedules: string[];
+//     startTime: string;
+//     endTime: string;
+//     startDate: string;
+//     endDate: string;
+//     createdAt: string;
+//     status: "READY" | "ACTIVE";
+//     description: string;
+//     externalLink: string;
+//     studyType: "DEFAULT" | "SURVIVAL";
+//     goals: Goal[];
+//     notice: string;
+//     currentMemberCount: number;
+//     online: boolean;
+// }
 
-export interface studyApplicant {
+interface studyApplicant {
     applicantId: number;
     memberId: number;
     name: string;
@@ -65,26 +66,26 @@ export interface studyApplicant {
     introduction: string;
     avatarImage: string | null;
 }
-export interface studyAttendance {
-    attendanceId: number;
-    attendanceDate: string;
-    dayOfWeek:
-        | "MONDAY"
-        | "TUESDAY"
-        | "WEDNESDAY"
-        | "THURSDAY"
-        | "FRIDAY"
-        | "SATURDAY"
-        | "SUNDAY";
-    attend: boolean;
-}
-export interface studyUserAttendance {
+// export interface studyAttendance {
+//     attendanceId: number;
+//     attendanceDate: string;
+//     dayOfWeek:
+//         | "MONDAY"
+//         | "TUESDAY"
+//         | "WEDNESDAY"
+//         | "THURSDAY"
+//         | "FRIDAY"
+//         | "SATURDAY"
+//         | "SUNDAY";
+//     attend: boolean;
+// }
+interface studyUserAttendance {
     studyMemberId: number;
     attendances: studyAttendance[];
 }
 
 //studies/{studyId}/check-goal 스터디 목표 달성 여부 조회 결과
-export interface CheckGoal {
+interface CheckGoal {
     goalId: number;
     content: string;
     achieved: boolean;

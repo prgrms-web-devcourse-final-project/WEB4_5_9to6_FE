@@ -4,7 +4,6 @@ import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
-import { StudyInfos, studyUserAttendance } from "@/types/study";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -39,7 +38,7 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        console.log(res);
+        // console.log(res);
         if (res === "출석 체크 완료.") {
             await refetchAttendance();
             customAlert({

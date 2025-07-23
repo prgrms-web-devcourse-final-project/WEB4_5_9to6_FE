@@ -6,7 +6,6 @@ import BottomModal from "@/components/common/BottomModal";
 import Button from "@/components/common/Button";
 import { useQuery } from "@tanstack/react-query";
 import { getCheckGoal, postGoalsCompleted } from "@/api/studies";
-import { CheckGoal } from "@/types/study";
 import { customAlert } from "@/utils/customAlert";
 
 export default function StudyGoalModal({
@@ -106,7 +105,7 @@ export default function StudyGoalModal({
                                 )}
                                 {!goal.achieved && (
                                     <button
-                                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full ${isCheck[index] ? "bg-[var(--color-main500)]" : "bg-[var(--color-gray400)]"}`}
+                                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full ${isCheck[index] ? "bg-[var(--color-main500)]" : "border border-[var(--color-gray400)]"}`}
                                         onClick={() => checkHandler(index)}
                                     >
                                         {isCheck[index] && (

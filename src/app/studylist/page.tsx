@@ -81,7 +81,7 @@ export default function Page() {
         fetchNextPage: fetchNextDefault,
         hasNextPage: hasMoreDefault,
         isFetchingNextPage: isLoadingDefault,
-    } = useInfiniteQuery<Study[], Error>({
+    } = useInfiniteQuery<StudyList[], Error>({
         queryKey: ["defaultStudies", filter, debouncedInput, selected],
         queryFn: ({ pageParam = 1 }) =>
             defaultSearch({
@@ -101,7 +101,7 @@ export default function Page() {
     const {
         data: survData,
         // isLoading:isLoadingSurv,
-    } = useQuery<Study[], Error>({
+    } = useQuery<StudyList[], Error>({
         queryKey: ["survStudies", filter, debouncedInput, selected],
         queryFn: () =>
             survSearch({

@@ -16,8 +16,8 @@ export default function StudyLists({
     survStudies,
     search,
 }: {
-    defaultStudies: Study[];
-    survStudies: Study[] | undefined;
+    defaultStudies: StudyList[];
+    survStudies: StudyList[] | undefined;
     search: string;
 }) {
     const isNewFunc = (start: string) => {
@@ -92,7 +92,7 @@ export default function StudyLists({
                             key={i}
                             studyId={study.studyId}
                             category={categoryMap[study.category]}
-                            isNew={isNewFunc(study.start_date)}
+                            isNew={isNewFunc(study.startDate)}
                             title={study.title}
                             avatar={leaders[i]?.profileImage}
                             schedule={scheduleString(study.schedules)}

@@ -51,8 +51,9 @@ export default function StudyHomeDefault({
         <>
             {/* 공지사항 */}
             <NoticeBox
-                content={notice}
+                notice={notice}
                 className="rounded-none bg-[#1D1D1D]/85 py-3"
+                // isLeader={true}
                 color="hall"
             />
             {/* <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
