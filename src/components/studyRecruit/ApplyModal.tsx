@@ -1,6 +1,9 @@
 "use-client";
 import { studyApply } from "@/api/studies";
+import { fetchSurvApply } from "@/api/studyList";
+import { useAuthStore } from "@/stores/authStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { useSurvivalStore } from "@/stores/survivalStore";
 import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -27,6 +30,8 @@ export default function ApplyModal({
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
+    const myId = useAuthStore((state) => state.myInfo);
+    const suvivalInfo = useSurvivalStore();
 
     useEffect(() => {
         if (isOpen) {
@@ -55,11 +60,34 @@ export default function ApplyModal({
             console.error("신청 실패", error);
         },
     });
+
+    const survivalApply = useMutation({
+        mutationFn: () => {
+            if (studyId === null) throw new Error("잘못된 스터디 ID");
+            return fetchSurvApply(studyId, myId?.id ?? 0);
+        },
+        onSuccess: (data) => {
+            console.log("서바이벌 신청 성공", data);
+            onClose();
+            onApply();
+        },
+        onError: (error) => {
+            console.error("서바이벌 신청 실패", error);
+        },
+    });
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
         }, 200);
+    };
+
+    const applyHandler = () => {
+        if (suvivalInfo.study?.studyType === "SURVIVAL") {
+            survivalApply.mutate();
+        } else {
+            applyMutation.mutate();
+        }
     };
 
     if (!isVisible) return null;
@@ -107,7 +135,7 @@ export default function ApplyModal({
                             </h5>
                         </button>
                         <button
-                            onClick={() => applyMutation.mutate()}
+                            onClick={applyHandler}
                             className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
                         >
                             <h5 className="text-[var(--color-white)]">
