@@ -2,27 +2,17 @@
 
 import { useChatMemberList } from "@/stores/chatModalStore";
 import { X } from "lucide-react";
-import avatar from "../../assets/avatar.svg";
-import Image from "next/image";
+// import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+// import { getValidAvatar } from "@/utils/studyDataMap";
+import { useParticipantStore } from "@/stores/chatStore";
 
-interface MemberType {
-    id: number;
-    name: string;
-}
-export default function ChatMemberList() {
+export default function ChatMemberList({ studyId }: { studyId: number }) {
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
     const { isOpen, closeModal, setWhisperTarget } = useChatMemberList();
-
-    const teamMembers: MemberType[] = [
-        { id: 201, name: "오수보망" },
-        { id: 202, name: "근의공식마스터밍디" },
-        { id: 203, name: "자바몰이건재" },
-        { id: 204, name: "토익100점달성하영" },
-    ];
-
+    const members = useParticipantStore().participants;
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
@@ -34,7 +24,7 @@ export default function ChatMemberList() {
             }, 200);
             return () => clearTimeout(timer);
         }
-    }, [changeClass, isOpen]);
+    }, [changeClass, isOpen, studyId]);
 
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
@@ -42,7 +32,7 @@ export default function ChatMemberList() {
             closeModal();
         }, 200);
     };
-
+    console.log(members);
     if (!isVisible) return null;
 
     return (
@@ -68,20 +58,25 @@ export default function ChatMemberList() {
                     >
                         전체 채팅
                     </li>
-                    {teamMembers.map((user) => (
+                    {members.map((member) => (
                         <li
-                            key={user.id}
+                            key={member.memberId}
                             onClick={() => {
-                                setWhisperTarget(user.id);
+                                setWhisperTarget(member.memberId);
                                 closeHandler();
                             }}
                             className="flex h-11 cursor-pointer items-center gap-3 px-5"
                         >
                             <div className="h-12 w-12 rounded-2xl bg-[var(--color-gray200)]">
-                                <Image src={avatar} alt="user avatar" />
+                                {/* <Image
+                                    src={getValidAvatar(member?.profileImage)}
+                                    alt="user avatar"
+                                    width={46}
+                                    height={46}
+                                /> */}
                             </div>
                             <p className="h6 transition-all duration-200 ease-in-out hover:text-[var(--color-main500)]">
-                                {user.name}
+                                {member?.nickName}
                             </p>
                         </li>
                     ))}

@@ -1,17 +1,17 @@
 interface Chat {
-    chatId: number;
-    receiverId: number | null;
+    chatId?: number;
+    receiverId: number;
     receiverNickname: string;
     senderId: number;
     senderNickname: string;
     content: string;
-    createAt: string;
-    chatMember: ChatMember[];
+    createdAt?: string;
+    chatMember?: ChatMember[];
 }
 
 interface ChatMember {
     memberId: number;
-    nickname: string;
+    nickName: string;
     status: "ONLINE";
 }
 
