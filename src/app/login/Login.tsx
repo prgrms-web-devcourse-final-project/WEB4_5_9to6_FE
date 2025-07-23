@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { login } from "@/api/auth";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 import Image from "next/image";
@@ -17,6 +17,7 @@ export default function Login() {
     const [loginError, setLoginError] = useState(false);
     const [loginErrorMsg, setLoginErrorMsg] = useState("");
     const router = useRouter();
+    const searchParams = useSearchParams().get("error");
 
     const { mutate: loginMutate } = useMutation({
         mutationFn: () => login(email, password),
@@ -63,6 +64,14 @@ export default function Login() {
     useEffect(() => {
         setLoginError(false);
     }, [email, password]);
+
+    useEffect(() => {
+        console.log(searchParams);
+        if (searchParams) {
+            setLoginErrorMsg("이미 같은 이메일로 가입된 계정이 있습니다.");
+            setLoginError(true);
+        }
+    }, [searchParams]);
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
