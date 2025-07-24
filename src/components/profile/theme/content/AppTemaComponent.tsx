@@ -1,41 +1,37 @@
 "use client";
 
+import { useOwnItemStore } from "@/stores/ownItemStore";
+import { gradientColors } from "@/utils/appTemaGradientColor";
 import { CircleCheck } from "lucide-react";
 
 export default function AppTemaComponent({
+    id,
+    ownId,
     name,
     selected,
     onSelect,
 }: {
+    id: number;
+    ownId: number;
     name: string;
     selected: boolean;
     onSelect: () => void;
 }) {
-    const gradientColors = [
-        { name: "기본", gradient: "from-black via-[#741E2D] to-[#FF395C]" },
-        {
-            name: "그린 & 블랙",
-            gradient: "from-black via-[#0F6153] to-[#00C5A4]",
-        },
-        {
-            name: "블루 & 블랙",
-            gradient: "from-black via-[#1B1F8F] to-[#484EFD]",
-        },
-        {
-            name: "오렌지 & 블랙",
-            gradient: "from-black via-[#A64C10] to-[#FE6F0F]",
-        },
-    ];
+    const { changeOwnId, changeOwnName } = useOwnItemStore();
     return (
         <>
             <div className="flex flex-col gap-[10px]">
                 <h6 className="text-gray1000">{name}</h6>
                 <div
-                    onClick={onSelect}
+                    onClick={() => {
+                        onSelect();
+                        changeOwnId(ownId);
+                        changeOwnName(name + " 테마");
+                    }}
                     className="relative aspect-[31/57] cursor-pointer"
                 >
                     <div
-                        className={`absolute inset-0 rounded-xl bg-gradient-to-br ${gradientColors.find((v) => v.name === name)?.gradient}`}
+                        className={`absolute inset-0 rounded-xl bg-gradient-to-br ${gradientColors.find((v) => v.id === id)?.gradient}`}
                     ></div>
                     <p className="c2 absolute right-3 bottom-3 text-white/40">
                         Studium

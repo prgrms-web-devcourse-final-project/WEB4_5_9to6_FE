@@ -1,33 +1,42 @@
 "use client";
 
+import { useOwnItemStore } from "@/stores/ownItemStore";
 import { CircleCheck } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface AvatarType {
+    id: number;
+    ownId: number;
     name: string;
     part: string;
-    index: number;
     selected: boolean;
-    avatarHandler: () => void;
+    onSelect: () => void;
 }
 
 export default function AvatarComponent({
+    id,
+    ownId,
     name,
     part,
-    index,
     selected,
-    avatarHandler,
+    onSelect,
 }: AvatarType) {
-    const [src, setSrc] = useState(`/images/avatarImgs/face1.png`);
+    const { changeOwnId, changeOwnName } = useOwnItemStore();
+    const [src, setSrc] = useState(`/images/rewardItems/21.png`);
 
     useEffect(() => {
-        setSrc(`/images/avatarImgs/${part}${index + 1}.png`);
-    }, [part, index]); // 클라이언트에서 동작하게끔 구성
+        setSrc(`/images/rewardItems/${id}.png`);
+    }, [id]);
+
     return (
         <>
             <div
-                onClick={avatarHandler}
+                onClick={() => {
+                    onSelect();
+                    changeOwnId(ownId);
+                    changeOwnName(name);
+                }}
                 className="bg-gray200 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
             >
                 <Image

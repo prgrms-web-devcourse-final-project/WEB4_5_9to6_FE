@@ -15,7 +15,7 @@ export default async function page({
                 <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
                     <ShopCard id={rewardId} />
                     <ShopTabs />
-                    <ShopPurchaseModal />
+                    <ShopPurchaseModal id={rewardId} />
                 </div>
             </div>
         </>
