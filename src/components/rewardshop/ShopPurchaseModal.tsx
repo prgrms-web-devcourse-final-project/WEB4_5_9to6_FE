@@ -1,20 +1,46 @@
 "use client";
 
+import { purchaseRewardItems } from "@/api/item";
 import Button from "@/components/common/Button";
+import { useProfileStore } from "@/stores/memberStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useShopModalStore } from "@/stores/shopModalStore";
 import { customAlert } from "@/utils/customAlert";
+import { useMutation } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ShopPurchaseModal() {
-    const { isOpen, closeModal, goodsName, goodsPrice, goodsType, content } =
-        useShopModalStore();
+export default function ShopPurchaseModal({ id }: { id: string }) {
+    const {
+        isOpen,
+        closeModal,
+        goodsId,
+        goodsName,
+        goodsPrice,
+        goodsType,
+        content,
+    } = useShopModalStore();
     const [type, setType] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
+    const { data, fetch } = useProfileStore();
     const router = useRouter();
+    const { fetchItemsOwn } = useOwnItemStore();
+
+    const mutation = useMutation({
+        mutationFn: async ({ itemId }: { itemId: number }) =>
+            await purchaseRewardItems(itemId),
+        onSuccess: async (response) => {
+            await fetchItemsOwn();
+            await fetch(Number(id));
+            console.log(response);
+        },
+        onError(err) {
+            console.log(err);
+        },
+    });
 
     useEffect(() => {
         if (isOpen) {
@@ -39,6 +65,7 @@ export default function ShopPurchaseModal() {
     if (!isVisible) return null;
 
     const clickHandler = () => {
+        mutation.mutate({ itemId: goodsId });
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
             closeModal();
@@ -46,7 +73,7 @@ export default function ShopPurchaseModal() {
         customAlert({
             message: `${goodsName}(을)를 구매했어요!\n테마변경 페이지에서 바로 적용해보세요.`,
             linkLabel: "이동하기",
-            onClick: () => router.push("/profile/1/theme"),
+            onClick: () => router.push(`/profile/${id}/theme`),
         });
     };
 
@@ -75,7 +102,9 @@ export default function ShopPurchaseModal() {
                     <div className="bg-gray100 mx-5 mb-[10px] rounded-xl p-4">
                         <div className="mb-1.5 flex items-center justify-between">
                             <p className="b2 text-gray1000">내 리워드</p>
-                            <h6 className="text-gray1000">5,600P</h6>
+                            <h6 className="text-gray1000">
+                                {data?.rewardPoints.toLocaleString() || 0}P
+                            </h6>
                         </div>
                         <div className="mb-3.5 flex items-center justify-between">
                             <p className="b2 text-gray1000">{goodsName}</p>
@@ -86,13 +115,19 @@ export default function ShopPurchaseModal() {
                         <hr className="text-gray200 mb-3.5" />
                         <div className="flex items-center justify-between">
                             <p className="b2 text-gray1000">구매 후 리워드</p>
-                            <h6 className="text-gray1000">
-                                {(5600 - goodsPrice).toLocaleString()}P
+                            <h6
+                                className={`${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
+                            >
+                                {`${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`}
                             </h6>
                         </div>
                     </div>
                     <div className="z-10 rounded-xl bg-white p-5">
-                        <Button onClick={clickHandler}>구매하기</Button>
+                        {(data?.rewardPoints || 0) - goodsPrice >= 0 ? (
+                            <Button onClick={clickHandler}>구매하기</Button>
+                        ) : (
+                            <Button disabled>구매불가</Button>
+                        )}
                     </div>
                 </div>
             </div>

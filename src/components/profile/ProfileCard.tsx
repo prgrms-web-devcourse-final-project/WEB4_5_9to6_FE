@@ -32,7 +32,7 @@ export default function ProfileCard({ id }: { id: string }) {
                             className="h-auto w-6"
                         />
                         <h2 className="text-gray1000">
-                            {data?.rewardPoints || 0}P
+                            {data?.rewardPoints.toLocaleString() || 0}P
                         </h2>
                         <ToolTip>
                             <div className="c2 mb-4 whitespace-pre-line">

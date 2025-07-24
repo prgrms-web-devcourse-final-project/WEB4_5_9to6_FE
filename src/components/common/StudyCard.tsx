@@ -1,7 +1,7 @@
 "use client";
 import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
-import defaultImg from "../../../public/images/avatarImgs/basic2.png";
+import defaultImg from "../../../public/images/rewardItems/61.png";
 import Image from "next/image";
 // import { useQuery } from "@tanstack/react-query";
 import { checkIsMember } from "@/api/studies";
