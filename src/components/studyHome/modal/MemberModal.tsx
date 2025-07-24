@@ -22,7 +22,7 @@ export default function MemberModal({
     const studyId = typeof id === "string" ? parseInt(id) : null;
 
     const { data: userDatas } = useQuery({
-        queryKey: ["applicants", studyId],
+        queryKey: ["applicantsModal", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다");
             return await getApplicants(studyId);

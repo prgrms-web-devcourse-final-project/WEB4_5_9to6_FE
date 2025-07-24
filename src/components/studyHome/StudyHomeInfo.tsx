@@ -9,7 +9,7 @@ export default function StudyHomeInfo() {
     const studyId = typeof id === "string" ? parseInt(id) : null;
 
     const { data: studyData } = useQuery<StudyInfos>({
-        queryKey: ["studyId", studyId],
+        queryKey: ["studyHomeData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다.");
             return await fetchStudyInfo(studyId);

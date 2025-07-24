@@ -65,14 +65,6 @@ export default function Page() {
         const start = new Date(startDate);
         return now < start ? "활동 전" : "활동중";
     };
-    //초기화
-    // useEffect(() => {
-    //     setStudies([]);
-    //     setDefaultStudies([]);
-    //     setSurvStudies([]);
-    //     setPage(1);
-    //     setHasMore(true);
-    // }, [filter]);
 
     //데이터 불러오기
     //일반 스터디 검색
@@ -82,18 +74,18 @@ export default function Page() {
         hasNextPage: hasMoreDefault,
         isFetchingNextPage: isLoadingDefault,
     } = useInfiniteQuery<StudyList[], Error>({
-        queryKey: ["defaultStudies", filter, debouncedInput, selected],
+        queryKey: ["defaultStudiesList", filter, debouncedInput, selected],
         queryFn: ({ pageParam = 1 }) =>
             defaultSearch({
                 page: pageParam as number,
-                size: 12,
+                size: 15,
                 category: category[selected],
                 region: filter.region,
                 status: "ALL",
                 name: debouncedInput || "",
             }),
         getNextPageParam: (lastPage, allPages) =>
-            lastPage.length < 12 ? undefined : allPages.length + 1,
+            lastPage.length < 15 ? undefined : allPages.length + 1,
         initialPageParam: 1,
         staleTime: 1000 * 60 * 3, //3분
     });
@@ -102,7 +94,7 @@ export default function Page() {
         data: survData,
         // isLoading:isLoadingSurv,
     } = useQuery<StudyList[], Error>({
-        queryKey: ["survStudies", filter, debouncedInput, selected],
+        queryKey: ["survStudiesList", filter, debouncedInput, selected],
         queryFn: () =>
             survSearch({
                 page: 1,
@@ -171,7 +163,7 @@ export default function Page() {
                     <div className="h-full w-full pt-[19px] pb-[30px]">
                         {/* 필터링 뱃지 */}
                         {(filter.regionSelect || filter.statusSelect) && (
-                            <div className="fixed top-[146px] left-5 z-[999] flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
+                            <div className="fixed top-[146px] left-5 z-30 flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
                                 {filter.regionSelect && (
                                     <button
                                         className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"

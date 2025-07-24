@@ -1,6 +1,7 @@
 "use client";
 
 import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
+import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Page() {
     // const [attend, setAttend] = useState(false);
@@ -29,9 +30,57 @@ export default function Page() {
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
 
-    const finishHandler = () => {
+    const [seconds, setSeconds] = useState(0);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const startTimer = () => {
+        if (intervalRef.current) return;
+        setIsStart(true);
+        setPause(false);
+        intervalRef.current = setInterval(() => {
+            setSeconds((prev) => prev + 1);
+        }, 1000);
+    };
+
+    const stopTimer = () => {
+        if (intervalRef.current) {
+            setPause(true);
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+    };
+
+    const resetTimer = async () => {
+        stopTimer();
         setIsStart(false);
         setPause(false);
+        //스터디시간 저장
+        if (!studyId) throw new Error("스터디 아이디가 없습니다.");
+        const isTimePosted = await postStudyTime(studyId, seconds);
+        if (isTimePosted === "정상적으로 완료되었습니다.") {
+            customAlert({
+                message: `공부시간이 저장되었습니다.`,
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        } else {
+            customAlert({
+                message: `공부시간을 저장하는데 에러가 발생했습니다.`,
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        }
+        setSeconds(0);
+    };
+    useEffect(() => {
+        return () => stopTimer();
+    }, []);
+
+    const formatTime = (totalSeconds: number) => {
+        const hr = Math.floor(totalSeconds / 3600);
+        const min = Math.floor((totalSeconds % 3600) / 60);
+        const sec = totalSeconds % 60;
+        return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
     };
 
     const attendHandler = async () => {
@@ -56,7 +105,7 @@ export default function Page() {
     };
 
     const { data: studyData } = useQuery<StudyInfos>({
-        queryKey: ["studyId", studyId],
+        queryKey: ["studyData", studyId],
         queryFn: async () => await fetchStudyInfo(studyId!),
         enabled: !!studyId,
     });
@@ -139,6 +188,7 @@ export default function Page() {
                         pause={pause}
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
+                        studyTimeSec={formatTime(seconds)}
                     />
                 )}
                 {/* 버튼 */}
@@ -149,10 +199,7 @@ export default function Page() {
                         </Button>
                     )}
                     {attended && !isStart && (
-                        <Button
-                            color="primary"
-                            onClick={() => setIsStart(true)}
-                        >
+                        <Button color="primary" onClick={startTimer}>
                             스터디 시작
                         </Button>
                     )}
@@ -160,20 +207,30 @@ export default function Page() {
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
                                 className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
-                                onClick={finishHandler}
+                                onClick={resetTimer}
                             >
                                 <h5 className="text-[var(--color-main500)]">
                                     그만하기
                                 </h5>
                             </button>
-                            <Button
-                                color="primary"
-                                className="basis-[64.1%]"
-                                onClick={() => setPause(!pause)}
-                            >
-                                {!pause && <Pause className="h-6 w-6" />}
-                                {pause && <Play className="h-6 w-6" />}
-                            </Button>
+                            {!pause && (
+                                <Button
+                                    color="primary"
+                                    className="basis-[64.1%]"
+                                    onClick={stopTimer}
+                                >
+                                    <Pause className="h-6 w-6" />
+                                </Button>
+                            )}
+                            {pause && (
+                                <Button
+                                    color="primary"
+                                    className="basis-[64.1%]"
+                                    onClick={startTimer}
+                                >
+                                    <Play className="h-6 w-6" />
+                                </Button>
+                            )}
                         </div>
                     )}
                 </div>

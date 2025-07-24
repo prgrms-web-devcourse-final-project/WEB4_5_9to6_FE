@@ -5,14 +5,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function StudyUsers() {
-    // const users = [
-    //     "삼성동오징어(나)",
-    //     "대장동꼴뚜기",
-    //     "미금역비둘기",
-    //     "상봉동 오리아나",
-    //     "역병괴수",
-    //     "우라늄아이스크림",
-    // ];
     const router = useRouter();
     const params = useParams();
     const [members, setMembers] = useState<Members[]>([]);

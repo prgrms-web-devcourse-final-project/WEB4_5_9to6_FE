@@ -21,7 +21,7 @@ export default function StudyGoalModal({
     const { changeClass } = useAnimationStore();
 
     const { data: goalData } = useQuery<CheckGoal[]>({
-        queryKey: ["studyGoals", studyId],
+        queryKey: ["goalModalData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다.");
             return await getCheckGoal(studyId);

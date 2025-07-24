@@ -9,6 +9,7 @@ interface Filtering {
     regionSelect: boolean;
     statusSelect: boolean;
 }
+
 export default function Channel({
     filter,
     selected,
@@ -34,7 +35,7 @@ export default function Channel({
     return (
         <>
             <div
-                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect ? "border-b-gray300 h-[50px] border-b" : "h-[45px]"}`}
+                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect ? "border-b-gray300 h-[50px] border-b" : "h-[40px]"}`}
             >
                 <Swiper spaceBetween={16} slidesPerView={"auto"}>
                     {channels.map((channel) => (
@@ -55,19 +56,6 @@ export default function Channel({
                     ))}
                 </Swiper>
             </div>
-            {/* {filter.length > 0 && (
-                <div className="mt-[-10px] flex h-6 items-center gap-[8px]">
-                    {filter?.map((fil) => (
-                        <button
-                            key={fil}
-                            className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
-                            onClick={() => removeFilter(fil)}
-                        >
-                            {fil}
-                        </button>
-                    ))}
-                </div>
-            )} */}
         </>
     );
 }

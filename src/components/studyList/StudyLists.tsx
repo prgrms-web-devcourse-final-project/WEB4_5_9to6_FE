@@ -28,10 +28,10 @@ export default function StudyLists({
 
     const leaderQueries = useQueries({
         queries: defaultStudies.map((study) => ({
-            queryKey: ["studyMembers", study.studyId],
+            queryKey: ["studyMembers", "fromList", study.studyId],
             queryFn: () => studyMembers(study.studyId),
             select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
-            enabled: defaultStudies.length > 0,
+            enabled: !!study.studyId,
             staleTime: 1000 * 60 * 3,
         })),
     });

@@ -17,7 +17,7 @@ export const defaultSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    // console.log("일반 입력받은값:", page, size, category, region, status, name);
+    console.log("일반 입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -27,7 +27,7 @@ export const defaultSearch = async ({
         name,
         studyType: "DEFAULT",
     });
-    // console.log("일반 출력값", res.data.data);
+    console.log("일반 출력값", res.data.data);
     return res.data.data;
 };
 

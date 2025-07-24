@@ -20,7 +20,7 @@ export default function Page() {
 
     //유저가 스터디장인지 확인
     const { data: memberData, isLoading } = useQuery<Members[]>({
-        queryKey: ["members", studyId],
+        queryKey: ["memberData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다.");
             return await studyMembers(studyId);

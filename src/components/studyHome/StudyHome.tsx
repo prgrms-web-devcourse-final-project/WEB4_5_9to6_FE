@@ -30,6 +30,7 @@ export default function StudyHome({
     pause,
     isMenuOpen,
     setIsMenuOpen,
+    studyTimeSec,
 }: {
     studyId: number;
     notice: string | undefined;
@@ -45,6 +46,7 @@ export default function StudyHome({
     pause: boolean;
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+    studyTimeSec: string;
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
@@ -131,7 +133,11 @@ export default function StudyHome({
 
             {isStart && (
                 <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
-                    <StudyTimer pause={pause} setIsGoalOpen={setIsGoalOpen} />
+                    <StudyTimer
+                        pause={pause}
+                        setIsGoalOpen={setIsGoalOpen}
+                        studyTimeSec={studyTimeSec}
+                    />
                 </div>
             )}
 

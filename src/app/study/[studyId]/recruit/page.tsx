@@ -57,8 +57,8 @@ export default function Page() {
         };
         fetchStudy();
     }, [params?.studyId]);
-    const { data: userData } = useQuery({
-        queryKey: ["userData", studyId],
+    const { data: applicantData } = useQuery({
+        queryKey: ["applicantData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다");
             return await getApplicants(studyId);
@@ -66,13 +66,13 @@ export default function Page() {
         enabled: !!studyId,
     });
     useEffect(() => {
-        if (userData && myInfo?.id) {
-            const isApplied = userData.some(
+        if (applicantData && myInfo?.id) {
+            const isApplied = applicantData.some(
                 (m: Members) => m.memberId === myInfo.id,
             );
             setIsApply(isApplied);
         }
-    }, [userData, myInfo]);
+    }, [applicantData, myInfo]);
     return (
         <>
             {/* 스크롤시 헤더 */}
