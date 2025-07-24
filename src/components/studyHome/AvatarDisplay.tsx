@@ -1,5 +1,5 @@
 import Image from "next/image";
-import boy from "../../../public/images/avatarImgs/basic1.png";
+import boy from "../../../public/images/rewardItems/61.png";
 
 export default function AvatarDisplay({ num }: { num: number }) {
     return (

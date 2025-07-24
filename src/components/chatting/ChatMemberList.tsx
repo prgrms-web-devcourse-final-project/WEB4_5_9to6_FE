@@ -2,17 +2,19 @@
 
 import { useChatMemberList } from "@/stores/chatModalStore";
 import { X } from "lucide-react";
-// import Image from "next/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
-// import { getValidAvatar } from "@/utils/studyDataMap";
+import { getValidAvatar } from "@/utils/studyDataMap";
 import { useParticipantStore } from "@/stores/chatStore";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function ChatMemberList({ studyId }: { studyId: number }) {
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
     const { isOpen, closeModal, setWhisperTarget } = useChatMemberList();
     const members = useParticipantStore((state) => state.participants);
+    const myId = useAuthStore((state) => state.myInfo?.id);
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
@@ -58,28 +60,31 @@ export default function ChatMemberList({ studyId }: { studyId: number }) {
                     >
                         전체 채팅
                     </li>
-                    {members.map((member) => (
-                        <li
-                            key={member.memberId}
-                            onClick={() => {
-                                setWhisperTarget(member.memberId);
-                                closeHandler();
-                            }}
-                            className="flex h-11 cursor-pointer items-center gap-3 px-5"
-                        >
-                            <div className="h-12 w-12 rounded-2xl bg-[var(--color-gray200)]">
-                                {/* <Image
-                                    src={getValidAvatar(member?.profileImage)}
-                                    alt="user avatar"
-                                    width={46}
-                                    height={46}
-                                /> */}
-                            </div>
-                            <p className="h6 transition-all duration-200 ease-in-out hover:text-[var(--color-main500)]">
-                                {member?.nickName}
-                            </p>
-                        </li>
-                    ))}
+                    {members
+                        .filter((member) => member.memberId !== myId)
+                        .map((member) => (
+                            <li
+                                key={member.memberId}
+                                onClick={() => {
+                                    console.log("귓속말 대상 선택됨:", member);
+                                    setWhisperTarget(member.memberId);
+                                    closeHandler();
+                                }}
+                                className="flex h-11 cursor-pointer items-center gap-3 px-5"
+                            >
+                                <div className="h-12 w-12 rounded-2xl bg-[var(--color-gray200)]">
+                                    <Image
+                                        src={getValidAvatar(member?.image)}
+                                        alt="user avatar"
+                                        width={46}
+                                        height={46}
+                                    />
+                                </div>
+                                <p className="h6 transition-all duration-200 ease-in-out hover:text-[var(--color-main500)]">
+                                    {member?.nickname}
+                                </p>
+                            </li>
+                        ))}
                 </ul>
             </div>
         </>

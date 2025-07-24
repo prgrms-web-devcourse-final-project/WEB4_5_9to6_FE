@@ -15,20 +15,21 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     // 오전, 오후
     dayjs.locale("ko");
+
+    console.log("members", members);
+
+    console.log("messages", messages);
+    let lastDate = "";
+
     useEffect(() => {
+        if (!studyId) return;
         const loadMessageHandler = async () => {
             const messageData = await fetchChatHistory(studyId);
-            setMessages(messageData);
+            useChatStore.getState().setMessages(messageData);
             console.log("history", messageData);
         };
-        console.log("✅ useEffect 실행됨");
         loadMessageHandler();
-    }, [setMessages]);
-
-    console.log("채팅메세지", messages);
-
-    const getNickname = () => members.find((member) => member.nickName);
-    let lastDate = "";
+    }, [setMessages, studyId]);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -37,6 +38,8 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
             });
         }
     }, [messages]);
+    console.log("필터링 전:", messages);
+    console.log("myId:", myId);
     return (
         <>
             <div
@@ -45,7 +48,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
             >
                 {messages
                     .filter((msg) => {
-                        if (msg.receiverId === null) return true;
+                        if (msg.receiverId == null) return true;
                         return msg.receiverId === myId || msg.senderId === myId;
                     })
                     .map((msg, idx) => {
@@ -94,13 +97,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                 }`}
                                             >
                                                 {isMine
-                                                    ? `${getNickname(msg?.receiverId)}님에게 귓속말`
-                                                    : `${getNickname(msg.senderId)}님의 귓속말`}
+                                                    ? `${msg.receiverNickname}님에게 귓속말`
+                                                    : `${msg.senderNickname}님의 귓속말`}
                                             </p>
                                         )}
                                         {!isWhisper && !isMine && (
                                             <p className="c2 text-[var(--color-gray600)]">
-                                                {getNickname(msg.senderId)}
+                                                {msg.senderNickname}
                                             </p>
                                         )}
                                         <div

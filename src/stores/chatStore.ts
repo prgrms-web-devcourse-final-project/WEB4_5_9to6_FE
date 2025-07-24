@@ -21,5 +21,5 @@ export const useChatStore = create<ChatStore>((set) => ({
 // 채팅 참여자
 export const useParticipantStore = create<ParticipantStore>((set) => ({
     participants: [],
-    setParticipants: (members) => set({ participants: members }),
+    setParticipants: (members) => set({ participants: [...members] }),
 }));

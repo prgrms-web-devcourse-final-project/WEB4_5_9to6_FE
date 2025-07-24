@@ -12,7 +12,8 @@ interface Chat {
 
 interface ChatMember {
     memberId: number;
-    nickName: string;
+    nickname: string;
+    image: string;
     status: "ONLINE";
     email?: string;
 }

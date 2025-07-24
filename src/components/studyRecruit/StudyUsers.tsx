@@ -1,5 +1,5 @@
 import { studyMembers } from "@/api/studies";
-import avatar from "../../../public/images/avatarImgs/basic2.png";
+import avatar from "../../../public/images/rewardItems/61.png";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";

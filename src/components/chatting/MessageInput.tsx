@@ -7,18 +7,20 @@ import { useChatMemberList } from "@/stores/chatModalStore";
 import { IMessage, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useChatStore, useParticipantStore } from "@/stores/chatStore";
+import { useAuthStore } from "@/stores/authStore";
+import { fetchStudyMember } from "@/api/studyList";
 
 export default function MessageInput({ studyId }: { studyId: number }) {
-    const { whisperTarget, closeModal } = useChatMemberList();
+    const { whisperTarget, closeModal, openModal, isOpen } =
+        useChatMemberList();
     const [message, setMessage] = useState("");
-    const { openModal, isOpen } = useChatMemberList();
     const clientRef = useRef<Client | null>(null);
     const addMessage = useChatStore((state) => state.addMessage);
     const members = useParticipantStore((state) => state.participants);
+    const myInfo = useAuthStore.getState().myInfo;
     const onMessageReceived = useCallback(
         (message: IMessage) => {
             const body = JSON.parse(message.body);
-            console.log("파싱된 메시지 내용:", body);
             addMessage(body.data);
         },
         [addMessage],
@@ -31,7 +33,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         useParticipantStore.getState().setParticipants(body.data);
     };
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         if (!message.trim()) return;
 
         const client = clientRef.current;
@@ -42,10 +44,12 @@ export default function MessageInput({ studyId }: { studyId: number }) {
 
         let msgPayload;
 
-        if (whisperTarget) {
-            const targetMember = members.find(
-                (m) => m.memberId === whisperTarget,
+        if (whisperTarget !== null) {
+            const studyMembers = await fetchStudyMember(studyId);
+            const targetMember = studyMembers.find(
+                (m: StudyMember) => m.memberId === whisperTarget,
             );
+
             if (!targetMember) {
                 console.warn("귓속말 대상 없음");
                 return;
@@ -53,13 +57,18 @@ export default function MessageInput({ studyId }: { studyId: number }) {
 
             msgPayload = {
                 receiverEmail: targetMember.email,
-                receiverNickname: targetMember.nickName,
+                receiverNickName: targetMember.nickName,
                 content: message,
             };
+            console.log("🎯 targetMember:", targetMember);
+            console.log("🧾 전송 payload", JSON.stringify(msgPayload, null, 2));
         } else {
             msgPayload = {
-                receiverEmail: null,
-                receiverNickname: null,
+                senderId: myInfo?.id,
+                senderEmail: myInfo?.email,
+                senderNickname: myInfo?.nickname,
+                receiverId: null,
+                receiverNickName: null,
                 content: message,
             };
         }
@@ -87,7 +96,6 @@ export default function MessageInput({ studyId }: { studyId: number }) {
             webSocketFactory: () =>
                 new SockJS("https://studium.cedartodo.uk/ws-connect"),
             onConnect: () => {
-                console.log("웹소켓 연결됨");
                 console.log("client 연결 상태:", client.connected);
 
                 client.subscribe(`/subscribe/${studyId}`, onMessageReceived);
@@ -145,7 +153,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 <textarea
                     placeholder={
                         whisperTarget
-                            ? ` ${members.find((member) => member?.memberId === whisperTarget)?.nickName}님께 귓속말`
+                            ? ` ${members.find((member) => member?.memberId === whisperTarget)?.nickname}님께 귓속말`
                             : "메세지 입력"
                     }
                     className={`max-h-20 w-[85%] resize-none overflow-y-scroll rounded-2xl py-[7px] pl-3.5 text-[var(--color-gray1000)] focus:outline-none ${whisperTarget ? "bg-[var(--color-main100)] placeholder:text-[#EAB3C1]" : "bg-[var(--color-gray200)] placeholder:text-[var(--color-gray500)]"}`}
