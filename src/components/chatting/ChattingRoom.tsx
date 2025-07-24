@@ -27,8 +27,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
 
     console.log("채팅메세지", messages);
 
-    const getNickname = (id: number) =>
-        members.find((m) => m.memberId === id)?.nickName ?? "알 수 없음";
+    const getNickname = () => members.find((member) => member.nickName);
     let lastDate = "";
 
     useEffect(() => {
