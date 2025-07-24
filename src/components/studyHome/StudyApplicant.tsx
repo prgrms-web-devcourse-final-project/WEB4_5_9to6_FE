@@ -1,5 +1,5 @@
 import Image from "next/image";
-import defaultImg from "../../../public/images/avatarImgs/basic2.png";
+import defaultImg from "../../../public/images/rewardItems/61.png";
 import Button from "../common/Button";
 import { respondToApplication } from "@/api/studies";
 import { useParams } from "next/navigation";
