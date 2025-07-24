@@ -118,9 +118,7 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
                             <h6
                                 className={`${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
                             >
-                                {(data?.rewardPoints || 0) - goodsPrice >= 0
-                                    ? `${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`
-                                    : "리워드가 부족합니다!"}
+                                {`${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`}
                             </h6>
                         </div>
                     </div>

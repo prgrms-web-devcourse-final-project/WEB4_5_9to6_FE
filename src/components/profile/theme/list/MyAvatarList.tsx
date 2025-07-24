@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
-import avatarImg from "../../../../assets/images/avatar.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
@@ -51,13 +50,38 @@ export default function MyAvatarList({
     return (
         <>
             <div className="mb-[90px]">
-                <div className="mt-[-24px] mb-6 flex h-[150px] flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
+                <div className="relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
                     <Image
-                        src={avatarImg}
-                        alt="내 아바타"
-                        className="h-18 w-18"
+                        src={`/images/changeAvatars/${isFace}.png`}
+                        alt="face"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
                     />
-                    <p className="b2 text-gray700 mt-[10px]">내 아바타</p>
+                    {/* 머리 */}
+                    <Image
+                        src={`/images/changeAvatars/${isHair}.png`}
+                        alt="hair"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
+                    />
+                    {/* 모자 */}
+                    <Image
+                        src={`/images/changeAvatars/${isHat}.png`}
+                        alt="hat"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2"
+                    />
+                    {/* 옷 */}
+                    <Image
+                        src={`/images/changeAvatars/${isTop}.png`}
+                        alt="top"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2"
+                    />
                 </div>
                 <div className="mx-5">
                     <div>
