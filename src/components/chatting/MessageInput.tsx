@@ -17,10 +17,9 @@ export default function MessageInput({ studyId }: { studyId: number }) {
     const members = useParticipantStore((state) => state.participants);
     const onMessageReceived = useCallback(
         (message: IMessage) => {
-            console.log("수신된 원본 메시지:", message);
             const body = JSON.parse(message.body);
             console.log("파싱된 메시지 내용:", body);
-            addMessage(body);
+            addMessage(body.data);
         },
         [addMessage],
     );
@@ -89,6 +88,8 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 new SockJS("https://studium.cedartodo.uk/ws-connect"),
             onConnect: () => {
                 console.log("웹소켓 연결됨");
+                console.log("client 연결 상태:", client.connected);
+
                 client.subscribe(`/subscribe/${studyId}`, onMessageReceived);
                 client.subscribe(`/user/queue/messages`, onMessageReceived);
                 client.subscribe(
@@ -103,7 +104,6 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 console.log(str);
             },
         });
-
         clientRef.current = client;
         client.activate();
 
