@@ -1,37 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
-import avatarImg from "../../../../assets/images/avatar.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-export default function MyAvatarList() {
-    const [avatar, setAvatar] = useState({
-        face: 0,
-        hat: 0,
-        hair: 0,
-        clothes: 0,
-    });
+export default function MyAvatarList({
+    faceData,
+    hatData,
+    hairData,
+    topData,
+}: {
+    faceData: OwnItems[];
+    hatData: OwnItems[];
+    hairData: OwnItems[];
+    topData: OwnItems[];
+}) {
+    const [isFace, setFace] = useState(21);
+    const [isHat, setHat] = useState(31);
+    const [isHair, setHair] = useState(52);
+    const [isTop, setTop] = useState(61);
 
-    const avatarHandler = (
-        part: "face" | "hat" | "hair" | "clothes",
-        index: number,
-    ) => {
-        setAvatar((v) => ({ ...v, [part]: index }));
+    const selectHandler = (type: string, id: number) => {
+        if (type === "FACE") {
+            setFace(id);
+        } else if (type === "HAT") {
+            setHat(id);
+        } else if (type === "HAIR") {
+            setHair(id);
+        } else if (type === "TOP") {
+            setTop(id);
+        } else {
+            return;
+        }
     };
+
+    useEffect(() => {
+        const selectedFace = faceData?.find((v) => v.used)?.itemId;
+        setFace(selectedFace || 21);
+        const selectedHat = hatData?.find((v) => v.used)?.itemId;
+        setHat(selectedHat || 31);
+        const selectedHair = hairData?.find((v) => v.used)?.itemId;
+        setHair(selectedHair || 52);
+        const selectedTop = topData?.find((v) => v.used)?.itemId;
+        setTop(selectedTop || 61);
+    }, [faceData, hatData, hairData, topData]);
 
     return (
         <>
             <div className="mb-[90px]">
-                <div className="mt-[-24px] mb-6 flex h-[150px] flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
+                <div className="relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
                     <Image
-                        src={avatarImg}
-                        alt="내 아바타"
-                        className="h-18 w-18"
+                        src={`/images/changeAvatars/${isFace}.png`}
+                        alt="face"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
                     />
-                    <p className="b2 text-gray700 mt-[10px]">내 아바타</p>
+                    {/* 머리 */}
+                    <Image
+                        src={`/images/changeAvatars/${isHair}.png`}
+                        alt="hair"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
+                    />
+                    {/* 모자 */}
+                    <Image
+                        src={`/images/changeAvatars/${isHat}.png`}
+                        alt="hat"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-30 -translate-x-1/2 -translate-y-1/2"
+                    />
+                    {/* 옷 */}
+                    <Image
+                        src={`/images/changeAvatars/${isTop}.png`}
+                        alt="top"
+                        width={128}
+                        height={128}
+                        className="absolute top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2"
+                    />
                 </div>
                 <div className="mx-5">
                     <div>
@@ -41,29 +91,28 @@ export default function MyAvatarList() {
                             slidesPerView={"auto"}
                             className="mb-6"
                         >
-                            {["평범", "웃음", "무표정", "안경", "초롱"].map(
-                                (v, i) => (
-                                    <SwiperSlide
-                                        key={v}
-                                        style={{
-                                            width: "auto",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
-                                        <AvatarComponent
-                                            name={v}
-                                            part="face"
-                                            index={i}
-                                            selected={avatar.face === i}
-                                            avatarHandler={() =>
-                                                avatarHandler("face", i)
-                                            }
-                                        />
-                                    </SwiperSlide>
-                                ),
-                            )}
+                            {(faceData || []).map((v, i) => (
+                                <SwiperSlide
+                                    key={i}
+                                    style={{
+                                        width: "auto",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <AvatarComponent
+                                        id={v.itemId}
+                                        ownId={v.ownItemId}
+                                        name={v.name}
+                                        part="FACE"
+                                        selected={isFace === v.itemId}
+                                        onSelect={() =>
+                                            selectHandler("FACE", v.itemId)
+                                        }
+                                    />
+                                </SwiperSlide>
+                            ))}
                         </Swiper>
                     </div>
                     <div>
@@ -73,20 +122,9 @@ export default function MyAvatarList() {
                             slidesPerView={"auto"}
                             className="mb-6"
                         >
-                            {[
-                                "리본",
-                                "끈리본",
-                                "학사모",
-                                "둥근모",
-                                "사각모",
-                                "스냅백",
-                                "화관",
-                                "금계관",
-                                "들꽃",
-                                "토끼귀",
-                            ].map((v, i) => (
+                            {(hatData || []).map((v, i) => (
                                 <SwiperSlide
-                                    key={v}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -95,12 +133,13 @@ export default function MyAvatarList() {
                                     }}
                                 >
                                     <AvatarComponent
-                                        name={v}
-                                        part="hat"
-                                        index={i}
-                                        selected={avatar.hat === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("hat", i)
+                                        id={v.itemId}
+                                        ownId={v.ownItemId}
+                                        name={v.name}
+                                        part="HAT"
+                                        selected={isHat === v.itemId}
+                                        onSelect={() =>
+                                            selectHandler("HAT", v.itemId)
                                         }
                                     />
                                 </SwiperSlide>
@@ -114,19 +153,9 @@ export default function MyAvatarList() {
                             slidesPerView={"auto"}
                             className="mb-6"
                         >
-                            {[
-                                "반듯한",
-                                "단발",
-                                "투블럭",
-                                "긴머리",
-                                "웨이브",
-                                "트윈번",
-                                "포니테일",
-                                "트윈테일",
-                                "대머리",
-                            ].map((v, i) => (
+                            {(hairData || []).map((v, i) => (
                                 <SwiperSlide
-                                    key={v}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -135,12 +164,13 @@ export default function MyAvatarList() {
                                     }}
                                 >
                                     <AvatarComponent
-                                        name={v}
-                                        part="hair"
-                                        index={i}
-                                        selected={avatar.hair === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("hair", i)
+                                        id={v.itemId}
+                                        ownId={v.ownItemId}
+                                        name={v.name}
+                                        part="HAIR"
+                                        selected={isHair === v.itemId}
+                                        onSelect={() =>
+                                            selectHandler("HAIR", v.itemId)
                                         }
                                     />
                                 </SwiperSlide>
@@ -154,9 +184,9 @@ export default function MyAvatarList() {
                             slidesPerView={"auto"}
                             className="mb-6"
                         >
-                            {["남자", "여자"].map((v, i) => (
+                            {(topData || []).map((v, i) => (
                                 <SwiperSlide
-                                    key={v}
+                                    key={i}
                                     style={{
                                         width: "auto",
                                         display: "flex",
@@ -165,12 +195,13 @@ export default function MyAvatarList() {
                                     }}
                                 >
                                     <AvatarComponent
-                                        name={v}
-                                        part="basic"
-                                        index={i}
-                                        selected={avatar.clothes === i}
-                                        avatarHandler={() =>
-                                            avatarHandler("clothes", i)
+                                        id={v.itemId}
+                                        ownId={v.ownItemId}
+                                        name={v.name}
+                                        part="TOP"
+                                        selected={isTop === v.itemId}
+                                        onSelect={() =>
+                                            selectHandler("TOP", v.itemId)
                                         }
                                     />
                                 </SwiperSlide>
