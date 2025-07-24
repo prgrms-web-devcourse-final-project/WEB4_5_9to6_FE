@@ -1,8 +1,8 @@
 "use client";
 import { Users } from "lucide-react";
 import StudyGoal from "../studyRecruit/StudyGoal";
-// import { useState } from "react";
 import NoticeBox from "../common/NoticeBox";
+import { regionMap, scheduleString } from "@/utils/studyDataMap";
 
 export default function StudyHomeDefault({
     notice,
@@ -27,26 +27,6 @@ export default function StudyHomeDefault({
     currentMemberCount: number;
     onOpen: () => void;
 }) {
-    // const [expanded, setExpanded] = useState(false);
-    const day: Record<string, string> = {
-        MON: "월",
-        TUE: "화",
-        WED: "수",
-        THU: "목",
-        FRI: "금",
-        SAT: "토",
-        SUN: "일",
-    };
-    const scheduleString = (sche: string[]) => {
-        const order = Object.keys(day);
-        return sche
-            .sort((a, b) => order.indexOf(a) - order.indexOf(b))
-            .map((d) => day[d])
-            .join(", ");
-    };
-    // const toggleHandler = () => {
-    //     setExpanded((prev) => !prev);
-    // };
     return (
         <>
             {/* 공지사항 */}
@@ -56,38 +36,6 @@ export default function StudyHomeDefault({
                 // isLeader={true}
                 color="hall"
             />
-            {/* <div className="relative h-fit w-full bg-[#1D1D1D]/85 px-5 py-3 backdrop-blur-2xl">
-                <div className="flex items-center justify-between">
-                    <div className="flex min-w-0 flex-col">
-                        <p className="c2 text-[#D6D6D6]">공지사항</p>
-                        <div
-                            className={`relative overflow-hidden transition-all duration-600 ${expanded ? "max-h-[500px]" : "max-h-[61px]"}`}
-                        >
-                            <p
-                                className={`c1 text-[#FFFFFF] ${expanded ? "" : "truncate"}`}
-                            >
-                                {notice}
-                            </p>
-                        </div>
-                    </div>
-                    <button
-                        className="ml-5 h-5 w-5 flex-shrink-0 cursor-pointer text-[#FFFFFF]"
-                        onClick={toggleHandler}
-                    >
-                        {expanded ? <ChevronUp /> : <ChevronDown />}
-                    </button>
-                </div>
-                <div
-                    className={`flex flex-col items-center ${expanded ? "mt-3 max-h-[50px]" : "max-h-0"} overflow-hidden transition-all duration-150`}
-                >
-                    <button
-                        onClick={toggleHandler}
-                        className="h6 right-0 cursor-pointer text-[var(--color-gray500)]"
-                    >
-                        접기
-                    </button>
-                </div>
-            </div> */}
 
             {/* 스터디 정보 */}
             <div className="mt-3 w-full">
@@ -107,7 +55,7 @@ export default function StudyHomeDefault({
                 </p>
                 <p className="b2 mt-2 ml-5 text-[var(--color-gray700)]">
                     매주 {schedules && scheduleString(schedules)}요일 ·{" "}
-                    {startTime}~{endTime} · {region}
+                    {startTime}~{endTime} · {regionMap[region]}
                 </p>
 
                 {/* 스터디 목표 */}

@@ -11,6 +11,7 @@ import { defaultSearch, survSearch } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import useDebounce from "@/hooks/useDebounce";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { regionMap } from "@/utils/studyDataMap";
 const category: Record<string, string> = {
     전체: "ALL",
     어학: "LANGUAGE",
@@ -169,7 +170,7 @@ export default function Page() {
                                         className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
                                         onClick={() => removeFilter("region")}
                                     >
-                                        {filter.region}
+                                        {regionMap[filter.region]}
                                     </button>
                                 )}
                                 {filter.statusSelect && (

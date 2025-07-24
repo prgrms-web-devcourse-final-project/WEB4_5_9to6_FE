@@ -4,7 +4,7 @@ import { axiosInstance } from "./index";
 export const fetchStudyInfo = async (studyId: number) => {
     // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}`);
-    console.log(res.data.data);
+    // console.log(res.data.data);
     return res.data.data;
 };
 
@@ -17,7 +17,7 @@ export const defaultSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    console.log("일반 입력받은값:", page, size, category, region, status, name);
+    // console.log("일반 입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -27,7 +27,7 @@ export const defaultSearch = async ({
         name,
         studyType: "DEFAULT",
     });
-    console.log("일반 출력값", res.data.data);
+    // console.log("일반 출력값", res.data.data);
     return res.data.data;
 };
 
@@ -65,7 +65,7 @@ export const survSearch = async ({
 //스터디 멤버 정보
 export const studyMembers = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/members`);
-    // console.log("이게왜이레?:", res.data.data);
+    // console.log("이게왜이래...:", res.data.data);
     return res.data.data;
 };
 
@@ -86,7 +86,7 @@ export const studyApply = async (studyId: number, introduction: string) => {
 //스터디 신청자 목록 조회
 export const getApplicants = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/applications-list`);
-    console.log("신청자 목록:", res.data.data);
+    // console.log("신청자 목록:", res.data.data);
     return res.data.data;
 };
 
@@ -114,14 +114,14 @@ export const respondToApplication = async (
 //출석체크
 export const postAttendance = async (studyId: number) => {
     const res = await axiosInstance.post(`studies/${studyId}/attendance`);
-    console.log("출석체크", res.data.data);
+    // console.log("출석체크", res.data.data);
     return res.data.data;
 };
 
 //주간 출석체크 확인
 export const getAttendance = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/attendance`);
-    console.log("주간출석체크확인", res.data.data);
+    // console.log("주간출석체크확인", res.data.data);
     return res.data.data;
 };
 
@@ -158,7 +158,7 @@ export const patchNotice = async (studyId: number, notice: string) => {
     });
     return res.data.message;
 };
-/////
+
 //스터디 주간 출석체크 조회
 export const checkWeekAttendance = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/attendance`);

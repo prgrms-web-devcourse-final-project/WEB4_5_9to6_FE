@@ -28,7 +28,7 @@ export default function StudyLists({
 
     const leaderQueries = useQueries({
         queries: defaultStudies.map((study) => ({
-            queryKey: ["studyMembers", "fromList", study.studyId],
+            queryKey: ["studyMembers", study.studyId],
             queryFn: () => studyMembers(study.studyId),
             select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
             enabled: !!study.studyId,

@@ -41,20 +41,6 @@ export default function NoticeBox({
             return await getNotice(studyId);
         },
     });
-    //이거너무 api많이 사용하나봄....
-    // const { data: isLeader } = useQuery<boolean>({
-    //     queryKey: ["studyId", studyId],
-    //     queryFn: async () => {
-    //         if (!studyId) throw new Error("스터디아이디가 없습니다.");
-    //         const members: Members[] = await studyMembers(studyId);
-    //         if (
-    //             members.find((m) => m.role === "LEADER")?.memberId ===
-    //             userInfo?.id
-    //         )
-    //             return true;
-    //         else return false;
-    //     },
-    // });
 
     const handleSave = async () => {
         // if (onSave) {
@@ -84,11 +70,11 @@ export default function NoticeBox({
 
     return (
         <div
-            className={`relative h-fit rounded-2xl px-4 backdrop-blur-xl ${className}`}
+            className={`relative h-fit w-full rounded-2xl px-4 backdrop-blur-xl ${className}`}
         >
-            <div className="flex items-center justify-between">
+            <div className="flex w-full items-center justify-between">
                 {/* 공지사항 & 내용 */}
-                <div>
+                <div className="mr-8 w-full">
                     <p
                         className={`c2 ${color === "hall" ? "text-[#D6D6D6]" : "text-[var(--color-gray700)]"}`}
                     >
@@ -126,7 +112,7 @@ export default function NoticeBox({
                                 setIsEdit(true);
                                 setExpanded(true);
                             }}
-                            className="cursor-pointer text-sm text-[var(--color-main500)]"
+                            className="cursor-pointer text-sm whitespace-nowrap text-[var(--color-main500)]"
                         >
                             편집
                         </button>
