@@ -4,6 +4,7 @@ interface Chat {
     receiverNickname: string;
     senderId: number;
     senderNickname: string;
+    image?: string;
     content: string;
     createdAt?: string;
     chatMember?: ChatMember[];

@@ -1,80 +1,35 @@
 "use client";
 
 import { SendHorizontal } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ChatMemberList from "./ChatMemberList";
 import { useChatMemberList } from "@/stores/chatModalStore";
 import { IMessage, Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import { useChatStore, useParticipantStore } from "@/stores/chatStore";
-import { studyMembers } from "@/api/studies";
 
 export default function MessageInput({ studyId }: { studyId: number }) {
     const { whisperTarget, closeModal } = useChatMemberList();
     const [message, setMessage] = useState("");
     const { openModal, isOpen } = useChatMemberList();
-    const [memberList, setMemberList] = useState<Members[]>([]);
     const clientRef = useRef<Client | null>(null);
     const addMessage = useChatStore((state) => state.addMessage);
     const members = useParticipantStore((state) => state.participants);
-
-    useEffect(() => {
-        const fetchMembers = async () => {
-            const data = await studyMembers(studyId);
-            setMemberList(data);
-        };
-        fetchMembers();
-    }, [studyId]);
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-            console.warn("토큰 없음: 웹소켓 연결안됨");
-            return;
-        }
-
-        const client = new Client({
-            connectHeaders: {
-                Authorization: `Bearer ${token}`,
-            },
-            webSocketFactory: () =>
-                new SockJS("https://studium.cedartodo.uk/ws-connect"),
-            onConnect: () => {
-                console.log("웹소켓 연결됨");
-                client.subscribe(`/subscribe/${studyId}`, onMessageReceived);
-                client.subscribe(`/user/queue/messages`, onMessageReceived);
-                client.subscribe(
-                    `/subscribe/${studyId}/participants`,
-                    onParticipant,
-                );
-            },
-            onStompError: (error) => {
-                console.error("웹소켓 연결 실패:", error);
-            },
-            debug: function (str) {
-                console.log(str);
-            },
-        });
-
-        clientRef.current = client;
-        client.activate();
-
-        return () => {
-            client.deactivate();
-        };
-    }, [studyId]);
+    const onMessageReceived = useCallback(
+        (message: IMessage) => {
+            console.log("수신된 원본 메시지:", message);
+            const body = JSON.parse(message.body);
+            console.log("파싱된 메시지 내용:", body);
+            addMessage(body);
+        },
+        [addMessage],
+    );
 
     const onParticipant = (message: IMessage) => {
         const body = JSON.parse(message.body);
         console.log("접속자목록", body);
 
         useParticipantStore.getState().setParticipants(body.data);
-    };
-
-    const onMessageReceived = (message: IMessage) => {
-        console.log("수신된 원본 메시지:", message);
-        const body = JSON.parse(message.body);
-        console.log("파싱된 메시지 내용:", body);
-        addMessage(body);
     };
 
     const sendMessage = () => {
@@ -112,12 +67,50 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         console.log("메시지 전송:", msgPayload);
 
         client.publish({
-            destination: `/chat.send/${studyId}`,
+            destination: `/publish/chat.send/${studyId}`,
             body: JSON.stringify(msgPayload),
         });
-        console.log("보낼 payload:", msgPayload);
+
         setMessage("");
     };
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            console.warn("토큰 없음: 웹소켓 연결안됨");
+            return;
+        }
+
+        const client = new Client({
+            connectHeaders: {
+                Authorization: `Bearer ${token}`,
+                studyId: `${studyId}`,
+            },
+            webSocketFactory: () =>
+                new SockJS("https://studium.cedartodo.uk/ws-connect"),
+            onConnect: () => {
+                console.log("웹소켓 연결됨");
+                client.subscribe(`/subscribe/${studyId}`, onMessageReceived);
+                client.subscribe(`/user/queue/messages`, onMessageReceived);
+                client.subscribe(
+                    `/subscribe/${studyId}/participants`,
+                    onParticipant,
+                );
+            },
+            onStompError: (error) => {
+                console.error("웹소켓 연결 실패:", error);
+            },
+            debug: function (str) {
+                console.log(str);
+            },
+        });
+
+        clientRef.current = client;
+        client.activate();
+
+        return () => {
+            client.deactivate();
+        };
+    }, [onMessageReceived, studyId]);
 
     return (
         <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-8">
