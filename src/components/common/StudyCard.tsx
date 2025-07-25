@@ -3,8 +3,8 @@ import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import defaultImg from "../../../public/images/rewardItems/61.png";
 import Image from "next/image";
-// import { useQuery } from "@tanstack/react-query";
 import { checkIsMember } from "@/api/studies";
+import { useAuthStore } from "@/stores/authStore";
 export default function StudyCard({
     category,
     isNew,
@@ -18,6 +18,7 @@ export default function StudyCard({
     member: { current, max },
     studyId,
     studyType,
+    leaderId,
 }: {
     category: string;
     isNew: boolean;
@@ -31,22 +32,22 @@ export default function StudyCard({
     member: { current: number; max: number };
     studyId: number;
     studyType: "DEFAULT" | "SURVIVAL";
+    leaderId: number | undefined;
 }) {
     const router = useRouter();
+    const userInfo = useAuthStore((state) => state.myInfo);
     const clickHandler = async (id: number) => {
         const isMember = await checkIsMember(id);
-        // console.log("isMember", isMember);
+
         if (studyType === "DEFAULT") {
-            if (isMember.isMember === true) router.push(`/study/${id}`);
+            if (leaderId && leaderId === userInfo?.id) {
+                router.push(`/study/${id}/manage`);
+            } else if (isMember.isMember === true) router.push(`/study/${id}`);
             else router.push(`/study/${id}/recruit`);
         } else {
             router.push(`/survival-study/${id}`);
         }
     };
-    // const { data: isMember } = useQuery({
-    //     queryKey: ["members", studyId],
-    //     queryFn: async () => await checkIsMember(studyId),
-    // });
     return (
         <>
             <div
@@ -81,12 +82,7 @@ export default function StudyCard({
                     {/* 아바타 */}
                     <div className="my-[5px] h-[66px] w-[66px] rounded-[26px] bg-[var(--color-gray100)] p-[10px]">
                         <Image
-                            src={
-                                typeof avatar === "string" &&
-                                avatar?.includes("https://placehold.co/100x100")
-                                    ? defaultImg
-                                    : avatar || defaultImg
-                            }
+                            src={avatar || defaultImg}
                             alt="아바타이미지"
                             width={46}
                             height={46}
