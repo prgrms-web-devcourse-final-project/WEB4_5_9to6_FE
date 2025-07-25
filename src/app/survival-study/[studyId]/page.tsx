@@ -17,6 +17,7 @@ import { fetchIsApplied, fetchSurvival } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
 import { dayMap, categoryMap } from "@/utils/studyDataMap";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function SurvivalStudy() {
     const params = useParams();
@@ -24,6 +25,8 @@ export default function SurvivalStudy() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const { setStudy } = useSurvivalStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
+    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     // 시작요일
     // const quizDay = 7;
@@ -83,6 +86,14 @@ export default function SurvivalStudy() {
         });
     };
 
+    useEffect(() => {
+        fetchItemsOwn();
+        const selectedItemId = groupedOwnItems.BACKGROUND?.find(
+            (v) => v.used,
+        )?.itemId;
+        setSrc(`/images/rewardItems/${selectedItemId}.png`);
+    }, [fetchItemsOwn, groupedOwnItems]);
+
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {
         if (myInfo === null && !apply) {
@@ -95,7 +106,7 @@ export default function SurvivalStudy() {
             <div className="relative mb-10 h-screen">
                 <div className="relative">
                     <Image
-                        src="/images/rewardItems/19.png"
+                        src={src}
                         alt="survival study"
                         width={1000}
                         height={470}
