@@ -3,9 +3,9 @@ import { create } from "zustand";
 interface StudyStore {
     studyData: StudyInfos;
     isFetched: boolean;
+    reset: () => void;
     fetchStudy: (studyData: StudyInfos) => void;
-    setData: (column: string, data: string | number) => void;
-    submit: () => void;
+    setData: (column: string, data: string | string[] | number) => void;
 }
 
 export const useStudyStore = create<StudyStore>((set) => ({
@@ -31,22 +31,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
         online: true,
     },
     isFetched: false,
-    fetchStudy: (studyData) => {
-        set({ studyData: studyData, isFetched: true });
-    },
-    setData: (column, data) => {
-        set((state) => {
-            if (!state.studyData) return {};
-
-            return {
-                studyData: {
-                    ...state.studyData,
-                    [column]: data,
-                },
-            };
-        });
-    },
-    submit: () => {
+    reset: () => {
         set({
             studyData: {
                 name: "",
@@ -69,7 +54,22 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 currentMemberCount: 0,
                 online: true,
             },
-            isFetched: false,
+            isFetched: true,
+        });
+    },
+    fetchStudy: (studyData) => {
+        set({ studyData: studyData, isFetched: true });
+    },
+    setData: (column, data) => {
+        set((state) => {
+            if (!state.studyData) return {};
+
+            return {
+                studyData: {
+                    ...state.studyData,
+                    [column]: data,
+                },
+            };
         });
     },
 }));

@@ -1,11 +1,12 @@
 import Picker from "react-mobile-picker";
 import BottomModal from "../common/BottomModal";
+import { useStudyStore } from "@/stores/studyStore";
 
 interface TimeModalProps {
     title: string;
     onClose: () => void;
     time: string;
-    setTime: (value: string) => void;
+    type: string;
     isOpen: boolean;
 }
 
@@ -13,7 +14,7 @@ export default function TimeModal({
     title,
     onClose,
     time,
-    setTime,
+    type,
     isOpen,
 }: TimeModalProps) {
     const [hour, minute] = time.split(":");
@@ -28,7 +29,11 @@ export default function TimeModal({
             <div className="absolute top-35.5 left-10 h-[40px] w-[calc(100%-80px)] rounded-[8px] bg-[var(--color-gray100)]"></div>
             <Picker
                 value={{ hour, minute }}
-                onChange={(value) => setTime(`${value.hour}:${value.minute}`)}
+                onChange={(value) =>
+                    useStudyStore
+                        .getState()
+                        .setData(type, `${value.hour}:${value.minute}`)
+                }
                 height={240}
                 itemHeight={40}
                 className="custom-picker px-5"
