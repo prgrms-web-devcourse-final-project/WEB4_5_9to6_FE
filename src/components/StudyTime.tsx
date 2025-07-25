@@ -77,7 +77,7 @@ export default function StudyTime() {
         isLogIn === true ? userData : isLogIn === false ? guestData : [];
 
     const leaderQueries = useQueries({
-        queries: studyCards.map((v) => ({
+        queries: (studyCards || []).map((v) => ({
             queryKey: ["studyMembers", v.studyId],
             queryFn: () => studyMembers(v.studyId),
             select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
