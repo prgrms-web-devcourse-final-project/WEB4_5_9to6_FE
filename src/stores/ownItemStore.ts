@@ -1,6 +1,20 @@
 import { fetchOwnItems } from "@/api/item";
 import { create } from "zustand";
 
+interface AvatarId {
+    FACE: number;
+    HAT: number;
+    HAIR: number;
+    TOP: number;
+}
+
+interface AvatarName {
+    FACE: string;
+    HAT: string;
+    HAIR: string;
+    TOP: string;
+}
+
 interface OwnItemStore {
     ownItems: OwnItems[];
     fetchItemsOwn: () => Promise<void>;
@@ -9,6 +23,14 @@ interface OwnItemStore {
     ownName: string;
     changeOwnId: (id: number) => void;
     changeOwnName: (name: string) => void;
+    avatarState: boolean;
+    avatarName: AvatarName;
+    avatarItemId: AvatarId;
+    avatarOwnId: AvatarId;
+    changeAvatarState: (state: boolean) => void;
+    changeAvatarName: (type: keyof AvatarName, name: string) => void;
+    changeAvatarItemId: (type: keyof AvatarId, id: number) => void;
+    changeAvatarOwnId: (type: keyof AvatarId, id: number) => void;
 }
 
 export const useOwnItemStore = create<OwnItemStore>((set) => ({
@@ -40,4 +62,45 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
     },
     changeOwnId: (id: number) => set({ ownId: id }),
     changeOwnName: (name: string) => set({ ownName: name }),
+    avatarState: false,
+    avatarName: {
+        FACE: "없음",
+        HAT: "없음",
+        HAIR: "기본",
+        TOP: "기본",
+    },
+    avatarItemId: {
+        FACE: 21,
+        HAT: 31,
+        HAIR: 52,
+        TOP: 61,
+    },
+    avatarOwnId: {
+        FACE: 0,
+        HAT: 0,
+        HAIR: 0,
+        TOP: 0,
+    },
+    changeAvatarState: (state: boolean) => set({ avatarState: state }),
+    changeAvatarName: (type: keyof AvatarName, name: string) =>
+        set((state) => ({
+            avatarName: {
+                ...state.avatarName,
+                [type]: name,
+            },
+        })),
+    changeAvatarItemId: (type: keyof AvatarId, id: number) =>
+        set((state) => ({
+            avatarItemId: {
+                ...state.avatarItemId,
+                [type]: id,
+            },
+        })),
+    changeAvatarOwnId: (type: keyof AvatarId, id: number) =>
+        set((state) => ({
+            avatarOwnId: {
+                ...state.avatarOwnId,
+                [type]: id,
+            },
+        })),
 }));

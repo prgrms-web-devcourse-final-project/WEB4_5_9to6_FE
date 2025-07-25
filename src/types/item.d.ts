@@ -19,3 +19,20 @@ interface OwnItems {
     type: "THEME" | "BACKGROUND" | "FACE" | "HAT" | "HAIR" | "TOP" | "BOTTOM";
     used: boolean;
 } // 소유한 아이템 타입 형식
+
+interface Clothes {
+    clothes: {
+        name: string;
+        category:
+            | "THEME"
+            | "BACKGROUND"
+            | "FACE"
+            | "HAT"
+            | "HAIR"
+            | "TOP"
+            | "BOTTOM";
+        itemId: number[];
+    }[];
+}
+
+// 아바타 이미지 저장 타입 형식

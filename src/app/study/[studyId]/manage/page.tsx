@@ -46,7 +46,20 @@ export default function Page() {
         setPause(false);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-        const isTimePosted = await postStudyTime(studyId, seconds);
+
+        if (Math.floor(seconds / 60) <= 0) {
+            customAlert({
+                message: `1분 이상의 시간만 저장 가능합니다.`,
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+            return;
+        }
+
+        const isTimePosted = await postStudyTime(
+            studyId,
+            Math.floor(seconds / 60),
+        );
         if (isTimePosted === "정상적으로 완료되었습니다.") {
             customAlert({
                 message: `공부시간이 저장되었습니다.`,
