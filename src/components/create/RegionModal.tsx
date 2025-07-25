@@ -1,15 +1,12 @@
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function RegionModal({
     onClose,
-    region,
-    setRegion,
     isOpen,
 }: {
     onClose: () => void;
-    region: string;
-    setRegion: (region: string) => void;
     isOpen: boolean;
 }) {
     const regions = [
@@ -33,6 +30,7 @@ export default function RegionModal({
     ];
 
     const { changeClass } = useAnimationStore();
+    const region = useStudyStore((state) => state.studyData.region);
 
     return (
         <>
@@ -48,7 +46,7 @@ export default function RegionModal({
                             key={r}
                             type="button"
                             onClick={() => {
-                                setRegion(r);
+                                useStudyStore.getState().setData("region", r);
                                 changeClass("animate-modalFadeOut");
                                 setTimeout(() => {
                                     onClose();
