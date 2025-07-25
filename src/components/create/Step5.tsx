@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import TextArea from "../common/TextArea";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function Step5({
     continueStep,
@@ -11,8 +12,8 @@ export default function Step5({
     submitCreate: () => void;
 }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [description, setDescription] = useState("");
-    const [externalLink, setExternalLink] = useState("");
+    const description = useStudyStore((state) => state.studyData.description);
+    const externalLink = useStudyStore((state) => state.studyData.externalLink);
     const [descriptionError, setDescriptionError] = useState(false);
     const [externalLinkError, setExternalLinkError] = useState(false);
     const [isPreSubmitted, setIsPreSubmitted] = useState(false);
@@ -22,8 +23,6 @@ export default function Step5({
 
         if (!description || descriptionError || externalLinkError) return;
         setIsPreSubmitted(true);
-        requestDescription(description);
-        requestExternalLink(externalLink);
         continueStep();
         submitCreate();
     };
@@ -78,9 +77,12 @@ export default function Step5({
                             placeholder="스터디 소개글을 작성해주세요"
                             value={description}
                             onChange={(e) =>
-                                setDescription(
-                                    e.target.value.replace(/^\s+/, ""),
-                                )
+                                useStudyStore
+                                    .getState()
+                                    .setData(
+                                        "description",
+                                        e.target.value.replace(/^\s+/, ""),
+                                    )
                             }
                             label="소개글"
                             className="h-[159px] pb-[100px]"
@@ -95,7 +97,11 @@ export default function Step5({
                             placeholder="강의 링크를 입력해주세요"
                             label="외부 강의 링크 (선택)"
                             value={externalLink}
-                            onChange={(e) => setExternalLink(e.target.value)}
+                            onChange={(e) =>
+                                useStudyStore
+                                    .getState()
+                                    .setData("externalLink", e.target.value)
+                            }
                             error={externalLinkError}
                             errorMsg="링크 형식이 아닙니다."
                         />
