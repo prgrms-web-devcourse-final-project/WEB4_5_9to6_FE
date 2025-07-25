@@ -7,27 +7,19 @@ import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import Image from "next/image";
+// import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function ChattingRoom({ studyId }: { studyId: number }) {
     const myId = useAuthStore((state) => state.myInfo?.id);
-    const setMessages = useChatStore((state) => state.setMessages);
     const messages = useChatStore((state) => state.messages);
     const members = useParticipantStore((state) => state.participants);
     const scrollRef = useRef<HTMLDivElement | null>(null);
+    const topObserverRef = useRef<HTMLDivElement | null>(null);
+    const prevScrollHeight = scrollRef.current?.scrollHeight || 0;
     // 오전, 오후
     dayjs.locale("ko");
 
     let lastDate = "";
-
-    useEffect(() => {
-        if (!studyId) return;
-        const loadMessageHandler = async () => {
-            const messageData = await fetchChatHistory(studyId);
-
-            useChatStore.getState().setMessages(messageData.messages);
-        };
-        loadMessageHandler();
-    }, [setMessages, studyId]);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -37,6 +29,80 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
         }
     }, [messages]);
 
+    // 맨 처음 히스토리 불러오기
+    useEffect(() => {
+        if (!studyId) return;
+        const messageHistory = async () => {
+            try {
+                const { messages, hasNext } = await fetchChatHistory(
+                    studyId,
+                    null,
+                    null,
+                );
+                useChatStore.getState().setMessages(messages);
+                useChatStore.getState().setHasNext(hasNext);
+                console.log("처음 불러온 히스토리", messages);
+            } catch (err) {
+                console.error("채팅 더 불러오기 실패", err);
+            }
+        };
+
+        messageHistory();
+    }, [studyId]);
+
+    // 이전 채팅 페이지네이션
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            async (entries) => {
+                if (
+                    entries[0].isIntersecting &&
+                    useChatStore.getState().hasNext
+                ) {
+                    const prevMessages = useChatStore.getState().messages;
+                    const lastMessage = messages[messages.length - 1];
+                    const cursorCreatedAt = lastMessage?.createdAt ?? null;
+                    const lastChatId = lastMessage?.chatId ?? null;
+                    console.log("이전 메시지 로딩 중...");
+                    console.log(prevMessages);
+                    try {
+                        useChatStore.getState().setIsLoading(true);
+                        const { messages, hasNext } = await fetchChatHistory(
+                            studyId,
+                            cursorCreatedAt,
+                            lastChatId,
+                        );
+
+                        useChatStore.getState().appendMessages(messages);
+                        useChatStore.getState().setHasNext(hasNext);
+                        setTimeout(() => {
+                            if (scrollRef.current) {
+                                const newScrollHeight =
+                                    scrollRef.current.scrollHeight || 0;
+                                scrollRef.current.scrollTop =
+                                    newScrollHeight - prevScrollHeight;
+                            }
+                        }, 0);
+                    } catch (err) {
+                        console.error("이전 메시지 불러오기 실패", err);
+                    } finally {
+                        useChatStore.getState().setIsLoading(false);
+                    }
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: "100px",
+            },
+        );
+
+        if (topObserverRef.current) observer.observe(topObserverRef.current);
+
+        return () => {
+            if (topObserverRef.current)
+                observer.unobserve(topObserverRef.current);
+        };
+    }, [studyId, prevScrollHeight, messages]);
+
     console.log("myId:", myId);
 
     return (
@@ -45,6 +111,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                 ref={scrollRef}
                 className="h-screen w-full overflow-y-scroll px-5 pb-20"
             >
+                <div ref={topObserverRef}></div>
                 {messages
                     .filter((msg) => {
                         if (msg.receiverId === null) return true;
