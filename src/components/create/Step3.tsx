@@ -4,21 +4,13 @@ import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
 import OnOfflineModal from "./OnOfflineModal";
 import RegionModal from "./RegionModal";
-import { translateRegionToEnum } from "@/utils/translateRegionToEnum";
+import { useStudyStore } from "@/stores/studyStore";
 
-export default function Step3({
-    continueStep,
-    requestRegion,
-    requestPlace,
-}: {
-    continueStep: () => void;
-    requestRegion: (region: string) => void;
-    requestPlace: (place: string) => void;
-}) {
+export default function Step3({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
     const [onOff, setOnOff] = useState("");
-    const [region, setRegion] = useState("");
-    const [place, setPlace] = useState("");
+    const region = useStudyStore((state) => state.studyData.region);
+    const place = useStudyStore((state) => state.studyData.place);
     const [placeError, setPlaceError] = useState(false);
     const [isOnOfflineModalOpen, setIsOnOfflineModalOpen] = useState(false);
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
@@ -27,9 +19,6 @@ export default function Step3({
         e.preventDefault();
 
         if (!((onOff === "온라인" || region) && !placeError)) return;
-
-        requestRegion(translateRegionToEnum(region));
-        requestPlace(place);
         continueStep();
     };
 
@@ -90,9 +79,14 @@ export default function Step3({
                         <Input
                             placeholder="상세 장소 입력"
                             label="상세 장소 (선택)"
-                            value={place}
+                            value={place ?? ""}
                             onChange={(e) =>
-                                setPlace(e.target.value.replace(/^\s+/, ""))
+                                useStudyStore
+                                    .getState()
+                                    .setData(
+                                        "place",
+                                        e.target.value.replace(/^\s+/, ""),
+                                    )
                             }
                             error={placeError}
                             errorMsg="상세 장소는 2자 이상 20자 이하여야 합니다."
@@ -113,16 +107,12 @@ export default function Step3({
                     onClose={() => setIsOnOfflineModalOpen(false)}
                     onOff={onOff}
                     setOnOff={setOnOff}
-                    setRegion={setRegion}
-                    setPlaceNull={() => setPlace("")}
                 />
             )}
             {isRegionModalOpen && (
                 <RegionModal
                     isOpen={isRegionModalOpen}
                     onClose={() => setIsRegionModalOpen(false)}
-                    region={region}
-                    setRegion={setRegion}
                 />
             )}
         </>
