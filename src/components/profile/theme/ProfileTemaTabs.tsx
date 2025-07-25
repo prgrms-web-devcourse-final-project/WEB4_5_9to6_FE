@@ -63,6 +63,7 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                 const isAllNull = results.every((res) => res === null);
 
                 if (!isAllNull) {
+                    console.log("변경된 이미지" + results[3].image);
                     customAlert({
                         message: "아바타가 적용되었습니다!",
                         linkLabel: "닫기",
@@ -103,6 +104,8 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                     };
 
                     await saveImage(blob, clothesRequest);
+                    const newRes = await changeOwnItems(avatarOwnId.TOP);
+                    console.log("변경된 이미지" + newRes.image);
 
                     customAlert({
                         message: "새롭게 아바타가 적용되었습니다!",
