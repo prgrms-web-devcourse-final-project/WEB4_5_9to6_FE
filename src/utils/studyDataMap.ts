@@ -1,6 +1,6 @@
 export const getValidAvatar = (avatar?: string | null) =>
     !avatar || avatar.includes("placehold.co")
-        ? "/images/avatarImgs/basic2.png"
+        ? "/images/rewardItems/61.png"
         : avatar;
 export const dayMap: Record<string, string> = {
     MON: "월",

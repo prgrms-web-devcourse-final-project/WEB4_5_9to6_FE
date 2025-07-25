@@ -22,8 +22,8 @@ export default function ShopCard({ id }: { id: string }) {
     }, [myInfo, id, router]);
 
     useEffect(() => {
-        if (!data) fetch(Number(id));
-    }, [id, data, fetch]);
+        fetch(Number(id));
+    }, [id, fetch]);
 
     return (
         <>
@@ -44,7 +44,7 @@ export default function ShopCard({ id }: { id: string }) {
                     </ToolTip>
                 </div>
                 <p className="text-gray1000 text-[26px] font-bold">
-                    {data?.rewardPoints || 0}P
+                    {data?.rewardPoints.toLocaleString() || 0}P
                 </p>
             </div>
         </>
