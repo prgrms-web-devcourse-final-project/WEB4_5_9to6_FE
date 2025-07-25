@@ -57,7 +57,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 currentMemberCount: 0,
                 online: true,
             },
-            isFetched: true,
+            isFetched: false,
         });
     },
     fetchStudy: (studyData) => {

@@ -9,12 +9,29 @@ import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { useAuthStore } from "@/stores/authStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
+import { useOwnItemStore } from "@/stores/ownItemStore";
+import { useMutation } from "@tanstack/react-query";
+import { changeOwnItems } from "@/api/item";
 
 export default function ProfileTemaTabs({ id }: { id: string }) {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
     const [isTab, setTab] = useState("앱 테마");
     const { myInfo } = useAuthStore();
     const router = useRouter();
+    const { fetchItemsOwn, groupedOwnItems, ownId, ownName } =
+        useOwnItemStore();
+
+    const mutation = useMutation({
+        mutationFn: async ({ ownItemId }: { ownItemId: number }) =>
+            await changeOwnItems(ownItemId),
+        onSuccess: async (response) => {
+            await fetchItemsOwn();
+            console.log(response);
+        },
+        onError(err) {
+            console.log(err);
+        },
+    });
 
     useEffect(() => {
         if (myInfo && myInfo.id !== Number(id)) {
@@ -22,6 +39,19 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
             router.replace("/");
         }
     }, [myInfo, id, router]);
+
+    useEffect(() => {
+        fetchItemsOwn();
+    }, [fetchItemsOwn]);
+
+    const clickHandler = () => {
+        mutation.mutate({ ownItemId: ownId });
+        customAlert({
+            message: `${ownName}(을)를 적용했습니다!`,
+            linkLabel: "닫기",
+            onClick: () => {},
+        });
+    };
 
     return (
         <>
@@ -36,12 +66,23 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                     className="h-[calc(100vh-112px)] overflow-y-auto py-6"
                     style={{ scrollPaddingBottom: "62px" }}
                 >
-                    {isTab === "앱 테마" && <AppTemaList />}
-                    {isTab === "스터디룸" && <StudyRoomList />}
-                    {isTab === "아바타" && <MyAvatarList />}
+                    {isTab === "앱 테마" && (
+                        <AppTemaList ownData={groupedOwnItems.THEME} />
+                    )}
+                    {isTab === "스터디룸" && (
+                        <StudyRoomList ownData={groupedOwnItems.BACKGROUND} />
+                    )}
+                    {isTab === "아바타" && (
+                        <MyAvatarList
+                            faceData={groupedOwnItems.FACE}
+                            hatData={groupedOwnItems.HAT}
+                            hairData={groupedOwnItems.HAIR}
+                            topData={groupedOwnItems.TOP}
+                        />
+                    )}
                 </div>
                 <div className="absolute right-0 bottom-0 left-0 z-10 bg-white p-5">
-                    <Button>적용하기</Button>
+                    <Button onClick={clickHandler}>적용하기</Button>
                 </div>
             </div>
         </>

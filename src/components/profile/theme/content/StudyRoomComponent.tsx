@@ -3,29 +3,38 @@
 import Image from "next/image";
 import { CircleCheck } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function StudyRoomComponent({
+    id,
+    ownId,
     name,
-    index,
     selected,
     onSelect,
 }: {
+    id: number;
+    ownId: number;
     name: string;
-    index: number;
     selected: boolean;
     onSelect: () => void;
 }) {
-    const [src, setSrc] = useState(`/images/roomImgs/room0.png`);
+    const { changeOwnId, changeOwnName } = useOwnItemStore();
+    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
-        setSrc(`/images/roomImgs/room${index}.png`);
-    }, [index]); // 클라이언트에서 동작하게끔 구성
+        setSrc(`/images/rewardItems/${id}.png`);
+    }, [id]);
+
     return (
         <>
             <div>
                 <h6 className="text-gray1000 mb-[10px]">{name}</h6>
                 <div
-                    onClick={onSelect}
+                    onClick={() => {
+                        onSelect();
+                        changeOwnId(ownId);
+                        changeOwnName(name + " 배경");
+                    }}
                     className="relative aspect-[80/45] cursor-pointer"
                 >
                     <Image

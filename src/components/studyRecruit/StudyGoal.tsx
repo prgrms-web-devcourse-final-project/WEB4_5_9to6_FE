@@ -3,12 +3,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function StudyGoal() {
-    // const goals = [
-    //     "히라가나 깜지 3만번 쓰기",
-    //     "스터디 숙제 완수하기",
-    //     "라틴어로 경비아저씨와 대화하기",
-    //     "스타벅스 닉네임 라틴어로 바꾸기",
-    // ];
     const [goals, setGoals] = useState<Goal[]>();
     const params = useParams();
 

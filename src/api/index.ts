@@ -9,15 +9,6 @@ export const axiosInstance = axios.create({
     withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
-    console.log("Authorization:", token);
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
 export const axiosNotApi = axios.create({
     baseURL: "https://studium.cedartodo.uk/",
     headers: {
@@ -25,13 +16,4 @@ export const axiosNotApi = axios.create({
     },
 
     withCredentials: true,
-});
-
-axiosNotApi.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
-    console.log("Authorization:", token);
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
 });

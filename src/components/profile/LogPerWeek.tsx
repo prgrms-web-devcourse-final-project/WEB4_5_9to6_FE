@@ -71,7 +71,6 @@ export default function LogPerWeek({
     });
 
     useEffect(() => {
-        console.log("이거", studyWeekAttendance);
         if (studyWeekAttendance?.attendances != null) {
             setAttendances(studyWeekAttendance.attendances || []);
         }
@@ -96,7 +95,7 @@ export default function LogPerWeek({
                             return <CheckState key={v} />;
                         }
 
-                        return i < todayIndex ? (
+                        return i <= todayIndex ? (
                             <SkipState key={v} />
                         ) : (
                             <NotyetState key={v} />

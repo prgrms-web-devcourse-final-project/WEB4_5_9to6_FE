@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { login } from "@/api/auth";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 import Image from "next/image";
@@ -17,21 +17,18 @@ export default function Login() {
     const [loginError, setLoginError] = useState(false);
     const [loginErrorMsg, setLoginErrorMsg] = useState("");
     const router = useRouter();
+    const searchParams = useSearchParams().get("error");
 
     const { mutate: loginMutate } = useMutation({
         mutationFn: () => login(email, password),
-        onSuccess: (response) => {
-            const token = response?.data.accessToken;
-            console.log(response);
-            if (token) {
-                useAuthStore.getState().login(token);
-                router.push("/");
-                customAlert({
-                    message: "로그인 되었습니다!",
-                    linkLabel: "닫기",
-                    onClick: () => {},
-                });
-            }
+        onSuccess: () => {
+            useAuthStore.getState().login();
+            router.push("/");
+            customAlert({
+                message: "로그인 되었습니다!",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
         },
         onError: (error: { status: number }) => {
             console.error(error);
@@ -56,15 +53,25 @@ export default function Login() {
     };
 
     const kakaotalkHandler = () => {
-        //
+        window.location.href =
+            "https://studium.cedartodo.uk/oauth2/authorization/kakao";
     };
     const googleHandler = () => {
-        //
+        window.location.href =
+            "https://studium.cedartodo.uk/oauth2/authorization/google";
     };
 
     useEffect(() => {
         setLoginError(false);
     }, [email, password]);
+
+    useEffect(() => {
+        console.log(searchParams);
+        if (searchParams) {
+            setLoginErrorMsg("이미 같은 이메일로 가입된 계정이 있습니다.");
+            setLoginError(true);
+        }
+    }, [searchParams]);
 
     return (
         <div className="flex h-full w-full flex-col items-center justify-center">
@@ -113,8 +120,8 @@ export default function Login() {
                     <Button type="submit">로그인</Button>
                 </form>
 
-                <div className="flex w-full justify-between text-[var(--color-gray1000)]">
-                    <button className="cursor-pointer">비밀번호 찾기</button>
+                <div className="flex w-full justify-end text-[var(--color-gray1000)]">
+                    {/* <button className="cursor-pointer">비밀번호 찾기</button> */}
                     <Link href="/signup" className="cursor-pointer">
                         회원가입
                     </Link>
