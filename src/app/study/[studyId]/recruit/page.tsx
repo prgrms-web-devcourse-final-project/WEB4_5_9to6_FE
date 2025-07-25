@@ -12,7 +12,8 @@ import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
-import { fetchStudyInfo, getApplicants } from "@/api/studies";
+// import { useAnimationStore } from "@/stores/modalAnimationStore";
+import { getApplicants, studyInfo } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 
@@ -28,6 +29,23 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
+    // console.log("유저정보", myInfo);
+    // const { changeClass } = useAnimationStore();
+
+    // const applyHandler = () => {
+    //     changeClass("animate-modalFadeOut");
+    //     setTimeout(() => {
+    //         setIsOpen(false);
+    //     }, 300);
+
+    //     setIsApply(true);
+    //     customAlert({
+    //         message: "스터디를 신청했어요.곧 연락올거에요!",
+    //         linkLabel: "닫기",
+    //         onClick: () => {},
+    //     });
+    //     //신청자 목록에 추가
+    // };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -44,9 +62,10 @@ export default function Page() {
     useEffect(() => {
         const fetchStudy = async () => {
             const id = params?.studyId;
+            // console.log(typeof id);
             if (typeof id === "string") {
                 try {
-                    const data: StudyInfos = await fetchStudyInfo(parseInt(id));
+                    const data: StudyInfos = await studyInfo(parseInt(id));
                     setStudy(data);
                 } catch (err) {
                     console.error("스터디 정보 에러:", err);
@@ -55,8 +74,8 @@ export default function Page() {
         };
         fetchStudy();
     }, [params?.studyId]);
-    const { data: applicantData } = useQuery({
-        queryKey: ["applicantData", studyId],
+    const { data: userData } = useQuery({
+        queryKey: ["userData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다");
             return await getApplicants(studyId);
@@ -64,13 +83,13 @@ export default function Page() {
         enabled: !!studyId,
     });
     useEffect(() => {
-        if (applicantData && myInfo?.id) {
-            const isApplied = applicantData.some(
+        if (userData && myInfo?.id) {
+            const isApplied = userData.some(
                 (m: Members) => m.memberId === myInfo.id,
             );
             setIsApply(isApplied);
         }
-    }, [applicantData, myInfo]);
+    }, [userData, myInfo]);
     return (
         <>
             {/* 스크롤시 헤더 */}

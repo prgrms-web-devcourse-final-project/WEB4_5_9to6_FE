@@ -2,8 +2,10 @@ import Image from "next/image";
 import flash from "@/assets/Flash--filled.svg";
 import SurvivalCard from "../common/SurvivalCard";
 import StudyCard from "../common/StudyCard";
+// import avatar from "@/assets/avatar.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+// import { useEffect, useState } from "react";
 import { studyMembers } from "@/api/studies";
 import StudyResult from "./SearchResult";
 import { useQueries } from "@tanstack/react-query";
@@ -14,8 +16,8 @@ export default function StudyLists({
     survStudies,
     search,
 }: {
-    defaultStudies: StudyList[];
-    survStudies: StudyList[] | undefined;
+    defaultStudies: Study[];
+    survStudies: Study[] | undefined;
     search: string;
 }) {
     const isNewFunc = (start: string) => {
@@ -29,7 +31,7 @@ export default function StudyLists({
             queryKey: ["studyMembers", study.studyId],
             queryFn: () => studyMembers(study.studyId),
             select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
-            enabled: !!study.studyId,
+            enabled: defaultStudies.length > 0,
             staleTime: 1000 * 60 * 3,
         })),
     });
@@ -101,7 +103,6 @@ export default function StudyLists({
                                 max: study.maxMemberCount,
                             }}
                             studyType="DEFAULT"
-                            leaderId={leaders[i]?.memberId}
                         />
                     ))}
                 </div>

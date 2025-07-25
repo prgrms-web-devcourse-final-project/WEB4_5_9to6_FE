@@ -5,14 +5,11 @@ import { Dispatch, SetStateAction } from "react";
 export default function StudyTimer({
     pause,
     setIsGoalOpen,
-    studyTimeSec,
 }: {
     pause: boolean;
     setIsGoalOpen: Dispatch<SetStateAction<boolean>>;
-    studyTimeSec: string;
 }) {
     const router = useRouter();
-
     return (
         <>
             {/* 타이머 */}
@@ -24,7 +21,7 @@ export default function StudyTimer({
                     <Timer className="h-5 w-5" />
                     <span className="b1 ml-[1px]">스터디시간</span>
                     <h3 className="ml-1 text-[var(--color-main400)]">
-                        {studyTimeSec}
+                        00:03:19
                     </h3>
                 </div>
 

@@ -11,7 +11,6 @@ import { defaultSearch, survSearch } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import useDebounce from "@/hooks/useDebounce";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { regionMap } from "@/utils/studyDataMap";
 const category: Record<string, string> = {
     전체: "ALL",
     어학: "LANGUAGE",
@@ -66,26 +65,35 @@ export default function Page() {
         const start = new Date(startDate);
         return now < start ? "활동 전" : "활동중";
     };
+    //초기화
+    // useEffect(() => {
+    //     setStudies([]);
+    //     setDefaultStudies([]);
+    //     setSurvStudies([]);
+    //     setPage(1);
+    //     setHasMore(true);
+    // }, [filter]);
 
     //데이터 불러오기
+    //일반 스터디 검색
     const {
         data: defaultData,
         fetchNextPage: fetchNextDefault,
         hasNextPage: hasMoreDefault,
         isFetchingNextPage: isLoadingDefault,
-    } = useInfiniteQuery<StudyList[], Error>({
-        queryKey: ["defaultStudiesList", filter, debouncedInput, selected],
+    } = useInfiniteQuery<Study[], Error>({
+        queryKey: ["defaultStudies", filter, debouncedInput, selected],
         queryFn: ({ pageParam = 1 }) =>
             defaultSearch({
                 page: pageParam as number,
-                size: 15,
+                size: 12,
                 category: category[selected],
                 region: filter.region,
                 status: "ALL",
                 name: debouncedInput || "",
             }),
         getNextPageParam: (lastPage, allPages) =>
-            lastPage.length < 15 ? undefined : allPages.length + 1,
+            lastPage.length < 12 ? undefined : allPages.length + 1,
         initialPageParam: 1,
         staleTime: 1000 * 60 * 3, //3분
     });
@@ -93,8 +101,8 @@ export default function Page() {
     const {
         data: survData,
         // isLoading:isLoadingSurv,
-    } = useQuery<StudyList[], Error>({
-        queryKey: ["survStudiesList", filter, debouncedInput, selected],
+    } = useQuery<Study[], Error>({
+        queryKey: ["survStudies", filter, debouncedInput, selected],
         queryFn: () =>
             survSearch({
                 page: 1,
@@ -106,7 +114,6 @@ export default function Page() {
             }),
         staleTime: 1000 * 60 * 3,
     });
-
     const defaultStudies =
         filter.status === "활동 전체"
             ? (defaultData?.pages.flat() ?? [])
@@ -119,7 +126,6 @@ export default function Page() {
             : (survData ?? []).filter(
                   (s) => calActive(s.startDate) === filter?.status,
               );
-
     //페이지네이션
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -165,13 +171,13 @@ export default function Page() {
                     <div className="h-full w-full pt-[19px] pb-[30px]">
                         {/* 필터링 뱃지 */}
                         {(filter.regionSelect || filter.statusSelect) && (
-                            <div className="fixed top-[146px] left-5 z-30 flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
+                            <div className="fixed top-[146px] left-5 z-[999] flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
                                 {filter.regionSelect && (
                                     <button
                                         className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
                                         onClick={() => removeFilter("region")}
                                     >
-                                        {regionMap[filter.region]}
+                                        {filter.region}
                                     </button>
                                 )}
                                 {filter.statusSelect && (

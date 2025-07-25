@@ -1,5 +1,3 @@
-import { dayMap } from "@/utils/studyDataMap";
-
 interface DefaultInfoProps {
     maxMembers: number;
     schedules: string[];
@@ -16,11 +14,20 @@ export default function StudyDefaultInfo({
     startDate,
     endDate,
 }: DefaultInfoProps) {
+    const day: Record<string, string> = {
+        MON: "월",
+        TUE: "화",
+        WED: "수",
+        THU: "목",
+        FRI: "금",
+        SAT: "토",
+        SUN: "일",
+    };
     const scheduleString = (sche: string[]) => {
-        const order = Object.keys(dayMap);
+        const order = Object.keys(day);
         return sche
             .sort((a, b) => order.indexOf(a) - order.indexOf(b))
-            .map((d) => dayMap[d])
+            .map((d) => day[d])
             .join(", ");
     };
     const changeDate = (startDate: string, endDate: string) => {

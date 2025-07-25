@@ -3,13 +3,6 @@ interface Goal {
     content: string;
     type: string;
 }
-interface Attendance {
-    attendanceId: number;
-    attendanceDate: string;
-    dayOfWeek: string;
-    attend: boolean;
-}
-
 interface StudyInfo {
     name: string;
     category: string;
@@ -31,7 +24,8 @@ interface StudyInfo {
     notice?: string;
     currentMemberCount?: number;
 }
-// "studies/{studyId}"에서 조회되는 스터디 상세 정보
+// "members/{memberId}"의 마이페이지의 userStudies 조회
+// "members/{memberId}/studies"의 멤버별 studies 조회
 
 interface CreateStudy {
     name: string;
@@ -80,24 +74,6 @@ interface Study {
 }
 // "studies/search"의 검색된 스터디 반환 값에서 사용
 // StudyInfo의 startate와 place키가 없음
-//?
-
-interface StudyList {
-    studyId: number;
-    title: string;
-    category: string;
-    currentMemberCount: number;
-    maxMemberCount: number;
-    schedules: string[];
-    startTime: string;
-    endTime: string;
-    status: "READY" | "ACTIVE";
-    createdAt: string;
-    startDate: string;
-    region: string;
-    studyType: "SURVIVAL" | "DEFAULT";
-}
-// "studies/search"에서 검색된 스터디 목록
 
 interface Members {
     studyMemberId: number;
@@ -107,7 +83,6 @@ interface Members {
     role: "MEMBER" | "LEADER";
     email: string;
 }
-// "studies/{studyId}/members"에서 조회된 스터디 멤버 목록
 // "studies/search"의 검색된 스터디의 리더 이미지를 찾을 때 사용
 
 interface Goal {
@@ -140,25 +115,10 @@ interface StudyInfos {
 }
 // "studies/{studyId}"에서 조회되는 스터디 정보
 
-interface studyApplicant {
-    applicantId: number;
-    memberId: number;
-    name: string;
-    state: "WAIT" | "ACCEPT" | "REJECT";
-    introduction: string;
-    avatarImage: string | null;
-}
-// "studies/{studyId}/applications-list"에서 조회되는 스터디 신청자 목록
-
-interface CheckGoal {
-    goalId: number;
-    content: string;
-    achieved: boolean;
-}
-// "studies/{studyId}/check-goal"에서 조회되는 스터디 목표 달성 여부
-
-interface studyUserAttendance {
-    studyMemberId: number;
-    attendances: Attendance[];
+interface Attendance {
+    attendanceId: number;
+    attendanceDate: string;
+    dayOfWeek: string;
+    attend: boolean;
 }
 // "studies/{studyId}/attendance"에서 조회되는 스터디의 attendances 출석 정보

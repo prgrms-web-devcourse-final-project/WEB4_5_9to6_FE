@@ -1,5 +1,6 @@
-import BottomModal from "@/components/common/BottomModal";
-import StudyUsers from "@/components/studyRecruit/StudyUsers";
+// import { X } from "lucide-react";
+import StudyUsers from "../studyRecruit/StudyUsers";
+import BottomModal from "../common/BottomModal";
 
 export default function StudyHomeUser({
     isOpen,

@@ -9,10 +9,7 @@ export default function layout({
 }) {
     return (
         <>
-            <SubHeader className="bg-[var(--color-white)]">
-                {" "}
-                스터디 정보
-            </SubHeader>
+            <SubHeader> 스터디 정보</SubHeader>
             {children}
         </>
     );
