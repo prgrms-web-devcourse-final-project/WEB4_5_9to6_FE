@@ -104,8 +104,13 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                     };
 
                     await saveImage(blob, clothesRequest);
-                    const newRes = await changeOwnItems(avatarOwnId.TOP);
-                    console.log("변경된 이미지" + newRes.image);
+                    const avatarIds = Object.values(avatarOwnId);
+                    const avatarChg = avatarIds.map((ownId) =>
+                        changeOwnItems(ownId),
+                    );
+                    const results = await Promise.all(avatarChg);
+
+                    console.log("변경된 이미지" + results[3].image);
 
                     customAlert({
                         message: "새롭게 아바타가 적용되었습니다!",

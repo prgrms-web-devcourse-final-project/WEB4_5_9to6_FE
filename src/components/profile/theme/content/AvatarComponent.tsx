@@ -39,9 +39,9 @@ export default function AvatarComponent({
             <div
                 onClick={() => {
                     onSelect();
+                    changeAvatarState(true);
                     changeOwnId(ownId);
                     changeAvatarName(part, name);
-                    changeAvatarState(true);
                     changeAvatarOwnId(part, ownId);
                 }}
                 className="bg-gray200 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
