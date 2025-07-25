@@ -58,7 +58,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
 
             msgPayload = {
                 receiverEmail: targetMember.email,
-                receiverNickName: targetMember.nickName,
+                receiverNickname: targetMember.nickname,
                 content: message,
             };
             console.log("🎯 targetMember:", targetMember);
