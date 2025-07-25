@@ -120,6 +120,8 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                     .map((msg, idx) => {
                         const isMine = msg.senderId === myId;
                         const isWhisper = msg.receiverId !== null;
+                        const prevMsg = messages[idx - 1];
+                        const isSameSender = prevMsg?.senderId === msg.senderId;
 
                         const msgDate = dayjs(msg.createdAt).format(
                             "YYYY-MM-DD",
@@ -150,7 +152,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                 <div
                                     className={`flex pt-3 ${isMine ? "justify-end" : "justify-start"}`}
                                 >
-                                    {!isMine && (
+                                    {!isSameSender && !isMine ? (
                                         <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
                                             <Image
                                                 key={msg.chatId}
@@ -167,6 +169,8 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                 height={46}
                                             />
                                         </div>
+                                    ) : (
+                                        <div className="mt-3 mr-2 w-11.5"></div>
                                     )}
                                     <div className="flex flex-col">
                                         {isWhisper && (
@@ -182,11 +186,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                     : `${msg.senderNickname}님의 귓속말`}
                                             </p>
                                         )}
-                                        {!isWhisper && !isMine && (
-                                            <p className="c2 text-[var(--color-gray600)]">
-                                                {msg.senderNickname}
-                                            </p>
-                                        )}
+                                        {!isSameSender &&
+                                            !isWhisper &&
+                                            !isMine && (
+                                                <p className="c2 text-[var(--color-gray600)]">
+                                                    {msg.senderNickname}
+                                                </p>
+                                            )}
                                         <div
                                             className={`flex gap-1.5 ${
                                                 isMine
