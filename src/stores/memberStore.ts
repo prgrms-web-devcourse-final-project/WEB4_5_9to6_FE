@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { fetchMemeberPage, fetchMemeberInfo } from "@/api/member";
+import { fetchMemeberPage, fetchMemeberInfo } from "@/api/members";
 import { fetchStudyList } from "@/api/studyList";
 import { fetchLeaderAvatar } from "@/api/fetchUser";
 
