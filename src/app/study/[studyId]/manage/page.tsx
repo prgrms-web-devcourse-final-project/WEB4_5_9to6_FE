@@ -11,7 +11,6 @@ import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 export default function Page() {
-    // const [attend, setAttend] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
@@ -45,7 +44,7 @@ export default function Page() {
         stopTimer();
         setIsStart(false);
         setPause(false);
-        //스터디시간 저장
+
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const isTimePosted = await postStudyTime(studyId, seconds);
         if (isTimePosted === "정상적으로 완료되었습니다.") {

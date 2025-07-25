@@ -68,7 +68,6 @@ export default function Page() {
     };
 
     //데이터 불러오기
-    //일반 스터디 검색
     const {
         data: defaultData,
         fetchNextPage: fetchNextDefault,
@@ -107,6 +106,7 @@ export default function Page() {
             }),
         staleTime: 1000 * 60 * 3,
     });
+
     const defaultStudies =
         filter.status === "활동 전체"
             ? (defaultData?.pages.flat() ?? [])
@@ -119,6 +119,7 @@ export default function Page() {
             : (survData ?? []).filter(
                   (s) => calActive(s.startDate) === filter?.status,
               );
+
     //페이지네이션
     useEffect(() => {
         const observer = new IntersectionObserver(

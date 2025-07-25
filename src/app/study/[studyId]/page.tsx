@@ -19,7 +19,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function Page() {
-    // const [attend, setAttend] = useState(false);
     const [isStart, setIsStart] = useState(false);
     const [pause, setPause] = useState(false);
     const [showHeader, setShowHeader] = useState(false);
@@ -54,7 +53,7 @@ export default function Page() {
         stopTimer();
         setIsStart(false);
         setPause(false);
-        //스터디시간 저장
+
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const isTimePosted = await postStudyTime(studyId, seconds);
         if (isTimePosted === "정상적으로 완료되었습니다.") {
@@ -87,7 +86,6 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        // console.log(res);
         if (res === "출석 체크 완료.") {
             await refetchAttendance();
             customAlert({
@@ -234,21 +232,6 @@ export default function Page() {
                         </div>
                     )}
                 </div>
-
-                {/* {isMenuOpen && (
-                    <MenuModal
-                        onClose={() => setIsMenuOpen(false)}
-                        setIsUserOpen={setIsUserOpen}
-                    />
-                )}
-
-                {isUserOpen && (
-                    <StudyUserModal onClose={() => setIsUserOpen(false)} />
-                )}
-
-                {isGoalOpen && (
-                    <StudyGoalModal onClose={() => setIsGoalOpen(false)} />
-                )} */}
             </div>
         </>
     );

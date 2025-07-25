@@ -12,7 +12,6 @@ import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
-// import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { fetchStudyInfo, getApplicants } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
@@ -45,7 +44,6 @@ export default function Page() {
     useEffect(() => {
         const fetchStudy = async () => {
             const id = params?.studyId;
-            // console.log(typeof id);
             if (typeof id === "string") {
                 try {
                     const data: StudyInfos = await fetchStudyInfo(parseInt(id));

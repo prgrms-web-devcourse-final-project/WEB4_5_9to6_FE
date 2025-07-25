@@ -75,6 +75,7 @@ export default function ApplyModal({
             console.error("서바이벌 신청 실패", error);
         },
     });
+
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {

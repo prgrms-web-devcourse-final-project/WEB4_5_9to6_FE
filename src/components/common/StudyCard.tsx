@@ -3,10 +3,8 @@ import { Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import defaultImg from "../../../public/images/rewardItems/61.png";
 import Image from "next/image";
-// import { useQuery } from "@tanstack/react-query";
 import { checkIsMember } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
-// import { Members } from "@/types/study";
 export default function StudyCard({
     category,
     isNew,
@@ -40,10 +38,8 @@ export default function StudyCard({
     const userInfo = useAuthStore((state) => state.myInfo);
     const clickHandler = async (id: number) => {
         const isMember = await checkIsMember(id);
-        // console.log("isMember", isMember);
+
         if (studyType === "DEFAULT") {
-            // console.log("유저정보", userInfo);
-            // console.log("리더아이디", leaderId);
             if (leaderId && leaderId === userInfo?.id) {
                 router.push(`/study/${id}/manage`);
             } else if (isMember.isMember === true) router.push(`/study/${id}`);

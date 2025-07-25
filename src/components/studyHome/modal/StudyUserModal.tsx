@@ -1,4 +1,3 @@
-// import { X } from "lucide-react";
 import BottomModal from "@/components/common/BottomModal";
 import StudyUsers from "@/components/studyRecruit/StudyUsers";
 

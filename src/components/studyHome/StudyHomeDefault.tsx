@@ -33,7 +33,6 @@ export default function StudyHomeDefault({
             <NoticeBox
                 notice={notice}
                 className="rounded-none bg-[#1D1D1D]/85 py-3"
-                // isLeader={true}
                 color="hall"
             />
 

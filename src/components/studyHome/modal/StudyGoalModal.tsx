@@ -27,8 +27,7 @@ export default function StudyGoalModal({
             return await getCheckGoal(studyId);
         },
     });
-    // console.log("스터디목표", goalData);
-    // console.log("기존 목표", isCheck);
+
     const checkHandler = (index: number) => {
         setIsCheck((prev) => {
             const updated = [...prev];
@@ -37,17 +36,16 @@ export default function StudyGoalModal({
             return updated;
         });
     };
-
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
         }, 200);
     };
+
     const submitHandler = async () => {
         for (let i = 0; i < isCheck.length; i++) {
             if (isCheck[i] && goalData) {
-                // console.log("골데이터", goalData);
                 const goalId = goalData[i].goalId;
                 const message = await postGoalsCompleted(studyId, goalId);
                 if (message === "정상적으로 완료되었습니다.") {
@@ -65,7 +63,6 @@ export default function StudyGoalModal({
                 }
             }
         }
-
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
             onClose();
@@ -77,6 +74,7 @@ export default function StudyGoalModal({
             setIsCheck(Array(goalData.length).fill(false));
         }
     }, [goalData]);
+
     return (
         <>
             <BottomModal
@@ -97,7 +95,7 @@ export default function StudyGoalModal({
                                         {goal.content}
                                     </p>
                                 </div>
-                                {/* {!isCheck[index] && ( */}
+
                                 {goal.achieved && (
                                     <div className="disabled flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-gray800)]">
                                         <Check className="h-4 w-4 text-[var(--color-gray400)]" />
@@ -113,15 +111,6 @@ export default function StudyGoalModal({
                                         )}
                                     </button>
                                 )}
-                                {/* )} */}
-                                {/* {isCheck[index] && (
-                                    <button
-                                        className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-[var(--color-main500)]"
-                                        onClick={() => checkHandler(index)}
-                                    >
-                                        <Check className="h-4 w-4 text-[#FFFFFF]" />
-                                    </button>
-                                )} */}
                             </div>
                         ))}
                 </div>

@@ -34,7 +34,7 @@ export default function Page() {
         if (leader && leader[0].memberId === userInfo?.id) return true;
         else return false;
     };
-    // console.log("리더?", isLeader());
+
     return (
         <>
             <div className="mt-[62px]">

@@ -50,9 +50,6 @@ export default function StudyUsers() {
                                     {member.nickName}
                                 </h6>
                             </div>
-                            {/* <span className="c1 flex items-center text-[#FF395C]">
-                                스터디중
-                            </span> */}
                         </div>
                     ))}
                 </div>

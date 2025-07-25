@@ -30,8 +30,6 @@ export const fetchAllTime = async (memberId: number) => {
 
 // 공부 시간 등록
 export const postStudyTime = async (studyId: number, studyTime: number) => {
-    // console.log("타이머 데이터:", studyTime);
     const res = await axiosInstance.post(`timer/${studyId}`, { studyTime });
-    // console.log("등록데이터:", res.data.message);
     return res.data.message;
 };

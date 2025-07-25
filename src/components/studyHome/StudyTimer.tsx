@@ -12,37 +12,7 @@ export default function StudyTimer({
     studyTimeSec: string;
 }) {
     const router = useRouter();
-    // const [seconds, setSeconds] = useState(0);
-    // const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    // const startTimer = () => {
-    //     if (intervalRef.current) return;
-    //     intervalRef.current = setInterval(() => {
-    //         setSeconds((prev) => prev + 1);
-    //     }, 1000);
-    // };
-
-    // const stopTimer = () => {
-    //     if (intervalRef.current) {
-    //         clearInterval(intervalRef.current);
-    //         intervalRef.current = null;
-    //     }
-    // };
-
-    // const resetTimer = () => {
-    //     stopTimer();
-    //     setSeconds(0);
-    // };
-    // useEffect(() => {
-    //     return () => stopTimer();
-    // }, []);
-
-    // const formatTime = (totalSeconds: number) => {
-    //     const hr = Math.floor(totalSeconds / 3600);
-    //     const min = Math.floor((totalSeconds % 3600) / 60);
-    //     const sec = totalSeconds % 60;
-    //     return `${String(hr).padStart(2,"0")}:${String(min).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
-    // };
     return (
         <>
             {/* 타이머 */}

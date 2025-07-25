@@ -28,10 +28,7 @@ export default function Channel({
         "수능&내신",
         "기타",
     ];
-    // const removeFilter = (remove: string) => {
-    //     setFilter(filter.filter((prev) => prev !== remove));
-    //     // console.log("필터:", filter);
-    // };
+
     return (
         <>
             <div
