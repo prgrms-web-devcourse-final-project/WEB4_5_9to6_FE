@@ -62,7 +62,6 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 content: message,
             };
             console.log("🎯 targetMember:", targetMember);
-            console.log("🧾 전송 payload", JSON.stringify(msgPayload, null, 2));
         } else {
             msgPayload = {
                 senderId: myInfo?.id,
@@ -73,7 +72,6 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 content: message,
             };
         }
-        console.log("메시지 전송:", msgPayload);
 
         client.publish({
             destination: `/publish/chat.send/${studyId}`,
@@ -91,7 +89,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
             console.warn("토큰 없음: 웹소켓 연결안됨");
             return;
         }
-
+        // 웹소켓 연결
         const client = new Client({
             connectHeaders: {
                 Authorization: `Bearer ${token}`,
