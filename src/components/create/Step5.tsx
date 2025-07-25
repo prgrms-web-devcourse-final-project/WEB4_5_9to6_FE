@@ -6,13 +6,9 @@ import TextArea from "../common/TextArea";
 export default function Step5({
     continueStep,
     submitCreate,
-    requestDescription,
-    requestExternalLink,
 }: {
     continueStep: () => void;
     submitCreate: () => void;
-    requestDescription: (description: string) => void;
-    requestExternalLink: (externalLink: string) => void;
 }) {
     const [isMounted, setIsMounted] = useState(false);
     const [description, setDescription] = useState("");
@@ -68,7 +64,7 @@ export default function Step5({
         <>
             <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`mb-2 cursor-default text-[24px] leading-tight font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     마지막으로
                     <br />
