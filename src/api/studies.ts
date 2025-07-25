@@ -2,9 +2,7 @@ import { axiosInstance } from "./index";
 
 // 스터디 정보
 export const fetchStudyInfo = async (studyId: number) => {
-    // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}`);
-    // console.log(res.data.data);
     return res.data.data;
 };
 
@@ -17,7 +15,6 @@ export const defaultSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    // console.log("일반 입력받은값:", page, size, category, region, status, name);
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -27,7 +24,6 @@ export const defaultSearch = async ({
         name,
         studyType: "DEFAULT",
     });
-    // console.log("일반 출력값", res.data.data);
     return res.data.data;
 };
 
@@ -40,15 +36,6 @@ export const survSearch = async ({
     status,
     name,
 }: StudySearchParams) => {
-    // console.log(
-    //     "서바이벌 입력받은값:",
-    //     page,
-    //     size,
-    //     category,
-    //     region,
-    //     status,
-    //     name,
-    // );
     const res = await axiosInstance.post("studies/search", {
         page,
         size,
@@ -58,14 +45,12 @@ export const survSearch = async ({
         name,
         studyType: "SURVIVAL",
     });
-    // console.log("서바이벌 출력값", res.data.data);
     return res.data.data;
 };
 
 //스터디 멤버 정보
 export const studyMembers = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/members`);
-    // console.log("이게왜이래...:", res.data.data);
     return res.data.data;
 };
 
@@ -79,20 +64,17 @@ export const studyApply = async (studyId: number, introduction: string) => {
     const res = await axiosInstance.post(`studies/${studyId}/application`, {
         introduction,
     });
-    // console.log(res.data);
     return res.data.data;
 };
 
 //스터디 신청자 목록 조회
 export const getApplicants = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/applications-list`);
-    // console.log("신청자 목록:", res.data.data);
     return res.data.data;
 };
 
 //스터디 멤버 여부 확인
 export const checkIsMember = async (studyId: number) => {
-    // console.log("스터디아이디:", studyId);
     const res = await axiosInstance.get(`studies/${studyId}/members/me/check`);
     return res.data.data;
 };
@@ -103,7 +85,6 @@ export const respondToApplication = async (
     memberId: number,
     applicationResult: string,
 ) => {
-    // console.log("스터디 승인", studyId, memberId, applicationResult);
     const res = await axiosInstance.post(
         `studies/${studyId}/applications/respond`,
         { memberId, applicationResult },
@@ -114,14 +95,12 @@ export const respondToApplication = async (
 //출석체크
 export const postAttendance = async (studyId: number) => {
     const res = await axiosInstance.post(`studies/${studyId}/attendance`);
-    // console.log("출석체크", res.data.data);
     return res.data.data;
 };
 
 //주간 출석체크 확인
 export const getAttendance = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/attendance`);
-    // console.log("주간출석체크확인", res.data.data);
     return res.data.data;
 };
 
@@ -139,9 +118,7 @@ export const getCheckGoal = async (studyId: number) => {
 
 //스터디 목표 달성 등록
 export const postGoalsCompleted = async (studyId: number, goalId: number) => {
-    // console.log("넘어왔어", studyId, goalId);
     const res = await axiosInstance.post(`studies/${studyId}/goal/${goalId}`);
-    // console.log("목표달성", res.data.message);
     return res.data.message;
 };
 
