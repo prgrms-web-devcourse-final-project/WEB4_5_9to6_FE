@@ -18,6 +18,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
     const addMessage = useChatStore((state) => state.addMessage);
     const members = useParticipantStore((state) => state.participants);
     const myInfo = useAuthStore.getState().myInfo;
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const onMessageReceived = useCallback(
         (message: IMessage) => {
             const body = JSON.parse(message.body);
@@ -80,6 +81,9 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         });
 
         setMessage("");
+        if (textareaRef.current) {
+            textareaRef.current.style.height = "auto";
+        }
     };
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
@@ -121,7 +125,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
     }, [onMessageReceived, studyId]);
 
     return (
-        <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-8">
+        <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-5">
             <div className="relative flex items-end justify-between gap-3">
                 {/* 귓속말 유저 선택 */}
                 <div className="relative">
@@ -151,12 +155,13 @@ export default function MessageInput({ studyId }: { studyId: number }) {
 
                 {/* 입력창 */}
                 <textarea
+                    ref={textareaRef}
                     placeholder={
                         whisperTarget
                             ? ` ${members.find((member) => member?.memberId === whisperTarget)?.nickname}님께 귓속말`
                             : "메세지 입력"
                     }
-                    className={`max-h-20 w-[85%] resize-none overflow-y-scroll rounded-2xl py-[7px] pl-3.5 text-[var(--color-gray1000)] focus:outline-none ${whisperTarget ? "bg-[var(--color-main100)] placeholder:text-[#EAB3C1]" : "bg-[var(--color-gray200)] placeholder:text-[var(--color-gray500)]"}`}
+                    className={`max-h-20 w-[85%] resize-none overflow-y-scroll rounded-2xl px-3.5 py-1.5 text-[var(--color-gray1000)] focus:outline-none ${whisperTarget ? "bg-[var(--color-main100)] placeholder:text-[#EAB3C1]" : "bg-[var(--color-gray200)] placeholder:text-[var(--color-gray500)]"}`}
                     rows={1}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}

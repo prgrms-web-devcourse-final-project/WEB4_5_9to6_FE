@@ -6,6 +6,7 @@ import { useChatStore, useParticipantStore } from "@/stores/chatStore";
 import { useEffect, useRef } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import Image from "next/image";
 
 export default function ChattingRoom({ studyId }: { studyId: number }) {
     const myId = useAuthStore((state) => state.myInfo?.id);
@@ -18,15 +19,14 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
 
     console.log("members", members);
 
-    console.log("messages", messages);
     let lastDate = "";
 
     useEffect(() => {
         if (!studyId) return;
         const loadMessageHandler = async () => {
             const messageData = await fetchChatHistory(studyId);
-            useChatStore.getState().setMessages(messageData);
-            console.log("history", messageData);
+            useChatStore.getState().setMessages(messageData.messages);
+            console.log("history", messageData.messages);
         };
         loadMessageHandler();
     }, [setMessages, studyId]);
@@ -40,15 +40,16 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
     }, [messages]);
     console.log("필터링 전:", messages);
     console.log("myId:", myId);
+
     return (
         <>
             <div
                 ref={scrollRef}
-                className="h-[calc(100vh-100px)] w-full overflow-y-scroll pt-20"
+                className="h-[calc(100vh-100px)] w-full overflow-y-scroll px-5 pt-20"
             >
                 {messages
                     .filter((msg) => {
-                        if (msg.receiverId == null) return true;
+                        if (msg.receiverId === null) return true;
                         return msg.receiverId === myId || msg.senderId === myId;
                     })
                     .map((msg, idx) => {
@@ -85,7 +86,15 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                     className={`flex pt-3 ${isMine ? "justify-end" : "justify-start"}`}
                                 >
                                     {!isMine && (
-                                        <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]" />
+                                        <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
+                                            {members.map((member) => (
+                                                <Image
+                                                    key={member.memberId}
+                                                    src={member?.image}
+                                                    alt="profile avatar"
+                                                />
+                                            ))}
+                                        </div>
                                     )}
                                     <div className="flex flex-col">
                                         {isWhisper && (
@@ -109,18 +118,18 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                         <div
                                             className={`flex gap-1 ${
                                                 isMine
-                                                    ? "justify-start"
-                                                    : "flex-row-reverse justify-end"
+                                                    ? "justify-end"
+                                                    : "flex-row-reverse items-end justify-end"
                                             }`}
                                         >
-                                            <p className="c2 mr-2 flex items-end text-[var(--color-gray600)]">
+                                            <p className="c2 flex items-end whitespace-nowrap text-[var(--color-gray600)]">
                                                 {dayjs(msg.createdAt).format(
                                                     "A hh:mm",
                                                 )}
                                             </p>
 
                                             <div
-                                                className={`c1 rounded-xl px-4 py-2 ${
+                                                className={`c1 max-w-[70%] rounded-xl px-4 py-2 break-words ${
                                                     isWhisper
                                                         ? "bg-[var(--color-gray1000)] text-white"
                                                         : isMine
