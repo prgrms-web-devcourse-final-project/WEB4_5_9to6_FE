@@ -25,7 +25,7 @@ export default function SurvivalStudy() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const { setStudy } = useSurvivalStore();
-    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
+    const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     // 시작요일
@@ -87,12 +87,11 @@ export default function SurvivalStudy() {
     };
 
     useEffect(() => {
-        fetchItemsOwn();
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [fetchItemsOwn, groupedOwnItems]);
+    }, [groupedOwnItems.BACKGROUND]);
 
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {

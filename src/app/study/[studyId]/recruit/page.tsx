@@ -28,7 +28,7 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
-    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
+    const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
@@ -75,12 +75,11 @@ export default function Page() {
     }, [applicantData, myInfo]);
 
     useEffect(() => {
-        fetchItemsOwn();
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [fetchItemsOwn, groupedOwnItems]);
+    }, [groupedOwnItems]);
 
     return (
         <>
@@ -105,7 +104,7 @@ export default function Page() {
                             width={1000}
                             height={470}
                         />
-                        <div className="absolute inset-0 z-10 h-[256px] w-full bg-black opacity-30" />
+                        <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
                             className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
                             onClick={() => router.back()}

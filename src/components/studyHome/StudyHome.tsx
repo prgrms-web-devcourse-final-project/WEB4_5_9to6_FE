@@ -50,19 +50,18 @@ export default function StudyHome({
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
-    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
+    const { groupedOwnItems } = useOwnItemStore();
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
-        fetchItemsOwn();
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [fetchItemsOwn, groupedOwnItems]);
+    }, [, groupedOwnItems]);
 
     return (
         <>
