@@ -17,16 +17,14 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
     // 오전, 오후
     dayjs.locale("ko");
 
-    console.log("members", members);
-
     let lastDate = "";
 
     useEffect(() => {
         if (!studyId) return;
         const loadMessageHandler = async () => {
             const messageData = await fetchChatHistory(studyId);
+
             useChatStore.getState().setMessages(messageData.messages);
-            console.log("history", messageData.messages);
         };
         loadMessageHandler();
     }, [setMessages, studyId]);
@@ -38,14 +36,14 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
             });
         }
     }, [messages]);
-    console.log("필터링 전:", messages);
+
     console.log("myId:", myId);
 
     return (
         <>
             <div
                 ref={scrollRef}
-                className="h-[calc(100vh-100px)] w-full overflow-y-scroll px-5 pt-20"
+                className="h-screen w-full overflow-y-scroll px-5 pb-20"
             >
                 {messages
                     .filter((msg) => {
@@ -87,19 +85,26 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                 >
                                     {!isMine && (
                                         <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
-                                            {members.map((member) => (
-                                                <Image
-                                                    key={member.memberId}
-                                                    src={member?.image}
-                                                    alt="profile avatar"
-                                                />
-                                            ))}
+                                            <Image
+                                                key={msg.chatId}
+                                                src={
+                                                    members.find(
+                                                        (m) =>
+                                                            m.memberId ===
+                                                            msg.senderId,
+                                                    )?.image ||
+                                                    "/images/rewardItems/61.png"
+                                                }
+                                                alt="profile avatar"
+                                                width={46}
+                                                height={46}
+                                            />
                                         </div>
                                     )}
                                     <div className="flex flex-col">
                                         {isWhisper && (
                                             <p
-                                                className={`c1 mb-0.5 flex ${
+                                                className={`c2 mb-0.5 flex ${
                                                     isMine
                                                         ? "justify-end text-[var(--color-main500)]"
                                                         : "text-[var(--color-main600)]"
@@ -116,7 +121,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                             </p>
                                         )}
                                         <div
-                                            className={`flex gap-1 ${
+                                            className={`flex gap-1.5 ${
                                                 isMine
                                                     ? "justify-end"
                                                     : "flex-row-reverse items-end justify-end"
@@ -129,7 +134,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                             </p>
 
                                             <div
-                                                className={`c1 max-w-[70%] rounded-xl px-4 py-2 break-words ${
+                                                className={`c1 max-w-[85%] rounded-xl px-4 py-2 break-words ${
                                                     isWhisper
                                                         ? "bg-[var(--color-gray1000)] text-white"
                                                         : isMine

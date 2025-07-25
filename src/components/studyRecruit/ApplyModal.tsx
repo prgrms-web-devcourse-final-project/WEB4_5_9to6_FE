@@ -75,6 +75,7 @@ export default function ApplyModal({
             console.error("서바이벌 신청 실패", error);
         },
     });
+
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
         setTimeout(() => {
@@ -120,7 +121,7 @@ export default function ApplyModal({
                                     onChange={(e) =>
                                         setApplyMent(e.target.value)
                                     }
-                                    className="b2 h-full w-full resize-none text-[var(--color-gray500)] outline-none"
+                                    className="b2 h-full w-full resize-none text-[var(--color-gray1000)] outline-none placeholder:text-[var(--color-gray500)]"
                                 />
                             </div>
                         </>
