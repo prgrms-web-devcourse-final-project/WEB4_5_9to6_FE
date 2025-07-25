@@ -1,16 +1,11 @@
 import { create } from "zustand";
 import { fetchMemeberPage, fetchMemeberInfo } from "@/api/members";
 import { fetchStudyList } from "@/api/studyList";
-import { fetchLeaderAvatar } from "@/api/fetchUser";
-
-type StudyCardWithAvatar = StudyInfo & {
-    leaderAvatar: string | null;
-};
 
 interface ProfileStore {
     data: MemberProfile | null;
     data2: MemberInfoType | null;
-    data3: StudyCardWithAvatar[] | null;
+    data3: MemberStudyList[] | null;
     memberId: number;
     loading: boolean;
     fetch: (id: number) => Promise<void>;
@@ -34,23 +29,10 @@ export const useProfileStore = create<ProfileStore>((set) => ({
 
             const memberId = res3.memberId;
 
-            const avatarList = await Promise.all(
-                res3.studies.map((study: StudyCardWithAvatar) => {
-                    return fetchLeaderAvatar(study.studyId);
-                }),
-            );
-
-            const studyList = res3.studies.map(
-                (study: StudyCardWithAvatar, i: number) => ({
-                    ...study,
-                    leaderAvatar: avatarList[i],
-                }),
-            );
-
             set({
                 data: res.data,
                 data2: res2.data,
-                data3: studyList,
+                data3: res3.studies,
                 memberId: memberId,
                 loading: false,
             });

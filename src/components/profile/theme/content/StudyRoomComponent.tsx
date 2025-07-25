@@ -18,7 +18,7 @@ export default function StudyRoomComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const { changeOwnId, changeOwnName } = useOwnItemStore();
+    const { changeOwnId, changeOwnName, changeAvatarState } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export default function StudyRoomComponent({
                     onClick={() => {
                         onSelect();
                         changeOwnId(ownId);
+                        changeAvatarState(false);
                         changeOwnName(name + " 배경");
                     }}
                     className="relative aspect-[80/45] cursor-pointer"
