@@ -37,10 +37,10 @@ export default function RegionModal({
             <BottomModal
                 title="지역"
                 onClose={onClose}
-                height="360"
+                height="411"
                 isOpen={isOpen}
             >
-                <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
+                <div className="flex h-12 w-full flex-wrap gap-2 p-5">
                     {regions.map((r) => (
                         <button
                             key={r}
