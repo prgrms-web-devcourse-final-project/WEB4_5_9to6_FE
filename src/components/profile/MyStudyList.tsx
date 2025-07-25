@@ -2,15 +2,29 @@
 
 import { useProfileStore } from "@/stores/memberStore";
 import StudyCard from "../common/StudyCard";
-import {
-    getValidAvatar,
-    categoryMap,
-    dayMap,
-    regionMap,
-} from "@/utils/studyDataMap";
+import { categoryMap, regionMap, scheduleString } from "@/utils/studyDataMap";
+import { studyMembers } from "@/api/studies";
+import { useQueries } from "@tanstack/react-query";
 
 export default function MyStudyList() {
     const { data3 } = useProfileStore();
+
+    const isNewFunc = (start: string) => {
+        const now = new Date();
+        const startDate = new Date(start);
+        return now < startDate;
+    };
+
+    const leaderQueries = useQueries({
+        queries: (data3 || []).map((v) => ({
+            queryKey: ["studyMembers", v.studyId],
+            queryFn: () => studyMembers(v.studyId),
+            select: (data: Members[]) => data.find((m) => m.role === "LEADER"),
+            enabled: !!v.studyId,
+            staleTime: 1000 * 60 * 3,
+        })),
+    });
+    const leaders = leaderQueries.map((q) => q.data);
 
     return (
         <>
@@ -21,12 +35,10 @@ export default function MyStudyList() {
                             key={i}
                             studyId={v.studyId}
                             category={categoryMap[v.category]}
-                            isNew={new Date(v.start_date) > new Date()}
+                            isNew={isNewFunc(v.start_date)}
                             title={v.title}
-                            avatar={getValidAvatar(v.leaderAvatar)}
-                            schedule={v.schedules
-                                .map((day) => dayMap[day])
-                                .join(", ")}
+                            avatar={leaders[i]?.profileImage}
+                            schedule={scheduleString(v.schedules)}
                             startTime={v.startTime}
                             endTime={v.endTime}
                             region={regionMap[v.region]}
@@ -35,6 +47,7 @@ export default function MyStudyList() {
                                 max: v.maxMemberCount,
                             }}
                             studyType={v.studyType}
+                            leaderId={leaders[i]?.memberId}
                         />
                     ))
                 ) : (

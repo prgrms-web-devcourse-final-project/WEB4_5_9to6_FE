@@ -95,7 +95,7 @@ export default function SurvivalStudy() {
             <div className="relative mb-10 h-screen">
                 <div className="relative">
                     <Image
-                        src="/images/roomImgs/room7.png"
+                        src="/images/rewardItems/19.png"
                         alt="survival study"
                         width={1000}
                         height={470}

@@ -27,6 +27,22 @@ interface MemberInfoType {
 interface MemberStudies {
     memberId: number;
     nickname: string;
-    studies: StudyInfo[];
+    studies: MemberStudyList[];
 }
 // "members/{memberId}/studies"의 가입한 스터디 목록 조회
+
+interface MemberStudyList {
+    studyId: number;
+    title: string;
+    currentMemberCount: number;
+    maxMemberCount: number;
+    category: string;
+    region: string;
+    place: null;
+    start_date: string;
+    end_date: string;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+}
