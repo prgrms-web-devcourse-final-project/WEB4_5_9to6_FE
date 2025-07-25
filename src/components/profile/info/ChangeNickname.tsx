@@ -1,6 +1,6 @@
 "use client";
 
-import { changeNickName } from "@/api/member";
+import { changeNickName } from "@/api/members";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useAuthStore } from "@/stores/authStore";

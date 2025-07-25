@@ -10,22 +10,46 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 import StudyHomeDefault from "@/components/studyHome/StudyHomeDefault";
 import StudyTimer from "@/components/studyHome/StudyTimer";
-import MenuModal from "./MenuModal";
-import StudyUserModal from "@/components/studyHome/StudyUserModal";
-import StudyGoalModal from "@/components/studyHome/StudyGoalModal";
 import AvatarDisplay from "./AvatarDisplay";
+import { useAuthStore } from "@/stores/authStore";
+import MenuModal from "./modal/MenuModal";
+import StudyGoalModal from "./modal/StudyGoalModal";
+import StudyUserModal from "./modal/StudyUserModal";
 export default function StudyHome({
+    studyId,
+    notice,
+    schedules,
+    startTime,
+    endTime,
+    region,
+    name,
+    exLink,
+    maxMembers,
+    currentMemberCount,
     isStart,
     pause,
     isMenuOpen,
     setIsMenuOpen,
+    studyTimeSec,
 }: {
+    studyId: number;
+    notice: string | undefined;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    region: string;
+    name: string;
+    exLink: string | undefined;
+    maxMembers: number;
+    currentMemberCount: number;
     isStart: boolean;
     pause: boolean;
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+    studyTimeSec: string;
 }) {
     const router = useRouter();
+    const userInfo = useAuthStore((state) => state.myInfo);
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
@@ -81,7 +105,9 @@ export default function StudyHome({
                 {!isStart && (
                     <button
                         className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80"
-                        onClick={() => router.push("/profile/1/theme")}
+                        onClick={() =>
+                            router.push(`/profile/${userInfo?.id}/theme`)
+                        }
                     >
                         <span className="c2 text-[var(--color-white)]">
                             테마변경
@@ -91,12 +117,27 @@ export default function StudyHome({
             </div>
 
             {!isStart && (
-                <StudyHomeDefault onOpen={() => setIsUserOpen(true)} />
+                <StudyHomeDefault
+                    notice={notice}
+                    schedules={schedules}
+                    startTime={startTime}
+                    endTime={endTime}
+                    region={region}
+                    name={name}
+                    exLink={exLink}
+                    maxMembers={maxMembers}
+                    currentMemberCount={currentMemberCount}
+                    onOpen={() => setIsUserOpen(true)}
+                />
             )}
 
             {isStart && (
                 <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
-                    <StudyTimer pause={pause} setIsGoalOpen={setIsGoalOpen} />
+                    <StudyTimer
+                        pause={pause}
+                        setIsGoalOpen={setIsGoalOpen}
+                        studyTimeSec={studyTimeSec}
+                    />
                 </div>
             )}
 
@@ -117,6 +158,7 @@ export default function StudyHome({
 
             {isGoalOpen && (
                 <StudyGoalModal
+                    studyId={studyId}
                     isOpen={isGoalOpen}
                     onClose={() => setIsGoalOpen(false)}
                 />

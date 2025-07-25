@@ -1,18 +1,10 @@
 import { studyMembers } from "@/api/studies";
-import avatar from "../../../public/images/avatarImgs/basic2.png";
+import defaultImg from "../../../public/images/rewardItems/61.png";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function StudyUsers() {
-    // const users = [
-    //     "삼성동오징어(나)",
-    //     "대장동꼴뚜기",
-    //     "미금역비둘기",
-    //     "상봉동 오리아나",
-    //     "역병괴수",
-    //     "우라늄아이스크림",
-    // ];
     const router = useRouter();
     const params = useParams();
     const [members, setMembers] = useState<Members[]>([]);
@@ -48,11 +40,7 @@ export default function StudyUsers() {
                                     onClick={() => router.push("/profile/info")}
                                 >
                                     <Image
-                                        src={
-                                            member.profileImage
-                                                ? member.profileImage
-                                                : avatar
-                                        }
+                                        src={member.profileImage || defaultImg}
                                         alt="아바타"
                                         height={32}
                                         width={32}
@@ -62,9 +50,6 @@ export default function StudyUsers() {
                                     {member.nickName}
                                 </h6>
                             </div>
-                            {/* <span className="c1 flex items-center text-[#FF395C]">
-                                스터디중
-                            </span> */}
                         </div>
                     ))}
                 </div>
