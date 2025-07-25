@@ -5,22 +5,18 @@ import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { ko } from "date-fns/locale";
 import { useEffect, useState } from "react";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function DateModal({
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
     onClose,
     isOpen,
 }: {
-    startDate: string;
-    endDate: string;
-    setStartDate: (date: string) => void;
-    setEndDate: (date: string) => void;
     onClose: () => void;
     isOpen: boolean;
 }) {
+    const startDate = useStudyStore((state) => state.studyData.startDate);
+    const endDate = useStudyStore((state) => state.studyData.endDate);
+
     const selectedRange: DateRange = {
         from: startDate ? new Date(startDate) : undefined,
         to: endDate ? new Date(endDate) : undefined,
@@ -30,10 +26,14 @@ export default function DateModal({
         if (!range) return;
 
         if (range.from) {
-            setStartDate(format(range.from, "yyyy-MM-dd"));
+            useStudyStore
+                .getState()
+                .setData("startDate", format(range.from, "yyyy-MM-dd"));
         }
         if (range.to) {
-            setEndDate(format(range.to, "yyyy-MM-dd"));
+            useStudyStore
+                .getState()
+                .setData("endDate", format(range.to, "yyyy-MM-dd"));
         }
     };
 
