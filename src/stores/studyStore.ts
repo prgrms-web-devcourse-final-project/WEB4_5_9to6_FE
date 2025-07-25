@@ -5,7 +5,10 @@ interface StudyStore {
     isFetched: boolean;
     reset: () => void;
     fetchStudy: (studyData: StudyInfos) => void;
-    setData: (column: string, data: string | string[] | number) => void;
+    setData: (
+        column: string,
+        data: string | string[] | number | Goal[],
+    ) => void;
 }
 
 export const useStudyStore = create<StudyStore>((set) => ({
@@ -25,7 +28,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
         description: "",
         externalLink: "",
         studyType: "DEFAULT",
-        goals: [],
+        goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
         notice: "",
         currentMemberCount: 0,
         online: true,
@@ -49,7 +52,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 description: "",
                 externalLink: "",
                 studyType: "DEFAULT",
-                goals: [],
+                goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
                 notice: "",
                 currentMemberCount: 0,
                 online: true,
