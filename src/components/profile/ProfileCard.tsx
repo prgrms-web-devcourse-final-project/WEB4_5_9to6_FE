@@ -15,6 +15,20 @@ export default function ProfileCard({ id }: { id: string }) {
         if (!data || !data2 || !data3) fetch(Number(id));
     }, [id, data, data2, data3, memberId, fetch]);
 
+    useEffect(() => {
+        if (data2?.avatarImage) {
+            const fetchAvatarData = async () => {
+                try {
+                    fetch(Number(id));
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchAvatarData();
+        }
+    }, [data2?.avatarImage, fetch, id]);
+
     return (
         <>
             <div className="flex w-full items-center justify-between p-6">

@@ -9,7 +9,7 @@ import { customAlert } from "@/utils/customAlert";
 import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function MyInfoCard({ id }: { id: string }) {
-    const { myInfo } = useAuthStore();
+    const { myInfo, refetch } = useAuthStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -18,6 +18,20 @@ export default function MyInfoCard({ id }: { id: string }) {
             router.replace("/");
         }
     }, [myInfo, id, router]);
+
+    useEffect(() => {
+        if (myInfo?.avatarInfo.avatarImage) {
+            const fetchAvatarData = async () => {
+                try {
+                    refetch();
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchAvatarData();
+        }
+    }, [myInfo?.avatarInfo.avatarImage, refetch]);
 
     return (
         <>
