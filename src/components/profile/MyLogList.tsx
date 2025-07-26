@@ -11,7 +11,6 @@ import LogSurvival from "./LogSurvival";
 export default function MyLogList({ id }: { id: string }) {
     const { openModal, studyIndex } = useMyStudyModalStore();
     const { data, data3 } = useProfileStore();
-    console.log(data3);
     return (
         <>
             <div className="flex w-full flex-col items-center gap-6 py-8">
@@ -30,7 +29,7 @@ export default function MyLogList({ id }: { id: string }) {
                         className="bg-gray200 hover:bg-gray300 flex cursor-pointer justify-between rounded-2xl p-5"
                     >
                         <h5 className="text-gray1000">
-                            {data?.userStudies[studyIndex].name ||
+                            {data?.userStudies[studyIndex].title ||
                                 "스터디 없음"}
                         </h5>
                         <ChevronDown size={18} className="text-gray500" />

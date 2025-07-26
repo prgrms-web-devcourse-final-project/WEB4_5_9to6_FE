@@ -61,7 +61,7 @@ export default function StudyHome({
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [, groupedOwnItems]);
+    }, [groupedOwnItems]);
 
     return (
         <>
