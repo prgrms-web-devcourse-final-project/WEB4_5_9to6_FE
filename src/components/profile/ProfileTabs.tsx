@@ -5,9 +5,10 @@ import MyStudyList from "./MyStudyList";
 import MyLogList from "./MyLogList";
 import ChannelSlideBar from "../common/ChannelSlideBar";
 import { useProfileStore } from "@/stores/memberStore";
+import StudyCardSkeleton from "../common/StudyCardSkeleton";
 
 export default function ProfileTabs({ id }: { id: string }) {
-    const { data } = useProfileStore();
+    const { data, loading } = useProfileStore();
     const tabs = [`내 스터디 ${data?.joinedStudyCount}`, "활동로그"];
     const [isTab, setTab] = useState<string>("");
 
@@ -17,7 +18,15 @@ export default function ProfileTabs({ id }: { id: string }) {
         }
     }, [data]);
 
-    if (!data || !isTab) return null;
+    if (!isTab || !data) return null;
+
+    if (loading) {
+        return (
+            <>
+                <StudyCardSkeleton />
+            </>
+        );
+    }
 
     return (
         <>
