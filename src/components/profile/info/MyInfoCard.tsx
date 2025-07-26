@@ -44,7 +44,10 @@ export default function MyInfoCard({ id }: { id: string }) {
                         sizes="48px"
                         fill
                     />
-                    <span className="bg-gray700 absolute right-0 bottom-0 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full">
+                    <span
+                        onClick={() => router.push(`/profile/${id}/theme`)}
+                        className="bg-gray700 absolute right-0 bottom-0 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full"
+                    >
                         <Ghost size={16} className="text-white" />
                     </span>
                 </span>
