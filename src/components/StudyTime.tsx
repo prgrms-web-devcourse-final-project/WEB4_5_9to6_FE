@@ -9,6 +9,8 @@ import { useAuthStore } from "@/stores/authStore";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { categoryMap, regionMap, scheduleString } from "@/utils/studyDataMap";
 import { studyMembers } from "@/api/studies";
+import { fetchAllTime } from "@/api/timer";
+import { useEffect, useState } from "react";
 
 // type StudyCardWithAvatar = Study & {
 //     leaderAvatar: string | null;
@@ -21,28 +23,42 @@ export default function StudyTime() {
     const isFetched = useAuthStore((state) => state.isFetched);
 
     // 시간에 따른 멘트 설정
-    const hours = 12;
-    const minutes = 39;
-    const totalMinutes = hours * 60 + minutes;
-    let message = "";
-    let icon = "/icons/smile.svg";
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [message, setMessage] = useState("");
+    const [icon, setIcon] = useState("/icons/smile.svg");
 
-    if (totalMinutes < 60) {
-        message = "자! 이제 공부를 시작해볼까요?";
-        icon = "/icons/smile.svg";
-    } else if (totalMinutes <= 299) {
-        message = "조금씩 성장중이군요! 계속 가볼까요?";
-        icon = "/icons/angel-face.svg";
-    } else if (totalMinutes <= 600) {
-        message = "열공 중이네요! 좋아요!";
-        icon = "/icons/heart-eyes.svg";
-    } else if (totalMinutes <= 1200) {
-        message = "공부가 꽤 진행됐어요! 조만간 마스터 하겠는걸요?";
-        icon = "/icons/face-hearts.svg";
-    } else if (totalMinutes > 1200) {
-        message = "이렇게 공부하다가 코피나요! 대단해요!";
-        icon = "/icons/Star-struck.svg";
-    }
+    const { data: userTime } = useQuery({
+        queryKey: ["myStudyTime", myInfo?.id],
+        queryFn: () => fetchAllTime(myInfo?.id ?? 0),
+        enabled: isFetched && isLogIn && !!myInfo,
+        retry: 0,
+    });
+
+    useEffect(() => {
+        if (userTime?.totalStudyTime != null) {
+            const total = userTime.totalStudyTime;
+            setHours(Math.floor(total / 60));
+            setMinutes(total % 60);
+
+            if (total < 60) {
+                setMessage("자! 이제 공부를 시작해볼까요?");
+                setIcon("/icons/smile.svg");
+            } else if (total <= 299) {
+                setMessage("조금씩 성장중이군요! 계속 가볼까요?");
+                setIcon("/icons/angel-face.svg");
+            } else if (total <= 600) {
+                setMessage("열공 중이네요! 좋아요!");
+                setIcon("/icons/heart-eyes.svg");
+            } else if (total <= 1200) {
+                setMessage("공부가 꽤 진행됐어요! 조만간 마스터 하겠는걸요?");
+                setIcon("/icons/face-hearts.svg");
+            } else if (total > 1200) {
+                setMessage("이렇게 공부하다가 코피나요! 대단해요!");
+                setIcon("/icons/Star-struck.svg");
+            }
+        }
+    }, [userTime]);
 
     const isNewFunc = (start: string) => {
         const now = new Date();
@@ -93,7 +109,7 @@ export default function StudyTime() {
                 // 로그인상태
                 <section>
                     <h3 className="h3">{myInfo?.nickname}님의 공부시간</h3>
-                    <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-[10%]">
+                    <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-6">
                         <div className="flex pt-6">
                             <div className="flex w-1/2 flex-col">
                                 <div className="mb-[11px]">
@@ -101,9 +117,9 @@ export default function StudyTime() {
                                 </div>
                                 <p className="h1 mr-0.5">
                                     {hours}
-                                    <span className="h5 mr-1.5">시간</span>
+                                    <span className="h6 mr-1.5">시간</span>
                                     {minutes}
-                                    <span className="h5">분</span>
+                                    <span className="h6">분</span>
                                 </p>
                             </div>
                             <div className="flex w-1/2 flex-col gap-4">

@@ -30,7 +30,7 @@ export default function MyLogList({ id }: { id: string }) {
                         className="bg-gray200 hover:bg-gray300 flex cursor-pointer justify-between rounded-2xl p-5"
                     >
                         <h5 className="text-gray1000">
-                            {data?.userStudies[studyIndex].title ||
+                            {data?.userStudies[studyIndex].name ||
                                 "스터디 없음"}
                         </h5>
                         <ChevronDown size={18} className="text-gray500" />

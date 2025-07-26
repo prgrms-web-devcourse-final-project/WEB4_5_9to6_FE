@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/stores/authStore";
 import Banner from "./Banner";
 import StudyTime from "./StudyTime";
-import LoadingSpinner from "./common/LoadingSpinner";
+import LoadingHome from "./LoadingHome";
 
 export default function Home() {
     const { isFetched } = useAuthStore();
@@ -17,7 +17,7 @@ export default function Home() {
                 </>
             ) : (
                 <>
-                    <LoadingSpinner />
+                    <LoadingHome />
                 </>
             )}
         </>

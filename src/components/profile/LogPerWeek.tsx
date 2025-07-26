@@ -49,7 +49,7 @@ export default function LogPerWeek({
     study,
 }: {
     id: string;
-    study?: StudyInfo;
+    study?: MemberStudyList;
 }) {
     const toDay = new Date().getDay();
     const todayIndex = toDay === 0 ? 6 : toDay - 1;
