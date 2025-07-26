@@ -33,12 +33,12 @@ export default function ProfileCard({ id }: { id: string }) {
         return (
             <div className="flex w-full animate-pulse items-center justify-between p-6">
                 <div className="flex flex-col gap-1">
-                    <div className="bg-gray400 h-6 w-32 rounded" />
-                    <div className="bg-gray300 mb-4 h-4 w-40 rounded" />
-                    <div className="bg-gray500 h-5 w-30 rounded" />
+                    <div className="bg-gray200 h-6 w-32 rounded" />
+                    <div className="bg-gray200 mb-4 h-4 w-40 rounded" />
+                    <div className="bg-gray300 h-5 w-30 rounded" />
                 </div>
-                <span className="bg-gray400 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
-                    <div className="bg-gray500 h-12 w-12 rounded-full" />
+                <span className="bg-gray300 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                    <div className="bg-gray200 h-12 w-12 rounded-full" />
                 </span>
             </div>
         );

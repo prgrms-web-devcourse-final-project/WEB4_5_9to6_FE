@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import flash from "@/assets/Flash--filled.svg";
 import FilterModal from "@/components/studyList/FilterModal";
 import StudyLists from "@/components/studyList/StudyLists";
 import SearchBar from "@/components/studyList/SearchBar";
@@ -12,6 +13,8 @@ import { useAuthStore } from "@/stores/authStore";
 import useDebounce from "@/hooks/useDebounce";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { regionMap } from "@/utils/studyDataMap";
+import Image from "next/image";
+import StudyCardSkeleton from "@/components/common/StudyCardSkeleton";
 const category: Record<string, string> = {
     전체: "ALL",
     어학: "LANGUAGE",
@@ -73,6 +76,7 @@ export default function Page() {
         fetchNextPage: fetchNextDefault,
         hasNextPage: hasMoreDefault,
         isFetchingNextPage: isLoadingDefault,
+        isPending: isLoading,
     } = useInfiniteQuery<StudyList[], Error>({
         queryKey: ["defaultStudiesList", filter, debouncedInput, selected],
         queryFn: ({ pageParam = 1 }) =>
@@ -90,10 +94,10 @@ export default function Page() {
         staleTime: 1000 * 60 * 3, //3분
     });
 
-    const {
-        data: survData,
-        // isLoading:isLoadingSurv,
-    } = useQuery<StudyList[], Error>({
+    const { data: survData, isPending: isLoadingSurv } = useQuery<
+        StudyList[],
+        Error
+    >({
         queryKey: ["survStudiesList", filter, debouncedInput, selected],
         queryFn: () =>
             survSearch({
@@ -184,11 +188,49 @@ export default function Page() {
                                 )}
                             </div>
                         )}
-                        <StudyLists
-                            defaultStudies={defaultStudies}
-                            survStudies={survStudies}
-                            search={search}
-                        />
+
+                        {/* 로딩 중일 때 */}
+                        {isLoading || isLoadingSurv ? (
+                            <>
+                                <div className="mt-6 pl-5">
+                                    <div className="flex items-center">
+                                        <Image
+                                            src={flash}
+                                            alt="서바이벌"
+                                            style={{
+                                                width: 18,
+                                                height: "auto",
+                                            }}
+                                        />
+                                        <h3 className="text-gray1000">
+                                            서바이벌 스터디
+                                        </h3>
+                                    </div>
+                                    <h6 className="text-gray700 mt-1 mb-4">
+                                        매주 Ai가 내는 카테고리별 퀴즈를 풀면
+                                        생존!
+                                    </h6>
+                                    <div className="flex gap-4 overflow-hidden">
+                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
+                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
+                                    </div>
+                                </div>
+                                <h3 className="text-gray1000 mt-8 pl-5">
+                                    어떤 스터디를 하고싶나요?
+                                </h3>
+                                <div className="flex flex-col gap-4 px-5">
+                                    {[...Array(5)].map((_, i) => (
+                                        <StudyCardSkeleton key={i} />
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <StudyLists
+                                defaultStudies={defaultStudies}
+                                survStudies={survStudies}
+                                search={search}
+                            />
+                        )}
 
                         {/* 무한스크롤 감지 */}
                         <div ref={observerRef} className="h-[2px]" />
