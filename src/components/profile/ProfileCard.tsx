@@ -80,7 +80,7 @@ export default function ProfileCard({ id }: { id: string }) {
                     <Image
                         src={getValidAvatar(data2?.avatarImage)}
                         alt="프로필"
-                        className="h-12 w-12 object-fill"
+                        className="h-12 w-12 object-fill p-3"
                         sizes="48px"
                         fill
                     />

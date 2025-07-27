@@ -1,24 +1,10 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import StudyCardSkeleton from "./common/StudyCardSkeleton";
 
 export default function LoadingHome() {
     return (
         <>
-            <div className="mt-3 mb-8 w-full animate-pulse">
-                <div className="relative w-full">
-                    <div className="absolute top-1/2 left-2.5 z-10 -translate-y-1/2">
-                        <ChevronLeft className="text-gray300 h-8 w-8" />
-                    </div>
-
-                    <div className="bg-gray200 h-16 w-full rounded-2xl" />
-
-                    <div className="absolute top-1/2 right-2.5 z-10 -translate-y-1/2">
-                        <ChevronRight className="text-gray300 h-8 w-8" />
-                    </div>
-                </div>
-            </div>
             <section>
                 <h3 className="h3">로딩 중..</h3>
                 <div className="mt-3.5 flex min-h-[165px] w-full animate-pulse flex-col rounded-2xl bg-white p-6">

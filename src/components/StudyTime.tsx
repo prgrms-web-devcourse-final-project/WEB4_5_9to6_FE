@@ -11,6 +11,7 @@ import { categoryMap, regionMap, scheduleString } from "@/utils/studyDataMap";
 import { studyMembers } from "@/api/studies";
 import { fetchAllTime } from "@/api/timer";
 import { useEffect, useState } from "react";
+import LoadingHome from "./LoadingHome";
 
 // type StudyCardWithAvatar = Study & {
 //     leaderAvatar: string | null;
@@ -28,7 +29,7 @@ export default function StudyTime() {
     const [message, setMessage] = useState("");
     const [icon, setIcon] = useState("/icons/smile.svg");
 
-    const { data: userTime } = useQuery({
+    const { data: userTime, isPending: pendingTime } = useQuery({
         queryKey: ["myStudyTime", myInfo?.id],
         queryFn: () => fetchAllTime(myInfo?.id ?? 0),
         enabled: isFetched && isLogIn && !!myInfo,
@@ -67,7 +68,7 @@ export default function StudyTime() {
     };
 
     // 로그인 시
-    const { data: userData } = useQuery({
+    const { data: userData, isPending: pendingLogin } = useQuery({
         queryKey: ["myInfo", myInfo?.id],
         queryFn: async () => {
             const myStudy = await fetchStudyList(myInfo?.id ?? 0);
@@ -79,7 +80,7 @@ export default function StudyTime() {
     });
 
     // 비로그인 시
-    const { data: guestData } = useQuery({
+    const { data: guestData, isPending: pendingNotLogin } = useQuery({
         queryKey: ["guestStudy"],
         queryFn: async () => {
             const randomList = await fetchRandomStudyList();
@@ -102,6 +103,30 @@ export default function StudyTime() {
         })),
     });
     const leaders = leaderQueries.map((q) => q.data);
+
+    if (!isFetched) {
+        return (
+            <>
+                <LoadingHome />
+            </>
+        );
+    }
+
+    if (!isLogIn && pendingNotLogin) {
+        return (
+            <>
+                <LoadingHome />
+            </>
+        );
+    }
+
+    if (isLogIn && (pendingLogin || pendingTime)) {
+        return (
+            <>
+                <LoadingHome />
+            </>
+        );
+    }
 
     return (
         <>

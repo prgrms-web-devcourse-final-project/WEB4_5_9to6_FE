@@ -120,6 +120,11 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                 }, "image/png");
             } catch (e) {
                 console.error(e);
+                customAlert({
+                    message: "오류가 발생했습니다!\n다시 시도해주세요.",
+                    linkLabel: "닫기",
+                    onClick: () => {},
+                });
             }
         } else {
             mutation.mutate({ ownItemId: ownId });

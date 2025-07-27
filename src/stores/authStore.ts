@@ -15,7 +15,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 },
                 isLogIn: true,
             });
-            console.log(useAuthStore.getState().myInfo);
+            // console.log(useAuthStore.getState().myInfo);
         }
         set({ isFetched: true });
     },
