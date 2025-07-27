@@ -211,7 +211,7 @@ export default function Page() {
                         {/* top 버튼 */}
                         <button
                             onClick={scrollToTop}
-                            className="fixed right-5 bottom-[150px] z-30 flex h-[52px] w-[52px] cursor-pointer flex-col items-center justify-center rounded-[500px] bg-[var(--color-gray200)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
+                            className={`fixed right-5 ${isLogIn ? "bottom-[150px]" : "bottom-22"} z-30 flex h-[52px] w-[52px] cursor-pointer flex-col items-center justify-center rounded-[500px] bg-[var(--color-gray200)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]`}
                         >
                             <ChevronUp className="mt-1 h-10 w-10 text-[var(--color-gray600)]" />
                             <span className="mb-1 text-[14px] text-[var(--color-gray600)]">
