@@ -1,220 +1,240 @@
-interface Chat {
-    chat_id: number;
-    room_id: number;
-    receiver_id: number | null;
-    sender_id: number;
-    content: string;
-    sent_at: string;
-    activated: boolean;
-}
+"use client";
 
-interface MemberType {
-    id: number;
-    name: string;
-}
+import { fetchChatHistory } from "@/api/chat";
+import { useAuthStore } from "@/stores/authStore";
+import { useChatStore, useParticipantStore } from "@/stores/chatStore";
+import { useCallback, useEffect, useRef, useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import Image from "next/image";
 
-export default async function ChattingRoom() {
-    const teamMembers: MemberType[] = [
-        { id: 201, name: "오수보망" },
-        { id: 202, name: "근의공식마스터밍디" },
-        { id: 203, name: "자바몰이건재" },
-        { id: 204, name: "토익100점달성하영" },
-    ];
-    const myId = 201;
-    // chat 더미데이터
-    const dummyMessage: Chat[] = [
-        {
-            chat_id: 1,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 201,
-            content: "안녕하세요, 오늘 스터디 다들 가능하신가요?",
-            sent_at: "08:10",
-            activated: true,
-        },
-        {
-            chat_id: 2,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 202,
-            content: "저는 10시부터 참여 가능합니다!",
-            sent_at: "08:11",
-            activated: true,
-        },
-        {
-            chat_id: 3,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 203,
-            content: "오늘 미션 공유해주실 수 있나요?",
-            sent_at: "08:12",
-            activated: true,
-        },
-        {
-            chat_id: 4,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 201,
-            content: "오늘은 알고리즘 문제 2개 풀기입니다!",
-            sent_at: "08:12",
-            activated: true,
-        },
-        {
-            chat_id: 5,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 204,
-            content: "확인했습니다~ 다들 화이팅!",
-            sent_at: "08:13",
-            activated: true,
-        },
-        {
-            chat_id: 6,
-            room_id: 1,
-            receiver_id: 201,
-            sender_id: 203,
-            content: "질문이 있는데 DFS랑 BFS 언제 쓰는지 헷갈려요 😥",
-            sent_at: "08:15",
-            activated: true,
-        },
-        {
-            chat_id: 7,
-            room_id: 1,
-            receiver_id: 203,
-            sender_id: 201,
-            content: "BFS는 최단거리, DFS는 깊이 우선 탐색할 때 주로 써요!",
-            sent_at: "08:15",
-            activated: true,
-        },
-        {
-            chat_id: 8,
-            room_id: 1,
-            receiver_id: 201,
-            sender_id: 203,
-            content: "오~ 설명 감사합니다 👍",
-            sent_at: "08:16",
-            activated: true,
-        },
-        {
-            chat_id: 10,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 201,
-            content: "유어웰컴",
-            sent_at: "08:28",
-            activated: true,
-        },
-        {
-            chat_id: 11,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 203,
-            content: "아니오? 싫은데요",
-            sent_at: "08:18",
-            activated: true,
-        },
-        {
-            chat_id: 12,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 202,
-            content: "저사람 뭐야 (수근수근)",
-            sent_at: "08:18",
-            activated: true,
-        },
-        {
-            chat_id: 13,
-            room_id: 1,
-            receiver_id: null,
-            sender_id: 204,
-            content: "저사람 뭐야 (수근수근)",
-            sent_at: "08:18",
-            activated: true,
-        },
-        // {
-        //     chat_id: 14,
-        //     room_id: 1,
-        //     receiver_id: null,
-        //     sender_id: 202,
-        //     content: "저사람 뭐야 (수근수근)",
-        //     sent_at: "08:18",
-        //     activated: true,
-        // },
-        // {
-        //     chat_id: 15,
-        //     room_id: 1,
-        //     receiver_id: null,
-        //     sender_id: 202,
-        //     content: "저사람 뭐야 (수근수근)",
-        //     sent_at: "08:18",
-        //     activated: true,
-        // },
-    ];
+export default function ChattingRoom({ studyId }: { studyId: number }) {
+    const myId = useAuthStore((state) => state.myInfo?.id);
+    const myEmail = useAuthStore((state) => state.myInfo?.email);
+    const messages = useChatStore((state) => state.messages);
+    const hasNext = useChatStore((state) => state.hasNext);
+    const members = useParticipantStore((state) => state.participants);
+    const scrollRef = useRef<HTMLDivElement | null>(null);
 
-    const getNicknameById = (id: number | null) => {
-        const member = teamMembers.find((m) => m.id === id);
-        return member ? member.name : "알 수 없음";
-    };
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
+    const topObserverRef = useRef<HTMLDivElement | null>(null);
+
+    // 오전, 오후
+    dayjs.locale("ko");
+
+    let lastDate = "";
+
+    setTimeout(() => {
+        scrollRef.current?.scrollTo({
+            top: scrollRef.current.scrollHeight,
+            behavior: "auto",
+        });
+    }, 0);
+
+    useEffect(() => {
+        if (!isInitialLoad && scrollRef.current && messages.length > 0) {
+            setTimeout(() => {
+                scrollRef.current!.scrollTo({
+                    top: scrollRef.current!.scrollHeight,
+                });
+                setIsInitialLoad(true);
+            }, 0);
+        }
+    }, [messages, isInitialLoad]);
+
+    // 최초 히스토리 30개
+    const initialLoadMessages = useCallback(async () => {
+        try {
+            const { messages: newMsgs, hasNext } = await fetchChatHistory(
+                studyId,
+                null,
+                null,
+                30,
+            );
+            const chatStore = useChatStore.getState();
+            chatStore.setMessages(newMsgs);
+            chatStore.setHasNext(hasNext);
+            setIsInitialLoad(true);
+        } catch (error) {
+            console.error("최초 메세지 불러오기 실패", error);
+        }
+    }, [studyId]);
+
+    // 추가 히스토리 패치
+    const loadMessages = useCallback(async () => {
+        const chatStore = useChatStore.getState();
+        const currentMessages = chatStore.messages;
+        const oldest = currentMessages[0];
+        const cursorCreatedAt = oldest?.createdAt ?? null;
+        const lastChatId = oldest?.chatId ?? null;
+
+        const scrollEl = scrollRef.current;
+        const prevScrollHeight = scrollEl?.scrollHeight ?? 0;
+        const prevScrollTop = scrollEl?.scrollTop ?? 0;
+        try {
+            const { messages: newMsgs, hasNext } = await fetchChatHistory(
+                studyId,
+                cursorCreatedAt,
+                lastChatId,
+            );
+            chatStore.appendMessages(newMsgs);
+            chatStore.setHasNext(hasNext);
+
+            setTimeout(() => {
+                if (scrollEl) {
+                    const newScrollHeight = scrollEl.scrollHeight;
+                    const heightDiff = newScrollHeight - prevScrollHeight;
+                    scrollEl.scrollTop = prevScrollTop + heightDiff;
+                }
+            }, 0);
+        } catch (error) {
+            console.error("이전 메세지 불러오기 실패", error);
+        }
+    }, [studyId]);
+
+    // 페이지네이션
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNext) {
+                loadMessages();
+            }
+        });
+
+        const topRef = topObserverRef.current;
+        if (topRef) observer.observe(topRef);
+
+        return () => {
+            if (topRef) observer.unobserve(topRef);
+        };
+    }, [hasNext, loadMessages]);
+
+    useEffect(() => {
+        useChatStore.getState().clearMessages();
+        initialLoadMessages();
+    }, [studyId, initialLoadMessages]);
+    console.log("myId:", myId);
+
     return (
         <>
-            <div className="h-fit w-full pt-20">
-                {dummyMessage
+            <div
+                ref={scrollRef}
+                className="h-screen w-full overflow-y-scroll px-5 pt-10 pb-20"
+            >
+                <div ref={topObserverRef}></div>
+                {messages
                     .filter((msg) => {
-                        if (msg.receiver_id === null) return true;
+                        if (msg.receiverId === null) return true;
                         return (
-                            msg.receiver_id === myId || msg.sender_id === myId
+                            msg.receiverId === myEmail ||
+                            (myId !== undefined && msg.senderId === myId)
                         );
                     })
-                    .map((msg) => {
-                        const isMine = msg.sender_id === myId;
-                        const isWhisper = msg.receiver_id !== null;
+                    .map((msg, idx) => {
+                        const isMine = msg.senderId === myId;
+                        const isWhisper = msg.receiverId !== null;
+                        const prevMsg = messages[idx - 1];
+                        const isSameSender = prevMsg?.senderId === msg.senderId;
+                        const isSameReceiver =
+                            prevMsg?.receiverId === msg.receiverId;
+
+                        const msgDate = dayjs(msg.createdAt).format(
+                            "YYYY-MM-DD",
+                        );
+                        const dateDivider = msgDate !== lastDate;
+                        const dividerElement = dateDivider ? (
+                            <div
+                                key={`divider-${idx}`}
+                                className="my-6 flex w-full items-center justify-center"
+                            >
+                                <div className="flex w-full items-center px-4">
+                                    <div className="flex-grow border-t border-gray-300" />
+                                    <span className="px-4 text-sm whitespace-nowrap text-gray-500">
+                                        {dayjs(msg?.createdAt).format(
+                                            "MM월 DD일",
+                                        )}
+                                    </span>
+                                    <div className="flex-grow border-t border-gray-300" />
+                                </div>
+                            </div>
+                        ) : null;
+
+                        if (dateDivider) lastDate = msgDate;
 
                         return (
-                            <div
-                                key={msg.chat_id}
-                                className={`flex pt-3 ${isMine ? "justify-end" : "justify-start"}`}
-                            >
-                                {!isMine && (
-                                    <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
-                                        {/* 아바타영역 */}
-                                    </div>
-                                )}
-                                <div className="flex flex-col">
-                                    {isWhisper && (
-                                        <p
-                                            className={`c1 mb-0.5 flex ${
-                                                isMine
-                                                    ? "justify-end text-[var(--color-main500)]"
-                                                    : "text-[var(--color-main600)]"
-                                            }`}
-                                        >
-                                            {isMine
-                                                ? `${getNicknameById(msg.receiver_id)}님에게 귓속말`
-                                                : `${getNicknameById(msg.sender_id)}님의 귓속말`}
-                                        </p>
+                            <div key={idx}>
+                                {dividerElement}
+                                <div
+                                    className={`flex ${
+                                        isMine ? "justify-end" : "justify-start"
+                                    } ${isSameSender ? "pt-1" : "pt-3"}`}
+                                >
+                                    {!isSameSender &&
+                                    !isSameReceiver &&
+                                    !isMine ? (
+                                        <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
+                                            <Image
+                                                key={msg.chatId}
+                                                src={
+                                                    members.find(
+                                                        (m) =>
+                                                            m.memberId ===
+                                                            msg.senderId,
+                                                    )?.image ||
+                                                    "/images/rewardItems/61.png"
+                                                }
+                                                alt="profile avatar"
+                                                width={46}
+                                                height={46}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mt-3 mr-2 w-11.5"></div>
                                     )}
-                                    {!isWhisper && !isMine && (
-                                        <p className="c2 text-[var(--color-gray600)]">
-                                            {getNicknameById(msg.sender_id)}
-                                        </p>
-                                    )}
-                                    <div
-                                        className={`flex gap-1 ${isMine ? "justify-start" : "flex-row-reverse justify-end"}`}
-                                    >
-                                        <p className="c2 flex items-end text-[var(--color-gray600)]">
-                                            {msg.sent_at}
-                                        </p>
-
+                                    <div className="flex flex-col">
+                                        {isWhisper && (
+                                            <p
+                                                className={`c2 flex ${
+                                                    isMine
+                                                        ? "justify-end text-[var(--color-main500)]"
+                                                        : "text-[var(--color-main600)]"
+                                                }`}
+                                            >
+                                                {isMine
+                                                    ? `${msg.receiverNickname}님에게 귓속말`
+                                                    : `${msg.senderNickname}님의 귓속말`}
+                                            </p>
+                                        )}
+                                        {!isWhisper &&
+                                            !isSameSender &&
+                                            !isMine && (
+                                                <p className="c2 text-[var(--color-gray600)]">
+                                                    {msg.senderNickname}
+                                                </p>
+                                            )}
                                         <div
-                                            className={`c1 rounded-xl px-4 py-2 ${
-                                                isWhisper
-                                                    ? "bg-[var(--color-gray1000)] text-white"
-                                                    : isMine
-                                                      ? "bg-[var(--color-main600)] text-white"
-                                                      : "bg-white text-[var(--color-gray1000)]"
+                                            className={`flex gap-1.5 ${
+                                                isMine
+                                                    ? "justify-end"
+                                                    : "flex-row-reverse items-end justify-end"
                                             }`}
                                         >
-                                            <p>{msg.content}</p>
+                                            <p className="c2 flex items-end whitespace-nowrap text-[var(--color-gray600)]">
+                                                {dayjs(msg.createdAt).format(
+                                                    "A hh:mm",
+                                                )}
+                                            </p>
+
+                                            <div
+                                                className={`c1 max-w-[85%] rounded-b-2xl px-4 py-2 break-words ${
+                                                    isWhisper
+                                                        ? `${isMine ? "rounded-tl-2xl" : "rounded-tr-2xl"} bg-[var(--color-gray1000)] text-white`
+                                                        : isMine
+                                                          ? "rounded-tl-2xl bg-[var(--color-main600)] text-white"
+                                                          : "rounded-tr-2xl bg-white text-[var(--color-gray1000)]"
+                                                } ${isSameSender ? "rounded-2xl" : ""}`}
+                                            >
+                                                <p>{msg.content}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

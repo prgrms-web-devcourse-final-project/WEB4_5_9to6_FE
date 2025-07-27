@@ -21,6 +21,7 @@ export const categoryMap: Record<string, string> = {
 };
 export const regionMap: Record<string, string> = {
     ONLINE: "온라인",
+    ALL: "전체",
     SEOUL: "서울",
     GYEONGGI: "경기",
     GANGWON: "강원",
