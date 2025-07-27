@@ -1,6 +1,10 @@
 "use client";
 
-import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
+import {
+    fetchStudyInfo,
+    postAttendance,
+    checkWeekAttendance,
+} from "@/api/studies";
 import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
@@ -99,7 +103,7 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        if (res === "출석 체크 완료.") {
+        if (res.code === "0000") {
             await refetchAttendance();
             customAlert({
                 message: "출석체크 완료! 오늘도 화이팅이에요!",
@@ -126,7 +130,7 @@ export default function Page() {
             queryKey: ["userAttendance", studyId],
             queryFn: async () => {
                 if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-                return await getAttendance(studyId);
+                return await checkWeekAttendance(studyId);
             },
             enabled: !!studyId,
         });

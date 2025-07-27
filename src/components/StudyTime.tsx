@@ -13,10 +13,6 @@ import { fetchAllTime } from "@/api/timer";
 import { useEffect, useState } from "react";
 import LoadingHome from "./LoadingHome";
 
-// type StudyCardWithAvatar = Study & {
-//     leaderAvatar: string | null;
-// };
-
 export default function StudyTime() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
@@ -29,6 +25,25 @@ export default function StudyTime() {
     const [message, setMessage] = useState("");
     const [icon, setIcon] = useState("/icons/smile.svg");
 
+    const isNewFunc = (start: string) => {
+        const now = new Date();
+        const startDate = new Date(start);
+        return now < startDate;
+    };
+
+    // 로그인 시
+    const { data: userData, isPending: pendingLogin } = useQuery({
+        queryKey: ["myInfo", myInfo?.id],
+        queryFn: async () => {
+            const myStudy = await fetchStudyList(myInfo?.id ?? 0);
+            const studyList = myStudy.studies;
+            return studyList;
+        },
+        enabled: isFetched && isLogIn && !!myInfo,
+        retry: 0,
+    });
+
+    // 로그인시, 시간 불러오기
     const { data: userTime, isPending: pendingTime } = useQuery({
         queryKey: ["myStudyTime", myInfo?.id],
         queryFn: () => fetchAllTime(myInfo?.id ?? 0),
@@ -61,23 +76,29 @@ export default function StudyTime() {
         }
     }, [userTime]);
 
-    const isNewFunc = (start: string) => {
-        const now = new Date();
-        const startDate = new Date(start);
-        return now < startDate;
-    };
+    // 로그인시, 가장 많은 목표 개수 불러오기
+    // const studyIds = userData?.map((study: Study) => study.studyId) ?? [];
+    // const goalQueries = useQueries({
+    //     queries: studyIds.map((id: number) => ({
+    //         queryKey: ["studyGoals", id],
+    //         queryFn: () => checkGoalsCompleted(id),
+    //         enabled: isFetched && isLogIn,
+    //         staleTime: 1000 * 60 * 5,
+    //     })),
+    // });
+    // console.log(
+    //     "목표",
+    //     goalQueries.map((q) => q.data),
+    // );
 
-    // 로그인 시
-    const { data: userData, isPending: pendingLogin } = useQuery({
-        queryKey: ["myInfo", myInfo?.id],
-        queryFn: async () => {
-            const myStudy = await fetchStudyList(myInfo?.id ?? 0);
-            const studyList = myStudy.studies;
-            return studyList;
-        },
-        enabled: isFetched && isLogIn && !!myInfo,
-        retry: 0,
-    });
+    // const topStudyGoal = goalQueries
+    //     .filter((q) => q.data?.goals?.length != 0)
+    //     .map((q, idx) => ({
+    //         studyId: studyIds[idx],
+    //         goalCount: q.data!.goals.length,
+    //         goals: q.data!.goals,
+    //     }))
+    //     .sort((a, b) => b.goalCount - a.goalCount)[0];
 
     // 비로그인 시
     const { data: guestData, isPending: pendingNotLogin } = useQuery({

@@ -9,6 +9,10 @@ interface Attendance {
     dayOfWeek: string;
     attend: boolean;
 }
+interface GoalWeekCount {
+    week: string;
+    count: number;
+}
 
 interface StudyInfo {
     name: string;
@@ -162,3 +166,9 @@ interface studyUserAttendance {
     attendances: Attendance[];
 }
 // "studies/{studyId}/attendance"에서 조회되는 스터디의 attendances 출석 정보
+
+interface studyUserGoals {
+    studyId: number;
+    goals: GoalWeekCount[];
+}
+// "studies/{studyId}/goals/completed"에서 조회되는 스터디의 월간 목표 달성 개수

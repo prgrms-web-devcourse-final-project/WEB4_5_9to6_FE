@@ -21,7 +21,7 @@ export default function MyLogList({ id }: { id: string }) {
                 </p>
             </div>
             <div className="bg-gray200 h-4 w-full"></div>
-            {(data?.userStudies || []).length > 0 && (
+            {(data3 || []).length > 0 && (
                 <div className="my-6 flex w-full flex-col gap-4">
                     <h3 className="text-gray1000">스터디별 활동 현황</h3>
                     <button
@@ -29,8 +29,7 @@ export default function MyLogList({ id }: { id: string }) {
                         className="bg-gray200 hover:bg-gray300 flex cursor-pointer justify-between rounded-2xl p-5"
                     >
                         <h5 className="text-gray1000">
-                            {data?.userStudies[studyIndex].title ||
-                                "스터디 없음"}
+                            {(data3 || [])[studyIndex].title || "스터디 없음"}
                         </h5>
                         <ChevronDown size={18} className="text-gray500" />
                     </button>
@@ -44,19 +43,3 @@ export default function MyLogList({ id }: { id: string }) {
         </>
     );
 }
-
-//   {
-//     "title": "토익 900 목표 스터디",
-//     "currentMemberCount": 5,
-//     "maxMemberCount": 8,
-//     "category": "LANGUAGE",
-//     "region": "ONLINE",
-//     "place": "ONLINE",
-//     "schedules": [
-//       "TUE"
-//     ],
-//     "startTime": "20:00",
-//     "endTime": "22:00",
-//     "studyType": "SURVIVAL",
-//     "achievementRecords": []
-//   },

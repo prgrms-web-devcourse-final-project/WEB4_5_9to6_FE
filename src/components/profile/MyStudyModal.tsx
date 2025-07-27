@@ -12,7 +12,7 @@ export default function MyStudyModal() {
     const { isOpen, closeModal, studyIndex, changeIndex } =
         useMyStudyModalStore();
     const { animationClass, changeClass } = useAnimationStore();
-    const { data } = useProfileStore();
+    const { data3 } = useProfileStore();
 
     useEffect(() => {
         if (isOpen) {
@@ -51,7 +51,7 @@ export default function MyStudyModal() {
                         />
                     </div>
                     <div className="max-h-[60vh] overflow-y-scroll">
-                        {data?.userStudies.map((v, i) => (
+                        {data3?.map((v, i) => (
                             <MyStudyItem
                                 key={i}
                                 closeHandler={() => {
