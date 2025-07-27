@@ -164,7 +164,9 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                             <div key={idx}>
                                 {dividerElement}
                                 <div
-                                    className={`flex pt-3 ${isMine ? "justify-end" : "justify-start"}`}
+                                    className={`flex ${
+                                        isMine ? "justify-end" : "justify-start"
+                                    } ${isSameSender ? "pt-1" : "pt-3"}`}
                                 >
                                     {!isSameSender &&
                                     !isSameReceiver &&
@@ -191,7 +193,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                     <div className="flex flex-col">
                                         {isWhisper && (
                                             <p
-                                                className={`c2 mb-0.5 flex ${
+                                                className={`c2 flex ${
                                                     isMine
                                                         ? "justify-end text-[var(--color-main500)]"
                                                         : "text-[var(--color-main600)]"
@@ -229,7 +231,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                         : isMine
                                                           ? "rounded-tl-2xl bg-[var(--color-main600)] text-white"
                                                           : "rounded-tr-2xl bg-white text-[var(--color-gray1000)]"
-                                                }`}
+                                                } ${isSameSender ? "rounded-2xl" : ""}`}
                                             >
                                                 <p>{msg.content}</p>
                                             </div>
