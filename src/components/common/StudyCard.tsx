@@ -37,11 +37,13 @@ export default function StudyCard({
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
     const clickHandler = async (id: number) => {
+        if (!userInfo) {
+            router.push(`/study/${id}/recruit`); //비로그인
+            return;
+        }
         const isMember = await checkIsMember(id);
         if (studyType === "DEFAULT") {
-            if (!userInfo) {
-                router.push(`/study/${id}/recruit`); //비로그인
-            } else if (!isMember?.isMember) {
+            if (!isMember?.isMember) {
                 router.push(`/study/${id}/recruit`); //로그인, 미가입
             } else if (leaderId && leaderId === userInfo.id) {
                 router.push(`/study/${id}/manage`); //로그인,가입,리더
