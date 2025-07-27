@@ -199,10 +199,11 @@ export default function Page() {
                     )}
                 </div>
 
-                {isMemberOpen && (
+                {isMemberOpen && studyManageData?.maxMembers && (
                     <MemberModal
                         isOpen={isMemberOpen}
                         onClose={() => setIsMemberOpen(false)}
+                        maxMembers={studyManageData.maxMembers}
                     />
                 )}
             </div>

@@ -7,19 +7,32 @@ import { customAlert } from "@/utils/customAlert";
 
 export default function StudyApplicant({
     applicants,
+    maxMembers,
 }: {
     applicants: studyApplicant[];
+    maxMembers: number;
 }) {
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
 
+    const totalMembers = () => {
+        return applicants.filter((a) => a.state === "ACCEPT").length + 1;
+    };
     const noApplicants = () => {
         return applicants.every((a) => a.state !== "WAIT");
     };
     const allowHandler = async (memberId: number) => {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         try {
+            if (totalMembers() >= maxMembers) {
+                customAlert({
+                    message: "스터디 최대 인원을 초과했습니다.",
+                    linkLabel: "닫기",
+                    onClick: () => {},
+                });
+                return;
+            }
             await respondToApplication(studyId, memberId, "ACCEPT");
 
             customAlert({

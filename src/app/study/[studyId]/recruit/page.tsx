@@ -143,9 +143,9 @@ export default function Page() {
                         {!isLogIn && (
                             <Button
                                 onClick={() => router.push("/login")}
-                                color="white"
+                                color="primary"
                             >
-                                로그인이 필요합니다.
+                                로그인
                             </Button>
                         )}
                     </div>

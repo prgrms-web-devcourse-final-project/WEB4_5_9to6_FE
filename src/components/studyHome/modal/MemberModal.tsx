@@ -11,9 +11,11 @@ import { getApplicants } from "@/api/studies";
 export default function MemberModal({
     isOpen,
     onClose,
+    maxMembers,
 }: {
     isOpen: boolean;
     onClose: () => void;
+    maxMembers: number;
 }) {
     const channels = [`팀원목록`, `신청목록`];
     const [channel, setChannel] = useState(`팀원목록`);
@@ -49,7 +51,10 @@ export default function MemberModal({
                     {channel === channels[0] ? (
                         <StudyUsers />
                     ) : (
-                        <StudyApplicant applicants={userDatas ?? []} />
+                        <StudyApplicant
+                            applicants={userDatas ?? []}
+                            maxMembers={maxMembers}
+                        />
                     )}
                 </div>
             </BottomModal>
