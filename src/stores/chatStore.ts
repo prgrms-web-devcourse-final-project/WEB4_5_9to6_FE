@@ -9,6 +9,7 @@ interface ChatStore {
     setHasNext: (value: boolean) => void;
     isLoading: boolean;
     setIsLoading: (value: boolean) => void;
+    clearMessages: () => void;
 }
 interface ParticipantStore {
     participants: ChatMember[];
@@ -27,6 +28,7 @@ export const useChatStore = create<ChatStore>((set) => ({
     appendMessages: (msgs) =>
         set((state) => ({ messages: [...msgs, ...state.messages] })),
     setIsLoading: (value) => set({ isLoading: value }),
+    clearMessages: () => set({ messages: [], hasNext: true }),
 }));
 
 // 채팅 참여자

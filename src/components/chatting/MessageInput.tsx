@@ -15,24 +15,13 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         useChatMemberList();
     const [message, setMessage] = useState("");
     const clientRef = useRef<Client | null>(null);
-    const addMessage = useChatStore((state) => state.addMessage);
     const members = useParticipantStore((state) => state.participants);
     const myInfo = useAuthStore.getState().myInfo;
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const onMessageReceived = useCallback(
-        (message: IMessage) => {
-            const body = JSON.parse(message.body);
-            addMessage(body.data);
-        },
-        [addMessage],
-    );
-
-    const onParticipant = (message: IMessage) => {
+    const onMessageReceived = useCallback((message: IMessage) => {
         const body = JSON.parse(message.body);
-        console.log("접속자목록", body);
-
-        useParticipantStore.getState().setParticipants(body.data);
-    };
+        useChatStore.getState().addMessage(body.data);
+    }, []);
 
     const sendMessage = async () => {
         if (!message.trim()) return;
@@ -61,7 +50,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 receiverNickname: targetMember.nickname,
                 content: message,
             };
-            console.log("🎯 targetMember:", targetMember);
+            console.log("targetMember:", targetMember);
         } else {
             msgPayload = {
                 senderId: myInfo?.id,
@@ -104,8 +93,16 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                 client.subscribe(`/user/queue/messages`, onMessageReceived);
                 client.subscribe(
                     `/subscribe/${studyId}/participants`,
-                    onParticipant,
+                    (message) => {
+                        const { data } = JSON.parse(message.body);
+                        useParticipantStore.getState().setParticipants(data);
+                    },
                 );
+                // 먼저 있던 참여자 불러오기
+                client.publish({
+                    destination: `/publish/participants/${studyId}`,
+                    body: "",
+                });
             },
             onStompError: (error) => {
                 console.error("웹소켓 연결 실패:", error);

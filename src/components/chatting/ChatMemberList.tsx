@@ -34,7 +34,6 @@ export default function ChatMemberList({ studyId }: { studyId: number }) {
             closeModal();
         }, 200);
     };
-    console.log(members);
     if (!isVisible) return null;
 
     return (

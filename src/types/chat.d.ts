@@ -1,6 +1,6 @@
 interface Chat {
     chatId?: number;
-    receiverId: number;
+    receiverId: number | string;
     receiverNickname: string;
     senderId: number;
     senderNickname: string;
