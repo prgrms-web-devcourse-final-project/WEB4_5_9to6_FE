@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { ChevronUp, Plus } from "lucide-react";
 import FilterModal from "@/components/studyList/FilterModal";
 import StudyLists from "@/components/studyList/StudyLists";
 import SearchBar from "@/components/studyList/SearchBar";
@@ -142,6 +142,13 @@ export default function Page() {
         };
     }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
 
+    // top버튼
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
     return (
         <>
             <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
@@ -189,10 +196,8 @@ export default function Page() {
                             survStudies={survStudies}
                             search={search}
                         />
-
                         {/* 무한스크롤 감지 */}
                         <div ref={observerRef} className="h-[2px]" />
-
                         {/* 필터 모달 */}
                         {isModalOpen && (
                             <FilterModal
@@ -203,7 +208,16 @@ export default function Page() {
                                 }}
                             />
                         )}
-
+                        {/* top 버튼 */}
+                        <button
+                            onClick={scrollToTop}
+                            className="fixed right-5 bottom-[150px] z-30 flex h-[52px] w-[52px] cursor-pointer flex-col items-center justify-center rounded-[500px] bg-[var(--color-gray200)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
+                        >
+                            <ChevronUp className="mt-1 h-10 w-10 text-[var(--color-gray600)]" />
+                            <span className="mb-1 text-[14px] text-[var(--color-gray600)]">
+                                TOP
+                            </span>
+                        </button>
                         {/* 스터디 생성버튼 */}
                         {isLogIn && (
                             <Link href="/create">

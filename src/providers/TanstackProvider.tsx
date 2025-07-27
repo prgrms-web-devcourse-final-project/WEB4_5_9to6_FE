@@ -13,6 +13,7 @@ export default function TanstackProvider({
     return (
         <>
             <QueryClientProvider client={queryClient}>
+                {/* <ReactQueryDevtools initialIsOpen={true} /> */}
                 {children}
             </QueryClientProvider>
         </>

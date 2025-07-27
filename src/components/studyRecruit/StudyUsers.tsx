@@ -14,6 +14,7 @@ export default function StudyUsers() {
             if (typeof id === "string") {
                 try {
                     const data: Members[] = await studyMembers(parseInt(id));
+                    console.log("멤버데이터", data);
                     setMembers(data);
                 } catch (err) {
                     console.error("팀원현황 불러오기 실패", err);
@@ -47,7 +48,7 @@ export default function StudyUsers() {
                                     />
                                 </div>
                                 <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">
-                                    {member.nickName}
+                                    {member.nickname}
                                 </h6>
                             </div>
                         </div>
