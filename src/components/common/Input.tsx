@@ -21,7 +21,7 @@ export default function Input({
         <>
             <div className="relative flex flex-col gap-1">
                 {label && (
-                    <label className="h6 text-gray1000 dark:text-white">
+                    <label className="h6 text-gray1000 duration-200 ease-in dark:text-white">
                         {label}
                     </label>
                 )}

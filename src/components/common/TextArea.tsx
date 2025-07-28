@@ -19,13 +19,13 @@ export default function TextArea({
         <>
             <div className="relative flex flex-col gap-1">
                 {label && (
-                    <label className="h6 text-[var(--color-gray1000)]">
+                    <label className="h6 text-gray1000 duration-200 ease-in dark:text-white">
                         {label}
                     </label>
                 )}
                 <textarea
                     className={twMerge(
-                        `h-[159px] w-full resize-none overflow-hidden rounded-[12px] border border-[var(--color-gray-300)] p-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] duration-200 ease-in-out focus:outline-none ${error && "ring-1 ring-[#FF394A]"}`,
+                        `text-gray1000 placeholder-gray500 dark:placeholder-gray700 dark:border-gray800 h-[159px] w-full resize-none overflow-hidden rounded-[12px] border border-gray-300 p-4 duration-200 ease-in-out focus:outline-none dark:text-white ${error && "border-[#FF394A] dark:border-[#FF394A]"}`,
                         className,
                     )}
                     {...props}
