@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { categoryMap, regionMap } from "@/utils/studyDataMap";
 
 interface StudyStore {
     studyData: StudyInfos;
@@ -61,7 +62,30 @@ export const useStudyStore = create<StudyStore>((set) => ({
         });
     },
     fetchStudy: (studyData) => {
-        set({ studyData: studyData, isFetched: true });
+        set({
+            studyData: {
+                name: studyData.name,
+                category: categoryMap[studyData.category],
+                maxMembers: studyData.maxMembers,
+                region: regionMap[studyData.region],
+                place: studyData.place,
+                schedules: studyData.schedules,
+                startTime: studyData.startTime,
+                endTime: studyData.endTime,
+                startDate: studyData.startDate,
+                endDate: studyData.endDate,
+                createdAt: studyData.createdAt,
+                status: studyData.status,
+                description: studyData.description,
+                externalLink: studyData.externalLink,
+                studyType: studyData.studyType,
+                goals: studyData.goals,
+                notice: studyData.notice,
+                currentMemberCount: studyData.currentMemberCount,
+                online: studyData.online,
+            },
+            isFetched: true,
+        });
     },
     setData: (column, data) => {
         set((state) => {
