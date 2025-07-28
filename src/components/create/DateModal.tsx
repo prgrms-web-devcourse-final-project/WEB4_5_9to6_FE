@@ -10,12 +10,18 @@ import { useStudyStore } from "@/stores/studyStore";
 export default function DateModal({
     onClose,
     isOpen,
+    isEdit,
 }: {
     onClose: () => void;
     isOpen: boolean;
+    isEdit?: boolean;
 }) {
     const startDate = useStudyStore((state) => state.studyData.startDate);
     const endDate = useStudyStore((state) => state.studyData.endDate);
+    const today = new Date();
+    const [editEndDate] = useState(() =>
+        endDate ? new Date(endDate) : new Date(),
+    );
 
     const selectedRange: DateRange = {
         from: startDate ? new Date(startDate) : undefined,
@@ -23,17 +29,23 @@ export default function DateModal({
     };
 
     const selectHandler = (range: DateRange | undefined) => {
-        if (!range) return;
+        if (!range || !range.to) return;
 
-        if (range.from) {
-            useStudyStore
-                .getState()
-                .setData("startDate", format(range.from, "yyyy-MM-dd"));
-        }
-        if (range.to) {
+        if (isEdit) {
             useStudyStore
                 .getState()
                 .setData("endDate", format(range.to, "yyyy-MM-dd"));
+        } else {
+            if (range.from) {
+                useStudyStore
+                    .getState()
+                    .setData("startDate", format(range.from, "yyyy-MM-dd"));
+            }
+            if (range.to) {
+                useStudyStore
+                    .getState()
+                    .setData("endDate", format(range.to, "yyyy-MM-dd"));
+            }
         }
     };
 
@@ -81,7 +93,12 @@ export default function DateModal({
                     toYear={new Date().getFullYear() + 30}
                     locale={ko}
                     navLayout="around"
-                    disabled={{ before: new Date() }}
+                    disabled={(date) => {
+                        if (date < today) return true;
+                        if (isEdit && date < editEndDate) return true;
+
+                        return false;
+                    }}
                     classNames={{
                         selected:
                             "bg-[var(--color-main400)] text-white rounded-[10px]",
