@@ -3,123 +3,139 @@
 import { fetchChatHistory } from "@/api/chat";
 import { useAuthStore } from "@/stores/authStore";
 import { useChatStore, useParticipantStore } from "@/stores/chatStore";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import Image from "next/image";
-// import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function ChattingRoom({ studyId }: { studyId: number }) {
     const myId = useAuthStore((state) => state.myInfo?.id);
+    const myEmail = useAuthStore((state) => state.myInfo?.email);
     const messages = useChatStore((state) => state.messages);
+    const hasNext = useChatStore((state) => state.hasNext);
     const members = useParticipantStore((state) => state.participants);
     const scrollRef = useRef<HTMLDivElement | null>(null);
+
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
     const topObserverRef = useRef<HTMLDivElement | null>(null);
-    const prevScrollHeight = scrollRef.current?.scrollHeight || 0;
+
     // 오전, 오후
     dayjs.locale("ko");
 
     let lastDate = "";
 
+    setTimeout(() => {
+        scrollRef.current?.scrollTo({
+            top: scrollRef.current.scrollHeight,
+            behavior: "auto",
+        });
+    }, 0);
+
     useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTo({
-                top: scrollRef.current.scrollHeight,
-            });
+        if (!isInitialLoad && scrollRef.current && messages.length > 0) {
+            setTimeout(() => {
+                scrollRef.current!.scrollTo({
+                    top: scrollRef.current!.scrollHeight,
+                });
+                setIsInitialLoad(true);
+            }, 0);
         }
-    }, [messages]);
+    }, [messages, isInitialLoad]);
 
-    // 맨 처음 히스토리 불러오기
-    useEffect(() => {
-        if (!studyId) return;
-        const messageHistory = async () => {
-            try {
-                const { messages, hasNext } = await fetchChatHistory(
-                    studyId,
-                    null,
-                    null,
-                );
-                useChatStore.getState().setMessages(messages);
-                useChatStore.getState().setHasNext(hasNext);
-                console.log("처음 불러온 히스토리", messages);
-            } catch (err) {
-                console.error("채팅 더 불러오기 실패", err);
-            }
-        };
-
-        messageHistory();
+    // 최초 히스토리 30개
+    const initialLoadMessages = useCallback(async () => {
+        try {
+            const { messages: newMsgs, hasNext } = await fetchChatHistory(
+                studyId,
+                null,
+                null,
+                30,
+            );
+            const chatStore = useChatStore.getState();
+            chatStore.setMessages(newMsgs);
+            chatStore.setHasNext(hasNext);
+            setIsInitialLoad(true);
+        } catch (error) {
+            console.error("최초 메세지 불러오기 실패", error);
+        }
     }, [studyId]);
 
-    // 이전 채팅 페이지네이션
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            async (entries) => {
-                if (
-                    entries[0].isIntersecting &&
-                    useChatStore.getState().hasNext
-                ) {
-                    const prevMessages = useChatStore.getState().messages;
-                    const lastMessage = messages[messages.length - 1];
-                    const cursorCreatedAt = lastMessage?.createdAt ?? null;
-                    const lastChatId = lastMessage?.chatId ?? null;
-                    console.log("이전 메시지 로딩 중...");
-                    console.log(prevMessages);
-                    try {
-                        useChatStore.getState().setIsLoading(true);
-                        const { messages, hasNext } = await fetchChatHistory(
-                            studyId,
-                            cursorCreatedAt,
-                            lastChatId,
-                        );
+    // 추가 히스토리 패치
+    const loadMessages = useCallback(async () => {
+        const chatStore = useChatStore.getState();
+        const currentMessages = chatStore.messages;
+        const oldest = currentMessages[0];
+        const cursorCreatedAt = oldest?.createdAt ?? null;
+        const lastChatId = oldest?.chatId ?? null;
 
-                        useChatStore.getState().appendMessages(messages);
-                        useChatStore.getState().setHasNext(hasNext);
-                        setTimeout(() => {
-                            if (scrollRef.current) {
-                                const newScrollHeight =
-                                    scrollRef.current.scrollHeight || 0;
-                                scrollRef.current.scrollTop =
-                                    newScrollHeight - prevScrollHeight;
-                            }
-                        }, 0);
-                    } catch (err) {
-                        console.error("이전 메시지 불러오기 실패", err);
-                    } finally {
-                        useChatStore.getState().setIsLoading(false);
-                    }
+        const scrollEl = scrollRef.current;
+        const prevScrollHeight = scrollEl?.scrollHeight ?? 0;
+        const prevScrollTop = scrollEl?.scrollTop ?? 0;
+        try {
+            const { messages: newMsgs, hasNext } = await fetchChatHistory(
+                studyId,
+                cursorCreatedAt,
+                lastChatId,
+            );
+            chatStore.appendMessages(newMsgs);
+            chatStore.setHasNext(hasNext);
+
+            setTimeout(() => {
+                if (scrollEl) {
+                    const newScrollHeight = scrollEl.scrollHeight;
+                    const heightDiff = newScrollHeight - prevScrollHeight;
+                    scrollEl.scrollTop = prevScrollTop + heightDiff;
                 }
-            },
-            {
-                threshold: 0.1,
-                rootMargin: "100px",
-            },
-        );
+            }, 0);
+        } catch (error) {
+            console.error("이전 메세지 불러오기 실패", error);
+        }
+    }, [studyId]);
 
-        if (topObserverRef.current) observer.observe(topObserverRef.current);
+    // 페이지네이션
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNext) {
+                loadMessages();
+            }
+        });
+
+        const topRef = topObserverRef.current;
+        if (topRef) observer.observe(topRef);
 
         return () => {
-            if (topObserverRef.current)
-                observer.unobserve(topObserverRef.current);
+            if (topRef) observer.unobserve(topRef);
         };
-    }, [studyId, prevScrollHeight, messages]);
+    }, [hasNext, loadMessages]);
 
+    useEffect(() => {
+        useChatStore.getState().clearMessages();
+        initialLoadMessages();
+    }, [studyId, initialLoadMessages]);
     console.log("myId:", myId);
 
     return (
         <>
             <div
                 ref={scrollRef}
-                className="h-screen w-full overflow-y-scroll px-5 pb-20"
+                className="h-screen w-full overflow-y-scroll px-5 pt-10 pb-20"
             >
                 <div ref={topObserverRef}></div>
                 {messages
                     .filter((msg) => {
                         if (msg.receiverId === null) return true;
-                        return msg.receiverId === myId || msg.senderId === myId;
+                        return (
+                            msg.receiverId === myEmail ||
+                            (myId !== undefined && msg.senderId === myId)
+                        );
                     })
                     .map((msg, idx) => {
                         const isMine = msg.senderId === myId;
                         const isWhisper = msg.receiverId !== null;
+                        const prevMsg = messages[idx - 1];
+                        const isSameSender = prevMsg?.senderId === msg.senderId;
+                        const isSameReceiver =
+                            prevMsg?.receiverId === msg.receiverId;
 
                         const msgDate = dayjs(msg.createdAt).format(
                             "YYYY-MM-DD",
@@ -148,9 +164,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                             <div key={idx}>
                                 {dividerElement}
                                 <div
-                                    className={`flex pt-3 ${isMine ? "justify-end" : "justify-start"}`}
+                                    className={`flex ${
+                                        isMine ? "justify-end" : "justify-start"
+                                    } ${isSameSender ? "pt-1" : "pt-3"}`}
                                 >
-                                    {!isMine && (
+                                    {!isSameSender &&
+                                    !isSameReceiver &&
+                                    !isMine ? (
                                         <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
                                             <Image
                                                 key={msg.chatId}
@@ -167,11 +187,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                 height={46}
                                             />
                                         </div>
+                                    ) : (
+                                        <div className="mt-3 mr-2 w-11.5"></div>
                                     )}
                                     <div className="flex flex-col">
                                         {isWhisper && (
                                             <p
-                                                className={`c2 mb-0.5 flex ${
+                                                className={`c2 flex ${
                                                     isMine
                                                         ? "justify-end text-[var(--color-main500)]"
                                                         : "text-[var(--color-main600)]"
@@ -182,11 +204,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                     : `${msg.senderNickname}님의 귓속말`}
                                             </p>
                                         )}
-                                        {!isWhisper && !isMine && (
-                                            <p className="c2 text-[var(--color-gray600)]">
-                                                {msg.senderNickname}
-                                            </p>
-                                        )}
+                                        {!isWhisper &&
+                                            !isSameSender &&
+                                            !isMine && (
+                                                <p className="c2 text-[var(--color-gray600)]">
+                                                    {msg.senderNickname}
+                                                </p>
+                                            )}
                                         <div
                                             className={`flex gap-1.5 ${
                                                 isMine
@@ -201,13 +225,13 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                             </p>
 
                                             <div
-                                                className={`c1 max-w-[85%] rounded-xl px-4 py-2 break-words ${
+                                                className={`c1 max-w-[85%] rounded-b-2xl px-4 py-2 break-words ${
                                                     isWhisper
-                                                        ? "bg-[var(--color-gray1000)] text-white"
+                                                        ? `${isMine ? "rounded-tl-2xl" : "rounded-tr-2xl"} bg-[var(--color-gray1000)] text-white`
                                                         : isMine
-                                                          ? "bg-[var(--color-main600)] text-white"
-                                                          : "bg-white text-[var(--color-gray1000)]"
-                                                }`}
+                                                          ? "rounded-tl-2xl bg-[var(--color-main600)] text-white"
+                                                          : "rounded-tr-2xl bg-white text-[var(--color-gray1000)]"
+                                                } ${isSameSender ? "rounded-2xl" : ""}`}
                                             >
                                                 <p>{msg.content}</p>
                                             </div>

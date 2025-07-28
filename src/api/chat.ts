@@ -5,7 +5,7 @@ export const fetchChatHistory = async (
     studyId: number,
     cursorCreatedAt?: string | null,
     lastChatId?: number | null,
-    pageSize = 30,
+    pageSize?: number,
 ) => {
     const response = await axiosInstance(`chats/${studyId}/history`, {
         params: {

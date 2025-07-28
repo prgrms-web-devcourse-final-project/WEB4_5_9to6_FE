@@ -9,7 +9,7 @@ import { customAlert } from "@/utils/customAlert";
 import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function MyInfoCard({ id }: { id: string }) {
-    const { myInfo } = useAuthStore();
+    const { myInfo, refetch } = useAuthStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -19,6 +19,20 @@ export default function MyInfoCard({ id }: { id: string }) {
         }
     }, [myInfo, id, router]);
 
+    useEffect(() => {
+        if (myInfo?.avatarInfo.avatarImage) {
+            const fetchAvatarData = async () => {
+                try {
+                    refetch();
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchAvatarData();
+        }
+    }, [myInfo?.avatarInfo.avatarImage, refetch]);
+
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-5 pt-4 pb-12">
@@ -26,11 +40,14 @@ export default function MyInfoCard({ id }: { id: string }) {
                     <Image
                         src={getValidAvatar(myInfo?.avatarInfo.avatarImage)}
                         alt="프로필"
-                        className="h-12 w-12 object-fill"
+                        className="h-12 w-12 object-fill p-3"
                         sizes="48px"
                         fill
                     />
-                    <span className="bg-gray700 absolute right-0 bottom-0 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full">
+                    <span
+                        onClick={() => router.push(`/profile/${id}/theme`)}
+                        className="bg-gray700 absolute right-0 bottom-0 flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full"
+                    >
                         <Ghost size={16} className="text-white" />
                     </span>
                 </span>

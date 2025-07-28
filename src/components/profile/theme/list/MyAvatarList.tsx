@@ -64,26 +64,27 @@ export default function MyAvatarList({
         const context = canvas.getContext("2d");
         if (!context) return;
 
-        const avatarIds = Object.values(avatarItemId);
-        const imgList = avatarIds.map(
-            (id) => `/images/changeAvatars/${id}.png`,
-        );
-        const images = imgList.map((src) => {
-            const img = new window.Image(); // Next.js의 Image가 아님
-            img.src = src;
-            return img;
-        });
+        const orderedIds = [
+            avatarItemId.FACE,
+            avatarItemId.HAIR,
+            avatarItemId.HAT,
+            avatarItemId.TOP,
+        ];
 
-        Promise.all(
-            images.map(
-                (img) =>
-                    new Promise<void>((res) => {
-                        img.onload = () => res();
-                    }),
-            ),
-        ).then(() => {
+        const imagePromises = orderedIds.map(
+            (id) =>
+                new Promise<HTMLImageElement>((res) => {
+                    const img = new window.Image();
+                    img.src = `/images/changeAvatars/${id}.png`;
+                    img.onload = () => res(img);
+                }),
+        );
+
+        Promise.all(imagePromises).then((images) => {
             context.clearRect(0, 0, 128, 128);
-            images.forEach((img) => context.drawImage(img, 0, 0, 128, 128));
+            images.forEach((img) => {
+                context.drawImage(img, 0, 0, 128, 128);
+            });
         });
     }, [avatarItemId, canvasRef]);
 

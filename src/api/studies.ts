@@ -95,12 +95,17 @@ export const respondToApplication = async (
 //출석체크
 export const postAttendance = async (studyId: number) => {
     const res = await axiosInstance.post(`studies/${studyId}/attendance`);
-    return res.data.data;
+    return res.data;
 };
 
 //주간 출석체크 확인
-export const getAttendance = async (studyId: number) => {
-    const res = await axiosInstance.get(`studies/${studyId}/attendance`);
+export const checkWeekAttendance = async (
+    studyId: number,
+    memberId?: number,
+) => {
+    const res = await axiosInstance.get(`studies/${studyId}/attendance`, {
+        params: { memberId },
+    });
     return res.data.data;
 };
 
@@ -122,6 +127,17 @@ export const postGoalsCompleted = async (studyId: number, goalId: number) => {
     return res.data.message;
 };
 
+//주간 목표 달성 확인
+export const checkGoalsCompleted = async (
+    studyId: number,
+    memberId?: number,
+) => {
+    const res = await axiosInstance.get(`studies/${studyId}/goals/completed`, {
+        params: { memberId },
+    });
+    return res.data.data;
+};
+
 //스터디 공지사항 조회
 export const getNotice = async (studyId: number) => {
     const res = await axiosInstance.get(`studies/${studyId}/notification`);
@@ -134,12 +150,6 @@ export const patchNotice = async (studyId: number, notice: string) => {
         notice,
     });
     return res.data.message;
-};
-
-//스터디 주간 출석체크 조회
-export const checkWeekAttendance = async (studyId: number) => {
-    const res = await axiosInstance.get(`studies/${studyId}/attendance`);
-    return res.data.data;
 };
 
 /* 스터디 생성 */
