@@ -8,7 +8,6 @@ import { useStudyStore } from "@/stores/studyStore";
 
 export default function Step3({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [onOff, setOnOff] = useState("");
     const region = useStudyStore((state) => state.studyData.region);
     const place = useStudyStore((state) => state.studyData.place);
     const [placeError, setPlaceError] = useState(false);
@@ -18,7 +17,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!((onOff === "온라인" || region) && !placeError)) return;
+        if (!(region && !placeError)) return;
         continueStep();
     };
 
@@ -52,7 +51,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                     >
                         <Input
                             placeholder="온/오프라인 선택"
-                            value={onOff}
+                            value={region === "온라인" ? "온라인" : "오프라인"}
                             label="온/오프라인"
                             onClick={() => setIsOnOfflineModalOpen(true)}
                             className="cursor-pointer"
@@ -61,11 +60,11 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                         />
                     </div>
                     <div
-                        className={`duration-1000 ease-out ${onOff !== "오프라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="지역 선택"
-                            value={region}
+                            value={region === "온라인" ? "" : region}
                             label="지역"
                             onClick={() => setIsRegionModalOpen(true)}
                             className="cursor-pointer"
@@ -74,7 +73,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                         />
                     </div>
                     <div
-                        className={`delay-200 duration-1000 ease-out ${onOff !== "오프라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`delay-200 duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="상세 장소 입력"
@@ -94,7 +93,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {(onOff === "온라인" || region) && !placeError ? (
+                    {(region === "온라인" || region) && !placeError ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button disabled>다음</Button>
@@ -105,8 +104,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                 <OnOfflineModal
                     isOpen={isOnOfflineModalOpen}
                     onClose={() => setIsOnOfflineModalOpen(false)}
-                    onOff={onOff}
-                    setOnOff={setOnOff}
+                    onOff={region}
                 />
             )}
             {isRegionModalOpen && (

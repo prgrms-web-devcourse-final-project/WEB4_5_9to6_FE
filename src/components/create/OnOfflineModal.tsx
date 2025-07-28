@@ -5,12 +5,10 @@ import { useStudyStore } from "@/stores/studyStore";
 export default function OnOfflineModal({
     onClose,
     onOff,
-    setOnOff,
     isOpen,
 }: {
     onClose: () => void;
     onOff: string;
-    setOnOff: (onOff: string) => void;
     isOpen: boolean;
 }) {
     const { changeClass } = useAnimationStore();
@@ -27,7 +25,9 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            setOnOff("온라인");
+                            useStudyStore
+                                .getState()
+                                .setData("region", "온라인");
                             useStudyStore
                                 .getState()
                                 .setData("region", "온라인");
@@ -47,7 +47,9 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            setOnOff("오프라인");
+                            useStudyStore
+                                .getState()
+                                .setData("region", "오프라인");
                             useStudyStore.getState().setData("region", "");
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
