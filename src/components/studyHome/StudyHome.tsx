@@ -15,6 +15,8 @@ import MenuModal from "./modal/MenuModal";
 import StudyGoalModal from "./modal/StudyGoalModal";
 import StudyUserModal from "./modal/StudyUserModal";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import { studyMembers } from "@/api/studies";
+import { useQuery } from "@tanstack/react-query";
 export default function StudyHome({
     studyId,
     notice,
@@ -56,6 +58,13 @@ export default function StudyHome({
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
+    const { data: membersData } = useQuery<StudyMember[]>({
+        queryKey: ["studyMembersAvatar", studyId],
+        queryFn: async () => {
+            return await studyMembers(studyId);
+        },
+        enabled: !!studyId,
+    });
     useEffect(() => {
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
@@ -106,9 +115,14 @@ export default function StudyHome({
                     </div>
                 )}
                 {/* 아바타 위치 지정 */}
-                <div className="absolute bottom-[30px] left-1/2 z-30 flex -translate-x-1/2">
-                    <AvatarDisplay num={5} />
-                </div>
+                {membersData && (
+                    <div className="absolute bottom-[30px] left-1/2 z-30 flex -translate-x-1/2">
+                        <AvatarDisplay
+                            num={membersData.length}
+                            membersData={membersData}
+                        />
+                    </div>
+                )}
                 {!isStart && (
                     <button
                         className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80"
