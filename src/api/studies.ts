@@ -180,3 +180,45 @@ export const createStudy = async ({
 
     return response.data;
 };
+
+/* 스터디 수정 */
+export const editStudy = async (
+    studyId: number,
+    {
+        name,
+        category,
+        maxMembers,
+        region,
+        place,
+        schedules,
+        startTime,
+        endTime,
+        startDate,
+        endDate,
+        description,
+        externalLink,
+        studyType,
+        goals,
+        online,
+    }: CreateStudy,
+) => {
+    const response = await axiosInstance.put(`studies/${studyId}`, {
+        name,
+        category,
+        maxMembers,
+        region,
+        place,
+        schedules,
+        startTime,
+        endTime,
+        startDate,
+        endDate,
+        description,
+        externalLink,
+        studyType,
+        goals,
+        online,
+    });
+
+    return response.data;
+};

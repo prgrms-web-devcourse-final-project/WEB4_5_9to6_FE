@@ -7,9 +7,11 @@ import { useStudyStore } from "@/stores/studyStore";
 export default function Step5({
     continueStep,
     submitCreate,
+    isEdit,
 }: {
     continueStep: () => void;
     submitCreate: () => void;
+    isEdit?: boolean;
 }) {
     const [isMounted, setIsMounted] = useState(false);
     const description = useStudyStore((state) => state.studyData.description);
@@ -113,10 +115,12 @@ export default function Step5({
                     !externalLinkError &&
                     !isPreSubmitted ? (
                         <Button type="submit" color="primary">
-                            스터디 생성
+                            스터디{isEdit ? " 수정" : " 생성"}
                         </Button>
                     ) : (
-                        <Button disabled>스터디 생성</Button>
+                        <Button disabled>
+                            스터디{isEdit ? " 수정" : " 생성"}
+                        </Button>
                     )}
                 </div>
             </form>
