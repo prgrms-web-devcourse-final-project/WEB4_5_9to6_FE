@@ -138,11 +138,12 @@ export default function Page() {
             },
             { threshold: 0.1, rootMargin: "50px" },
         );
+        const target = observerRef.current;
 
-        if (observerRef.current) observer.observe(observerRef.current);
+        if (target) observer.observe(target);
 
         return () => {
-            if (observerRef.current) observer.unobserve(observerRef.current);
+            if (target) observer.unobserve(target);
         };
     }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
 

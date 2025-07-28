@@ -7,6 +7,7 @@ import {
 } from "@/api/studies";
 import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
 import { customAlert } from "@/utils/customAlert";
@@ -119,7 +120,7 @@ export default function Page() {
         }
     };
 
-    const { data: studyData } = useQuery<StudyInfos>({
+    const { data: studyData, isPending: studyPending } = useQuery<StudyInfos>({
         queryKey: ["studyData", studyId],
         queryFn: async () => await fetchStudyInfo(studyId!),
         enabled: !!studyId,
@@ -157,6 +158,13 @@ export default function Page() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    if (studyPending) {
+        return (
+            <>
+                <LoadingSpinner />
+            </>
+        );
+    }
     return (
         <>
             <SubHeader
