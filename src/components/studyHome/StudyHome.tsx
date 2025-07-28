@@ -84,7 +84,9 @@ export default function StudyHome({
                         <div className="flex items-center gap-2">
                             <button
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
-                                onClick={() => router.push(`${studyId}/chat`)}
+                                onClick={() =>
+                                    router.push(`/study/${studyId}/chat`)
+                                }
                             >
                                 <MessageSquare className="h-5 w-5 text-[#161616]" />
                             </button>

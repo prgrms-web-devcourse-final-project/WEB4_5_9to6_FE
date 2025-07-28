@@ -34,7 +34,9 @@ export default function StudyTimer({
                     <div className="flex h-[102px] w-[72px] flex-col items-center">
                         <button
                             className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
-                            onClick={() => router.push(`${studyId}/chat`)}
+                            onClick={() =>
+                                router.push(`/study/${studyId}/chat`)
+                            }
                         >
                             <MessageSquare className="h-6 w-6 text-[var(--color-gray1000)]" />
                         </button>
