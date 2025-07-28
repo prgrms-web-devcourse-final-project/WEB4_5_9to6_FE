@@ -29,7 +29,7 @@ export default function Step4({ continueStep }: { continueStep: () => void }) {
             .getState()
             .setData("goals", [
                 ...goals,
-                { goalId: Date.now(), content: "", type: "WEEKLY" },
+                { goalId: null, content: "", type: "WEEKLY" },
             ]);
     };
 
