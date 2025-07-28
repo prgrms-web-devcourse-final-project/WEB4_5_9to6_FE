@@ -55,6 +55,7 @@ export default function CreateStudy() {
                         router.push(`/study/${response.data.studyId}`),
                 });
             }, 1000);
+            useStudyStore.getState().reset();
         },
         onError: (error) => {
             console.error(error);
