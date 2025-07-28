@@ -21,16 +21,16 @@ export default function Button({
                 className={twMerge(
                     `h5 h-[50px] w-full rounded-[12px] transition-all duration-200 ease-in-out ${
                         disabled
-                            ? "cursor-default bg-[var(--color-gray200)] text-[var(--color-gray500)]"
+                            ? "bg-gray200 dark:bg-gray900 text-gray500 dark:text-gray600 cursor-default"
                             : color === "black"
-                              ? "cursor-pointer bg-[var(--color-gray1000)] text-white hover:bg-[var(--color-gray900)]"
+                              ? "bg-gray1000 hover:bg-gray900 dark:bg-main400 dark:hover:bg-main500 cursor-pointer text-white"
                               : color === "primary"
-                                ? "cursor-pointer bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
+                                ? "bg-main500 hover:bg-main600 dark:bg-main400 dark:hover:bg-main500 cursor-pointer text-white"
                                 : color === "yellow"
                                   ? "cursor-pointer bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
                                   : color === "white"
-                                    ? "cursor-pointer border border-[var(--color-gray300)] text-[#191919] hover:bg-[var(--color-gray100)]"
-                                    : "cursor-pointer bg-[var(--color-gray200)] text-[var(--color-gray1000)] hover:bg-[var(--color-gray300)]"
+                                    ? "border-gray300 hover:bg-gray100 cursor-pointer border bg-white text-[#191919]"
+                                    : "bg-gray200 text-gray1000 hover:bg-gray300 cursor-pointer"
                     } `,
                     className,
                 )}

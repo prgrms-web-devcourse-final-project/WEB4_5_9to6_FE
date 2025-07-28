@@ -1,6 +1,21 @@
 @import "tailwindcss";
 @import "./font.css";
+
+@custom-variant dark (
+    &:where(.dark, .dark *)
+);
+@custom-variant green (
+    &:where(.green, .green *)
+);
+@custom-variant orange (
+    &:where(.orange, .orange *)
+);
+@custom-variant blue (
+    &:where(.blue, .blue *)
+);
+
 @theme {
+    /* text */
     --color-gray1000: #2f2f2f;
     --color-gray900: #454545;
     --color-gray800: #595959;
@@ -12,6 +27,10 @@
     --color-gray200: #efefef;
     --color-gray100: #f7f7f7;
 
+    /* dark */
+    --color-dark-bg: #222222;
+
+    /* primary */
     --color-main600: #d31d3e;
     --color-main500: #e02d4d;
     --color-main400: #ff395c;
@@ -19,8 +38,13 @@
     --color-main200: #fce8ec;
     --color-main100: #fdf5f7;
 
+    /* green */
     --color-green400: #00c5a4;
+
+    /* blue */
     --color-blue400: #484efd;
+
+    /* orange */
     --color-orange400: #fe6f0f;
 }
 
