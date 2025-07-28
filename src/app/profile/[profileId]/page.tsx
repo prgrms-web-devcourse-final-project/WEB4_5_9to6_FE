@@ -21,7 +21,6 @@ export default async function page({
     params: Promise<{ profileId: string }>;
 }) {
     const { profileId } = await params;
-    console.log(profileId);
 
     return (
         <>

@@ -12,12 +12,19 @@ import { logout } from "@/api/auth";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 
-export default function MyInfoList() {
+export default function MyInfoList({
+    setIsLogOut,
+}: {
+    setIsLogOut: (state: boolean) => void;
+}) {
     const router = useRouter();
     const { myInfo } = useAuthStore();
 
     const { mutate: logoutMutate } = useMutation({
         mutationFn: logout,
+        onMutate() {
+            setIsLogOut(true);
+        },
         onSuccess() {
             router.push("/login");
             customAlert({
@@ -29,6 +36,7 @@ export default function MyInfoList() {
         },
         onError(error) {
             console.error("로그아웃 실패:", error);
+            setIsLogOut(false);
         },
     });
 

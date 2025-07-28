@@ -46,6 +46,7 @@ export default function Banner() {
                                 height={0}
                                 sizes="100vw"
                                 className="w-full rounded-2xl"
+                                priority
                             />
                         </SwiperSlide>
                     ))}

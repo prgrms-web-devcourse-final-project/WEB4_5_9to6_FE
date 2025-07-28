@@ -1,6 +1,6 @@
 "use client";
 
-import { checkWeekAttendance } from "@/api/studies";
+import { checkGoalsCompleted, checkWeekAttendance } from "@/api/studies";
 import { fetchStudyWeeklyAllTime } from "@/api/timer";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Minus } from "lucide-react";
@@ -49,7 +49,7 @@ export default function LogPerWeek({
     study,
 }: {
     id: string;
-    study?: StudyInfo;
+    study?: MemberStudyList;
 }) {
     const toDay = new Date().getDay();
     const todayIndex = toDay === 0 ? 6 : toDay - 1;
@@ -57,11 +57,18 @@ export default function LogPerWeek({
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [attendances, setAttendances] = useState<Attendance[]>([]);
+    const [goals, setGoals] = useState<GoalWeekCount[]>([]);
 
     const { data: studyWeekAttendance } = useQuery({
-        queryKey: ["study-attendance", study?.studyId],
+        queryKey: ["study-attendance", id, study?.studyId],
         enabled: !!study?.studyId,
-        queryFn: () => checkWeekAttendance(study!.studyId),
+        queryFn: () => checkWeekAttendance(study!.studyId, Number(id)),
+    });
+
+    const { data: studyWeekGoals } = useQuery({
+        queryKey: ["study-goals", id, study?.studyId],
+        enabled: !!study?.studyId,
+        queryFn: () => checkGoalsCompleted(study!.studyId, Number(id)),
     });
 
     const { data: studyWeekTime } = useQuery({
@@ -74,12 +81,17 @@ export default function LogPerWeek({
         if (studyWeekAttendance?.attendances != null) {
             setAttendances(studyWeekAttendance.attendances || []);
         }
+
+        if (studyWeekGoals?.goals != null) {
+            setGoals(studyWeekGoals.goals || []);
+        }
+
         if (studyWeekTime?.weekTotalStudyTime != null) {
             const total = studyWeekTime.weekTotalStudyTime;
             setHours(Math.floor(total / 60));
             setMinutes(total % 60);
         }
-    }, [studyWeekAttendance, studyWeekTime]);
+    }, [studyWeekAttendance, studyWeekGoals, studyWeekTime]);
 
     const attendanceMap = new Map(attendances.map((v) => [v.dayOfWeek, v]));
 
@@ -105,22 +117,45 @@ export default function LogPerWeek({
                 <hr className="text-gray200 mb-5" />
                 <h6 className="text-gray700 mb-[14px]">주차별 미션 진척도</h6>
                 <div className="mb-8 gap-[9px]">
-                    <span className="flex items-center justify-start">
-                        <p className="c2 text-gray1000 w-12">1주차</p>
-                        <div className="bg-main400 h-[10px] w-60 rounded-sm"></div>
-                    </span>
-                    <span className="flex items-center justify-start">
-                        <p className="c2 text-gray1000 w-12">2주차</p>
-                        <div className="bg-main300 h-[10px] w-40 rounded-sm"></div>
-                    </span>
-                    <span className="flex items-center justify-start">
-                        <p className="c2 text-gray1000 w-12">3주차</p>
-                        <div className="bg-main400 h-[10px] w-60 rounded-sm"></div>
-                    </span>
-                    <span className="flex items-center justify-start">
-                        <p className="c2 text-gray1000 w-12">4주차</p>
-                        <div className="bg-main200 h-[10px] w-20 rounded-sm"></div>
-                    </span>
+                    {goals.length > 0 ? (
+                        goals
+                            .sort((a, b) => Number(a.week) - Number(b.week))
+                            .slice(-4)
+                            .map((goal) => {
+                                const percent = Math.min(
+                                    (goal.count / 4) * 100,
+                                    100,
+                                );
+                                const getColor = () => {
+                                    if (percent >= 75) return "bg-main500";
+                                    if (percent >= 50) return "bg-main400";
+                                    if (percent >= 25) return "bg-main300";
+                                    return "bg-main200";
+                                };
+
+                                return (
+                                    <span
+                                        key={goal.week}
+                                        className="flex items-center justify-start"
+                                    >
+                                        <p className="c2 text-gray1000 w-12">
+                                            {goal.week}주차
+                                        </p>
+                                        <div className="bg-gray200 h-[10px] w-60 rounded-sm">
+                                            <div
+                                                className={`${getColor()} h-[10px] rounded-sm`}
+                                                style={{ width: `${percent}%` }}
+                                            />
+                                        </div>
+                                    </span>
+                                );
+                            })
+                    ) : (
+                        <span className="flex items-center justify-start">
+                            <p className="c2 text-gray1000 w-12">1주차</p>
+                            <div className="bg-gray200 h-[10px] w-60 rounded-sm"></div>
+                        </span>
+                    )}
                 </div>
                 <hr className="text-gray200 mb-5" />
                 <h6 className="text-gray700 mb-[14px]">주간 내 타이머</h6>
