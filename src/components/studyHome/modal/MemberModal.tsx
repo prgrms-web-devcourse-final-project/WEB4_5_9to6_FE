@@ -4,9 +4,6 @@ import StudyUsers from "../../studyRecruit/StudyUsers";
 import StudyApplicant from "../StudyApplicant";
 import BottomModal from "../../common/BottomModal";
 import ChannelSlideBar from "../../common/ChannelSlideBar";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { getApplicants } from "@/api/studies";
 
 export default function MemberModal({
     isOpen,
@@ -19,18 +16,18 @@ export default function MemberModal({
 }) {
     const channels = [`팀원목록`, `신청목록`];
     const [channel, setChannel] = useState(`팀원목록`);
-    const params = useParams();
-    const id = params?.studyId;
-    const studyId = typeof id === "string" ? parseInt(id) : null;
+    // const params = useParams();
+    // const id = params?.studyId;
+    // const studyId = typeof id === "string" ? parseInt(id) : null;
 
-    const { data: userDatas } = useQuery({
-        queryKey: ["applicantsModal", studyId],
-        queryFn: async () => {
-            if (!studyId) throw new Error("스터디 아이디가 없습니다");
-            return await getApplicants(studyId);
-        },
-        enabled: !!studyId,
-    });
+    // const { data: userDatas } = useQuery({
+    //     queryKey: ["applicantsModal", studyId],
+    //     queryFn: async () => {
+    //         if (!studyId) throw new Error("스터디 아이디가 없습니다");
+    //         return await getApplicants(studyId);
+    //     },
+    //     enabled: !!studyId,
+    // });
 
     return (
         <>
@@ -52,7 +49,7 @@ export default function MemberModal({
                         <StudyUsers />
                     ) : (
                         <StudyApplicant
-                            applicants={userDatas ?? []}
+                            // applicants={userDatas ?? []}
                             maxMembers={maxMembers}
                         />
                     )}

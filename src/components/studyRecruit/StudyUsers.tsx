@@ -3,10 +3,12 @@ import defaultImg from "../../../public/images/rewardItems/61.png";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function StudyUsers() {
     const router = useRouter();
     const params = useParams();
+    const user = useAuthStore((state) => state.myInfo);
     const [members, setMembers] = useState<Members[]>([]);
     useEffect(() => {
         const fetchMembers = async () => {
@@ -47,9 +49,12 @@ export default function StudyUsers() {
                                         width={32}
                                     />
                                 </div>
-                                <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">
-                                    {member.nickname}
-                                </h6>
+                                {user && (
+                                    <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">
+                                        {member.nickname}{" "}
+                                        {user.id === member.memberId && "(나)"}
+                                    </h6>
+                                )}
                             </div>
                         </div>
                     ))}

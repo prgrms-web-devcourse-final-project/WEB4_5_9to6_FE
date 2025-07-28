@@ -12,7 +12,11 @@ export default function StudyGoal() {
             if (typeof id === "string") {
                 try {
                     const goalData: Goal[] = await goalsInfo(parseInt(id));
-                    setGoals(goalData);
+                    if (goalData.length > 5) {
+                        setGoals(goalData.slice(0, 5));
+                    } else {
+                        setGoals(goalData);
+                    }
                 } catch (err) {
                     console.error("목표 불러오기 실패", err);
                 }

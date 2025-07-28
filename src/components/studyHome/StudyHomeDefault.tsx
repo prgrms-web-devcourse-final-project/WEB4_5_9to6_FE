@@ -14,6 +14,8 @@ export default function StudyHomeDefault({
     exLink,
     maxMembers,
     currentMemberCount,
+    startDate,
+    endDate,
     onOpen,
 }: {
     notice: string | undefined;
@@ -25,8 +27,30 @@ export default function StudyHomeDefault({
     exLink: string | undefined;
     maxMembers: number;
     currentMemberCount: number;
+    startDate: string;
+    endDate: string;
     onOpen: () => void;
 }) {
+    const changeDate = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const startYear = start.getFullYear();
+        const startMonth = start.getMonth() + 1;
+        const startDay = start.getDate();
+
+        const endYear = end.getFullYear();
+        const endMonth = end.getMonth() + 1;
+        const endDay = end.getDate();
+
+        const format = (month: number) => (month < 10 ? `0${month}` : month);
+
+        const monthDiff =
+            (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+
+        return `${startYear}.${format(startMonth)}.${format(startDay)}~${endYear}.${format(endMonth)}.${format(endDay)} (${monthDiff}개월)`;
+    };
+
     return (
         <>
             {/* 공지사항 */}
@@ -55,6 +79,9 @@ export default function StudyHomeDefault({
                 <p className="b2 mt-2 ml-5 text-[var(--color-gray700)]">
                     매주 {schedules && scheduleString(schedules)}요일 ·{" "}
                     {startTime}~{endTime} · {regionMap[region]}
+                </p>
+                <p className="b2 ml-5 text-[var(--color-gray700)]">
+                    {changeDate(startDate, endDate)}
                 </p>
 
                 {/* 스터디 목표 */}

@@ -11,10 +11,17 @@ import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import ChannelSlideBar from "@/components/common/ChannelSlideBar";
 import { customAlert } from "@/utils/customAlert";
-import { fetchStudyInfo, getApplicants } from "@/api/studies";
+import {
+    checkIsMember,
+    fetchStudyInfo,
+    getApplicants,
+    studyMembers,
+} from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import BottomModal from "@/components/common/BottomModal";
+import StudyApplicant from "@/components/studyHome/StudyApplicant";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -30,6 +37,24 @@ export default function Page() {
     const myInfo = useAuthStore((state) => state.myInfo);
     const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isApplyOpen, setIsApplyOpen] = useState(false);
+    const isNewFunc = () => {
+        const now = new Date();
+        if (study) {
+            const startDate2 = new Date(study?.startDate);
+            return now < startDate2;
+        }
+    };
+
+    // 신청자 목록조회
+    const { data: applicantData } = useQuery({
+        queryKey: ["applicantData", studyId],
+        queryFn: async () => {
+            if (!studyId) throw new Error("스터디 아이디가 없습니다");
+            return await getApplicants(studyId);
+        },
+        enabled: !!studyId,
+    });
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,14 +82,8 @@ export default function Page() {
         };
         fetchStudy();
     }, [params?.studyId]);
-    const { data: applicantData } = useQuery({
-        queryKey: ["applicantData", studyId],
-        queryFn: async () => {
-            if (!studyId) throw new Error("스터디 아이디가 없습니다");
-            return await getApplicants(studyId);
-        },
-        enabled: !!studyId,
-    });
+
+    //현재 사용자가 신청자에 포함되는지
     useEffect(() => {
         if (applicantData && myInfo?.id) {
             const isApplied = applicantData.some(
@@ -73,6 +92,23 @@ export default function Page() {
             setIsApply(isApplied);
         }
     }, [applicantData, myInfo]);
+    const { data: isMember } = useQuery({
+        queryKey: ["isMember", studyId],
+        queryFn: async () => {
+            if (!studyId) throw new Error("스터디 아이디가 없습니다.");
+            return await checkIsMember(studyId);
+        },
+    });
+    const { data: memberData } = useQuery<StudyMember[]>({
+        queryKey: ["studyMembers", studyId],
+        queryFn: async () => {
+            if (!studyId) throw new Error("스터디 아이디가 없습니다.");
+            else return await studyMembers(studyId);
+        },
+        enabled: !!studyId,
+        staleTime: 1000 * 60 * 3,
+    });
+    const leader = memberData?.find((q) => q.role === "LEADER");
 
     useEffect(() => {
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
@@ -114,6 +150,12 @@ export default function Page() {
                         <h2 className="absolute bottom-5 left-5 z-20 text-[var(--color-white)]">
                             {study.name}
                         </h2>
+                        {/* 활동여부 표시 */}
+                        <div className="absolute right-5 bottom-4 z-20 flex h-[24px] w-[53px] cursor-pointer items-center justify-center gap-1 rounded-[50px] bg-[#FF395C] px-2 text-[var(--color-gray200)]">
+                            <span className="c2">
+                                {isNewFunc() === true ? "활동 전" : "활동중"}
+                            </span>
+                        </div>
                     </div>
 
                     {/* 채널(정보/팀원현황) */}
@@ -141,7 +183,20 @@ export default function Page() {
                     {/* 신청하기 버튼 */}
                     <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
                         {isLogIn &&
-                            (isApply ? (
+                            (isMember?.isMember ? (
+                                leader?.memberId === myInfo?.id ? (
+                                    <Button
+                                        color="black"
+                                        onClick={() => setIsApplyOpen(true)}
+                                    >
+                                        인원 관리
+                                    </Button>
+                                ) : (
+                                    <Button disabled>
+                                        가입된 스터디입니다.
+                                    </Button>
+                                )
+                            ) : isApply ? (
                                 <Button disabled>신청 완료</Button>
                             ) : (
                                 <Button
@@ -176,6 +231,17 @@ export default function Page() {
                                 });
                             }}
                         />
+                    )}
+
+                    {isApplyOpen && (
+                        <BottomModal
+                            title="스터디원"
+                            onClose={() => setIsApplyOpen(false)}
+                            height="479"
+                            isOpen={isApplyOpen}
+                        >
+                            <StudyApplicant maxMembers={study.maxMembers} />
+                        </BottomModal>
                     )}
                 </div>
             )}

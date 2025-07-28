@@ -28,6 +28,8 @@ export default function StudyHome({
     exLink,
     maxMembers,
     currentMemberCount,
+    startDate,
+    endDate,
     isStart,
     pause,
     isMenuOpen,
@@ -44,6 +46,8 @@ export default function StudyHome({
     exLink: string | undefined;
     maxMembers: number;
     currentMemberCount: number;
+    startDate: string;
+    endDate: string;
     isStart: boolean;
     pause: boolean;
     isMenuOpen: boolean;
@@ -148,6 +152,8 @@ export default function StudyHome({
                     exLink={exLink}
                     maxMembers={maxMembers}
                     currentMemberCount={currentMemberCount}
+                    startDate={startDate}
+                    endDate={endDate}
                     onOpen={() => setIsUserOpen(true)}
                 />
             )}

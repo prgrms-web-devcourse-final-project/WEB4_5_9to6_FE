@@ -24,7 +24,12 @@ export default function StudyGoalModal({
         queryKey: ["goalModalData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-            return await getCheckGoal(studyId);
+            const fetchGoal = await getCheckGoal(studyId);
+            if (fetchGoal.length > 5) {
+                return fetchGoal.slice(0, 5);
+            } else {
+                return fetchGoal;
+            }
         },
     });
 

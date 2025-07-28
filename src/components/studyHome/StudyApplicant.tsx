@@ -1,27 +1,38 @@
 import Image from "next/image";
 import defaultImg from "../../../public/images/rewardItems/61.png";
 import Button from "../common/Button";
-import { respondToApplication } from "@/api/studies";
+import { getApplicants, respondToApplication } from "@/api/studies";
 import { useParams } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
+import { useQuery } from "@tanstack/react-query";
 
 export default function StudyApplicant({
-    applicants,
+    // applicants,
     maxMembers,
 }: {
-    applicants: studyApplicant[];
+    // applicants: studyApplicant[];
     maxMembers: number;
 }) {
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
 
+    const { data: userDatas, refetch } = useQuery<studyApplicant[]>({
+        queryKey: ["applicantsModal", studyId],
+        queryFn: async () => {
+            if (!studyId) throw new Error("스터디 아이디가 없습니다");
+            return await getApplicants(studyId);
+        },
+        enabled: !!studyId,
+    });
+    const applicants = userDatas ?? [];
     const totalMembers = () => {
         return applicants.filter((a) => a.state === "ACCEPT").length + 1;
     };
     const noApplicants = () => {
         return applicants.every((a) => a.state !== "WAIT");
     };
+
     const allowHandler = async (memberId: number) => {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         try {
@@ -34,7 +45,7 @@ export default function StudyApplicant({
                 return;
             }
             await respondToApplication(studyId, memberId, "ACCEPT");
-
+            await refetch();
             customAlert({
                 message: "신청 승인했습니다.",
                 linkLabel: "닫기",
@@ -54,6 +65,7 @@ export default function StudyApplicant({
 
         try {
             await respondToApplication(studyId, memberId, "REJECT");
+            await refetch();
 
             customAlert({
                 message: "신청 거절했습니다.",

@@ -149,6 +149,8 @@ export default function Page() {
                         exLink={studyManageData?.externalLink}
                         maxMembers={studyManageData.maxMembers}
                         currentMemberCount={studyManageData.currentMemberCount}
+                        startDate={studyManageData.startDate}
+                        endDate={studyManageData.endDate}
                         isStart={isStart}
                         pause={pause}
                         isMenuOpen={isMenuOpen}

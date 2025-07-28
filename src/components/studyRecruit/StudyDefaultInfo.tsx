@@ -29,16 +29,18 @@ export default function StudyDefaultInfo({
 
         const startYear = start.getFullYear();
         const startMonth = start.getMonth() + 1;
+        const startDay = start.getDate();
 
         const endYear = end.getFullYear();
         const endMonth = end.getMonth() + 1;
+        const endDay = end.getDate();
 
         const format = (month: number) => (month < 10 ? `0${month}` : month);
 
         const monthDiff =
             (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
 
-        return `${startYear}.${format(startMonth)}~${endYear}.${format(endMonth)} (${monthDiff}개월)`;
+        return `${startYear}.${format(startMonth)}.${format(startDay)}~${endYear}.${format(endMonth)}.${format(endDay)} (${monthDiff}개월)`;
     };
     return (
         <>
