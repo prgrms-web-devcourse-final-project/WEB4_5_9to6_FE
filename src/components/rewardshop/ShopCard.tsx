@@ -28,14 +28,16 @@ export default function ShopCard({ id }: { id: string }) {
         <>
             <div className="flex flex-col p-5">
                 <div className="mb-1.5 flex items-center">
-                    <Image
-                        src="/images/medal.png"
-                        alt="리워드"
-                        width={18}
-                        height={18}
-                        style={{ height: "auto" }}
-                        priority
-                    />
+                    <div className="relative h-4.5 w-4.5">
+                        <Image
+                            src="/images/medal.png"
+                            alt="리워드"
+                            fill
+                            className="object-contain"
+                            sizes="18px"
+                            priority
+                        />
+                    </div>
                     <h6 className="text-gray1000 mr-1">내 리워드</h6>
                     <ToolTip>
                         <div className="c2 mb-4 whitespace-pre-line">

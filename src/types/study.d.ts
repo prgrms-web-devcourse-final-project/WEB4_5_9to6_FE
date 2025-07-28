@@ -105,6 +105,7 @@ interface StudyList {
     startDate: string;
     region: string;
     studyType: "SURVIVAL" | "DEFAULT";
+    description?: string;
 }
 // "studies/search"에서 검색된 스터디 목록
 

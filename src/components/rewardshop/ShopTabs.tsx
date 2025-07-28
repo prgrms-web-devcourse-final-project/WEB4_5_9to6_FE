@@ -7,17 +7,34 @@ import ShopAvatarList from "./list/ShopAvatarList";
 import ChannelSlideBar from "../common/ChannelSlideBar";
 import { useRewardItemStore } from "@/stores/rewardItemStore";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 export default function ShopTabs() {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
     const [isTab, setTab] = useState("앱 테마");
     const { fetchItems, groupedItems } = useRewardItemStore();
     const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetchItems();
-        fetchItemsOwn();
+        const fetchAll = async () => {
+            setIsLoading(true);
+            await Promise.all([fetchItems(), fetchItemsOwn()]);
+            setIsLoading(false);
+        };
+
+        fetchAll();
     }, [fetchItems, fetchItemsOwn]);
+
+    if (isLoading) {
+        return (
+            <>
+                <div className="relative h-[calc(100vh-200px)] overflow-y-auto py-6">
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
