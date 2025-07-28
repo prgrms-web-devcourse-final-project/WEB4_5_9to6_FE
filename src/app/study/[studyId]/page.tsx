@@ -9,6 +9,7 @@ import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
+import { studyStartStore } from "@/stores/studyStartStore";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -23,31 +24,36 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function Page() {
-    const [isStart, setIsStart] = useState(false);
-    const [pause, setPause] = useState(false);
+    // const [pause, setPause] = useState(false);
     const [showHeader, setShowHeader] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { isStart, setIsStart, pause, setPause, seconds, setSeconds } =
+        studyStartStore();
 
     const router = useRouter();
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
 
-    const [seconds, setSeconds] = useState(0);
+    // const [seconds, setSeconds] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const startTimer = () => {
         if (intervalRef.current) return;
-        setIsStart(true);
+
         setPause(false);
         intervalRef.current = setInterval(() => {
-            setSeconds((prev) => prev + 1);
+            // setSeconds((prev) => prev + 1);
+            studyStartStore.setState((state) => ({
+                seconds: state.seconds + 1,
+            }));
         }, 1000);
     };
 
     const stopTimer = () => {
+        setIsStart(true);
+        setPause(true);
         if (intervalRef.current) {
-            setPause(true);
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
@@ -92,12 +98,12 @@ export default function Page() {
         return () => stopTimer();
     }, []);
 
-    const formatTime = (totalSeconds: number) => {
-        const hr = Math.floor(totalSeconds / 3600);
-        const min = Math.floor((totalSeconds % 3600) / 60);
-        const sec = totalSeconds % 60;
-        return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    };
+    // const formatTime = (totalSeconds: number) => {
+    //     const hr = Math.floor(totalSeconds / 3600);
+    //     const min = Math.floor((totalSeconds % 3600) / 60);
+    //     const sec = totalSeconds % 60;
+    //     return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    // };
 
     const attendHandler = async () => {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
@@ -201,11 +207,10 @@ export default function Page() {
                         currentMemberCount={studyData.currentMemberCount}
                         startDate={studyData.startDate}
                         endDate={studyData.endDate}
-                        isStart={isStart}
-                        pause={pause}
+                        // pause={pause}
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
-                        studyTimeSec={formatTime(seconds)}
+                        // studyTimeSec={formatTime(seconds)}
                     />
                 )}
                 {/* 버튼 */}
@@ -216,7 +221,7 @@ export default function Page() {
                         </Button>
                     )}
                     {attended && !isStart && (
-                        <Button color="primary" onClick={startTimer}>
+                        <Button color="primary" onClick={stopTimer}>
                             스터디 시작
                         </Button>
                     )}

@@ -1,19 +1,35 @@
+import { studyStartStore } from "@/stores/studyStartStore";
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 export default function StudyTimer({
-    pause,
+    // pause,
     setIsGoalOpen,
-    studyTimeSec,
+    // studyTimeSec,
 }: {
-    pause: boolean;
+    // pause: boolean;
     setIsGoalOpen: Dispatch<SetStateAction<boolean>>;
-    studyTimeSec: string;
+    // studyTimeSec: string;
 }) {
     const router = useRouter();
     const params = useParams();
     const studyId = params.studyId;
+    const { pause, setPause, seconds } = studyStartStore();
+    const formatTime = (totalSeconds: number) => {
+        const hr = Math.floor(totalSeconds / 3600);
+        const min = Math.floor((totalSeconds % 3600) / 60);
+        const sec = totalSeconds % 60;
+        return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    };
+    const chatHandler = () => {
+        setPause(true);
+        router.push(`/study/${studyId}/chat`);
+    };
+    const notiHandler = () => {
+        setPause(true);
+        router.push("/notifications");
+    };
     return (
         <>
             {/* 타이머 */}
@@ -25,7 +41,7 @@ export default function StudyTimer({
                     <Timer className="h-5 w-5" />
                     <span className="b1 ml-[1px]">스터디시간</span>
                     <h3 className="ml-1 text-[var(--color-main400)]">
-                        {studyTimeSec}
+                        {formatTime(seconds)}
                     </h3>
                 </div>
 
@@ -34,9 +50,7 @@ export default function StudyTimer({
                     <div className="flex h-[102px] w-[72px] flex-col items-center">
                         <button
                             className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
-                            onClick={() =>
-                                router.push(`/study/${studyId}/chat`)
-                            }
+                            onClick={chatHandler}
                         >
                             <MessageSquare className="h-6 w-6 text-[var(--color-gray1000)]" />
                         </button>
@@ -60,7 +74,7 @@ export default function StudyTimer({
                     <div className="flex h-[102px] w-[72px] flex-col items-center justify-center">
                         <button
                             className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
-                            onClick={() => router.push("/notifications")}
+                            onClick={notiHandler}
                         >
                             <Bell className="h-6 w-6 text-[var(--color-gray1000)]" />
                         </button>

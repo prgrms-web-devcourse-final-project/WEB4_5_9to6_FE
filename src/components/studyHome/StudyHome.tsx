@@ -17,6 +17,7 @@ import StudyUserModal from "./modal/StudyUserModal";
 import { useOwnItemStore } from "@/stores/ownItemStore";
 import { studyMembers } from "@/api/studies";
 import { useQuery } from "@tanstack/react-query";
+import { studyStartStore } from "@/stores/studyStartStore";
 export default function StudyHome({
     studyId,
     notice,
@@ -30,11 +31,10 @@ export default function StudyHome({
     currentMemberCount,
     startDate,
     endDate,
-    isStart,
-    pause,
+    // pause,
     isMenuOpen,
     setIsMenuOpen,
-    studyTimeSec,
+    // studyTimeSec,
 }: {
     studyId: number;
     notice: string | undefined;
@@ -48,11 +48,10 @@ export default function StudyHome({
     currentMemberCount: number;
     startDate: string;
     endDate: string;
-    isStart: boolean;
-    pause: boolean;
+    // pause: boolean;
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-    studyTimeSec: string;
+    // studyTimeSec: string;
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
@@ -61,6 +60,8 @@ export default function StudyHome({
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+
+    const { isStart } = studyStartStore();
 
     const { data: membersData } = useQuery<StudyMember[]>({
         queryKey: ["studyMembersAvatar", studyId],
@@ -161,9 +162,9 @@ export default function StudyHome({
             {isStart && (
                 <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
                     <StudyTimer
-                        pause={pause}
+                        // pause={pause}
                         setIsGoalOpen={setIsGoalOpen}
-                        studyTimeSec={studyTimeSec}
+                        // studyTimeSec={studyTimeSec}
                     />
                 </div>
             )}
