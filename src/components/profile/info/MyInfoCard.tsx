@@ -33,6 +33,20 @@ export default function MyInfoCard({ id }: { id: string }) {
         }
     }, [myInfo?.avatarInfo.avatarImage, refetch]);
 
+    const isLoading =
+        !myInfo || !myInfo.avatarInfo || !myInfo.avatarInfo.avatarImage;
+
+    if (isLoading) {
+        return (
+            <div className="flex animate-pulse flex-col items-center justify-center gap-5 pt-4 pb-12">
+                <div className="bg-gray300 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                    <div className="bg-gray200 h-12 w-12 rounded-full" />
+                </div>
+                <div className="bg-gray200 h-6 w-26 rounded-2xl font-bold"></div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="flex flex-col items-center justify-center gap-5 pt-4 pb-12">

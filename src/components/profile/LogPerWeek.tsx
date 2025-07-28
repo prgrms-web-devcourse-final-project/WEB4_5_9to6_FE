@@ -191,14 +191,13 @@ export default function LogPerWeek({
                         &ldquo;스터디가 열리기 전이에요!&ldquo;
                     </h4>
 
-                    <div className="relative mt-5 aspect-[1/1] w-26">
+                    <div className="relative mt-5 h-[104px] w-[104px]">
                         <Image
-                            src={"/icons/notOpen.png"}
+                            src="/icons/notOpen.png"
                             alt="오픈전"
-                            width={104}
-                            height={104}
-                            style={{ height: "auto" }}
-                            priority
+                            fill
+                            className="object-contain"
+                            sizes="104px"
                         />
                     </div>
                 </div>

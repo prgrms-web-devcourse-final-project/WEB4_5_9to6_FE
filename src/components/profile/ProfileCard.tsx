@@ -53,15 +53,17 @@ export default function ProfileCard({ id }: { id: string }) {
                     <p className="text-gray700 b2 mb-4">
                         가입된 스터디 {data?.joinedStudyCount}개
                     </p>
-                    <div className="relative flex items-center gap-1">
-                        <Image
-                            src="/images/medal.png"
-                            alt="리워드"
-                            width={24}
-                            height={24}
-                            style={{ height: "auto" }}
-                            priority
-                        />
+                    <div className="flex items-center gap-1">
+                        <div className="relative h-6 w-6">
+                            <Image
+                                src="/images/medal.png"
+                                alt="리워드"
+                                fill
+                                className="object-contain"
+                                sizes="24px"
+                                priority
+                            />
+                        </div>
                         <h2 className="text-gray1000">
                             {data?.rewardPoints.toLocaleString() || 0}P
                         </h2>

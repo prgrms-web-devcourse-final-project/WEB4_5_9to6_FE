@@ -12,16 +12,18 @@ export default function MyLogList({ id }: { id: string }) {
     const { data, data3 } = useProfileStore();
     return (
         <>
-            <div className="relative flex w-full flex-col items-center gap-6 py-8">
+            <div className="flex w-full flex-col items-center gap-6 py-8">
                 <h4 className="text-gray1000">서바이벌 우승 횟수</h4>
-                <Image
-                    src="/images/trophy.png"
-                    alt="트로피"
-                    width={104}
-                    height={104}
-                    style={{ height: "auto" }}
-                    priority
-                />
+                <div className="relative h-26 w-26">
+                    <Image
+                        src="/images/trophy.png"
+                        alt="트로피"
+                        fill
+                        className="object-contain"
+                        sizes="104px"
+                        priority
+                    />
+                </div>
                 <p className="text-main400 text-[28px] font-bold">
                     {data?.winCount || 0}회
                 </p>
