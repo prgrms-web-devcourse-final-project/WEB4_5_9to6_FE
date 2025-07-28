@@ -84,7 +84,7 @@ export default function EditStudy() {
                 {step === 1 ? (
                     <Step1 continueStep={() => setStep(2)} />
                 ) : step === 2 ? (
-                    <Step2 continueStep={() => setStep(3)} />
+                    <Step2 continueStep={() => setStep(3)} isEdit />
                 ) : step === 3 ? (
                     <Step3 continueStep={() => setStep(4)} />
                 ) : step === 4 ? (
