@@ -23,13 +23,10 @@ export default function SurvivalStudy() {
     const params = useParams();
     const studyId = Number(params?.studyId);
     const router = useRouter();
-    const { myInfo } = useAuthStore();
+    const myInfo = useAuthStore().myInfo;
     const { setStudy } = useSurvivalStore();
     const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
-
-    // 시작요일
-    // const quizDay = 7;
 
     // const today = new Date();
     // const todayDay = new Date().getDay();
@@ -43,13 +40,14 @@ export default function SurvivalStudy() {
         queryFn: () => fetchSurvival(studyId),
         enabled: !!studyId,
     });
+    console.log(study);
 
     const { data: apply } = useQuery({
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
     });
-    const canStart = apply;
+    const canStart = apply && study?.startDate;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
     useEffect(() => {
@@ -127,10 +125,13 @@ export default function SurvivalStudy() {
                     </button>
                 </div>
 
-                <NoticeBox notice={study?.notice} />
+                <NoticeBox
+                    className="bg-[var(--color-gray100)] pt-2"
+                    notice={study?.notice}
+                />
                 <SurvivalInfo study={study} />
                 <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
-                    {!apply ? (
+                    {!apply && myInfo ? (
                         <Button
                             onClick={() => buttonHandler(study.studyId)}
                             color="primary"

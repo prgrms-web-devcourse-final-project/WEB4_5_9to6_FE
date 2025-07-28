@@ -26,8 +26,8 @@ export default function SurvivalInfo({ study }: { study: StudyInfo }) {
                     매주{" "}
                     {study?.schedules
                         ?.map((day: string) => dayMap[day])
-                        .join(", ")}{" "}
-                    {study?.startTime}~{study?.endTime} ·{" "}
+                        .join(", ")}
+                    요일 {study?.startTime}~{study?.endTime} ·{" "}
                     {regionMap[study?.region ?? 0]}
                 </p>
                 <h4 className="h4 mt-6.5 text-center">
