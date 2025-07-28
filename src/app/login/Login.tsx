@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { useAuthStore } from "@/stores/authStore";
 import Image from "next/image";
+import { useThemeStore } from "@/stores/themeStore";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function Login() {
     const [loginErrorMsg, setLoginErrorMsg] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams().get("error");
+    const theme = useThemeStore((state) => state.theme);
 
     const { mutate: loginMutate } = useMutation({
         mutationFn: () => login(email, password),
@@ -80,13 +82,23 @@ export default function Login() {
                     onClick={() => router.push("/")}
                     className="mb-10 w-1/2 cursor-pointer"
                 >
-                    <Image
-                        src="/images/logo.png"
-                        width={372}
-                        height={72}
-                        className="h-auto w-full"
-                        alt="logo"
-                    />
+                    {theme === "light" ? (
+                        <Image
+                            src="/images/logo.png"
+                            width={372}
+                            height={72}
+                            className="h-auto w-full"
+                            alt="logo"
+                        />
+                    ) : (
+                        <Image
+                            src="/images/logo-dark.png"
+                            width={372}
+                            height={72}
+                            className="h-auto w-full"
+                            alt="logo"
+                        />
+                    )}
                 </div>
 
                 <form
@@ -108,7 +120,7 @@ export default function Login() {
                             비밀번호
                         </Input>
                         <span
-                            className={`h6 mt-[-10px] pl-2 text-[#FF394A] transition-all duration-200 ease-in-out ${
+                            className={`h6 mt-[-5px] pl-2 text-[#FF394A] transition-all duration-200 ease-in-out ${
                                 loginError
                                     ? "max-h-[40px] translate-y-0 opacity-100"
                                     : "max-h-0 -translate-y-2 opacity-0"
@@ -120,17 +132,19 @@ export default function Login() {
                     <Button type="submit">로그인</Button>
                 </form>
 
-                <div className="flex w-full justify-end text-[var(--color-gray1000)]">
+                <div className="text-gray1000 dark:text-gray500 flex w-full justify-end duration-200 ease-in">
                     {/* <button className="cursor-pointer">비밀번호 찾기</button> */}
                     <Link href="/signup" className="cursor-pointer">
                         회원가입
                     </Link>
                 </div>
 
-                <div className="my-3 w-full border-b border-[var(--color-gray300)] text-center leading-0">
-                    <span className="cursor-default bg-white px-5 text-[var(--color-gray500)]">
+                <div className="mt-5 mb-3 flex w-full flex-row">
+                    <hr className="text-gray300 dark:text-gray800 w-[calc(50%-50px)] duration-200 ease-in" />
+                    <span className="text-gray500 mt-[-10px] w-25 cursor-default text-center">
                         간편 로그인
                     </span>
+                    <hr className="text-gray300 dark:text-gray800 w-[calc(50%-50px)] duration-200 ease-in" />
                 </div>
 
                 <div className="flex w-full flex-col gap-2.5">
