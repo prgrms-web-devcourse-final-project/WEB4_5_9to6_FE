@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import trophy from "../../assets/images/trophy.png";
 import { ChevronDown } from "lucide-react";
 import LogPerWeek from "./LogPerWeek";
 import { useMyStudyModalStore } from "@/stores/myStudyModalStore";
@@ -13,9 +12,16 @@ export default function MyLogList({ id }: { id: string }) {
     const { data, data3 } = useProfileStore();
     return (
         <>
-            <div className="flex w-full flex-col items-center gap-6 py-8">
+            <div className="relative flex w-full flex-col items-center gap-6 py-8">
                 <h4 className="text-gray1000">서바이벌 우승 횟수</h4>
-                <Image src={trophy} alt="트로피" className="h-26 w-26" />
+                <Image
+                    src="/images/trophy.png"
+                    alt="트로피"
+                    width={104}
+                    height={104}
+                    style={{ height: "auto" }}
+                    priority
+                />
                 <p className="text-main400 text-[28px] font-bold">
                     {data?.winCount || 0}회
                 </p>

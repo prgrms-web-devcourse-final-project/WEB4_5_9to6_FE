@@ -123,13 +123,13 @@ export default function LogPerWeek({
                             .slice(-4)
                             .map((goal) => {
                                 const percent = Math.min(
-                                    (goal.count / 4) * 100,
+                                    (goal.count / 5) * 100,
                                     100,
                                 );
                                 const getColor = () => {
-                                    if (percent >= 75) return "bg-main500";
-                                    if (percent >= 50) return "bg-main400";
-                                    if (percent >= 25) return "bg-main300";
+                                    if (percent >= 80) return "bg-main500";
+                                    if (percent >= 60) return "bg-main400";
+                                    if (percent >= 40) return "bg-main300";
                                     return "bg-main200";
                                 };
 

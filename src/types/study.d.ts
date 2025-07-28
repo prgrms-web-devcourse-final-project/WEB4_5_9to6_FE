@@ -13,6 +13,11 @@ interface GoalWeekCount {
     week: string;
     count: number;
 }
+interface GoalMaxCount {
+    studyId: number | null;
+    goals: GoalWeekCount[];
+    maxCount: number;
+}
 
 interface StudyInfo {
     name: string;
