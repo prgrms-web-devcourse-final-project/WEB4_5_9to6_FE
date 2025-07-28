@@ -7,6 +7,7 @@ import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function AuthInitializer() {
     const eventSourceRef = useRef<EventSource | null>(null);
+    const isLogIn = useAuthStore((state) => state.isLogIn);
 
     useEffect(() => {
         const auth = useAuthStore.getState();
@@ -15,9 +16,11 @@ export default function AuthInitializer() {
 
         if (!auth.isFetched) {
             auth.refetch();
-        } else if (auth.isLogIn) {
+            console.log("리패치");
+        } else if (isLogIn) {
             ownItem.fetchItemsOwn();
             alarm.fetchAlarms();
+            console.log("유저 데이터 불러오기");
 
             // 알림 SSE 연결
             if (!eventSourceRef.current) {
@@ -49,7 +52,7 @@ export default function AuthInitializer() {
             eventSourceRef.current?.close();
             eventSourceRef.current = null;
         };
-    }, []);
+    }, [isLogIn]);
 
     return null;
 }

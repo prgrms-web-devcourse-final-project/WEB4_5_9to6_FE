@@ -27,10 +27,12 @@ export const useAlarmStore = create<AlarmStore>((set) => ({
     fetchAlarms: async () => {
         try {
             const response = await fetchAlarm();
+            console.log(response);
             if (response.code === "0000") {
                 set({
                     alarmList: response.data,
                 });
+                console.log(response.data, "a");
             }
         } catch (error) {
             console.error(error);
