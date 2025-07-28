@@ -106,7 +106,7 @@ interface StudyList {
 interface Members {
     studyMemberId: number;
     memberId: number;
-    nickName: string;
+    nickname: string;
     profileImage: string;
     role: "MEMBER" | "LEADER";
     email: string;
