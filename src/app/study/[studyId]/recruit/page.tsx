@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
-import studyImg from "@/assets/studyImg.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import StudyInfo from "@/components/studyRecruit/StudyInfo";
@@ -15,6 +14,7 @@ import { customAlert } from "@/utils/customAlert";
 import { fetchStudyInfo, getApplicants } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -28,6 +28,8 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
+    const { groupedOwnItems } = useOwnItemStore();
+    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -71,6 +73,14 @@ export default function Page() {
             setIsApply(isApplied);
         }
     }, [applicantData, myInfo]);
+
+    useEffect(() => {
+        const selectedItemId = groupedOwnItems.BACKGROUND?.find(
+            (v) => v.used,
+        )?.itemId;
+        setSrc(`/images/rewardItems/${selectedItemId}.png`);
+    }, [groupedOwnItems]);
+
     return (
         <>
             {/* 스크롤시 헤더 */}
@@ -87,13 +97,14 @@ export default function Page() {
                     </SubHeader>
 
                     {/* 스터디 이미지 */}
-                    <div className="relative h-[256px] w-full">
+                    <div className="relative h-fit w-full">
                         <Image
-                            src={studyImg}
+                            src={src}
                             alt="스터디 배경"
-                            className="h-full w-full"
+                            width={1000}
+                            height={470}
                         />
-                        <div className="absolute inset-0 z-10 h-[256px] w-full bg-black opacity-30" />
+                        <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
                             className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
                             onClick={() => router.back()}

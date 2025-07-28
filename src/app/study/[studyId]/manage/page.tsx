@@ -1,6 +1,10 @@
 "use client";
 
-import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
+import {
+    checkWeekAttendance,
+    fetchStudyInfo,
+    postAttendance,
+} from "@/api/studies";
 import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/modal/MemberModal";
@@ -46,7 +50,20 @@ export default function Page() {
         setPause(false);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-        const isTimePosted = await postStudyTime(studyId, seconds);
+
+        if (Math.floor(seconds / 60) <= 0) {
+            customAlert({
+                message: `1분 이상의 시간만 저장 가능합니다.`,
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+            return;
+        }
+
+        const isTimePosted = await postStudyTime(
+            studyId,
+            Math.floor(seconds / 60),
+        );
         if (isTimePosted === "정상적으로 완료되었습니다.") {
             customAlert({
                 message: `공부시간이 저장되었습니다.`,
@@ -77,7 +94,7 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        if (res === "출석 체크 완료.") {
+        if (res.code === "0000") {
             await refetchAttendance();
             customAlert({
                 message: "출석체크 완료! 오늘도 화이팅이에요!",
@@ -86,7 +103,8 @@ export default function Page() {
             });
         } else {
             customAlert({
-                message: "출석체크가 되지 않았어요.",
+                message:
+                    "이미 오늘 출석을 했거나,\n출석체크가 완료되지 않았습니다.",
                 linkLabel: "닫기",
                 onClick: () => {},
             });
@@ -103,7 +121,7 @@ export default function Page() {
             queryKey: ["userAttendance", studyId],
             queryFn: async () => {
                 if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-                return await getAttendance(studyId);
+                return await checkWeekAttendance(studyId);
             },
             enabled: !!studyId,
         });

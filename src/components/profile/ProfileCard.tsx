@@ -8,12 +8,41 @@ import { useProfileStore } from "@/stores/memberStore";
 import { getValidAvatar } from "@/utils/studyDataMap";
 
 export default function ProfileCard({ id }: { id: string }) {
-    const { data, data2, data3, memberId, fetch } = useProfileStore();
+    const { data, data2, data3, memberId, fetch, loading } = useProfileStore();
 
     useEffect(() => {
         if (memberId !== Number(id)) fetch(Number(id));
         if (!data || !data2 || !data3) fetch(Number(id));
     }, [id, data, data2, data3, memberId, fetch]);
+
+    useEffect(() => {
+        if (data2?.avatarImage) {
+            const fetchAvatarData = async () => {
+                try {
+                    fetch(Number(id));
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchAvatarData();
+        }
+    }, [data2?.avatarImage, fetch, id]);
+
+    if (loading || !data || !data2 || !data3) {
+        return (
+            <div className="flex w-full animate-pulse items-center justify-between p-6">
+                <div className="flex flex-col gap-1">
+                    <div className="bg-gray200 h-6 w-32 rounded" />
+                    <div className="bg-gray200 mb-4 h-4 w-40 rounded" />
+                    <div className="bg-gray300 h-5 w-30 rounded" />
+                </div>
+                <span className="bg-gray300 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                    <div className="bg-gray200 h-12 w-12 rounded-full" />
+                </span>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -51,7 +80,7 @@ export default function ProfileCard({ id }: { id: string }) {
                     <Image
                         src={getValidAvatar(data2?.avatarImage)}
                         alt="프로필"
-                        className="h-12 w-12 object-fill"
+                        className="h-12 w-12 object-fill p-3"
                         sizes="48px"
                         fill
                     />

@@ -13,9 +13,28 @@ interface MemberProfile {
     joinedStudyCount: number;
     rewardPoints: number;
     winCount: number;
-    userStudies: StudyInfo[];
+    userStudies: MemberStudyInfo[];
 }
 // "members/{memberId}"의 마이페이지 정보 조회
+
+interface MemberStudyInfo {
+    title: string;
+    currentMemberCount: number;
+    maxMemberCount: number;
+    category: string;
+    region: string;
+    place: null;
+    startTime: string;
+    endTime: string;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+    achievementRecords: {
+        achievedAt: string;
+        accomplished: boolean;
+    }[];
+}
 
 interface MemberInfoType {
     email: string;
@@ -27,6 +46,22 @@ interface MemberInfoType {
 interface MemberStudies {
     memberId: number;
     nickname: string;
-    studies: StudyInfo[];
+    studies: MemberStudyList[];
 }
 // "members/{memberId}/studies"의 가입한 스터디 목록 조회
+
+interface MemberStudyList {
+    studyId: number;
+    title: string;
+    currentMemberCount: number;
+    maxMemberCount: number;
+    category: string;
+    region: string;
+    place: null;
+    start_date: string;
+    end_date: string;
+    schedules: string[];
+    startTime: string;
+    endTime: string;
+    studyType: "DEFAULT" | "SURVIVAL";
+}

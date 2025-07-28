@@ -1,6 +1,10 @@
 "use client";
 
-import { fetchStudyInfo, getAttendance, postAttendance } from "@/api/studies";
+import {
+    fetchStudyInfo,
+    postAttendance,
+    checkWeekAttendance,
+} from "@/api/studies";
 import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
@@ -55,7 +59,20 @@ export default function Page() {
         setPause(false);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-        const isTimePosted = await postStudyTime(studyId, seconds);
+
+        if (Math.floor(seconds / 60) <= 0) {
+            customAlert({
+                message: `1분 이상의 시간만 저장 가능합니다.`,
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+            return;
+        }
+
+        const isTimePosted = await postStudyTime(
+            studyId,
+            Math.floor(seconds / 60),
+        );
         if (isTimePosted === "정상적으로 완료되었습니다.") {
             customAlert({
                 message: `공부시간이 저장되었습니다.`,
@@ -86,7 +103,7 @@ export default function Page() {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
 
-        if (res === "출석 체크 완료.") {
+        if (res.code === "0000") {
             await refetchAttendance();
             customAlert({
                 message: "출석체크 완료! 오늘도 화이팅이에요!",
@@ -113,7 +130,7 @@ export default function Page() {
             queryKey: ["userAttendance", studyId],
             queryFn: async () => {
                 if (!studyId) throw new Error("스터디 아이디가 없습니다.");
-                return await getAttendance(studyId);
+                return await checkWeekAttendance(studyId);
             },
             enabled: !!studyId,
         });
@@ -156,7 +173,7 @@ export default function Page() {
                     <div className="flex items-center gap-4">
                         <MessageSquare
                             className="h-5 w-5 cursor-pointer"
-                            onClick={() => router.push("/chat")}
+                            onClick={() => router.push(`/${studyId}/chat`)}
                         />
                         <Bell
                             className="h-5 w-5 cursor-pointer"

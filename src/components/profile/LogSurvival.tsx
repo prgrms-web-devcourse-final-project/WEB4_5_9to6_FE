@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function LogSurvival({ study }: { study?: StudyInfo }) {
+export default function LogSurvival({ study }: { study?: MemberStudyList }) {
     const [isOpen, setOpen] = useState(false);
 
     useEffect(() => {

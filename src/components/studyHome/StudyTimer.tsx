@@ -1,5 +1,5 @@
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 export default function StudyTimer({
@@ -12,7 +12,8 @@ export default function StudyTimer({
     studyTimeSec: string;
 }) {
     const router = useRouter();
-
+    const params = useParams();
+    const studyId = params.studyId;
     return (
         <>
             {/* 타이머 */}
@@ -33,7 +34,9 @@ export default function StudyTimer({
                     <div className="flex h-[102px] w-[72px] flex-col items-center">
                         <button
                             className="flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
-                            onClick={() => router.push("/chat")}
+                            onClick={() =>
+                                router.push(`/study/${studyId}/chat`)
+                            }
                         >
                             <MessageSquare className="h-6 w-6 text-[var(--color-gray1000)]" />
                         </button>

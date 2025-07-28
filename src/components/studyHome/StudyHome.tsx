@@ -1,5 +1,4 @@
 import Image from "next/image";
-import studyImg from "@/assets/studyImg.png";
 import { useRouter } from "next/navigation";
 import {
     Bell,
@@ -7,7 +6,7 @@ import {
     EllipsisVertical,
     MessageSquare,
 } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import StudyHomeDefault from "@/components/studyHome/StudyHomeDefault";
 import StudyTimer from "@/components/studyHome/StudyTimer";
 import AvatarDisplay from "./AvatarDisplay";
@@ -15,6 +14,7 @@ import { useAuthStore } from "@/stores/authStore";
 import MenuModal from "./modal/MenuModal";
 import StudyGoalModal from "./modal/StudyGoalModal";
 import StudyUserModal from "./modal/StudyUserModal";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 export default function StudyHome({
     studyId,
     notice,
@@ -50,19 +50,24 @@ export default function StudyHome({
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
+    const { groupedOwnItems } = useOwnItemStore();
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
+    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+
+    useEffect(() => {
+        const selectedItemId = groupedOwnItems.BACKGROUND?.find(
+            (v) => v.used,
+        )?.itemId;
+        setSrc(`/images/rewardItems/${selectedItemId}.png`);
+    }, [groupedOwnItems]);
 
     return (
         <>
             {/* 스터디 이미지 */}
-            <div className="relative h-[256px] w-full">
-                <Image
-                    src={studyImg}
-                    alt="스터디 배경"
-                    className="h-full w-full"
-                />
+            <div className="relative h-fit w-full">
+                <Image src={src} alt="스터디 배경" width={1000} height={470} />
                 {isStart && (
                     <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/0 via-[#000000]/26 to-[#000000]/50"></div>
                 )}
@@ -79,7 +84,9 @@ export default function StudyHome({
                         <div className="flex items-center gap-2">
                             <button
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
-                                onClick={() => router.push("/chat")}
+                                onClick={() =>
+                                    router.push(`/study/${studyId}/chat`)
+                                }
                             >
                                 <MessageSquare className="h-5 w-5 text-[#161616]" />
                             </button>

@@ -1,58 +1,99 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function MyAvatarList({
     faceData,
     hatData,
     hairData,
     topData,
+    canvasRef,
 }: {
     faceData: OwnItems[];
     hatData: OwnItems[];
     hairData: OwnItems[];
     topData: OwnItems[];
+    canvasRef: React.RefObject<HTMLCanvasElement | null>;
 }) {
-    const [isFace, setFace] = useState(21);
-    const [isHat, setHat] = useState(31);
-    const [isHair, setHair] = useState(52);
-    const [isTop, setTop] = useState(61);
+    const { avatarItemId, changeAvatarItemId, changeAvatarOwnId } =
+        useOwnItemStore();
 
-    const selectHandler = (type: string, id: number) => {
-        if (type === "FACE") {
-            setFace(id);
-        } else if (type === "HAT") {
-            setHat(id);
-        } else if (type === "HAIR") {
-            setHair(id);
-        } else if (type === "TOP") {
-            setTop(id);
-        } else {
-            return;
-        }
+    const selectHandler = (
+        type: "FACE" | "HAT" | "HAIR" | "TOP",
+        id: number,
+    ) => {
+        changeAvatarItemId(type, id);
     };
 
     useEffect(() => {
         const selectedFace = faceData?.find((v) => v.used)?.itemId;
-        setFace(selectedFace || 21);
+        const ownedFace = faceData?.find((v) => v.used)?.ownItemId;
+        changeAvatarItemId("FACE", selectedFace || 21);
+        changeAvatarOwnId("FACE", ownedFace || 0);
         const selectedHat = hatData?.find((v) => v.used)?.itemId;
-        setHat(selectedHat || 31);
+        const ownedHat = hatData?.find((v) => v.used)?.ownItemId;
+        changeAvatarItemId("HAT", selectedHat || 31);
+        changeAvatarOwnId("HAT", ownedHat || 0);
+
         const selectedHair = hairData?.find((v) => v.used)?.itemId;
-        setHair(selectedHair || 52);
+        const ownedHair = hairData?.find((v) => v.used)?.ownItemId;
+        changeAvatarItemId("HAIR", selectedHair || 52);
+        changeAvatarOwnId("HAIR", ownedHair || 0);
+
         const selectedTop = topData?.find((v) => v.used)?.itemId;
-        setTop(selectedTop || 61);
-    }, [faceData, hatData, hairData, topData]);
+        const ownedTop = topData?.find((v) => v.used)?.ownItemId;
+        changeAvatarItemId("TOP", selectedTop || 61);
+        changeAvatarOwnId("TOP", ownedTop || 0);
+    }, [
+        faceData,
+        hatData,
+        hairData,
+        topData,
+        changeAvatarItemId,
+        changeAvatarOwnId,
+    ]);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const context = canvas.getContext("2d");
+        if (!context) return;
+
+        const orderedIds = [
+            avatarItemId.FACE,
+            avatarItemId.HAIR,
+            avatarItemId.HAT,
+            avatarItemId.TOP,
+        ];
+
+        const imagePromises = orderedIds.map(
+            (id) =>
+                new Promise<HTMLImageElement>((res) => {
+                    const img = new window.Image();
+                    img.src = `/images/changeAvatars/${id}.png`;
+                    img.onload = () => res(img);
+                }),
+        );
+
+        Promise.all(imagePromises).then((images) => {
+            context.clearRect(0, 0, 128, 128);
+            images.forEach((img) => {
+                context.drawImage(img, 0, 0, 128, 128);
+            });
+        });
+    }, [avatarItemId, canvasRef]);
 
     return (
         <>
             <div className="mb-[90px]">
                 <div className="relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
                     <Image
-                        src={`/images/changeAvatars/${isFace}.png`}
+                        src={`/images/changeAvatars/${avatarItemId.FACE}.png`}
                         alt="face"
                         width={128}
                         height={128}
@@ -60,7 +101,7 @@ export default function MyAvatarList({
                     />
                     {/* 머리 */}
                     <Image
-                        src={`/images/changeAvatars/${isHair}.png`}
+                        src={`/images/changeAvatars/${avatarItemId.HAIR}.png`}
                         alt="hair"
                         width={128}
                         height={128}
@@ -68,7 +109,7 @@ export default function MyAvatarList({
                     />
                     {/* 모자 */}
                     <Image
-                        src={`/images/changeAvatars/${isHat}.png`}
+                        src={`/images/changeAvatars/${avatarItemId.HAT}.png`}
                         alt="hat"
                         width={128}
                         height={128}
@@ -76,7 +117,7 @@ export default function MyAvatarList({
                     />
                     {/* 옷 */}
                     <Image
-                        src={`/images/changeAvatars/${isTop}.png`}
+                        src={`/images/changeAvatars/${avatarItemId.TOP}.png`}
                         alt="top"
                         width={128}
                         height={128}
@@ -106,7 +147,9 @@ export default function MyAvatarList({
                                         ownId={v.ownItemId}
                                         name={v.name}
                                         part="FACE"
-                                        selected={isFace === v.itemId}
+                                        selected={
+                                            avatarItemId.FACE === v.itemId
+                                        }
                                         onSelect={() =>
                                             selectHandler("FACE", v.itemId)
                                         }
@@ -137,7 +180,7 @@ export default function MyAvatarList({
                                         ownId={v.ownItemId}
                                         name={v.name}
                                         part="HAT"
-                                        selected={isHat === v.itemId}
+                                        selected={avatarItemId.HAT === v.itemId}
                                         onSelect={() =>
                                             selectHandler("HAT", v.itemId)
                                         }
@@ -168,7 +211,9 @@ export default function MyAvatarList({
                                         ownId={v.ownItemId}
                                         name={v.name}
                                         part="HAIR"
-                                        selected={isHair === v.itemId}
+                                        selected={
+                                            avatarItemId.HAIR === v.itemId
+                                        }
                                         onSelect={() =>
                                             selectHandler("HAIR", v.itemId)
                                         }
@@ -199,7 +244,7 @@ export default function MyAvatarList({
                                         ownId={v.ownItemId}
                                         name={v.name}
                                         part="TOP"
-                                        selected={isTop === v.itemId}
+                                        selected={avatarItemId.TOP === v.itemId}
                                         onSelect={() =>
                                             selectHandler("TOP", v.itemId)
                                         }

@@ -9,7 +9,7 @@ interface AvatarType {
     id: number;
     ownId: number;
     name: string;
-    part: string;
+    part: "FACE" | "HAT" | "HAIR" | "TOP";
     selected: boolean;
     onSelect: () => void;
 }
@@ -22,7 +22,12 @@ export default function AvatarComponent({
     selected,
     onSelect,
 }: AvatarType) {
-    const { changeOwnId, changeOwnName } = useOwnItemStore();
+    const {
+        changeOwnId,
+        changeAvatarState,
+        changeAvatarOwnId,
+        changeAvatarName,
+    } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/21.png`);
 
     useEffect(() => {
@@ -34,8 +39,10 @@ export default function AvatarComponent({
             <div
                 onClick={() => {
                     onSelect();
+                    changeAvatarState(true);
                     changeOwnId(ownId);
-                    changeOwnName(name);
+                    changeAvatarName(part, name);
+                    changeAvatarOwnId(part, ownId);
                 }}
                 className="bg-gray200 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
             >

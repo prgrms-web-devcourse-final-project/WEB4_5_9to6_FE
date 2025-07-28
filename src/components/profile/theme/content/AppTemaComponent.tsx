@@ -17,7 +17,7 @@ export default function AppTemaComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const { changeOwnId, changeOwnName } = useOwnItemStore();
+    const { changeOwnId, changeOwnName, changeAvatarState } = useOwnItemStore();
     return (
         <>
             <div className="flex flex-col gap-[10px]">
@@ -26,6 +26,7 @@ export default function AppTemaComponent({
                     onClick={() => {
                         onSelect();
                         changeOwnId(ownId);
+                        changeAvatarState(false);
                         changeOwnName(name + " 테마");
                     }}
                     className="relative aspect-[31/57] cursor-pointer"
