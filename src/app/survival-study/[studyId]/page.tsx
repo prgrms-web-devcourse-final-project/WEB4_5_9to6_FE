@@ -87,9 +87,10 @@ export default function SurvivalStudy() {
     };
 
     useEffect(() => {
-        const selectedItemId = groupedOwnItems.BACKGROUND?.find(
+        let selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
+        if (selectedItemId === 11) selectedItemId = 18;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
     }, [groupedOwnItems.BACKGROUND]);
 

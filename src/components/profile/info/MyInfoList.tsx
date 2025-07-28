@@ -26,13 +26,13 @@ export default function MyInfoList({
             setIsLogOut(true);
         },
         onSuccess() {
+            useAuthStore.getState().logout();
             router.push("/login");
             customAlert({
                 message: "로그아웃 되었습니다!",
                 linkLabel: "닫기",
                 onClick: () => {},
             });
-            useAuthStore.getState().logout();
         },
         onError(error) {
             console.error("로그아웃 실패:", error);

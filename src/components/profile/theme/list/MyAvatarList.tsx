@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -20,6 +20,7 @@ export default function MyAvatarList({
     topData: OwnItems[];
     canvasRef: React.RefObject<HTMLCanvasElement | null>;
 }) {
+    const [isImageLoading, setIsImageLoading] = useState(true);
     const { avatarItemId, changeAvatarItemId, changeAvatarOwnId } =
         useOwnItemStore();
 
@@ -79,6 +80,7 @@ export default function MyAvatarList({
                     img.onload = () => res(img);
                 }),
         );
+        setIsImageLoading(true);
 
         Promise.all(imagePromises).then((images) => {
             context.clearRect(0, 0, 128, 128);
@@ -92,6 +94,9 @@ export default function MyAvatarList({
         <>
             <div className="mb-[90px]">
                 <div className="relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
+                    {isImageLoading && (
+                        <div className="border-t-main500 border-gray500 h-8 w-8 animate-spin rounded-full border-2" />
+                    )}
                     <Image
                         src={`/images/changeAvatars/${avatarItemId.FACE}.png`}
                         alt="face"

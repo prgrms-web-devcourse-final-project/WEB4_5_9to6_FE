@@ -23,9 +23,11 @@ export default function ShopAvatarComponent({
     selected,
 }: AvatarType) {
     const [src, setSrc] = useState(`/images/rewardItems/21.png`);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
         setSrc(`/images/rewardItems/${id}.png`);
+        setIsImageLoading(true);
     }, [part, id]);
 
     const { openModal, idChange, nameChange, priceChange } =
@@ -56,11 +58,21 @@ export default function ShopAvatarComponent({
                 onClick={clickHandler}
                 className="bg-gray200 group relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
             >
+                {isImageLoading && (
+                    <div className="bg-gray300 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
+                        <div className="border-t-main500 border-gray500 h-6 w-6 animate-spin rounded-full border-2" />
+                    </div>
+                )}
                 <Image
                     src={src}
                     alt={part}
                     fill
                     sizes="72px"
+                    onLoad={() => setIsImageLoading(false)}
+                    onError={() => {
+                        setSrc("/images/rewardItems/21.png");
+                        setIsImageLoading(false);
+                    }}
                     className="absolute inset-0 rounded-xl"
                 />
                 <div

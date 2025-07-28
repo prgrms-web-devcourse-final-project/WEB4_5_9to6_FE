@@ -19,9 +19,11 @@ export default function ShopRoomComponent({
     selected: boolean;
 }) {
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
         setSrc(`/images/rewardItems/${id}.png`);
+        setIsImageLoading(true);
     }, [id]);
 
     const { openModal, idChange, nameChange, priceChange } =
@@ -59,14 +61,24 @@ export default function ShopRoomComponent({
                 <div
                     onClick={clickHandler}
                     className="relative aspect-[80/45] cursor-pointer"
-                    style={{ minHeight: "120px" }} // ✅ 추가
+                    style={{ minHeight: "120px" }}
                 >
+                    {isImageLoading && (
+                        <div className="bg-gray300 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
+                            <div className="border-t-main500 border-gray500 h-6 w-6 animate-spin rounded-full border-2" />
+                        </div>
+                    )}
+
                     <Image
                         src={src}
                         alt="스터디룸"
                         fill
                         sizes="100%"
-                        onError={() => setSrc("/images/rewardItems/11.png")}
+                        onLoad={() => setIsImageLoading(false)}
+                        onError={() => {
+                            setSrc("/images/rewardItems/11.png");
+                            setIsImageLoading(false);
+                        }}
                         className="absolute inset-0 rounded-xl object-cover"
                     />
                     <div
