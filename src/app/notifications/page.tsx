@@ -1,33 +1,18 @@
 "use client";
 
 import AlertMessage from "@/components/AlertMessage";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import SubHeader from "@/components/common/SubHeader";
 
 export default function Notifications() {
     const dummyAlerts = Array(6).fill(null);
-    const router = useRouter();
 
-    const prevPageHandler = () => {
-        router.back();
-    };
     return (
         <>
-            <header className="fixed h-15.5 w-full bg-white px-4 backdrop-blur-2xl">
-                <div className="flex h-full items-center justify-between">
-                    <button
-                        onClick={prevPageHandler}
-                        className="cursor-pointer"
-                    >
-                        <ChevronLeft />
-                    </button>
-                    <h6 className="h6">알림</h6>
-                    <span className="c2 cursor-pointer pt-5 text-[var(--color-gray600)]">
-                        모두읽음
-                    </span>
-                </div>
-            </header>
-            <div className="pt-16">
+            <SubHeader>알림</SubHeader>
+            <button className="c2 fixed right-5 cursor-pointer pt-5 text-[var(--color-gray600)]">
+                모두읽기
+            </button>
+            <div className="pt-15">
                 {dummyAlerts.map((_, i) => (
                     <AlertMessage key={i} />
                 ))}
