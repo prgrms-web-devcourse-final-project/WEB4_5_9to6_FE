@@ -102,7 +102,10 @@ export default function Header({
                                     내 정보 수정
                                 </button>
                             )}
-                            <Bell className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black" />
+                            <Bell
+                                className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
+                                onClick={() => router.push("notifications")}
+                            />
                         </div>
                     )}
                 </div>
