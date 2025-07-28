@@ -68,14 +68,12 @@ export default function EditStudy() {
     });
 
     useEffect(() => {
-        useStudyStore.getState().reset();
-    }, []);
-
-    useEffect(() => {
         if (!isFetched && fetchStudyData) {
             useStudyStore.getState().fetchStudy(fetchStudyData);
         }
     }, [isFetched, fetchStudyData]);
+
+    if (!isFetched || !fetchStudyData) return null;
 
     return (
         <>
