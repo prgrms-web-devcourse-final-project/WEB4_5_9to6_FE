@@ -21,13 +21,13 @@ export default function Input({
         <>
             <div className="relative flex flex-col gap-1">
                 {label && (
-                    <label className="h6 text-[var(--color-gray1000)]">
+                    <label className="h6 text-gray1000 dark:text-white">
                         {label}
                     </label>
                 )}
                 <input
                     className={twMerge(
-                        `h-[54px] w-full rounded-[12px] border border-[var(--color-gray-300)] px-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] duration-200 ease-in-out focus:outline-none ${error && "ring-1 ring-[#FF394A]"} ${icon && "pr-10"}`,
+                        `text-gray1000 placeholder-gray500 dark:placeholder-gray700 dark:border-gray800 h-[54px] w-full rounded-[12px] border border-gray-300 px-4 duration-200 ease-in-out focus:outline-none dark:text-white ${error && "border-[#FF394A] dark:border-[#FF394A]"} ${icon && "pr-10"}`,
                         className,
                     )}
                     {...props}
@@ -43,7 +43,7 @@ export default function Input({
                 </label>
                 {icon && (
                     <div
-                        className={`absolute top-[27px] right-3 -translate-y-1/2 cursor-pointer text-[var(--color-gray500)] ${label && "top-[53px]"}`}
+                        className={`text-gray500 dark:text-gray700 absolute top-[27px] right-3 -translate-y-1/2 cursor-pointer duration-200 ${label && "top-[53px]"}`}
                     >
                         {icon}
                     </div>
