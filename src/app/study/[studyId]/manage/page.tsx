@@ -30,7 +30,13 @@ export default function Page() {
     // const [seconds, setSeconds] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+    //타이머 동작 핸들러
     const startTimer = () => {
+        setIsStart(true);
+        setPause(true);
+    };
+
+    const playTimer = () => {
         if (intervalRef.current) return;
 
         setPause(false);
@@ -43,10 +49,8 @@ export default function Page() {
     };
 
     const stopTimer = () => {
-        setIsStart(true);
         setPause(true);
         if (intervalRef.current) {
-            // setPause(true);
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
@@ -99,6 +103,7 @@ export default function Page() {
     //     return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
     // };
 
+    //출석 핸들러
     const attendHandler = async () => {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
@@ -120,11 +125,14 @@ export default function Page() {
         }
     };
 
+    // 스터디 정보
     const { data: studyManageData } = useQuery<StudyInfos>({
         queryKey: ["studyInfos", studyId],
         queryFn: async () => await fetchStudyInfo(studyId!),
         enabled: !!studyId,
     });
+
+    // 스터디 출석 여부
     const { data: attendData, refetch: refetchAttendance } =
         useQuery<studyUserAttendance>({
             queryKey: ["userAttendance", studyId],
@@ -134,6 +142,7 @@ export default function Page() {
             },
             enabled: !!studyId,
         });
+
     const isUserAttended = () => {
         if (!attendData) return false;
         const now = new Date().toISOString().slice(0, 10);
@@ -149,6 +158,7 @@ export default function Page() {
             setIsStart(false);
         }
     }, [attended, setIsStart]);
+
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
@@ -196,7 +206,7 @@ export default function Page() {
                                 </Button>
                             )}
                             {attended && (
-                                <Button color="primary" onClick={stopTimer}>
+                                <Button color="primary" onClick={startTimer}>
                                     스터디 시작
                                 </Button>
                             )}
@@ -225,7 +235,7 @@ export default function Page() {
                                 <Button
                                     color="primary"
                                     className="basis-[64.1%]"
-                                    onClick={startTimer}
+                                    onClick={playTimer}
                                 >
                                     <Play className="h-6 w-6" />
                                 </Button>

@@ -38,6 +38,7 @@ export default function Page() {
     const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isApplyOpen, setIsApplyOpen] = useState(false);
+
     const isNewFunc = () => {
         const now = new Date();
         if (study) {
@@ -47,7 +48,7 @@ export default function Page() {
     };
 
     // 신청자 목록조회
-    const { data: applicantData } = useQuery({
+    const { data: applicantData } = useQuery<studyApplicant[]>({
         queryKey: ["applicantData", studyId],
         queryFn: async () => {
             if (!studyId) throw new Error("스터디 아이디가 없습니다");
@@ -56,6 +57,7 @@ export default function Page() {
         enabled: !!studyId,
     });
 
+    //서브헤더를 위한 스크롤 감지
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 56) {
@@ -68,6 +70,7 @@ export default function Page() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    //스터디 정보
     useEffect(() => {
         const fetchStudy = async () => {
             const id = params?.studyId;
@@ -83,15 +86,20 @@ export default function Page() {
         fetchStudy();
     }, [params?.studyId]);
 
-    //현재 사용자가 신청자에 포함되는지
+    //현재 사용자의 신청여부 및 상태
     useEffect(() => {
         if (applicantData && myInfo?.id) {
             const isApplied = applicantData.some(
-                (m: Members) => m.memberId === myInfo.id,
+                (m) => m.memberId === myInfo.id,
             );
             setIsApply(isApplied);
         }
     }, [applicantData, myInfo]);
+    const isRejected = applicantData?.some(
+        (m) => m.memberId === myInfo?.id && m.state === "REJECT",
+    );
+
+    //스터디멤버여부
     const { data: isMember } = useQuery({
         queryKey: ["isMember", studyId],
         queryFn: async () => {
@@ -99,6 +107,8 @@ export default function Page() {
             return await checkIsMember(studyId);
         },
     });
+
+    //스터디장 여부
     const { data: memberData } = useQuery<StudyMember[]>({
         queryKey: ["studyMembers", studyId],
         queryFn: async () => {
@@ -110,6 +120,7 @@ export default function Page() {
     });
     const leader = memberData?.find((q) => q.role === "LEADER");
 
+    //스터디 배경
     useEffect(() => {
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
@@ -182,6 +193,7 @@ export default function Page() {
 
                     {/* 신청하기 버튼 */}
                     <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
+                        {/* 로그인상태 */}
                         {isLogIn &&
                             (isMember?.isMember ? (
                                 leader?.memberId === myInfo?.id ? (
@@ -197,7 +209,11 @@ export default function Page() {
                                     </Button>
                                 )
                             ) : isApply ? (
-                                <Button disabled>신청 완료</Button>
+                                <Button disabled>
+                                    {isRejected
+                                        ? "거절된 스터디입니다."
+                                        : "신청 완료"}
+                                </Button>
                             ) : (
                                 <Button
                                     onClick={() => setIsOpen(true)}
@@ -206,6 +222,8 @@ export default function Page() {
                                     신청하기
                                 </Button>
                             ))}
+
+                        {/* 비로그인상태 */}
                         {!isLogIn && (
                             <Button
                                 onClick={() => router.push("/login")}
