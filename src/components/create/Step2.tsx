@@ -7,7 +7,13 @@ import TimeModal from "./TimeModal";
 import DateModal from "./DateModal";
 import { useStudyStore } from "@/stores/studyStore";
 
-export default function Step2({ continueStep }: { continueStep: () => void }) {
+export default function Step2({
+    continueStep,
+    isEdit,
+}: {
+    continueStep: () => void;
+    isEdit?: boolean;
+}) {
     const [isMounted, setIsMounted] = useState(false);
     const daysOfWeek = useStudyStore((state) => state.studyData.schedules);
     const startTime = useStudyStore((state) => state.studyData.startTime);
@@ -89,8 +95,10 @@ export default function Step2({ continueStep }: { continueStep: () => void }) {
                                 icon={<Calendar strokeWidth={1} size={20} />}
                                 label="스터디 기간"
                                 value={startDate}
-                                className="cursor-pointer"
-                                onClick={() => setIsDateModalOpen(true)}
+                                className="cursor-pointer text-[var(--color-gray600)]"
+                                onClick={() =>
+                                    isEdit ? {} : setIsDateModalOpen(true)
+                                }
                                 readOnly
                             />
                             <h6 className="flex justify-end text-[var(--color-gray1000)]">
@@ -140,6 +148,7 @@ export default function Step2({ continueStep }: { continueStep: () => void }) {
                 <DateModal
                     isOpen={isDateModalOpen}
                     onClose={() => setIsDateModalOpen(false)}
+                    isEdit={isEdit}
                 />
             )}
         </>
