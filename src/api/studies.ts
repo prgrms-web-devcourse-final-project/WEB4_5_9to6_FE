@@ -168,7 +168,7 @@ export const createStudy = async ({
     externalLink,
     studyType,
     goals,
-    online,
+    isOnline,
 }: CreateStudy) => {
     const response = await axiosInstance.post("studies", {
         name,
@@ -185,7 +185,7 @@ export const createStudy = async ({
         externalLink,
         studyType,
         goals,
-        online,
+        isOnline,
     });
 
     return response.data;
@@ -209,7 +209,7 @@ export const editStudy = async (
         externalLink,
         studyType,
         goals,
-        online,
+        isOnline,
     }: CreateStudy,
 ) => {
     const response = await axiosInstance.put(`studies/${studyId}`, {
@@ -227,7 +227,7 @@ export const editStudy = async (
         externalLink,
         studyType,
         goals,
-        online,
+        isOnline,
     });
 
     return response.data;

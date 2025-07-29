@@ -52,7 +52,7 @@ interface CreateStudy {
     externalLink: string;
     studyType: string;
     goals: { goalId: number | null; content: string }[];
-    online: boolean;
+    isOnline: boolean;
 }
 // "studies"의 스터디 생성에서 사용
 
