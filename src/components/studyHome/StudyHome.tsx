@@ -55,19 +55,31 @@ export default function StudyHome({
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
+        setIsImageLoading(true);
     }, [groupedOwnItems]);
 
     return (
         <>
             {/* 스터디 이미지 */}
-            <div className="relative h-fit w-full">
-                <Image src={src} alt="스터디 배경" width={1000} height={470} />
+            <div className="relative aspect-[1000/500] w-full">
+                {isImageLoading && (
+                    <div className="bg-gray300 absolute inset-0 z-10 animate-pulse" />
+                )}
+                <Image
+                    src={src}
+                    alt="스터디 배경"
+                    fill
+                    priority
+                    className={`${isImageLoading ? "opacity-0" : "opacity-100"} w-full`}
+                    onLoad={() => setIsImageLoading(false)}
+                />
                 {isStart && (
                     <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/0 via-[#000000]/26 to-[#000000]/50"></div>
                 )}

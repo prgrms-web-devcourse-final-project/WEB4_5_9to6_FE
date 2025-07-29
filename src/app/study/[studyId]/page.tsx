@@ -7,9 +7,9 @@ import {
 } from "@/api/studies";
 import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
+import StudyLoading from "@/components/studyHome/StudyLoading";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -157,14 +157,14 @@ export default function Page() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-
     if (studyPending) {
         return (
             <>
-                <LoadingSpinner />
+                <StudyLoading />
             </>
         );
     }
+
     return (
         <>
             <SubHeader
