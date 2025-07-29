@@ -151,14 +151,14 @@ export default function Login() {
                     <Button
                         onClick={kakaotalkHandler}
                         color="yellow"
-                        icon="../images/kakaotalk.png"
+                        icon="/images/kakaotalk.png"
                     >
                         카카오톡으로 시작
                     </Button>
                     <Button
                         onClick={googleHandler}
                         color="white"
-                        icon="../images/google.png"
+                        icon="/images/google.png"
                     >
                         구글로 시작
                     </Button>

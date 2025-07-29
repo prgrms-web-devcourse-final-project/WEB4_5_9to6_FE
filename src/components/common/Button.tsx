@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -37,7 +38,17 @@ export default function Button({
                 {...props}
             >
                 <div className="flex items-center justify-center gap-2">
-                    {icon && <img src={icon} alt="아이콘" />}
+                    {icon && (
+                        <span className="relative aspect-[1/1] w-[20px]">
+                            <Image
+                                src={icon}
+                                alt="아이콘"
+                                fill
+                                sizes="20px"
+                                priority
+                            />
+                        </span>
+                    )}
                     {children}
                 </div>
             </button>

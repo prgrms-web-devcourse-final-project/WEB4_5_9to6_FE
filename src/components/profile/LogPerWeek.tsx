@@ -69,7 +69,7 @@ export default function LogPerWeek({
             startDate.setHours(0, 0, 0, 0);
             now.setHours(0, 0, 0, 0);
 
-            setOpen(startDate < now);
+            setOpen(startDate <= now);
         }
     }, [study]);
 

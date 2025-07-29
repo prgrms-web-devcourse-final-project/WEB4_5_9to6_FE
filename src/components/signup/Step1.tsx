@@ -89,7 +89,7 @@ export default function Step1({
         if (code.length === 6 && email) {
             verifyEmail();
         }
-    }, [code]);
+    }, [code, email, verifyEmail]);
 
     return (
         <>
