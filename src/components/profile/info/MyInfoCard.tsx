@@ -7,9 +7,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { getValidAvatar } from "@/utils/studyDataMap";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function MyInfoCard({ id }: { id: string }) {
     const { myInfo, refetch } = useAuthStore();
+    const { resetItemsOwn } = useOwnItemStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -24,6 +26,7 @@ export default function MyInfoCard({ id }: { id: string }) {
             const fetchAvatarData = async () => {
                 try {
                     refetch();
+                    resetItemsOwn();
                 } catch (err) {
                     console.error(err);
                 }
@@ -31,7 +34,7 @@ export default function MyInfoCard({ id }: { id: string }) {
 
             fetchAvatarData();
         }
-    }, [myInfo?.avatarInfo.avatarImage, refetch]);
+    }, [myInfo?.avatarInfo.avatarImage, refetch, resetItemsOwn]);
 
     const isLoading =
         !myInfo || !myInfo.avatarInfo || !myInfo.avatarInfo.avatarImage;

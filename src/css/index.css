@@ -100,7 +100,6 @@
             transform: scale(1) rotate(0deg);
         }
     }
-
     .animate-bounceShort {
         animation: bounceShort 0.6s ease-out;
     }
@@ -115,27 +114,8 @@
             opacity: 1;
         }
     }
-
     .animate-slideFadeDown {
         animation: slideFadeDown 0.6s ease-out;
-    }
-
-    @keyframes bounceShort {
-        0% {
-            transform: scale(0.8) rotate(-15deg);
-            opacity: 0;
-        }
-        50% {
-            transform: scale(1.05) rotate(5deg);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1) rotate(0deg);
-        }
-    }
-
-    .animate-bounceShort {
-        animation: bounceShort 0.6s ease-out;
     }
 
     @keyframes rotateEmoji {
@@ -153,6 +133,36 @@
 
     .animate-rotate {
         animation: rotateEmoji 1s ease-in-out infinite;
+    }
+
+    @keyframes timerSlideUp {
+        0% {
+            transform: translateY(40px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    .animate-timerSlideUp {
+        animation: timerSlideUp 0.5s ease-out;
+    }
+
+    @keyframes timerSlideDown {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 10;
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(40px);
+            z-index: 40;
+        }
+    }
+    .animate-timerSlideDown {
+        animation: timerSlideDown 0.5s ease-in;
     }
 }
 @layer components {

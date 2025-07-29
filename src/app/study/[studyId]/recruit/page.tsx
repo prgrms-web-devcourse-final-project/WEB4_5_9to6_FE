@@ -29,9 +29,10 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
-    const { groupedOwnItems } = useOwnItemStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isLoading, setIsLoading] = useState(true);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -80,11 +81,18 @@ export default function Page() {
     }, [applicantData, myInfo]);
 
     useEffect(() => {
+        if (
+            !groupedOwnItems.BACKGROUND ||
+            groupedOwnItems.BACKGROUND.length === 0
+        ) {
+            fetchItemsOwn();
+        }
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [groupedOwnItems]);
+        setIsImageLoading(true);
+    }, [fetchItemsOwn, groupedOwnItems]);
 
     if (isLoading) {
         return (
@@ -111,7 +119,14 @@ export default function Page() {
 
                     {/* 스터디 이미지 */}
                     <div className="relative aspect-[1000/500] w-full">
-                        <Image src={src} alt="스터디 배경" fill priority />
+                        <Image
+                            src={src}
+                            alt="스터디 배경"
+                            fill
+                            priority
+                            className={`${isImageLoading ? "opacity-0" : "opacity-100"} w-full`}
+                            onLoad={() => setIsImageLoading(false)}
+                        />
                         <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
                             className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"

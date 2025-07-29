@@ -18,6 +18,7 @@ interface AvatarName {
 interface OwnItemStore {
     ownItems: OwnItems[];
     fetchItemsOwn: () => Promise<void>;
+    resetItemsOwn: () => void;
     groupedOwnItems: Record<string, OwnItems[]>;
     ownId: number;
     ownName: string;
@@ -64,6 +65,8 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
             console.log("소유 아이템 로딩 실패:", err);
         }
     },
+    resetItemsOwn: () =>
+        set({ ownItems: [], groupedOwnItems: {}, ownId: 0, ownName: "아이템" }),
     changeOwnId: (id: number) => set({ ownId: id }),
     changeOwnName: (name: string) => set({ ownName: name }),
     avatarState: false,

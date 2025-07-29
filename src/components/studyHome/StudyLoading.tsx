@@ -1,8 +1,8 @@
 export default function StudyLoading() {
     return (
         <>
-            <div className="relative aspect-[1000/500] w-full">
-                <div className="bg-gray300 absolute inset-0 z-10 animate-pulse" />
+            <div className="relative aspect-[1000/500] w-full animate-pulse">
+                <div className="bg-gray300 absolute inset-0 z-10" />
             </div>
             <div className="bg-gray700 relative aspect-[360/80] w-full animate-pulse px-4 py-3" />
             <div className="mt-3 w-full animate-pulse">

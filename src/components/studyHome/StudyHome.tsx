@@ -50,7 +50,7 @@ export default function StudyHome({
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
-    const { groupedOwnItems } = useOwnItemStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
@@ -58,12 +58,18 @@ export default function StudyHome({
     const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
+        if (
+            !groupedOwnItems.BACKGROUND ||
+            groupedOwnItems.BACKGROUND.length === 0
+        ) {
+            fetchItemsOwn();
+        }
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
         setIsImageLoading(true);
-    }, [groupedOwnItems]);
+    }, [fetchItemsOwn, groupedOwnItems]);
 
     return (
         <>
@@ -136,22 +142,26 @@ export default function StudyHome({
             </div>
 
             {!isStart && (
-                <StudyHomeDefault
-                    notice={notice}
-                    schedules={schedules}
-                    startTime={startTime}
-                    endTime={endTime}
-                    region={region}
-                    name={name}
-                    exLink={exLink}
-                    maxMembers={maxMembers}
-                    currentMemberCount={currentMemberCount}
-                    onOpen={() => setIsUserOpen(true)}
-                />
+                <div>
+                    <StudyHomeDefault
+                        notice={notice}
+                        schedules={schedules}
+                        startTime={startTime}
+                        endTime={endTime}
+                        region={region}
+                        name={name}
+                        exLink={exLink}
+                        maxMembers={maxMembers}
+                        currentMemberCount={currentMemberCount}
+                        onOpen={() => setIsUserOpen(true)}
+                    />
+                </div>
             )}
 
             {isStart && (
-                <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
+                <div
+                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white ${isStart && "animate-timerSlideUp"}`}
+                >
                     <StudyTimer
                         pause={pause}
                         setIsGoalOpen={setIsGoalOpen}
