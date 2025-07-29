@@ -70,7 +70,7 @@ export default function NoticeBox({
 
     return (
         <div
-            className={`relative h-fit w-full rounded-2xl px-4 backdrop-blur-xl ${className}`}
+            className={`relative h-fit w-full rounded-2xl px-5 backdrop-blur-xl ${className}`}
         >
             <div className="flex w-full items-center justify-between">
                 {/* 공지사항 & 내용 */}

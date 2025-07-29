@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useOwnItemStore } from "@/stores/ownItemStore";
 import BottomModal from "@/components/common/BottomModal";
 import StudyApplicant from "@/components/studyHome/StudyApplicant";
+import StudyRecruitLoading from "@/components/studyRecruit/StudyRecruitLoading";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -35,9 +36,11 @@ export default function Page() {
     const studyId = typeof id === "string" ? parseInt(id) : undefined;
     const isLogIn = useAuthStore((state) => state.isLogIn); //로그인유무
     const myInfo = useAuthStore((state) => state.myInfo);
-    const { groupedOwnItems } = useOwnItemStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isApplyOpen, setIsApplyOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     const isNewFunc = () => {
         const now = new Date();
@@ -76,10 +79,13 @@ export default function Page() {
             const id = params?.studyId;
             if (typeof id === "string") {
                 try {
+                    setIsLoading(true);
                     const data: StudyInfos = await fetchStudyInfo(parseInt(id));
                     setStudy(data);
                 } catch (err) {
                     console.error("스터디 정보 에러:", err);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         };
@@ -122,11 +128,26 @@ export default function Page() {
 
     //스터디 배경
     useEffect(() => {
+        if (
+            !groupedOwnItems.BACKGROUND ||
+            groupedOwnItems.BACKGROUND.length === 0
+        ) {
+            fetchItemsOwn();
+        }
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [groupedOwnItems]);
+        setIsImageLoading(true);
+    }, [fetchItemsOwn, groupedOwnItems]);
+
+    if (isLoading) {
+        return (
+            <>
+                <StudyRecruitLoading />
+            </>
+        );
+    }
 
     return (
         <>
@@ -144,12 +165,14 @@ export default function Page() {
                     </SubHeader>
 
                     {/* 스터디 이미지 */}
-                    <div className="relative h-fit w-full">
+                    <div className="relative aspect-[1000/500] w-full">
                         <Image
                             src={src}
                             alt="스터디 배경"
-                            width={1000}
-                            height={470}
+                            fill
+                            priority
+                            className={`${isImageLoading ? "opacity-0" : "opacity-100"} w-full`}
+                            onLoad={() => setIsImageLoading(false)}
                         />
                         <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button

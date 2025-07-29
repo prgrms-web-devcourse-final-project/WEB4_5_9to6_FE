@@ -18,6 +18,7 @@ export default function SurvivalStudy({
     member: string;
 }) {
     const router = useRouter();
+
     return (
         <>
             <div

@@ -10,21 +10,42 @@ export default function StudyUsers() {
     const params = useParams();
     const user = useAuthStore((state) => state.myInfo);
     const [members, setMembers] = useState<Members[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const fetchMembers = async () => {
             const id = params?.studyId;
             if (typeof id === "string") {
                 try {
+                    setIsLoading(true);
                     const data: Members[] = await studyMembers(parseInt(id));
                     console.log("멤버데이터", data);
                     setMembers(data);
                 } catch (err) {
                     console.error("팀원현황 불러오기 실패", err);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         };
         fetchMembers();
     }, [params?.studyId]);
+    if (isLoading) {
+        return (
+            <div className="mt-6 animate-pulse px-5">
+                <div className="bg-gray300 h-4 w-20 rounded" />
+                <div className="mt-4 flex flex-col gap-[12px]">
+                    {[...Array(3)].map((_, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                            <div className="bg-gray300 h-12 w-12 rounded-[16px]" />
+                            <div className="bg-gray300 h-4 w-24 rounded" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="mt-6 px-5">

@@ -10,6 +10,7 @@ import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/modal/MemberModal";
 import StudyHome from "@/components/studyHome/StudyHome";
 import { studyStartStore } from "@/stores/studyStartStore";
+import StudyLoading from "@/components/studyHome/StudyLoading";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
@@ -125,14 +126,12 @@ export default function Page() {
         }
     };
 
-    // 스터디 정보
-    const { data: studyManageData } = useQuery<StudyInfos>({
-        queryKey: ["studyInfos", studyId],
-        queryFn: async () => await fetchStudyInfo(studyId!),
-        enabled: !!studyId,
-    });
-
-    // 스터디 출석 여부
+    const { data: studyManageData, isPending: studyPending } =
+        useQuery<StudyInfos>({
+            queryKey: ["studyInfos", studyId],
+            queryFn: async () => await fetchStudyInfo(studyId!),
+            enabled: !!studyId,
+        });
     const { data: attendData, refetch: refetchAttendance } =
         useQuery<studyUserAttendance>({
             queryKey: ["userAttendance", studyId],
@@ -158,6 +157,13 @@ export default function Page() {
             setIsStart(false);
         }
     }, [attended, setIsStart]);
+    if (studyPending) {
+        return (
+            <>
+                <StudyLoading />
+            </>
+        );
+    }
 
     return (
         <>

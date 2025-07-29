@@ -7,9 +7,11 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { customAlert } from "@/utils/customAlert";
 import { getValidAvatar } from "@/utils/studyDataMap";
+import { useOwnItemStore } from "@/stores/ownItemStore";
 
 export default function MyInfoCard({ id }: { id: string }) {
     const { myInfo, refetch } = useAuthStore();
+    const { resetItemsOwn } = useOwnItemStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -24,6 +26,7 @@ export default function MyInfoCard({ id }: { id: string }) {
             const fetchAvatarData = async () => {
                 try {
                     refetch();
+                    resetItemsOwn();
                 } catch (err) {
                     console.error(err);
                 }
@@ -31,7 +34,21 @@ export default function MyInfoCard({ id }: { id: string }) {
 
             fetchAvatarData();
         }
-    }, [myInfo?.avatarInfo.avatarImage, refetch]);
+    }, [myInfo?.avatarInfo.avatarImage, refetch, resetItemsOwn]);
+
+    const isLoading =
+        !myInfo || !myInfo.avatarInfo || !myInfo.avatarInfo.avatarImage;
+
+    if (isLoading) {
+        return (
+            <div className="flex animate-pulse flex-col items-center justify-center gap-5 pt-4 pb-12">
+                <div className="bg-gray300 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                    <div className="bg-gray200 h-12 w-12 rounded-full" />
+                </div>
+                <div className="bg-gray200 h-6 w-26 rounded-2xl font-bold"></div>
+            </div>
+        );
+    }
 
     return (
         <>

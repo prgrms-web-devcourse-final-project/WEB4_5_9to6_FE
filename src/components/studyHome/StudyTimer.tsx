@@ -1,3 +1,5 @@
+"use client";
+
 import { studyStartStore } from "@/stores/studyStartStore";
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";

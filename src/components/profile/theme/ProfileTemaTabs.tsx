@@ -12,10 +12,13 @@ import { useRouter } from "next/navigation";
 import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useMutation } from "@tanstack/react-query";
 import { changeOwnItems, saveImage } from "@/api/item";
+import ProfileTeamLoading from "./ProfileTeamLoading";
 
 export default function ProfileTemaTabs({ id }: { id: string }) {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
     const [isTab, setTab] = useState("앱 테마");
+    const [isLoading, setIsLoading] = useState(true);
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const { myInfo } = useAuthStore();
     const router = useRouter();
@@ -51,6 +54,16 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
 
     useEffect(() => {
         fetchItemsOwn();
+    }, [fetchItemsOwn]);
+
+    useEffect(() => {
+        const fetchAll = async () => {
+            setIsLoading(true);
+            await Promise.all([fetchItemsOwn()]);
+            setIsLoading(false);
+        };
+
+        fetchAll();
     }, [fetchItemsOwn]);
 
     const clickHandler = async () => {
@@ -135,6 +148,14 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
             });
         }
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <ProfileTeamLoading />
+            </>
+        );
+    }
 
     return (
         <>
