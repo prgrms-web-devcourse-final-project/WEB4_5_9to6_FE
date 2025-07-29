@@ -140,7 +140,7 @@ interface StudyInfos {
     goals: Goal[];
     notice: string;
     currentMemberCount: number;
-    online: boolean;
+    online: boolean | null;
 }
 // "studies/{studyId}"에서 조회되는 스터디 정보
 
