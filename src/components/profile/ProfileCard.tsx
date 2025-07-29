@@ -47,10 +47,10 @@ export default function ProfileCard({ id }: { id: string }) {
         <>
             <div className="flex w-full items-center justify-between p-6">
                 <div className="flex flex-col gap-1">
-                    <p className="text-gray1000 text-2xl font-bold">
+                    <p className="text-gray1000 text-2xl font-bold dark:text-white">
                         {data?.nickname}
                     </p>
-                    <p className="text-gray700 b2 mb-4">
+                    <p className="text-gray700 dark:text-gray500 b2 mb-4">
                         가입된 스터디 {data?.joinedStudyCount}개
                     </p>
                     <div className="flex items-center gap-1">
@@ -64,7 +64,7 @@ export default function ProfileCard({ id }: { id: string }) {
                                 priority
                             />
                         </div>
-                        <h2 className="text-gray1000">
+                        <h2 className="text-gray1000 dark:text-white">
                             {data?.rewardPoints.toLocaleString() || 0}P
                         </h2>
                         <ToolTip>
@@ -80,7 +80,7 @@ export default function ProfileCard({ id }: { id: string }) {
                         </ToolTip>
                     </div>
                 </div>
-                <span className="bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                <span className="bg-gray200 dark:bg-gray900 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
                         src={getValidAvatar(data2?.avatarImage)}
                         alt="프로필"
