@@ -138,17 +138,18 @@ export default function Page() {
             },
             { threshold: 0.1, rootMargin: "50px" },
         );
+        const target = observerRef.current;
 
-        if (observerRef.current) observer.observe(observerRef.current);
+        if (target) observer.observe(target);
 
         return () => {
-            if (observerRef.current) observer.unobserve(observerRef.current);
+            if (target) observer.unobserve(target);
         };
     }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
 
     return (
         <>
-            <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
+            <div className="mb-[72px] min-h-screen min-w-86 overflow-y-auto bg-[var(--color-gray100)]">
                 <div className="fixed top-[62px] z-50 w-full bg-[var(--color-gray100)] px-5">
                     {/* 검색 */}
                     <SearchBar
@@ -210,12 +211,14 @@ export default function Page() {
                                         매주 Ai가 내는 카테고리별 퀴즈를 풀면
                                         생존!
                                     </h6>
-                                    <div className="flex gap-4 overflow-hidden">
-                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
-                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
+                                    <div className="w-full overflow-x-hidden">
+                                        <div className="flex w-fit gap-4">
+                                            <div className="bg-gray200 h-[206px] min-w-[188px] animate-pulse rounded-2xl"></div>
+                                            <div className="bg-gray200 h-[206px] min-w-[188px] animate-pulse rounded-2xl"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <h3 className="text-gray1000 mt-8 pl-5">
+                                <h3 className="text-gray1000 mt-8 px-5">
                                     어떤 스터디를 하고싶나요?
                                 </h3>
                                 <div className="flex flex-col gap-4 px-5">

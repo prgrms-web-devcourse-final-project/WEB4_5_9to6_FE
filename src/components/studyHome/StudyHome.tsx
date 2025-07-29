@@ -50,24 +50,42 @@ export default function StudyHome({
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
-    const { groupedOwnItems } = useOwnItemStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
 
     const [isUserOpen, setIsUserOpen] = useState(false);
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
+        if (
+            !groupedOwnItems.BACKGROUND ||
+            groupedOwnItems.BACKGROUND.length === 0
+        ) {
+            fetchItemsOwn();
+        }
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [groupedOwnItems]);
+        setIsImageLoading(true);
+    }, [fetchItemsOwn, groupedOwnItems]);
 
     return (
         <>
             {/* 스터디 이미지 */}
-            <div className="relative h-fit w-full">
-                <Image src={src} alt="스터디 배경" width={1000} height={470} />
+            <div className="relative aspect-[1000/500] w-full">
+                {isImageLoading && (
+                    <div className="bg-gray300 absolute inset-0 z-10 animate-pulse" />
+                )}
+                <Image
+                    src={src}
+                    alt="스터디 배경"
+                    fill
+                    priority
+                    className={`${isImageLoading ? "opacity-0" : "opacity-100"} w-full`}
+                    onLoad={() => setIsImageLoading(false)}
+                />
                 {isStart && (
                     <div className="absolute inset-0 bg-gradient-to-b from-[#000000]/0 via-[#000000]/26 to-[#000000]/50"></div>
                 )}
@@ -124,22 +142,26 @@ export default function StudyHome({
             </div>
 
             {!isStart && (
-                <StudyHomeDefault
-                    notice={notice}
-                    schedules={schedules}
-                    startTime={startTime}
-                    endTime={endTime}
-                    region={region}
-                    name={name}
-                    exLink={exLink}
-                    maxMembers={maxMembers}
-                    currentMemberCount={currentMemberCount}
-                    onOpen={() => setIsUserOpen(true)}
-                />
+                <div className={"animate-timerSlideDown"}>
+                    <StudyHomeDefault
+                        notice={notice}
+                        schedules={schedules}
+                        startTime={startTime}
+                        endTime={endTime}
+                        region={region}
+                        name={name}
+                        exLink={exLink}
+                        maxMembers={maxMembers}
+                        currentMemberCount={currentMemberCount}
+                        onOpen={() => setIsUserOpen(true)}
+                    />
+                </div>
             )}
 
             {isStart && (
-                <div className="z-30 mt-[-18px] flex rounded-t-[16px] bg-[var(--color-white)]">
+                <div
+                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white ${isStart && "animate-timerSlideUp"}`}
+                >
                     <StudyTimer
                         pause={pause}
                         setIsGoalOpen={setIsGoalOpen}

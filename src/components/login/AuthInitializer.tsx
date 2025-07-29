@@ -11,10 +11,13 @@ export default function AuthInitializer() {
 
         const fetchUser = async () => {
             await useAuthStore.getState().refetch();
-            await fetchItemsOwn();
         };
 
         fetchUser();
+    }, []);
+
+    useEffect(() => {
+        fetchItemsOwn();
     }, [fetchItemsOwn]);
 
     return null;

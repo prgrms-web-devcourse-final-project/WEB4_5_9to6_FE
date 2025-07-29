@@ -13,6 +13,11 @@ interface GoalWeekCount {
     week: string;
     count: number;
 }
+interface GoalMaxCount {
+    studyId: number | null;
+    goals: GoalWeekCount[];
+    maxCount: number;
+}
 
 interface StudyInfo {
     name: string;
@@ -100,6 +105,7 @@ interface StudyList {
     startDate: string;
     region: string;
     studyType: "SURVIVAL" | "DEFAULT";
+    description?: string;
 }
 // "studies/search"에서 검색된 스터디 목록
 

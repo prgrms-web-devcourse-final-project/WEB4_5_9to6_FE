@@ -26,19 +26,37 @@ export default function MyInfoList({
             setIsLogOut(true);
         },
         onSuccess() {
+            useAuthStore.getState().logout();
             router.push("/login");
             customAlert({
                 message: "로그아웃 되었습니다!",
                 linkLabel: "닫기",
                 onClick: () => {},
             });
-            useAuthStore.getState().logout();
         },
         onError(error) {
             console.error("로그아웃 실패:", error);
             setIsLogOut(false);
         },
     });
+
+    if (!myInfo) {
+        return (
+            <>
+                <div className="border-t-gray200 border-b-gray200 mx-5 flex animate-pulse items-center border-t border-b py-5">
+                    <div className="bg-gray200 h-4 w-full rounded" />
+                </div>
+
+                <div className="border-b-gray200 mx-5 flex animate-pulse items-center border-b py-5">
+                    <div className="bg-gray200 h-4 w-full rounded" />
+                </div>
+
+                <div className="border-b-gray200 mx-5 flex animate-pulse items-center border-b py-5">
+                    <div className="bg-gray200 h-4 w-full rounded" />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
