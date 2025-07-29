@@ -15,6 +15,7 @@ import { fetchStudyInfo, getApplicants } from "@/api/studies";
 import { useAuthStore } from "@/stores/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import StudyRecruitLoading from "@/components/studyRecruit/StudyRecruitLoading";
 
 export default function Page() {
     const [channel, setChannel] = useState("정보");
@@ -30,6 +31,7 @@ export default function Page() {
     const myInfo = useAuthStore((state) => state.myInfo);
     const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -48,10 +50,13 @@ export default function Page() {
             const id = params?.studyId;
             if (typeof id === "string") {
                 try {
+                    setIsLoading(true);
                     const data: StudyInfos = await fetchStudyInfo(parseInt(id));
                     setStudy(data);
                 } catch (err) {
                     console.error("스터디 정보 에러:", err);
+                } finally {
+                    setIsLoading(false);
                 }
             }
         };
@@ -81,6 +86,14 @@ export default function Page() {
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
     }, [groupedOwnItems]);
 
+    if (isLoading) {
+        return (
+            <>
+                <StudyRecruitLoading />
+            </>
+        );
+    }
+
     return (
         <>
             {/* 스크롤시 헤더 */}
@@ -97,13 +110,8 @@ export default function Page() {
                     </SubHeader>
 
                     {/* 스터디 이미지 */}
-                    <div className="relative h-fit w-full">
-                        <Image
-                            src={src}
-                            alt="스터디 배경"
-                            width={1000}
-                            height={470}
-                        />
+                    <div className="relative aspect-[1000/500] w-full">
+                        <Image src={src} alt="스터디 배경" fill priority />
                         <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
                             className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"

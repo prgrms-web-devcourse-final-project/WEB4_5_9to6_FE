@@ -9,6 +9,7 @@ import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/modal/MemberModal";
 import StudyHome from "@/components/studyHome/StudyHome";
+import StudyLoading from "@/components/studyHome/StudyLoading";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
@@ -111,11 +112,12 @@ export default function Page() {
         }
     };
 
-    const { data: studyManageData } = useQuery<StudyInfos>({
-        queryKey: ["studyInfos", studyId],
-        queryFn: async () => await fetchStudyInfo(studyId!),
-        enabled: !!studyId,
-    });
+    const { data: studyManageData, isPending: studyPending } =
+        useQuery<StudyInfos>({
+            queryKey: ["studyInfos", studyId],
+            queryFn: async () => await fetchStudyInfo(studyId!),
+            enabled: !!studyId,
+        });
     const { data: attendData, refetch: refetchAttendance } =
         useQuery<studyUserAttendance>({
             queryKey: ["userAttendance", studyId],
@@ -134,6 +136,15 @@ export default function Page() {
         });
     };
     const attended = isUserAttended();
+
+    if (studyPending) {
+        return (
+            <>
+                <StudyLoading />
+            </>
+        );
+    }
+
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">

@@ -18,6 +18,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
 import { dayMap, categoryMap } from "@/utils/studyDataMap";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import StudyRecruitLoading from "@/components/studyRecruit/StudyRecruitLoading";
 
 export default function SurvivalStudy() {
     const params = useParams();
@@ -38,7 +39,7 @@ export default function SurvivalStudy() {
 
     const closeHandler = () => setShowModal(false);
 
-    const { data: study } = useQuery({
+    const { data: study, isPending: studyPending } = useQuery({
         queryKey: ["survivalStudy", studyId],
         queryFn: () => fetchSurvival(studyId),
         enabled: !!studyId,
@@ -100,6 +101,14 @@ export default function SurvivalStudy() {
             router.push("/");
         }
     }, [myInfo, apply, router]);
+
+    if (studyPending) {
+        return (
+            <>
+                <StudyRecruitLoading />
+            </>
+        );
+    }
 
     return (
         <>
