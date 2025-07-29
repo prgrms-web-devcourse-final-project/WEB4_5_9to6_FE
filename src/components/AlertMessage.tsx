@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useAlarmStore } from "@/stores/alarmStore";
 import { readAlarm } from "@/api/alarms";
 import { useMutation } from "@tanstack/react-query";
 
 export default function AlertMessage({ alarm }: { alarm: Alarm }) {
     const router = useRouter();
+    dayjs.extend(relativeTime);
     dayjs.locale("ko");
 
     const { mutate: readNotification } = useMutation({
@@ -38,7 +40,7 @@ export default function AlertMessage({ alarm }: { alarm: Alarm }) {
                 </Link>
                 <div className="flex min-w-0 flex-1 flex-col pr-1">
                     <p className="c1 text-[var(--color-gray500)]">
-                        {dayjs(alarm.sentAt).format("A hh:mm")}
+                        {dayjs(alarm.sentAt).fromNow()}
                     </p>
                     <div className="b2 cursor-pointer leading-tight break-words">
                         {alarm.type === "APPLY" && (
