@@ -95,12 +95,12 @@ export default function Step1({
         <>
             <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     이메일 인증이 필요해요
                 </h1>
                 <p
-                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`h6 text-gray600 mb-5 cursor-default delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     이메일을 입력하면 메일이 발송돼요.
                 </p>
@@ -116,9 +116,7 @@ export default function Step1({
                             errorMsg={emailErrorMsg}
                             readOnly={isVerified}
                             className={
-                                isVerified
-                                    ? "cursor-default text-[var(--color-gray700)]"
-                                    : ""
+                                isVerified ? "text-gray700 cursor-default" : ""
                             }
                         />
                     </div>
@@ -132,9 +130,7 @@ export default function Step1({
                             maxLength={6}
                             readOnly={isVerified}
                             className={
-                                isVerified
-                                    ? "cursor-default text-[var(--color-gray700)]"
-                                    : ""
+                                isVerified ? "text-gray700 cursor-default" : ""
                             }
                         />
                     </div>
@@ -142,7 +138,7 @@ export default function Step1({
                         className={`mx-auto mt-3 w-20 delay-200 duration-1000 ${!isSend && "opacity-0"}`}
                     >
                         <button
-                            className={`cursor-pointer text-[var(--color-gray700)] underline underline-offset-4 duration-200 ease-out ${isVerified ? "hover:text-[var(--color-gray700)]" : "hover:text-[var(--color-gray1000)]"}`}
+                            className={`text-gray700 cursor-pointer underline underline-offset-4 duration-200 ease-out ${isVerified ? "hover:text-gray700" : "hover:text-gray1000"}`}
                             type="button"
                             onClick={() => {
                                 if (isVerified) return;

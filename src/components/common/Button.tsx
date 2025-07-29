@@ -30,7 +30,7 @@ export default function Button({
                                   ? "cursor-pointer bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
                                   : color === "white"
                                     ? "border-gray300 hover:bg-gray100 cursor-pointer border bg-white text-[#191919]"
-                                    : "bg-gray200 text-gray1000 hover:bg-gray300 cursor-pointer"
+                                    : "bg-gray200 dark:bg-gray900 dark:text-gray600 text-gray1000 hover:bg-gray300 cursor-pointer"
                     } `,
                     className,
                 )}
