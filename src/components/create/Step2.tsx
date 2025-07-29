@@ -100,7 +100,7 @@ export default function Step2({
                                 icon={<Calendar strokeWidth={1} size={20} />}
                                 label="스터디 기간"
                                 value={startDate}
-                                className={`${isEdit && "text-gray600"} cursor-pointer`}
+                                className={`${isEdit && "text-gray600 dark:text-gray600"} cursor-pointer`}
                                 onClick={() =>
                                     isEdit ? {} : setIsDateModalOpen(true)
                                 }
