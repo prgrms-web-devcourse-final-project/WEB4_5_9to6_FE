@@ -4,23 +4,13 @@ import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
 import MaxMemberModal from "./MaxMemberModal";
 import CategoryModal from "./CategoryModal";
-import { translateCategoryToEnum } from "@/utils/translateCategoryToEnum";
+import { useStudyStore } from "@/stores/studyStore";
 
-export default function Step1({
-    continueStep,
-    requestCategory,
-    requestMaxMember,
-    requestName,
-}: {
-    continueStep: () => void;
-    requestCategory: (category: string) => void;
-    requestMaxMember: (maxMember: string) => void;
-    requestName: (name: string) => void;
-}) {
+export default function Step1({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState("");
-    const [name, setName] = useState("");
+    const category = useStudyStore((state) => state.studyData.category);
+    const maxMember = useStudyStore((state) => state.studyData.maxMembers);
+    const name = useStudyStore((state) => state.studyData.name);
     const [nameError, setNameError] = useState(false);
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
     const [isMaxMemberModalOpen, setIsMaxMemberModalOpen] = useState(false);
@@ -29,9 +19,6 @@ export default function Step1({
         e.preventDefault();
 
         if (!(category && maxMember && name && !nameError)) return;
-        requestCategory(translateCategoryToEnum(category));
-        requestMaxMember(maxMember);
-        requestName(name);
         continueStep();
     };
 
@@ -76,7 +63,10 @@ export default function Step1({
                     <div
                         className={`delay-1300 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
                         onClick={() => {
-                            if (!maxMember) setMaxMember("5");
+                            if (!maxMember)
+                                useStudyStore
+                                    .getState()
+                                    .setData("maxMembers", 5);
                             setIsMaxMemberModalOpen(true);
                         }}
                     >
@@ -97,7 +87,12 @@ export default function Step1({
                             label="스터디명"
                             value={name}
                             onChange={(e) =>
-                                setName(e.target.value.replace(/^\s+/, ""))
+                                useStudyStore
+                                    .getState()
+                                    .setData(
+                                        "name",
+                                        e.target.value.replace(/^\s+/, ""),
+                                    )
                             }
                             error={nameError}
                             errorMsg="스터디명은 2자 이상, 20자 이하여야 합니다."
@@ -115,7 +110,7 @@ export default function Step1({
             {isCategoryModalOpen && (
                 <CategoryModal
                     category={category}
-                    setCategory={setCategory}
+                    setCategory={useStudyStore.getState().setData}
                     onClose={() => setIsCategoryModalOpen(false)}
                     isOpen={isCategoryModalOpen}
                 />
@@ -123,7 +118,7 @@ export default function Step1({
             {isMaxMemberModalOpen && (
                 <MaxMemberModal
                     maxMember={maxMember}
-                    setMaxMember={setMaxMember}
+                    setMaxMember={useStudyStore.getState().setData}
                     onClose={() => setIsMaxMemberModalOpen(false)}
                     isOpen={isMaxMemberModalOpen}
                 />

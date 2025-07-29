@@ -1,19 +1,14 @@
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function OnOfflineModal({
     onClose,
     onOff,
-    setOnOff,
-    setRegion,
-    setPlaceNull,
     isOpen,
 }: {
     onClose: () => void;
     onOff: string;
-    setOnOff: (onOff: string) => void;
-    setRegion: (onOff: string) => void;
-    setPlaceNull: () => void;
     isOpen: boolean;
 }) {
     const { changeClass } = useAnimationStore();
@@ -30,9 +25,13 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            setOnOff("온라인");
-                            setRegion("온라인");
-                            setPlaceNull();
+                            useStudyStore
+                                .getState()
+                                .setData("region", "온라인");
+                            useStudyStore
+                                .getState()
+                                .setData("region", "온라인");
+                            useStudyStore.getState().setData("place", "");
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
                                 onClose();
@@ -48,8 +47,10 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            setOnOff("오프라인");
-                            setRegion("");
+                            useStudyStore
+                                .getState()
+                                .setData("region", "오프라인");
+                            useStudyStore.getState().setData("region", "");
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
                                 onClose();
