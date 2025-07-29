@@ -18,7 +18,6 @@ export default function DateModal({
 }) {
     const startDate = useStudyStore((state) => state.studyData.startDate);
     const endDate = useStudyStore((state) => state.studyData.endDate);
-    const today = new Date();
     const [editEndDate] = useState(() =>
         endDate ? new Date(endDate) : new Date(),
     );
@@ -93,12 +92,11 @@ export default function DateModal({
                     toYear={new Date().getFullYear() + 30}
                     locale={ko}
                     navLayout="around"
-                    disabled={(date) => {
-                        if (date < today) return true;
-                        if (isEdit && date < editEndDate) return true;
-
-                        return false;
-                    }}
+                    disabled={
+                        isEdit
+                            ? { before: editEndDate }
+                            : { before: new Date() }
+                    }
                     classNames={{
                         selected:
                             "bg-[var(--color-main400)] text-white rounded-[10px]",
