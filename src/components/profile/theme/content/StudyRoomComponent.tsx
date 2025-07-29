@@ -31,7 +31,9 @@ export default function StudyRoomComponent({
     return (
         <>
             <div>
-                <h6 className="text-gray1000 mb-[10px]">{name}</h6>
+                <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                    {name}
+                </h6>
                 <div
                     onClick={() => {
                         onSelect();
@@ -43,7 +45,7 @@ export default function StudyRoomComponent({
                     className="relative aspect-[80/45] cursor-pointer"
                 >
                     {isImageLoading && (
-                        <div className="bg-gray300 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
+                        <div className="bg-gray300 dark:bg-gray800 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
                             <div className="border-t-main500 border-gray500 h-6 w-6 animate-spin rounded-full border-2" />
                         </div>
                     )}

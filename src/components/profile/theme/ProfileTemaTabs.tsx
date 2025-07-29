@@ -219,7 +219,7 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                     height={128}
                     className="hidden"
                 />
-                <div className="absolute right-0 bottom-0 left-0 z-10 bg-white p-5">
+                <div className="absolute right-0 bottom-0 left-0 z-10 bg-white p-5 dark:bg-[#222222]">
                     <Button onClick={clickHandler}>적용하기</Button>
                 </div>
             </div>

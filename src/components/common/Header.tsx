@@ -35,11 +35,11 @@ export default function Header({
             <div className="fixed z-20 h-15.5 w-full">
                 <div
                     className={twMerge(
-                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl",
+                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl dark:bg-[#222222]/86",
                         className,
                     )}
                 ></div>
-                <div className="relative flex justify-between">
+                <div className="relative flex justify-between text-black dark:text-white">
                     <span>
                         {children ? (
                             <h3 className="absolute top-5 left-5">
@@ -97,12 +97,12 @@ export default function Header({
                                             router.push(`/profile/${id}/info`);
                                         }
                                     }}
-                                    className="h6 text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
+                                    className="h6 text-gray1000 dark:text-gray200 cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white"
                                 >
                                     내 정보 수정
                                 </button>
                             )}
-                            <Bell className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black" />
+                            <Bell className="text-gray1000 dark:text-gray200 cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white" />
                         </div>
                     )}
                 </div>
