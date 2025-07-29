@@ -93,10 +93,10 @@ export default function StudyGoalModal({
                         goalData.map((goal, index) => (
                             <div
                                 key={index}
-                                className={`flex h-[50px] w-full items-center justify-between rounded-[12px] ${goal.achieved ? "bg-[var(--color-gray400)]" : "bg-[var(--color-gray100)]"} px-4 py-4`}
+                                className={`flex h-[50px] w-full items-center justify-between rounded-[12px] ${goal.achieved ? "dark:bg-gray700 bg-[var(--color-gray400)]" : "bg-[var(--color-gray100)] dark:bg-[#2F2F2F]"} px-4 py-4`}
                             >
                                 <div className="flex items-center gap-2">
-                                    <p className="text-[var(--color-gray1000)]">
+                                    <p className="text-[var(--color-gray1000)] dark:text-white">
                                         {goal.content}
                                     </p>
                                 </div>
@@ -108,7 +108,7 @@ export default function StudyGoalModal({
                                 )}
                                 {!goal.achieved && (
                                     <button
-                                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full ${isCheck[index] ? "bg-[var(--color-main500)]" : "border border-[var(--color-gray400)]"}`}
+                                        className={`flex h-5 w-5 cursor-pointer items-center justify-center rounded-full transition-all duration-100 ease-in-out ${isCheck[index] ? "dark:bg-main400 bg-[var(--color-main500)]" : "dark:border-gray700 border border-[var(--color-gray400)]"}`}
                                         onClick={() => checkHandler(index)}
                                     >
                                         {isCheck[index] && (

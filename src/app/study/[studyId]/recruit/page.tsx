@@ -176,7 +176,7 @@ export default function Page() {
                         />
                         <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
-                            className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90 dark:hover:bg-[#222222]/80"
+                            className="dark:hover:bg-gray900/90 absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                             onClick={() => router.back()}
                         >
                             <ChevronLeft className="h-5 w-5 text-[#161616] dark:text-[var(--color-white)]" />

@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useThemeStore } from "@/stores/themeStore";
 export default function Page() {
     // const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
@@ -167,7 +168,24 @@ export default function Page() {
 
     return (
         <>
-            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
+            <div className="flex flex-row justify-center gap-5 border">
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("dark")}
+                >
+                    다크
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("light")}
+                >
+                    라이트
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("green")}
+                >
+                    그린&블랙
+                </button>
+            </div>
+            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)] dark:bg-[#222222]">
                 {studyManageData && studyId && (
                     <StudyHome
                         studyId={studyId}
@@ -191,7 +209,7 @@ export default function Page() {
                 )}
 
                 {/* 버튼 */}
-                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
+                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px] dark:border-t-[var(--color-gray1000)]">
                     {!isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <Button
@@ -221,12 +239,10 @@ export default function Page() {
                     {attended && isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
-                                className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
+                                className="bg-main100 h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl dark:bg-[#FDF5F7]"
                                 onClick={resetTimer}
                             >
-                                <h5 className="text-[var(--color-main500)]">
-                                    그만하기
-                                </h5>
+                                <h5 className="text-main500">그만하기</h5>
                             </button>
                             {!pause && (
                                 <Button

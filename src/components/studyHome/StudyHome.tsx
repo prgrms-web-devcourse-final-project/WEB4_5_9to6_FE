@@ -108,32 +108,32 @@ export default function StudyHome({
                 {!isStart && (
                     <div className="absolute top-5 right-4 left-4 z-20 flex justify-between">
                         <button
-                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                            className="hover:bg-gray200/90 dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out dark:bg-[#222222]/90"
                             onClick={() => router.back()}
                         >
-                            <ChevronLeft className="h-5 w-5 text-[#161616]" />
+                            <ChevronLeft className="h-5 w-5 text-[#161616] dark:text-[var(--color-white)]" />
                         </button>
 
                         <div className="flex items-center gap-2">
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() =>
                                     router.push(`/study/${studyId}/chat`)
                                 }
                             >
-                                <MessageSquare className="h-5 w-5 text-[#161616]" />
+                                <MessageSquare className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() => router.push("/notifications")}
                             >
-                                <Bell className="h-5 w-5 text-[#161616]" />
+                                <Bell className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() => setIsMenuOpen(true)}
                             >
-                                <EllipsisVertical className="h-5 w-5 text-[#161616]" />
+                                <EllipsisVertical className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                         </div>
                     </div>
@@ -182,7 +182,7 @@ export default function StudyHome({
 
             {isStart && (
                 <div
-                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white ${isStart && "animate-timerSlideUp"}`}
+                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white dark:bg-[#222222] ${isStart && "animate-timerSlideUp"}`}
                 >
                     <StudyTimer
                         // pause={pause}

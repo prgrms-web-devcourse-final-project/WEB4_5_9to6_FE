@@ -23,6 +23,7 @@ import {
 import { useParams, useRouter } from "next/navigation";
 
 import { useEffect, useRef, useState } from "react";
+import { useThemeStore } from "@/stores/themeStore";
 
 export default function Page() {
     // const [pause, setPause] = useState(false);
@@ -192,8 +193,25 @@ export default function Page() {
 
     return (
         <>
+            <div className="flex flex-row justify-center gap-5 border">
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("dark")}
+                >
+                    다크
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("light")}
+                >
+                    라이트
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("green")}
+                >
+                    그린&블랙
+                </button>
+            </div>
             <SubHeader
-                className={`z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
+                className={`z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out dark:bg-[#222222] ${
                     showHeader
                         ? "translate-y-0 opacity-100"
                         : "-translate-y-full opacity-0"
@@ -219,7 +237,7 @@ export default function Page() {
                     </div>
                 </div>
             </SubHeader>
-            <div className="mb-[90px] flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
+            <div className="mb-[90px] flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)] dark:bg-[#222222]">
                 {studyData && studyId && (
                     <StudyHome
                         studyId={studyId}
@@ -241,7 +259,7 @@ export default function Page() {
                     />
                 )}
                 {/* 버튼 */}
-                <div className="fixed bottom-0 mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
+                <div className="fixed bottom-0 mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px] dark:border-t-[var(--color-gray1000)] dark:bg-[#222222]">
                     {!attended && (
                         <Button color="primary" onClick={attendHandler}>
                             출석체크
@@ -255,7 +273,7 @@ export default function Page() {
                     {attended && isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
-                                className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
+                                className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)] dark:bg-[#FDF5F7]"
                                 onClick={resetTimer}
                             >
                                 <h5 className="text-[var(--color-main500)]">
