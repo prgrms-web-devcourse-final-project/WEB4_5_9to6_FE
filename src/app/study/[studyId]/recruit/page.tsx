@@ -228,13 +228,13 @@ export default function Page() {
                                     </Button>
                                 ) : (
                                     <Button disabled>
-                                        가입된 스터디입니다.
+                                        가입된 스터디입니다
                                     </Button>
                                 )
                             ) : isApply ? (
                                 <Button disabled>
                                     {isRejected
-                                        ? "거절된 스터디입니다."
+                                        ? "거절된 스터디입니다"
                                         : "신청 완료"}
                                 </Button>
                             ) : (

@@ -16,7 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useThemeStore } from "@/stores/themeStore";
 export default function Page() {
     // const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
@@ -168,23 +167,6 @@ export default function Page() {
 
     return (
         <>
-            <div className="flex flex-row justify-center gap-5 border">
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("dark")}
-                >
-                    다크
-                </button>
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("light")}
-                >
-                    라이트
-                </button>
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("green")}
-                >
-                    그린&블랙
-                </button>
-            </div>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)] dark:bg-[#222222]">
                 {studyManageData && studyId && (
                     <StudyHome
