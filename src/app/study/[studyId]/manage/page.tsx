@@ -16,11 +16,12 @@ import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 export default function Page() {
-    const [pause, setPause] = useState(false);
+    // const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const { isStart, setIsStart, seconds, setSeconds } = studyStartStore();
+    const { isStart, setIsStart, pause, setPause, seconds, setSeconds } =
+        studyStartStore();
 
     const params = useParams();
     const id = params?.studyId;
@@ -31,7 +32,7 @@ export default function Page() {
 
     const startTimer = () => {
         if (intervalRef.current) return;
-        setIsStart(true);
+
         setPause(false);
         intervalRef.current = setInterval(() => {
             // setSeconds((prev) => prev + 1);
@@ -42,8 +43,10 @@ export default function Page() {
     };
 
     const stopTimer = () => {
+        setIsStart(true);
+        setPause(true);
         if (intervalRef.current) {
-            setPause(true);
+            // setPause(true);
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
@@ -52,7 +55,7 @@ export default function Page() {
     const resetTimer = async () => {
         stopTimer();
         setIsStart(false);
-        setPause(false);
+        // setPause(false);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
 
@@ -62,6 +65,7 @@ export default function Page() {
                 linkLabel: "닫기",
                 onClick: () => {},
             });
+            setSeconds(0);
             return;
         }
 
@@ -139,6 +143,12 @@ export default function Page() {
         });
     };
     const attended = isUserAttended();
+
+    useEffect(() => {
+        if (!attended) {
+            setIsStart(false);
+        }
+    }, [attended, setIsStart]);
     return (
         <>
             <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
@@ -160,6 +170,7 @@ export default function Page() {
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
                         // studyTimeSec={formatTime(seconds)}
+                        attended={attended}
                     />
                 )}
 
@@ -184,14 +195,14 @@ export default function Page() {
                                     출석체크
                                 </Button>
                             )}
-                            {attended && !isStart && (
-                                <Button color="primary" onClick={startTimer}>
+                            {attended && (
+                                <Button color="primary" onClick={stopTimer}>
                                     스터디 시작
                                 </Button>
                             )}
                         </div>
                     )}
-                    {isStart && (
+                    {attended && isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
                                 className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"

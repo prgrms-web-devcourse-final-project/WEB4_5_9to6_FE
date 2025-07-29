@@ -51,6 +51,7 @@ export default function StudyHome({
     // pause: boolean;
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
+    attended: boolean;
     // studyTimeSec: string;
 }) {
     const router = useRouter();

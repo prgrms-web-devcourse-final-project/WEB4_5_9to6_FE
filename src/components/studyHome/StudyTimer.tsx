@@ -15,7 +15,7 @@ export default function StudyTimer({
     const router = useRouter();
     const params = useParams();
     const studyId = params.studyId;
-    const { pause, setPause, seconds } = studyStartStore();
+    const { pause, setPause, seconds, isStart } = studyStartStore();
     const formatTime = (totalSeconds: number) => {
         const hr = Math.floor(totalSeconds / 3600);
         const min = Math.floor((totalSeconds % 3600) / 60);
@@ -25,10 +25,12 @@ export default function StudyTimer({
     const chatHandler = () => {
         setPause(true);
         router.push(`/study/${studyId}/chat`);
+        console.log("isStart", isStart);
     };
     const notiHandler = () => {
         setPause(true);
         router.push("/notifications");
+        console.log("isStart", isStart);
     };
     return (
         <>

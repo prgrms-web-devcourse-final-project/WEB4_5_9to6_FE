@@ -62,7 +62,7 @@ export default function Page() {
     const resetTimer = async () => {
         stopTimer();
         setIsStart(false);
-        setPause(false);
+        // setPause(true);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
 
@@ -72,6 +72,8 @@ export default function Page() {
                 linkLabel: "닫기",
                 onClick: () => {},
             });
+            // console.log("seconds", seconds);
+            setSeconds(0);
             return;
         }
 
@@ -152,6 +154,12 @@ export default function Page() {
     const attended = isUserAttended();
 
     useEffect(() => {
+        if (!attended) {
+            setIsStart(false);
+        }
+    }, [attended, setIsStart]);
+
+    useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 56) {
                 setShowHeader(true);
@@ -211,6 +219,7 @@ export default function Page() {
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
                         // studyTimeSec={formatTime(seconds)}
+                        attended={attended}
                     />
                 )}
                 {/* 버튼 */}
@@ -225,7 +234,7 @@ export default function Page() {
                             스터디 시작
                         </Button>
                     )}
-                    {isStart && (
+                    {attended && isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
                                 className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
