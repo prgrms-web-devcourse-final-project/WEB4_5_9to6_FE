@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import { Trash2 } from "lucide-react";
+import { useStudyStore } from "@/stores/studyStore";
 
-export default function Step4({
-    continueStep,
-    requestGoals,
-}: {
-    continueStep: () => void;
-    requestGoals: (goals: { goalId: number; content: string }[]) => void;
-}) {
+export default function Step4({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [goals, setGoals] = useState<string[]>([""]);
+    const goals = useStudyStore((state) => state.studyData.goals);
     const [goalsError, setGoalsError] = useState<boolean[]>([false]);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,28 +14,30 @@ export default function Step4({
 
         if (goalsError.some((goalError) => goalError === true)) return;
 
-        requestGoals(
-            goals
-                .filter((goal) => goal !== "")
-                .map((goal, i) => ({ goalId: i, content: goal })),
-        );
         continueStep();
     };
 
     const changeGoalHandler = (index: number, value: string) => {
-        const newGoals = [...goals];
-        newGoals[index] = value;
-        setGoals(newGoals);
+        const newGoals = goals.map((goal, i) =>
+            i === index ? { ...goal, content: value } : goal,
+        );
+        useStudyStore.getState().setData("goals", newGoals);
     };
 
     const addGoalHandler = () => {
-        setGoals([...goals, ""]);
+        useStudyStore
+            .getState()
+            .setData("goals", [
+                ...goals,
+                { goalId: null, content: "", type: "WEEKLY" },
+            ]);
     };
 
     const deleteGoalHandler = (index: number) => {
-        const newGoals = [...goals];
-        newGoals.splice(index, 1);
-        setGoals(newGoals);
+        useStudyStore.getState().setData(
+            "goals",
+            goals.filter((_, i) => i !== index),
+        );
     };
 
     useEffect(() => {
@@ -49,7 +46,10 @@ export default function Step4({
 
     useEffect(() => {
         const newErrors = goals.map((goal) => {
-            return goal.length > 0 && (goal.length < 2 || goal.length > 20);
+            return (
+                goal.content.length > 0 &&
+                (goal.content.length < 2 || goal.content.length > 20)
+            );
         });
         setGoalsError(newErrors);
     }, [goals]);
@@ -67,7 +67,7 @@ export default function Step4({
                 >
                     <Input
                         placeholder="주간 목표 입력"
-                        value={goals[0]}
+                        value={goals[0].content}
                         onChange={(e) =>
                             changeGoalHandler(
                                 0,
@@ -82,7 +82,7 @@ export default function Step4({
                         <Input
                             key={index + 1}
                             placeholder="주간 목표 입력"
-                            value={goal}
+                            value={goal.content}
                             onChange={(e) =>
                                 changeGoalHandler(
                                     index + 1,
@@ -128,7 +128,7 @@ export default function Step4({
                         <Button type="button" disabled>
                             다음
                         </Button>
-                    ) : goals.some((goal) => goal !== "") ? (
+                    ) : goals.some((goal) => goal.content !== "") ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button type="submit">건너뛰기</Button>

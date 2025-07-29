@@ -45,7 +45,7 @@ export default function DayInput({
                         className="absolute inset-0 bg-black/50"
                         onClick={() => setIsOpen(false)}
                     />
-                    <div className="z-2 flex w-sm justify-center rounded-[12px] bg-white p-4">
+                    <div className="z-2 mx-5 flex max-w-sm justify-center rounded-[12px] bg-white p-4">
                         <DayPicker
                             mode="single"
                             selected={new Date(value)}

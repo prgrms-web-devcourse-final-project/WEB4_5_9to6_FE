@@ -1,5 +1,5 @@
 interface Goal {
-    goalId: number;
+    goalId: number | null;
     content: string;
     type: string;
 }
@@ -56,7 +56,7 @@ interface CreateStudy {
     description: string;
     externalLink: string;
     studyType: string;
-    goals: { goalId: number; content: string }[];
+    goals: { goalId: number | null; content: string }[];
     online: boolean;
 }
 // "studies"의 스터디 생성에서 사용

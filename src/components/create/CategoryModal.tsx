@@ -9,7 +9,7 @@ export default function CategoryModal({
 }: {
     onClose: () => void;
     category: string;
-    setCategory: (category: string) => void;
+    setCategory: (column: string, category: string) => void;
     isOpen: boolean;
 }) {
     const categories = [
@@ -36,7 +36,7 @@ export default function CategoryModal({
                         key={c}
                         type="button"
                         onClick={() => {
-                            setCategory(c);
+                            setCategory("category", c);
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
                                 onClose();
