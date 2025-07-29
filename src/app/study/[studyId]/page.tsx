@@ -153,14 +153,18 @@ export default function Page() {
 
     const isUserAttended = () => {
         if (!attendData) return false;
-        const now = new Date().toISOString().slice(0, 10);
+        const date = new Date();
+        date.setHours(date.getHours() + 9);
+        // 한국시간대로 변경
+        const kstTime = date.toISOString().slice(0, 10);
         return attendData.attendances.some((a) => {
             const attendDay = a.attendanceDate.slice(0, 10);
-            return attendDay === now && a.attend === true;
+            console.log("attendDay", attendDay);
+            return attendDay === kstTime && a.attend === true;
         });
     };
     const attended = isUserAttended();
-
+    console.log("attended", attended);
     useEffect(() => {
         if (!attended) {
             setIsStart(false);
