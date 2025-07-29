@@ -76,7 +76,7 @@ export default function Login() {
     }, [searchParams]);
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="dark:bg-dark-bg flex h-full w-full flex-col items-center justify-center duration-200 ease-in">
             <div className="flex w-full max-w-screen flex-col items-center gap-4 px-5">
                 <div
                     onClick={() => router.push("/")}
@@ -163,6 +163,24 @@ export default function Login() {
                         구글로 시작
                     </Button>
                 </div>
+            </div>
+
+            <div className="flex flex-row justify-center gap-5">
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("dark")}
+                >
+                    다크
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("light")}
+                >
+                    라이트
+                </button>
+                <button
+                    onClick={() => useThemeStore.getState().setTheme("green")}
+                >
+                    그린&블랙
+                </button>
             </div>
         </div>
     );
