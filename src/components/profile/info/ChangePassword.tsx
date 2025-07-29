@@ -3,6 +3,7 @@
 import { changePassWord, verfiyPassWord } from "@/api/members";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useAuthStore } from "@/stores/authStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ export default function ChangePassword({ id }: { id: string }) {
     const [newPasswordError, setNewPasswordError] = useState(false);
     const [newPasswordCheckError, setNewPasswordCheckError] = useState(false);
     const [newPasswordErrorMsg, setNewPasswordErrorMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const { myInfo, refetch } = useAuthStore();
     const router = useRouter();
@@ -30,6 +32,7 @@ export default function ChangePassword({ id }: { id: string }) {
         )
             return;
 
+        setIsLoading(true);
         setCurrentPasswordError(false);
         try {
             const res = await verfiyPassWord(currentPassword);
@@ -47,6 +50,8 @@ export default function ChangePassword({ id }: { id: string }) {
             router.back();
         } catch (e) {
             console.error(e);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -105,6 +110,7 @@ export default function ChangePassword({ id }: { id: string }) {
 
     return (
         <>
+            {isLoading && <LoadingSpinner />}
             <form
                 onSubmit={(e) => submitHandler(e)}
                 className="flex h-full flex-col justify-between bg-white p-5"

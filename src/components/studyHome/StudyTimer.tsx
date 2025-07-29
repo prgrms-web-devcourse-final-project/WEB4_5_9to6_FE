@@ -1,3 +1,5 @@
+"use client";
+
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
@@ -14,6 +16,7 @@ export default function StudyTimer({
     const router = useRouter();
     const params = useParams();
     const studyId = params.studyId;
+
     return (
         <>
             {/* 타이머 */}

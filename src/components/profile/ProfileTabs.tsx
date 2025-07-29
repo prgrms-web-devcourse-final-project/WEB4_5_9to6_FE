@@ -33,7 +33,7 @@ export default function ProfileTabs({ id }: { id: string }) {
                     </div>
                     <div className="flex w-full justify-center">
                         <button className="relative flex h-full w-[calc(50%-8px)] items-center justify-center">
-                            <h5 className="text-gray1000 whitespace-nowrap">
+                            <h5 className="text-gray500 whitespace-nowrap">
                                 활동로그
                             </h5>
                         </button>

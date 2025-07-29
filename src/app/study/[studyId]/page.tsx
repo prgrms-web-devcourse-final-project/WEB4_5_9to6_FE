@@ -9,6 +9,7 @@ import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import SubHeader from "@/components/common/SubHeader";
 import StudyHome from "@/components/studyHome/StudyHome";
+import StudyLoading from "@/components/studyHome/StudyLoading";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -119,7 +120,7 @@ export default function Page() {
         }
     };
 
-    const { data: studyData } = useQuery<StudyInfos>({
+    const { data: studyData, isPending: studyPending } = useQuery<StudyInfos>({
         queryKey: ["studyData", studyId],
         queryFn: async () => await fetchStudyInfo(studyId!),
         enabled: !!studyId,
@@ -156,6 +157,13 @@ export default function Page() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+    if (studyPending) {
+        return (
+            <>
+                <StudyLoading />
+            </>
+        );
+    }
 
     return (
         <>

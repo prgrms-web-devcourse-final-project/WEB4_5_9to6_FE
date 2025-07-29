@@ -3,6 +3,7 @@
 import { changeNickName } from "@/api/members";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useAuthStore } from "@/stores/authStore";
 import { useProfileStore } from "@/stores/memberStore";
 import { customAlert } from "@/utils/customAlert";
@@ -13,6 +14,8 @@ export default function ChangeNickname({ id }: { id: string }) {
     const [nickname, setNickname] = useState("");
     const [nicknameError, setNicknameError] = useState(false);
     const [nicknameErrorMsg, setNicknameErrorMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     const { myInfo, refetch } = useAuthStore();
     const { fetch } = useProfileStore();
     const router = useRouter();
@@ -21,6 +24,8 @@ export default function ChangeNickname({ id }: { id: string }) {
         e.preventDefault();
 
         if (!nickname || nicknameError) return;
+
+        setIsLoading(true);
         try {
             await changeNickName(nickname);
             refetch();
@@ -33,6 +38,8 @@ export default function ChangeNickname({ id }: { id: string }) {
             router.back();
         } catch (e) {
             console.error(e);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -61,6 +68,7 @@ export default function ChangeNickname({ id }: { id: string }) {
 
     return (
         <>
+            {isLoading && <LoadingSpinner />}
             <form
                 onSubmit={(e) => submitHandler(e)}
                 className="flex h-full flex-col justify-between bg-white p-5"

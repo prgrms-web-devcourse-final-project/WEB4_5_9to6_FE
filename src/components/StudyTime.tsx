@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { categoryMap, regionMap, scheduleString } from "@/utils/studyDataMap";
-import { studyMembers } from "@/api/studies";
+import { checkGoalsCompleted, studyMembers } from "@/api/studies";
 import { fetchAllTime } from "@/api/timer";
 import { useEffect, useState } from "react";
 import LoadingHome from "./LoadingHome";
@@ -77,28 +77,33 @@ export default function StudyTime() {
     }, [userTime]);
 
     // 로그인시, 가장 많은 목표 개수 불러오기
-    // const studyIds = userData?.map((study: Study) => study.studyId) ?? [];
-    // const goalQueries = useQueries({
-    //     queries: studyIds.map((id: number) => ({
-    //         queryKey: ["studyGoals", id],
-    //         queryFn: () => checkGoalsCompleted(id),
-    //         enabled: isFetched && isLogIn,
-    //         staleTime: 1000 * 60 * 5,
-    //     })),
-    // });
-    // console.log(
-    //     "목표",
-    //     goalQueries.map((q) => q.data),
-    // );
-
-    // const topStudyGoal = goalQueries
-    //     .filter((q) => q.data?.goals?.length != 0)
-    //     .map((q, idx) => ({
-    //         studyId: studyIds[idx],
-    //         goalCount: q.data!.goals.length,
-    //         goals: q.data!.goals,
-    //     }))
-    //     .sort((a, b) => b.goalCount - a.goalCount)[0];
+    const studyIds = userData?.map((study: Study) => study.studyId) ?? [];
+    const goalQueries = useQueries({
+        queries: studyIds.map((id: number) => ({
+            queryKey: ["studyGoals", id],
+            queryFn: () => checkGoalsCompleted(id),
+            enabled: isFetched && isLogIn,
+            staleTime: 1000 * 60 * 5,
+        })),
+    });
+    const goalData = goalQueries.map((q) => q.data).filter(Boolean);
+    const maxStudy = (goalData as studyUserGoals[]).reduce(
+        (acc: GoalMaxCount, curr) => {
+            const sum = curr.goals.reduce(
+                (total: number, g: GoalWeekCount) => total + g.count,
+                0,
+            );
+            if (sum > acc.maxCount) {
+                return {
+                    studyId: curr.studyId,
+                    goals: curr.goals,
+                    maxCount: sum,
+                };
+            }
+            return acc;
+        },
+        { studyId: null, goals: [], maxCount: -1 },
+    );
 
     // 비로그인 시
     const { data: guestData, isPending: pendingNotLogin } = useQuery({
@@ -169,10 +174,50 @@ export default function StudyTime() {
                                 </p>
                             </div>
                             <div className="flex w-1/2 flex-col gap-4">
-                                <div className="mt-2 h-1.5 w-full rounded-md bg-[var(--color-main400)]"></div>
-                                <div className="h-1.5 w-[70%] rounded-md bg-[var(--color-main400)]"></div>
-                                <div className="h-1.5 w-[30%] rounded-md bg-[var(--color-main200)]"></div>
-                                <div className="h-1.5 w-[50%] rounded-md bg-[var(--color-main300)]"></div>
+                                {maxStudy.goals.length > 0 ? (
+                                    maxStudy.goals
+                                        .sort(
+                                            (a, b) =>
+                                                Number(a.week) - Number(b.week),
+                                        )
+                                        .slice(-4)
+                                        .map((goal) => {
+                                            const percent = Math.min(
+                                                (goal.count / 5) * 100,
+                                                100,
+                                            );
+                                            const getColor = () => {
+                                                if (percent >= 80)
+                                                    return "bg-main500";
+                                                if (percent >= 60)
+                                                    return "bg-main400";
+                                                if (percent >= 40)
+                                                    return "bg-main300";
+                                                return "bg-main200";
+                                            };
+
+                                            return (
+                                                <div
+                                                    key={goal.week}
+                                                    className="bg-gray200 h-2 w-full rounded-md"
+                                                >
+                                                    <div
+                                                        className={`${getColor()} h-2 rounded-md`}
+                                                        style={{
+                                                            width: `${percent}%`,
+                                                        }}
+                                                    />
+                                                </div>
+                                            );
+                                        })
+                                ) : (
+                                    <>
+                                        <div className="bg-gray200 h-2 w-full rounded-sm"></div>
+                                        <div className="bg-gray200 h-2 w-full rounded-sm"></div>
+                                        <div className="bg-gray200 h-2 w-full rounded-sm"></div>
+                                        <div className="bg-gray200 h-2 w-full rounded-sm"></div>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <hr className="mt-5.5 text-[var(--color-gray200)]" />
@@ -181,8 +226,9 @@ export default function StudyTime() {
                                 src={icon}
                                 alt="icon"
                                 className="mr-2 h-5 w-5"
-                                width={0}
-                                height={0}
+                                width={20}
+                                height={20}
+                                priority
                             />
                             {message}
                         </div>

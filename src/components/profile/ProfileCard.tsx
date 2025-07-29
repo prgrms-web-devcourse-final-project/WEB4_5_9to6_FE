@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import medal from "../../assets/images/medal.png";
 import ToolTip from "../common/ToolTip";
 import { useEffect } from "react";
 import { useProfileStore } from "@/stores/memberStore";
@@ -55,11 +54,16 @@ export default function ProfileCard({ id }: { id: string }) {
                         가입된 스터디 {data?.joinedStudyCount}개
                     </p>
                     <div className="flex items-center gap-1">
-                        <Image
-                            src={medal}
-                            alt="리워드"
-                            className="h-auto w-6"
-                        />
+                        <div className="relative h-6 w-6">
+                            <Image
+                                src="/images/medal.png"
+                                alt="리워드"
+                                fill
+                                className="object-contain"
+                                sizes="24px"
+                                priority
+                            />
+                        </div>
                         <h2 className="text-gray1000">
                             {data?.rewardPoints.toLocaleString() || 0}P
                         </h2>
