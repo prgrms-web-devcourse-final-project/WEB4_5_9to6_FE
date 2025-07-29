@@ -142,7 +142,7 @@ export default function StudyHome({
             </div>
 
             {!isStart && (
-                <div>
+                <div className={"animate-timerSlideDown"}>
                     <StudyHomeDefault
                         notice={notice}
                         schedules={schedules}
