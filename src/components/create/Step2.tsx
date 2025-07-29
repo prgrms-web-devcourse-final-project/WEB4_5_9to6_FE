@@ -27,7 +27,10 @@ export default function Step2({
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!(daysOfWeek.length && startTime && endTime)) return;
+        if (
+            !(daysOfWeek.length && startTime && endTime && startDate && endDate)
+        )
+            return;
         continueStep();
     };
 
@@ -39,7 +42,7 @@ export default function Step2({
         <>
             <form className="step-form" onSubmit={submitHandler}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`text-gray1000 mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     언제 하나요?
                 </h1>
@@ -68,7 +71,9 @@ export default function Step2({
                                 }}
                                 readOnly
                             />
-                            <p className="h3 mt-10 text-[24px]">~</p>
+                            <p className="h3 text-gray1000 mt-10 text-[24px] dark:text-white">
+                                ~
+                            </p>
                             <Input
                                 placeholder="시간 선택"
                                 label="&nbsp;"
@@ -95,13 +100,13 @@ export default function Step2({
                                 icon={<Calendar strokeWidth={1} size={20} />}
                                 label="스터디 기간"
                                 value={startDate}
-                                className="cursor-pointer text-[var(--color-gray600)]"
+                                className={`${isEdit && "text-gray600"} cursor-pointer`}
                                 onClick={() =>
                                     isEdit ? {} : setIsDateModalOpen(true)
                                 }
                                 readOnly
                             />
-                            <h6 className="flex justify-end text-[var(--color-gray1000)]">
+                            <h6 className="text-gray1000 flex justify-end dark:text-white">
                                 부터
                             </h6>
                             <Input
@@ -112,14 +117,18 @@ export default function Step2({
                                 onClick={() => setIsDateModalOpen(true)}
                                 readOnly
                             />
-                            <h6 className="flex justify-end text-[var(--color-gray1000)]">
+                            <h6 className="text-gray1000 flex justify-end dark:text-white">
                                 까지
                             </h6>
                         </div>
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {daysOfWeek.length && startTime && endTime ? (
+                    {daysOfWeek.length &&
+                    startTime &&
+                    endTime &&
+                    startDate &&
+                    endDate ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button disabled>다음</Button>
