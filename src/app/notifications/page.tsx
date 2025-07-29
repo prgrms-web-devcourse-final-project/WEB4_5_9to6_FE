@@ -2,9 +2,10 @@
 
 import AlertMessage from "@/components/AlertMessage";
 import SubHeader from "@/components/common/SubHeader";
+import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function Notifications() {
-    const dummyAlerts = Array(6).fill(null);
+    const alarms = useAlarmStore((state) => state.alarmList);
 
     return (
         <>
@@ -13,8 +14,9 @@ export default function Notifications() {
                 모두읽기
             </button>
             <div className="pt-15">
-                {dummyAlerts.map((_, i) => (
-                    <AlertMessage key={i} />
+                {alarms.length === 0 && <p>받은 알림이 없습니다.</p>}
+                {alarms.map((alarm, i) => (
+                    <AlertMessage key={i} alarm={alarm} />
                 ))}
             </div>
         </>

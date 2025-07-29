@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function AuthInitializer() {
-    const eventSourceRef = useRef<EventSource | null>(null);
     const isLogIn = useAuthStore((state) => state.isLogIn);
 
     useEffect(() => {
         const auth = useAuthStore.getState();
         const ownItem = useOwnItemStore.getState();
         const alarm = useAlarmStore.getState();
+        let eventSource: EventSource;
 
         if (!auth.isFetched) {
             auth.refetch();
@@ -22,35 +22,34 @@ export default function AuthInitializer() {
             alarm.fetchAlarms();
             console.log("유저 데이터 불러오기");
 
-            // 알림 SSE 연결
-            if (!eventSourceRef.current) {
-                const es = new EventSource(
-                    "https://studium.cedartodo.uk/api/v1/alarms/subscribe",
-                    {
-                        withCredentials: true,
-                    },
-                );
-                eventSourceRef.current = es;
+            eventSource = new EventSource(
+                "https://studium.cedartodo.uk/api/v1/alarms/subscribe",
+                {
+                    withCredentials: true,
+                },
+            );
 
-                es.onmessage = (response) => {
-                    try {
-                        const { code, data } = JSON.parse(response.data);
-                        if (code === "0000") alarm.addAlarm(data);
-                    } catch (error) {
-                        console.error(error);
-                    }
-                };
-                es.onerror = (error) => {
+            eventSource.onopen = () => {
+                console.log("SSE 연결 성공");
+            };
+
+            eventSource.addEventListener("alarm", (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log("알림 추가 : ", data);
+                    alarm.addAlarm(data);
+                } catch (error) {
                     console.error(error);
-                    es.close();
-                    eventSourceRef.current = null;
-                };
-            }
+                }
+            });
+            eventSource.onerror = (error) => {
+                console.error(error);
+                eventSource.close();
+            };
         }
 
         return () => {
-            eventSourceRef.current?.close();
-            eventSourceRef.current = null;
+            if (eventSource) eventSource.close();
         };
     }, [isLogIn]);
 

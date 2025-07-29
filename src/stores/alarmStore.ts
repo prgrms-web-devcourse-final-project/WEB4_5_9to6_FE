@@ -1,20 +1,6 @@
 import { fetchAlarm } from "@/api/alarms";
 import { create } from "zustand";
 
-interface Alarm {
-    alarmId: number;
-    alarmRecipientId: number;
-    type: "APPLY" | "RESULT";
-    resultStatus: "ACCEPT" | "REJECT" | null;
-    message: string;
-    isRead: boolean;
-    sentAt: string;
-    senderId: number;
-    senderNickname: string;
-    senderAvatarImage: string;
-    studyId: number;
-}
-
 interface AlarmStore {
     alarmList: Alarm[];
     fetchAlarms: () => Promise<void>;

@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect, useState } from "react";
 import { customAlert } from "@/utils/customAlert";
+import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function Header({
     children,
@@ -23,6 +24,7 @@ export default function Header({
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const [id, setId] = useState(0);
+    const alarms = useAlarmStore((state) => state.alarmList);
 
     useEffect(() => {
         if (myInfo) {
@@ -102,10 +104,20 @@ export default function Header({
                                     내 정보 수정
                                 </button>
                             )}
-                            <Bell
-                                className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
-                                onClick={() => router.push("notifications")}
-                            />
+                            <div className="relative">
+                                <Bell
+                                    className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
+                                    onClick={() =>
+                                        router.push("/notifications")
+                                    }
+                                />
+                                {alarms.length > 0 && (
+                                    <>
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                    </>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
