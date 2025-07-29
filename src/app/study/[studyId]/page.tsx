@@ -218,7 +218,6 @@ export default function Page() {
                         // pause={pause}
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
-                        // studyTimeSec={formatTime(seconds)}
                         attended={attended}
                     />
                 )}
