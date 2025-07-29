@@ -1,9 +1,11 @@
 "use client";
 
+import { axiosInstance } from "@/api";
 import Button from "@/components/common/Button";
+import { useAuthStore } from "@/stores/authStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ExitModal({
@@ -14,7 +16,9 @@ export default function ExitModal({
     onClose: () => void;
 }) {
     const router = useRouter();
-
+    const myInfo = useAuthStore.getState().myInfo;
+    const params = useParams();
+    const studyId = Number(params?.studyId);
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
 
@@ -30,6 +34,37 @@ export default function ExitModal({
             return () => clearTimeout(timer);
         }
     }, [changeClass, isOpen]);
+
+    const giveUpHandler = async () => {
+        try {
+            if (!studyId || !week || !studyMemberId) {
+                throw new Error("필요한 정보가 없습니다.");
+            }
+            const memberRes = await axiosInstance.get(
+                `/studies/${studyId}/members`,
+            );
+            const members = memberRes.data;
+
+            const myMember = members.find(
+                (m: StudyMember) => m.memberId === myInfo?.id,
+            );
+
+            if (!myMember) {
+                throw new Error("스터디 멤버를 찾을 수 없습니다.");
+            }
+
+            const studyMemberId = myMember.studyMemberId;
+
+            await axiosInstance.post(`quiz/${studyId}/weeks/${week}/results`, {
+                studyMemberId,
+                survived: false,
+            });
+            console.log("퀴즈 중단하기");
+            router.push("/");
+        } catch (err) {
+            console.error("중단 처리 실패", err);
+        }
+    };
 
     const closeHandler = () => {
         changeClass("animate-modalFadeOut");
@@ -76,7 +111,7 @@ export default function ExitModal({
                                     계속하기
                                 </Button>
                                 <Button
-                                    onClick={() => router.push("/")}
+                                    onClick={giveUpHandler}
                                     className="h-12.5 bg-[var(--color-main500)] hover:bg-[var(--color-main600)]"
                                 >
                                     중단하기

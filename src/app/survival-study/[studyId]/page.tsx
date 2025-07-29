@@ -40,7 +40,7 @@ export default function SurvivalStudy() {
     });
     console.log(study);
 
-    const { data: apply } = useQuery({
+    const { data: apply, isLoading: isApplyLoading } = useQuery({
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
@@ -100,10 +100,10 @@ export default function SurvivalStudy() {
 
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {
-        if (myInfo === null && !apply) {
+        if (myInfo === undefined) {
             router.push("/");
         }
-    }, [myInfo, apply, router]);
+    }, [myInfo, apply, isApplyLoading, router]);
 
     return (
         <>
@@ -149,7 +149,7 @@ export default function SurvivalStudy() {
                         </Button>
                     ) : (
                         <Button
-                            onClick={() => buttonHandler(studyId)}
+                            onClick={() => buttonHandler(study.studyId)}
                             disabled={!canStart || isClosed}
                             className={`mx-5 my-5 ${
                                 canStart
