@@ -30,7 +30,11 @@ export default function Notifications() {
             </button>
             <div className="pt-15">
                 {alarms.filter((alarm) => alarm.isRead === false).length ===
-                    0 && <p>받은 알림이 없습니다.</p>}
+                    0 && (
+                    <p className="b2 flex items-center justify-center pt-10 text-[var(--color-gray600)]">
+                        받은 알림이 없습니다.
+                    </p>
+                )}
                 {alarms
                     .filter((alarm) => alarm.isRead === false)
                     .map((alarm, i) => (
