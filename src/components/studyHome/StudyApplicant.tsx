@@ -93,13 +93,13 @@ export default function StudyApplicant({
                         (a) =>
                             a.state === "WAIT" && (
                                 <div
-                                    className="min-h-[128px] w-full border-b border-b-[var(--color-gray200)] py-5"
+                                    className="min-h-[128px] w-full border-b border-b-[var(--color-gray200)] py-5 dark:border-b-[var(--color-gray800)]"
                                     key={a.name}
                                 >
                                     <div className="flex h-auto w-full items-start gap-3">
                                         {/* 아바타 */}
 
-                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-[var(--color-gray100)]">
+                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-[var(--color-gray100)] dark:bg-[var(--color-gray900)]">
                                             <Image
                                                 src={
                                                     a.avatarImage || defaultImg
@@ -111,10 +111,10 @@ export default function StudyApplicant({
                                         </div>
                                         {/* 이름,하고싶은말 */}
                                         <div className="w-full">
-                                            <h6 className="text-[var(--color-gray1000)]">
+                                            <h6 className="text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                                                 {a.name}
                                             </h6>
-                                            <p className="c1 mt-1 text-[var(--color-gray700)]">
+                                            <p className="c1 mt-1 text-[var(--color-gray700)] dark:text-[var(--color-gray300)]">
                                                 {a.introduction}
                                             </p>
                                         </div>

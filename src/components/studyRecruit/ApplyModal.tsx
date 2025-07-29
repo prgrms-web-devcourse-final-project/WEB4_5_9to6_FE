@@ -95,33 +95,33 @@ export default function ApplyModal({
 
     return (
         <>
-            <div className="fixed inset-0 z-50 bg-black/30">
+            <div className="fixed inset-0 z-50 bg-[#000000]/30 dark:bg-[#000000]/50">
                 <div
-                    className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white px-6 pt-2 pb-5`}
+                    className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white px-6 pt-2 pb-5 dark:bg-[#222222]`}
                 >
                     <div className="flex h-[65px] w-full items-center justify-between">
-                        <h3 className="text-[var(--color-gray1000)]">
+                        <h3 className="text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                             스터디 신청
                         </h3>
                         <X
                             onClick={closeHandler}
-                            className="h-6 w-6 cursor-pointer text-[#161616]"
+                            className="h-6 w-6 cursor-pointer text-[#161616] dark:text-[var(--color-white)]"
                         />
                     </div>
                     {children}
                     {showTextArea && (
                         <>
-                            <p className="b2 text-[var(--color-gray1000)]">
+                            <p className="b2 text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                                 하고싶은 말
                             </p>
-                            <div className="mt-2 h-[162px] w-full rounded-[12px] border border-[var(--color-gray300)] p-4">
+                            <div className="mt-2 h-[162px] w-full rounded-[12px] border border-[var(--color-gray300)] p-4 dark:border-[var(--color-gray800)]">
                                 <textarea
                                     value={applyMent}
                                     placeholder="스터디에 참여하고 싶은 이유를 함께 적어주세요. (50자 이내)"
                                     onChange={(e) =>
                                         setApplyMent(e.target.value)
                                     }
-                                    className="b2 h-full w-full resize-none text-[var(--color-gray1000)] outline-none placeholder:text-[var(--color-gray500)]"
+                                    className="b2 h-full w-full resize-none text-[var(--color-gray1000)] outline-none placeholder:text-[var(--color-gray500)] dark:text-[var(--color-white)] dark:placeholder:text-[var(--color-gray700)]"
                                 />
                             </div>
                         </>
@@ -129,15 +129,15 @@ export default function ApplyModal({
                     <div className="mt-10 flex w-full items-center gap-2">
                         <button
                             onClick={closeHandler}
-                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
+                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)] dark:bg-[var(--color-gray800)] dark:hover:bg-[var(--color-gray900)]"
                         >
-                            <h5 className="text-[var(--color-gray1000)]">
+                            <h5 className="text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                                 취소
                             </h5>
                         </button>
                         <button
                             onClick={applyHandler}
-                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
+                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)] dark:bg-[var(--color-main400)] dark:hover:bg-[var(--color-main500)]"
                         >
                             <h5 className="text-[var(--color-white)]">
                                 신청하기

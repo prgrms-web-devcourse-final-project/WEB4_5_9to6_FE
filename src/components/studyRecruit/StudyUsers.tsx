@@ -49,7 +49,7 @@ export default function StudyUsers() {
     return (
         <>
             <div className="mt-6 px-5">
-                <p className="c1 text-[var(--color-gray1000)]">
+                <p className="c1 text-[var(--color-gray1000)] dark:text-[var(--color-gray300)]">
                     총 {members.length}명
                 </p>
                 <div className="mt-4 flex flex-col gap-[12px]">
@@ -60,7 +60,7 @@ export default function StudyUsers() {
                         >
                             <div className="flex items-center">
                                 <div
-                                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-[16px] bg-[var(--color-gray100)]"
+                                    className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-[16px] bg-[var(--color-gray100)] dark:bg-[var(--color-gray900)]"
                                     onClick={() => router.push("/profile/info")}
                                 >
                                     <Image
@@ -71,7 +71,7 @@ export default function StudyUsers() {
                                     />
                                 </div>
                                 {user && (
-                                    <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">
+                                    <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                                         {member.nickname}{" "}
                                         {user.id === member.memberId && "(나)"}
                                     </h6>

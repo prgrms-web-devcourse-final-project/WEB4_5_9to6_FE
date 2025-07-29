@@ -153,9 +153,9 @@ export default function Page() {
         <>
             {/* 스크롤시 헤더 */}
             {study && (
-                <div className="hide-scrollbar overflow-y-auto bg-[var(--color-white)]">
+                <div className="hide-scrollbar overflow-y-auto bg-[var(--color-white)] dark:bg-[#222222]">
                     <SubHeader
-                        className={`top-0 z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out ${
+                        className={`top-0 z-40 bg-[var(--color-white)] transition-all duration-200 ease-in-out dark:bg-[#222222] ${
                             showHeader
                                 ? "translate-y-0 opacity-100"
                                 : "-translate-y-full opacity-0"
@@ -176,10 +176,10 @@ export default function Page() {
                         />
                         <div className="absolute inset-0 z-10 h-full w-full bg-black opacity-30" />
                         <button
-                            className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                            className="absolute top-5 left-4 z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90 dark:hover:bg-[#222222]/80"
                             onClick={() => router.back()}
                         >
-                            <ChevronLeft className="h-5 w-5 text-[#161616]" />
+                            <ChevronLeft className="h-5 w-5 text-[#161616] dark:text-[var(--color-white)]" />
                         </button>
                         <h2 className="absolute bottom-5 left-5 z-20 text-[var(--color-white)]">
                             {study.name}
@@ -215,7 +215,7 @@ export default function Page() {
                     </div>
 
                     {/* 신청하기 버튼 */}
-                    <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
+                    <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px] dark:border-t-[var(--color-gray1000)] dark:bg-[#222222]">
                         {/* 로그인상태 */}
                         {isLogIn &&
                             (isMember?.isMember ? (
