@@ -5,10 +5,11 @@ interface AlarmStore {
     alarmList: Alarm[];
     fetchAlarms: () => Promise<void>;
     addAlarm: (alarm: Alarm) => void;
+    deleteAlarm: (alarmId: number) => void;
     clear: () => void;
 }
 
-export const useAlarmStore = create<AlarmStore>((set) => ({
+export const useAlarmStore = create<AlarmStore>((set, get) => ({
     alarmList: [],
     fetchAlarms: async () => {
         try {
@@ -24,9 +25,17 @@ export const useAlarmStore = create<AlarmStore>((set) => ({
             console.error(error);
         }
     },
-    addAlarm: (alarm) =>
-        set((state) => ({
-            alarmList: [alarm, ...state.alarmList],
-        })),
+    addAlarm: (alarm) => {
+        set({
+            alarmList: [alarm, ...get().alarmList],
+        });
+    },
+    deleteAlarm: (alarmId) => {
+        set({
+            alarmList: get().alarmList.filter(
+                (alarm) => alarm.alarmId !== alarmId,
+            ),
+        });
+    },
     clear: () => set({ alarmList: [] }),
 }));
