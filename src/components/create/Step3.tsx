@@ -4,21 +4,12 @@ import Input from "../common/Input";
 import { ChevronDown } from "lucide-react";
 import OnOfflineModal from "./OnOfflineModal";
 import RegionModal from "./RegionModal";
-import { translateRegionToEnum } from "@/utils/translateRegionToEnum";
+import { useStudyStore } from "@/stores/studyStore";
 
-export default function Step3({
-    continueStep,
-    requestRegion,
-    requestPlace,
-}: {
-    continueStep: () => void;
-    requestRegion: (region: string) => void;
-    requestPlace: (place: string) => void;
-}) {
+export default function Step3({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [onOff, setOnOff] = useState("");
-    const [region, setRegion] = useState("");
-    const [place, setPlace] = useState("");
+    const region = useStudyStore((state) => state.studyData.region);
+    const place = useStudyStore((state) => state.studyData.place);
     const [placeError, setPlaceError] = useState(false);
     const [isOnOfflineModalOpen, setIsOnOfflineModalOpen] = useState(false);
     const [isRegionModalOpen, setIsRegionModalOpen] = useState(false);
@@ -26,10 +17,7 @@ export default function Step3({
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!((onOff === "온라인" || region) && !placeError)) return;
-
-        requestRegion(translateRegionToEnum(region));
-        requestPlace(place);
+        if (!(region && !placeError)) return;
         continueStep();
     };
 
@@ -63,7 +51,7 @@ export default function Step3({
                     >
                         <Input
                             placeholder="온/오프라인 선택"
-                            value={onOff}
+                            value={region === "온라인" ? "온라인" : "오프라인"}
                             label="온/오프라인"
                             onClick={() => setIsOnOfflineModalOpen(true)}
                             className="cursor-pointer"
@@ -72,11 +60,11 @@ export default function Step3({
                         />
                     </div>
                     <div
-                        className={`duration-1000 ease-out ${onOff !== "오프라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="지역 선택"
-                            value={region}
+                            value={region === "온라인" ? "" : region}
                             label="지역"
                             onClick={() => setIsRegionModalOpen(true)}
                             className="cursor-pointer"
@@ -85,14 +73,19 @@ export default function Step3({
                         />
                     </div>
                     <div
-                        className={`delay-200 duration-1000 ease-out ${onOff !== "오프라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`delay-200 duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="상세 장소 입력"
                             label="상세 장소 (선택)"
-                            value={place}
+                            value={place ?? ""}
                             onChange={(e) =>
-                                setPlace(e.target.value.replace(/^\s+/, ""))
+                                useStudyStore
+                                    .getState()
+                                    .setData(
+                                        "place",
+                                        e.target.value.replace(/^\s+/, ""),
+                                    )
                             }
                             error={placeError}
                             errorMsg="상세 장소는 2자 이상 20자 이하여야 합니다."
@@ -100,7 +93,7 @@ export default function Step3({
                     </div>
                 </div>
                 <div className="absolute bottom-5 w-[calc(100%-40px)]">
-                    {(onOff === "온라인" || region) && !placeError ? (
+                    {(region === "온라인" || region) && !placeError ? (
                         <Button type="submit">다음</Button>
                     ) : (
                         <Button disabled>다음</Button>
@@ -111,18 +104,13 @@ export default function Step3({
                 <OnOfflineModal
                     isOpen={isOnOfflineModalOpen}
                     onClose={() => setIsOnOfflineModalOpen(false)}
-                    onOff={onOff}
-                    setOnOff={setOnOff}
-                    setRegion={setRegion}
-                    setPlaceNull={() => setPlace("")}
+                    onOff={region}
                 />
             )}
             {isRegionModalOpen && (
                 <RegionModal
                     isOpen={isRegionModalOpen}
                     onClose={() => setIsRegionModalOpen(false)}
-                    region={region}
-                    setRegion={setRegion}
                 />
             )}
         </>

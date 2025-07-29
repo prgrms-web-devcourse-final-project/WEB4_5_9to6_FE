@@ -6,18 +6,25 @@ export const useAuthStore = create<AuthStore>((set) => ({
     isFetched: false,
     myInfo: null,
     refetch: async () => {
-        const response = await fetchMyInfo();
-        if (response.code === "0000") {
-            set({
-                myInfo: {
-                    ...response.data.memberInfo,
-                    avatarInfo: response.data.avatarInfo,
-                },
-                isLogIn: true,
-            });
-            // console.log(useAuthStore.getState().myInfo);
+        try {
+            const response = await fetchMyInfo();
+
+            if (response.code === "0000") {
+                set({
+                    myInfo: {
+                        ...response.data.memberInfo,
+                        avatarInfo: response.data.avatarInfo,
+                    },
+                    isLogIn: true,
+                });
+                console.log(useAuthStore.getState().myInfo);
+            }
+        } catch (error) {
+            set({ isLogIn: false, myInfo: null });
+            console.log(error);
+        } finally {
+            set({ isFetched: true });
         }
-        set({ isFetched: true });
     },
     login: () => {
         useAuthStore.getState().refetch();

@@ -1,15 +1,15 @@
-export default function SelectDays({
-    daysOfWeek,
-    setDaysOfWeek,
-}: {
-    daysOfWeek: string[];
-    setDaysOfWeek: React.Dispatch<React.SetStateAction<string[]>>;
-}) {
+import { useStudyStore } from "@/stores/studyStore";
+
+export default function SelectDays() {
+    const daysOfWeek = useStudyStore((state) => state.studyData.schedules);
     const toggleDay = (day: string) => {
         if (daysOfWeek.includes(day)) {
-            setDaysOfWeek((daysOfWeek) => daysOfWeek.filter((d) => d !== day));
+            useStudyStore.getState().setData(
+                "schedules",
+                daysOfWeek.filter((d) => d !== day),
+            );
         } else {
-            setDaysOfWeek((daysOfWeek) => [...daysOfWeek, day]);
+            useStudyStore.getState().setData("schedules", [...daysOfWeek, day]);
         }
     };
 

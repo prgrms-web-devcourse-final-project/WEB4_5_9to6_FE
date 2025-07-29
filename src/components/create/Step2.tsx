@@ -5,28 +5,21 @@ import { Calendar, ChevronDown } from "lucide-react";
 import SelectDays from "./SelectDays";
 import TimeModal from "./TimeModal";
 import DateModal from "./DateModal";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function Step2({
     continueStep,
-    requestDaysOfWeek,
-    requestStartTime,
-    requestEndTime,
-    requestStartDate,
-    requestEndDate,
+    isEdit,
 }: {
     continueStep: () => void;
-    requestDaysOfWeek: (daysOfWeek: string[]) => void;
-    requestStartTime: (startTime: string) => void;
-    requestEndTime: (endTime: string) => void;
-    requestStartDate: (startDate: string) => void;
-    requestEndDate: (endDate: string) => void;
+    isEdit?: boolean;
 }) {
     const [isMounted, setIsMounted] = useState(false);
-    const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const daysOfWeek = useStudyStore((state) => state.studyData.schedules);
+    const startTime = useStudyStore((state) => state.studyData.startTime);
+    const endTime = useStudyStore((state) => state.studyData.endTime);
+    const startDate = useStudyStore((state) => state.studyData.startDate);
+    const endDate = useStudyStore((state) => state.studyData.endDate);
     const [isStartTimeModalOpen, setIsStartTimeModalOpen] = useState(false);
     const [isEndTimeModalOpen, setIsEndTimeModalOpen] = useState(false);
     const [isDateModalOpen, setIsDateModalOpen] = useState(false);
@@ -35,11 +28,6 @@ export default function Step2({
         e.preventDefault();
 
         if (!(daysOfWeek.length && startTime && endTime)) return;
-        requestDaysOfWeek(daysOfWeek);
-        requestStartTime(startTime);
-        requestEndTime(endTime);
-        requestStartDate(startDate);
-        requestEndDate(endDate);
         continueStep();
     };
 
@@ -59,10 +47,7 @@ export default function Step2({
                     <div
                         className={`delay-1100 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
                     >
-                        <SelectDays
-                            daysOfWeek={daysOfWeek}
-                            setDaysOfWeek={setDaysOfWeek}
-                        />
+                        <SelectDays />
                     </div>
                     <div
                         className={`delay-1300 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
@@ -75,7 +60,10 @@ export default function Step2({
                                 className="cursor-pointer"
                                 icon={<ChevronDown strokeWidth={1} size={20} />}
                                 onClick={() => {
-                                    if (!startTime) setStartTime("12:00");
+                                    if (!startTime)
+                                        useStudyStore
+                                            .getState()
+                                            .setData("startTime", "12:00");
                                     setIsStartTimeModalOpen(true);
                                 }}
                                 readOnly
@@ -88,7 +76,10 @@ export default function Step2({
                                 className="cursor-pointer"
                                 icon={<ChevronDown strokeWidth={1} size={20} />}
                                 onClick={() => {
-                                    if (!endTime) setEndTime("12:00");
+                                    if (!endTime)
+                                        useStudyStore
+                                            .getState()
+                                            .setData("endTime", "12:00");
                                     setIsEndTimeModalOpen(true);
                                 }}
                                 readOnly
@@ -104,8 +95,10 @@ export default function Step2({
                                 icon={<Calendar strokeWidth={1} size={20} />}
                                 label="스터디 기간"
                                 value={startDate}
-                                className="cursor-pointer"
-                                onClick={() => setIsDateModalOpen(true)}
+                                className="cursor-pointer text-[var(--color-gray600)]"
+                                onClick={() =>
+                                    isEdit ? {} : setIsDateModalOpen(true)
+                                }
                                 readOnly
                             />
                             <h6 className="flex justify-end text-[var(--color-gray1000)]">
@@ -139,7 +132,7 @@ export default function Step2({
                     onClose={() => setIsStartTimeModalOpen(false)}
                     title="시작 시간"
                     time={startTime}
-                    setTime={setStartTime}
+                    type="startTime"
                 />
             )}
             {isEndTimeModalOpen && (
@@ -148,17 +141,14 @@ export default function Step2({
                     onClose={() => setIsEndTimeModalOpen(false)}
                     title="종료 시간"
                     time={endTime}
-                    setTime={setEndTime}
+                    type="endTime"
                 />
             )}
             {isDateModalOpen && (
                 <DateModal
                     isOpen={isDateModalOpen}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
                     onClose={() => setIsDateModalOpen(false)}
+                    isEdit={isEdit}
                 />
             )}
         </>
