@@ -57,7 +57,11 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
                 groupedOwnItems: grouped,
             });
         } catch (err) {
-            console.error("소유 아이템 로딩 실패:", err);
+            set({
+                ownItems: [],
+                groupedOwnItems: {},
+            });
+            console.log("소유 아이템 로딩 실패:", err);
         }
     },
     changeOwnId: (id: number) => set({ ownId: id }),

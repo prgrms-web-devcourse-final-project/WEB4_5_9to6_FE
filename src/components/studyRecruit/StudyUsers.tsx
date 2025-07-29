@@ -47,7 +47,7 @@ export default function StudyUsers() {
                                     />
                                 </div>
                                 <h6 className="ml-[12px] flex items-center text-[var(--color-gray1000)]">
-                                    {member.nickName}
+                                    {member.nickname}
                                 </h6>
                             </div>
                         </div>

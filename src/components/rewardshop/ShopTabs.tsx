@@ -7,7 +7,7 @@ import ShopAvatarList from "./list/ShopAvatarList";
 import ChannelSlideBar from "../common/ChannelSlideBar";
 import { useRewardItemStore } from "@/stores/rewardItemStore";
 import { useOwnItemStore } from "@/stores/ownItemStore";
-import LoadingSpinner from "../common/LoadingSpinner";
+import ProfileTeamLoading from "../profile/theme/ProfileTeamLoading";
 
 export default function ShopTabs() {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
@@ -29,9 +29,7 @@ export default function ShopTabs() {
     if (isLoading) {
         return (
             <>
-                <div className="relative h-[calc(100vh-200px)] overflow-y-auto py-6">
-                    <LoadingSpinner />
-                </div>
+                <ProfileTeamLoading />
             </>
         );
     }
