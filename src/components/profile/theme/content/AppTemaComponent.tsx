@@ -17,7 +17,8 @@ export default function AppTemaComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const { changeOwnId, changeOwnName, changeAvatarState } = useOwnItemStore();
+    const { changeOwnId, changeOwnName, changeItemId, changeAvatarState } =
+        useOwnItemStore();
     return (
         <>
             <div className="flex flex-col gap-[10px]">
@@ -26,6 +27,7 @@ export default function AppTemaComponent({
                     onClick={() => {
                         onSelect();
                         changeOwnId(ownId);
+                        changeItemId(id);
                         changeAvatarState(false);
                         changeOwnName(name + " 테마");
                     }}

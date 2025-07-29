@@ -18,7 +18,8 @@ export default function StudyRoomComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const { changeOwnId, changeOwnName, changeAvatarState } = useOwnItemStore();
+    const { changeOwnId, changeOwnName, changeItemId, changeAvatarState } =
+        useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isImageLoading, setIsImageLoading] = useState(true);
 
@@ -35,6 +36,7 @@ export default function StudyRoomComponent({
                     onClick={() => {
                         onSelect();
                         changeOwnId(ownId);
+                        changeItemId(id);
                         changeAvatarState(false);
                         changeOwnName(name + " 배경");
                     }}
