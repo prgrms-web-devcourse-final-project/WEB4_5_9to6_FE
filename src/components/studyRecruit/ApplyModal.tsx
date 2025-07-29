@@ -4,7 +4,7 @@ import { fetchSurvApply } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,7 +31,8 @@ export default function ApplyModal({
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
     const myId = useAuthStore((state) => state.myInfo);
-    const suvivalInfo = useSurvivalStore();
+    const survivalInfo = useSurvivalStore();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (isOpen) {
@@ -66,8 +67,11 @@ export default function ApplyModal({
             if (studyId === null) throw new Error("잘못된 스터디 ID");
             return fetchSurvApply(studyId, myId?.id ?? 0);
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             console.log("서바이벌 신청 성공", data);
+            await queryClient.invalidateQueries({
+                queryKey: ["isApplied", studyId, myId?.id],
+            });
             onClose();
             onApply();
         },
@@ -84,7 +88,7 @@ export default function ApplyModal({
     };
 
     const applyHandler = () => {
-        if (suvivalInfo.study?.studyType === "SURVIVAL") {
+        if (survivalInfo.study?.studyType === "SURVIVAL") {
             survivalApply.mutate();
         } else {
             applyMutation.mutate();

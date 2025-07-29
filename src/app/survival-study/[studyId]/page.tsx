@@ -28,8 +28,6 @@ export default function SurvivalStudy() {
     const { groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
-    // const today = new Date();
-    // const todayDay = new Date().getDay();
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
 
@@ -46,8 +44,17 @@ export default function SurvivalStudy() {
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
+        refetchOnMount: true,
     });
-    const canStart = apply && study?.startDate;
+
+    const today = new Date();
+    // 스터디 시작, 끝 날짜/시간
+    const startDateTime = new Date(study?.startDate && study?.startTime);
+    const endDateTime = new Date(study?.startDate && study?.endTime);
+    // 시작 조건
+    const canStart = apply && today >= startDateTime;
+    // 종료 조건
+    const isClosed = today > endDateTime;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
     useEffect(() => {
@@ -60,11 +67,11 @@ export default function SurvivalStudy() {
         router.push(`/survival-study/${studyId}/quiz/1`);
     };
     const buttonHandler = (studyId: number) => {
-        if (!apply) {
+        if (!apply.isMember) {
             setShowModal(true);
-        } else if (canStart) {
+        } else if (canStart && apply.isMember) {
             if (!studyId) {
-                console.error("studyId is undefined");
+                console.error("스터디 정보 없음");
                 return;
             }
             quizStartHandler(studyId);
@@ -131,18 +138,19 @@ export default function SurvivalStudy() {
                 />
                 <SurvivalInfo study={study} />
                 <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
-                    {!apply && myInfo ? (
+                    {apply?.isMember === false ? (
                         <Button
                             onClick={() => buttonHandler(study.studyId)}
                             color="primary"
                             className="mx-5 my-5"
+                            disabled={today >= startDateTime}
                         >
                             신청하기
                         </Button>
                     ) : (
                         <Button
                             onClick={() => buttonHandler(studyId)}
-                            disabled={!canStart}
+                            disabled={!canStart || isClosed}
                             className={`mx-5 my-5 ${
                                 canStart
                                     ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
