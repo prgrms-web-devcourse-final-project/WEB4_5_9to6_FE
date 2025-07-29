@@ -111,7 +111,9 @@ export default function Header({
                                         router.push("/notifications")
                                     }
                                 />
-                                {alarms.length > 0 && (
+                                {alarms.filter(
+                                    (alarm) => alarm.isRead === false,
+                                ).length > 0 && (
                                     <>
                                         <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
                                         <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />

@@ -15,6 +15,7 @@ import MenuModal from "./modal/MenuModal";
 import StudyGoalModal from "./modal/StudyGoalModal";
 import StudyUserModal from "./modal/StudyUserModal";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import { useAlarmStore } from "@/stores/alarmStore";
 export default function StudyHome({
     studyId,
     notice,
@@ -56,6 +57,8 @@ export default function StudyHome({
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
 
+    const alarms = useAlarmStore((state) => state.alarmList);
+
     useEffect(() => {
         const selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
@@ -94,7 +97,17 @@ export default function StudyHome({
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
                                 onClick={() => router.push("/notifications")}
                             >
-                                <Bell className="h-5 w-5 text-[#161616]" />
+                                <div className="relative">
+                                    <Bell className="h-5 w-5 text-[#161616]" />
+                                    {alarms.filter(
+                                        (alarm) => alarm.isRead === false,
+                                    ).length > 0 && (
+                                        <>
+                                            <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                            <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                        </>
+                                    )}
+                                </div>
                             </button>
                             <button
                                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
