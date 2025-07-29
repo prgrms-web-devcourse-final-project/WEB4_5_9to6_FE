@@ -74,6 +74,9 @@ export default function ApplyModal({
             });
             onClose();
             onApply();
+            await queryClient.refetchQueries({
+                queryKey: ["isApplied", studyId, myId?.id],
+            });
         },
         onError: (error) => {
             console.error("서바이벌 신청 실패", error);
@@ -90,9 +93,8 @@ export default function ApplyModal({
     const applyHandler = () => {
         if (survivalInfo.study?.studyType === "SURVIVAL") {
             survivalApply.mutate();
-        } else {
-            applyMutation.mutate();
         }
+        applyMutation.mutate();
     };
 
     if (!isVisible) return null;
@@ -104,12 +106,12 @@ export default function ApplyModal({
                     className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white px-6 pt-2 pb-5`}
                 >
                     <div className="flex h-[65px] w-full items-center justify-between">
-                        <h3 className="text-[var(--color-gray1000)]">
+                        <h3 className="text-[var(--color-gray1000)] dark:text-white">
                             스터디 신청
                         </h3>
                         <X
                             onClick={closeHandler}
-                            className="h-6 w-6 cursor-pointer text-[#161616]"
+                            className="h-6 w-6 cursor-pointer text-[#161616] dark:text-white"
                         />
                     </div>
                     {children}
@@ -133,17 +135,17 @@ export default function ApplyModal({
                     <div className="mt-10 flex w-full items-center gap-2">
                         <button
                             onClick={closeHandler}
-                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]"
+                            className="flex h-[50px] w-[112px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-gray200)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)] dark:bg-[var(--color-gray800)]"
                         >
-                            <h5 className="text-[var(--color-gray1000)]">
+                            <h5 className="text-[var(--color-gray1000)] dark:text-white">
                                 취소
                             </h5>
                         </button>
                         <button
                             onClick={applyHandler}
-                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
+                            className="green:bg-[#00E69A] green:hover:bg-[#00BD7E] flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
                         >
-                            <h5 className="text-[var(--color-white)]">
+                            <h5 className="green:text-black text-[var(--color-white)]">
                                 신청하기
                             </h5>
                         </button>

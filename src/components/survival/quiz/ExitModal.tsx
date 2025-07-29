@@ -2,23 +2,25 @@
 
 import { axiosInstance } from "@/api";
 import Button from "@/components/common/Button";
-import { useAuthStore } from "@/stores/authStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ExitModal({
     isOpen,
     onClose,
+    studyId,
+    currentWeek,
+    myMember,
 }: {
     isOpen: boolean;
     onClose: () => void;
+    studyId: number;
+    currentWeek: number;
+    myMember?: StudyMember;
 }) {
     const router = useRouter();
-    const myInfo = useAuthStore.getState().myInfo;
-    const params = useParams();
-    const studyId = Number(params?.studyId);
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
 
@@ -36,29 +38,23 @@ export default function ExitModal({
     }, [changeClass, isOpen]);
 
     const giveUpHandler = async () => {
+        const studyMemberId = myMember?.studyMemberId;
         try {
-            if (!studyId || !week || !studyMemberId) {
+            if (!studyId || !studyMemberId) {
                 throw new Error("필요한 정보가 없습니다.");
             }
-            const memberRes = await axiosInstance.get(
-                `/studies/${studyId}/members`,
-            );
-            const members = memberRes.data;
-
-            const myMember = members.find(
-                (m: StudyMember) => m.memberId === myInfo?.id,
-            );
 
             if (!myMember) {
                 throw new Error("스터디 멤버를 찾을 수 없습니다.");
             }
 
-            const studyMemberId = myMember.studyMemberId;
-
-            await axiosInstance.post(`quiz/${studyId}/weeks/${week}/results`, {
-                studyMemberId,
-                survived: false,
-            });
+            await axiosInstance.post(
+                `quiz/${studyId}/weeks/${currentWeek}/results`,
+                {
+                    studyMemberId,
+                    survived: false,
+                },
+            );
             console.log("퀴즈 중단하기");
             router.push("/");
         } catch (err) {
@@ -81,12 +77,12 @@ export default function ExitModal({
                 <div>
                     <div
                         onClick={closeHandler}
-                        className={`fixed inset-0 z-40 bg-black/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
+                        className={`fixed inset-0 z-40 bg-black/30 duration-200 dark:bg-[#222] ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
                     ></div>
                     <div
                         className={`${animationClass} fixed inset-0 z-100 flex items-center justify-center p-10`}
                     >
-                        <div className="z-30 flex w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-white p-7">
+                        <div className="z-30 flex w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-white p-7 dark:bg-[#222222]">
                             <Image
                                 src="/icons/Warning.png"
                                 alt="warning icon"

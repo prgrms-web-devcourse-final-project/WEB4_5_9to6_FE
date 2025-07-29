@@ -10,6 +10,7 @@ import { useSurvivalStore } from "@/stores/survivalStore";
 import { axiosInstance } from "@/api";
 import { fetchStudyMember } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function Quiz({
     quizId,
@@ -121,7 +122,6 @@ export default function Quiz({
                     `quiz/${studyId}/weeks/${currentWeek}/results`,
                     payload,
                 );
-                // 내가 선택한 답안 전달
 
                 console.log("grading 전달완료", gradingPost);
                 console.log("score 전달완료", payload);
@@ -133,7 +133,7 @@ export default function Quiz({
     };
 
     if (!study || !currentQuiz) {
-        return <div>로딩중..</div>;
+        return <LoadingSpinner />;
     }
     return (
         <div className="mt-6 flex flex-col items-center justify-center">
@@ -197,7 +197,7 @@ export default function Quiz({
                         onClick={QuizSubmitHandler}
                         className={`mx-5 my-5 ${
                             selected
-                                ? "bg-[var(--color-main500)] hover:bg-[var(--color-main600)]"
+                                ? "green:bg-[#00E69A] green:hover:bg-[#00BD7E] bg-[var(--color-main500)] hover:bg-[var(--color-main600)]"
                                 : "cursor-not-allowed bg-[var(--color-gray200)]"
                         }`}
                     >
@@ -206,7 +206,7 @@ export default function Quiz({
                 ) : (
                     <Button
                         onClick={goNextHandler}
-                        className="mx-5 my-5 bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
+                        className="green:bg-[#00E69A] green:hover:bg-[#00BD7E] mx-5 my-5 bg-[var(--color-main500)] text-white hover:bg-[var(--color-main600)]"
                     >
                         다음
                     </Button>

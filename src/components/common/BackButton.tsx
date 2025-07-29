@@ -22,9 +22,11 @@ export default function BackButton({
         <>
             <button
                 onClick={handleClick}
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/90"
+                className="green:bg-[#222]/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/90 backdrop-blur-[10px] dark:bg-[#222]/90"
             >
-                <ChevronLeft className={`text-[#161616] ${className}`} />
+                <ChevronLeft
+                    className={`text-[#161616] ${className} green:text-white dark:text-white`}
+                />
             </button>
         </>
     );

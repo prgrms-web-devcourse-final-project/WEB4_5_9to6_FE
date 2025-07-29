@@ -26,7 +26,7 @@ export default function SurvivalStudy() {
     const myInfo = useAuthStore().myInfo;
     const { setStudy } = useSurvivalStore();
     const { groupedOwnItems } = useOwnItemStore();
-    const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [src, setSrc] = useState("/images/rewardItems/12.png");
 
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
@@ -52,8 +52,10 @@ export default function SurvivalStudy() {
     const startDateTime = new Date(study?.startDate && study?.startTime);
     const endDateTime = new Date(study?.startDate && study?.endTime);
     // 시작 조건
-    const canStart = apply && today >= startDateTime;
-    // 종료 조건
+    const canStart =
+        apply?.isMember === true &&
+        today >= new Date(`${study?.startDate}T${study?.startTime}`) &&
+        today < new Date(`${study?.startDate}T${study?.endTime}`); // 종료 조건
     const isClosed = today > endDateTime;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
@@ -69,7 +71,7 @@ export default function SurvivalStudy() {
     const buttonHandler = (studyId: number) => {
         if (!apply.isMember) {
             setShowModal(true);
-        } else if (canStart && apply.isMember) {
+        } else if (canStart) {
             if (!studyId) {
                 console.error("스터디 정보 없음");
                 return;
@@ -107,7 +109,7 @@ export default function SurvivalStudy() {
 
     return (
         <>
-            <div className="relative mb-10 h-screen">
+            <div className="green:bg-[#222] relative mb-10 h-screen">
                 <div className="relative">
                     <Image
                         src={src}
@@ -133,27 +135,27 @@ export default function SurvivalStudy() {
                 </div>
 
                 <NoticeBox
-                    className="bg-[var(--color-gray100)] pt-2"
+                    className="green:bg-[var(--color-gray1000)] green:text-white rounded-none bg-[var(--color-gray100)] pt-2 dark:bg-[var(--color-gray1000)] dark:text-white"
                     notice={study?.notice}
                 />
                 <SurvivalInfo study={study} />
-                <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
+                <div className="green:border-t-[var(--color-gray1000)] green:bg-[#222222] fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white dark:border-t-[var(--color-gray1000)] dark:bg-[#222222]">
                     {apply?.isMember === false ? (
                         <Button
-                            onClick={() => buttonHandler(study.studyId)}
+                            onClick={() => buttonHandler(studyId)}
                             color="primary"
-                            className="mx-5 my-5"
+                            className="green:bg-[#00E69A] green:hover:bg-[#00BD7E] mx-5 my-5 text-white"
                             disabled={today >= startDateTime}
                         >
                             신청하기
                         </Button>
                     ) : (
                         <Button
-                            onClick={() => buttonHandler(study.studyId)}
+                            onClick={() => buttonHandler(studyId)}
                             disabled={!canStart || isClosed}
                             className={`mx-5 my-5 ${
                                 canStart
-                                    ? "bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
+                                    ? "green:bg-[#00E69A] green:hover:bg-[#00BD7E] bg-[var(--color-main500)] text-white transition duration-200 hover:bg-[var(--color-main600)]"
                                     : "cursor-not-allowed bg-[var(--color-gray200)] text-[var(--color-gray500)]"
                             }`}
                         >
@@ -169,29 +171,31 @@ export default function SurvivalStudy() {
                     )}
                 </div>
                 <ApplyModal
-                    className="absolute bottom-[250px] left-1/2 -translate-x-1/2"
+                    className="absolute bottom-[250px] left-1/2 -translate-x-1/2 dark:bg-[#222222]"
                     onClose={closeHandler}
                     onApply={applyHandler}
                     isOpen={showModal}
                     showTextArea={false}
                 >
-                    <p className="b1 mb-2.5">스터디를 신청하시겠습니까?</p>
-                    <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
-                        <div className="flex justify-between">
+                    <p className="b1 mb-2.5 dark:text-white">
+                        스터디를 신청하시겠습니까?
+                    </p>
+                    <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4 dark:bg-[var(--color-gray1000)]">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 이름</p>
                             <p className="b2">{study?.name}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 주제</p>
                             <p className="b2">{categoryMap[study?.category]}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 요일</p>
                             <p className="b2">
-                                매주 {dayMap[study?.schedules]}
+                                매주 {dayMap[study?.schedules]}요일
                             </p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 시간</p>
                             <p className="b2">
                                 {study?.startTime}~{study?.endTime}
