@@ -5,35 +5,47 @@ import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
 import { ko } from "date-fns/locale";
 import { useEffect, useState } from "react";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function DateModal({
-    startDate,
-    endDate,
-    setStartDate,
-    setEndDate,
     onClose,
     isOpen,
+    isEdit,
 }: {
-    startDate: string;
-    endDate: string;
-    setStartDate: (date: string) => void;
-    setEndDate: (date: string) => void;
     onClose: () => void;
     isOpen: boolean;
+    isEdit?: boolean;
 }) {
+    const startDate = useStudyStore((state) => state.studyData.startDate);
+    const endDate = useStudyStore((state) => state.studyData.endDate);
+    const today = new Date();
+    const [editEndDate] = useState(() =>
+        endDate ? new Date(endDate) : new Date(),
+    );
+
     const selectedRange: DateRange = {
         from: startDate ? new Date(startDate) : undefined,
         to: endDate ? new Date(endDate) : undefined,
     };
 
     const selectHandler = (range: DateRange | undefined) => {
-        if (!range) return;
+        if (!range || !range.to) return;
 
-        if (range.from) {
-            setStartDate(format(range.from, "yyyy-MM-dd"));
-        }
-        if (range.to) {
-            setEndDate(format(range.to, "yyyy-MM-dd"));
+        if (isEdit) {
+            useStudyStore
+                .getState()
+                .setData("endDate", format(range.to, "yyyy-MM-dd"));
+        } else {
+            if (range.from) {
+                useStudyStore
+                    .getState()
+                    .setData("startDate", format(range.from, "yyyy-MM-dd"));
+            }
+            if (range.to) {
+                useStudyStore
+                    .getState()
+                    .setData("endDate", format(range.to, "yyyy-MM-dd"));
+            }
         }
     };
 
@@ -70,7 +82,7 @@ export default function DateModal({
             <div
                 className={`${
                     animationClass
-                } z-2 flex w-sm justify-center rounded-[24px] bg-white p-4`}
+                } z-2 mx-5 flex max-w-sm justify-center rounded-[24px] bg-white p-4`}
             >
                 <DayPicker
                     mode="range"
@@ -81,7 +93,12 @@ export default function DateModal({
                     toYear={new Date().getFullYear() + 30}
                     locale={ko}
                     navLayout="around"
-                    disabled={{ before: new Date() }}
+                    disabled={(date) => {
+                        if (date < today) return true;
+                        if (isEdit && date < editEndDate) return true;
+
+                        return false;
+                    }}
                     classNames={{
                         selected:
                             "bg-[var(--color-main400)] text-white rounded-[10px]",

@@ -1,43 +1,79 @@
 "use client";
 
+import { editStudy, fetchStudyInfo } from "@/api/studies";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/create/Step1";
 import Step2 from "@/components/create/Step2";
 import Step3 from "@/components/create/Step3";
 import Step4 from "@/components/create/Step4";
 import Step5 from "@/components/create/Step5";
+import { useStudyStore } from "@/stores/studyStore";
 import { customAlert } from "@/utils/customAlert";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { translateCategoryToEnum } from "@/utils/translateCategoryToEnum";
+import { translateRegionToEnum } from "@/utils/translateRegionToEnum";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function EditStudy() {
+    const studyId = parseInt(useParams<{ studyId: string }>().studyId);
+    const studyData = useStudyStore((state) => state.studyData);
     const [step, setStep] = useState(1);
-    const [category, setCategory] = useState("");
-    const [maxMember, setMaxMember] = useState("");
-    const [name, setName] = useState("");
-    const [daysOfWeek, setDaysOfWeek] = useState([]);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [region, setRegion] = useState("");
-    const [place, setPlace] = useState("");
-    const [goals, setGoals] = useState([]);
-    const [description, setDescription] = useState("");
-    const [externalLink, setExternalLink] = useState("");
     const router = useRouter();
+    const isFetched = useStudyStore((state) => state.isFetched);
 
-    const submitCreate = () => {
-        setTimeout(() => {
-            router.push("/studylist");
-            // API 연결 후 라우터 다시 작성
-            customAlert({
-                message: `스터디 생성이 완료되었어요!\n스터디룸을 확인해보세요.`,
-                linkLabel: "이동하기",
-                onClick: () => router.push("/study/1"),
-            });
-        }, 1500);
-    };
+    const { data: fetchStudyData } = useQuery({
+        queryKey: ["fetch-study", studyId],
+        enabled: !!studyId,
+        queryFn: () => fetchStudyInfo(studyId),
+    });
+
+    const { mutate: submitEdit } = useMutation({
+        mutationFn: () =>
+            editStudy(studyId, {
+                name: studyData.name,
+                category: translateCategoryToEnum(studyData.category),
+                maxMembers: studyData.maxMembers,
+                region: translateRegionToEnum(studyData.region),
+                place: studyData.place ?? "",
+                schedules: studyData.schedules,
+                startTime: studyData.startTime,
+                endTime: studyData.endTime,
+                startDate: studyData.startDate,
+                endDate: studyData.endDate,
+                description: studyData.description,
+                externalLink: studyData.externalLink,
+                studyType: "DEFAULT",
+                goals: studyData.goals.filter((goal) => goal.content !== ""),
+                online: studyData.region === "온라인",
+            }),
+        onMutate: () => {
+            console.log(useStudyStore.getState().studyData);
+        },
+        onSuccess: (response) => {
+            console.log(response);
+            setTimeout(() => {
+                router.push(`/study/${studyId}`);
+                customAlert({
+                    message: `스터디 수정이 완료되었어요.`,
+                    linkLabel: "",
+                    onClick: () => {},
+                });
+            }, 1000);
+            useStudyStore.getState().reset();
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
+
+    useEffect(() => {
+        if (!isFetched && fetchStudyData) {
+            useStudyStore.getState().fetchStudy(fetchStudyData);
+        }
+    }, [isFetched, fetchStudyData]);
+
+    if (!isFetched || !fetchStudyData) return null;
 
     return (
         <>
@@ -46,7 +82,7 @@ export default function EditStudy() {
                 {step === 1 ? (
                     <Step1 continueStep={() => setStep(2)} />
                 ) : step === 2 ? (
-                    <Step2 continueStep={() => setStep(3)} />
+                    <Step2 continueStep={() => setStep(3)} isEdit />
                 ) : step === 3 ? (
                     <Step3 continueStep={() => setStep(4)} />
                 ) : step === 4 ? (
@@ -54,7 +90,8 @@ export default function EditStudy() {
                 ) : (
                     <Step5
                         continueStep={() => setStep(6)}
-                        submitCreate={submitCreate}
+                        submitCreate={submitEdit}
+                        isEdit
                     />
                 )}
             </div>

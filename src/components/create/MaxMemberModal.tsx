@@ -8,8 +8,8 @@ export default function MaxMemberModal({
     isOpen,
 }: {
     onClose: () => void;
-    maxMember: string;
-    setMaxMember: (value: string) => void;
+    maxMember: number;
+    setMaxMember: (column: string, member: number) => void;
     isOpen: boolean;
 }) {
     return (
@@ -22,7 +22,7 @@ export default function MaxMemberModal({
             <Picker
                 value={{ number: maxMember }}
                 onChange={(value) => {
-                    setMaxMember(value.number);
+                    setMaxMember("maxMembers", value.number);
                 }}
                 height={140}
                 itemHeight={40}
@@ -30,7 +30,7 @@ export default function MaxMemberModal({
                 wheelMode="normal"
             >
                 <Picker.Column name="number">
-                    {["3", "4", "5", "6", "7"].map((num) => (
+                    {[3, 4, 5, 6, 7].map((num) => (
                         <Picker.Item key={`picker_${num}`} value={num}>
                             {({ selected }) => (
                                 <div

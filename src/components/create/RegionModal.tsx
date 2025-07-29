@@ -1,15 +1,12 @@
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import BottomModal from "../common/BottomModal";
+import { useStudyStore } from "@/stores/studyStore";
 
 export default function RegionModal({
     onClose,
-    region,
-    setRegion,
     isOpen,
 }: {
     onClose: () => void;
-    region: string;
-    setRegion: (region: string) => void;
     isOpen: boolean;
 }) {
     const regions = [
@@ -33,22 +30,23 @@ export default function RegionModal({
     ];
 
     const { changeClass } = useAnimationStore();
+    const region = useStudyStore((state) => state.studyData.region);
 
     return (
         <>
             <BottomModal
                 title="지역"
                 onClose={onClose}
-                height="360"
+                height="411"
                 isOpen={isOpen}
             >
-                <div className="flex h-12 w-full flex-wrap justify-between gap-2 p-5">
+                <div className="flex h-12 w-full flex-wrap gap-2 p-5">
                     {regions.map((r) => (
                         <button
                             key={r}
                             type="button"
                             onClick={() => {
-                                setRegion(r);
+                                useStudyStore.getState().setData("region", r);
                                 changeClass("animate-modalFadeOut");
                                 setTimeout(() => {
                                     onClose();
