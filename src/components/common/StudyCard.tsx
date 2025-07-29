@@ -74,7 +74,7 @@ export default function StudyCard({
                             )}
                         </div>
                         {/*제목*/}
-                        <h4 className="mt-2 text-[var(--color-gray1000)] transition-all duration-200 ease-in-out group-hover:text-[#727272] dark:text-white">
+                        <h4 className="dark:group-hover:text-gray500 mt-2 text-[var(--color-gray1000)] transition-all duration-200 ease-in-out group-hover:text-[#727272] dark:text-white">
                             {title}
                         </h4>
                     </div>

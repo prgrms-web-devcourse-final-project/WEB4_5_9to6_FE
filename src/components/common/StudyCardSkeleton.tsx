@@ -3,7 +3,7 @@
 export default function StudyCardSkeleton() {
     return (
         <>
-            <div className="dark:bg-gray500 mt-3.5 flex min-h-[160px] w-full animate-pulse flex-col rounded-2xl bg-white px-4">
+            <div className="dark:bg-gray1000 mt-3.5 flex min-h-[160px] w-full animate-pulse flex-col rounded-2xl bg-white px-4">
                 <div className="flex h-[104px] w-full justify-between py-[14px]">
                     <div className="flex flex-col gap-2">
                         <div className="flex h-[24px] items-center gap-[6px]">

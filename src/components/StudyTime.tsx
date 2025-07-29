@@ -159,14 +159,18 @@ export default function StudyTime() {
             {isLogIn ? (
                 // 로그인상태
                 <section>
-                    <h3 className="h3">{myInfo?.nickname}님의 공부시간</h3>
-                    <div className="mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-6">
+                    <h3 className="h3 text-gray1000 dark:text-white">
+                        {myInfo?.nickname}님의 공부시간
+                    </h3>
+                    <div className="dark:bg-gray1000 mt-3.5 min-h-[165px] w-full rounded-2xl bg-white px-6">
                         <div className="flex pt-6">
                             <div className="flex w-1/2 flex-col">
                                 <div className="mb-[11px]">
-                                    <p className="c2">총 공부시간</p>
+                                    <p className="c2 text-gray1000 dark:text-white">
+                                        총 공부시간
+                                    </p>
                                 </div>
-                                <p className="h1 mr-0.5">
+                                <p className="h1 text-gray1000 mr-0.5 dark:text-white">
                                     {hours}
                                     <span className="h6 mr-1.5">시간</span>
                                     {minutes}
@@ -220,8 +224,8 @@ export default function StudyTime() {
                                 )}
                             </div>
                         </div>
-                        <hr className="mt-5.5 text-[var(--color-gray200)]" />
-                        <div className="flex justify-center py-4">
+                        <hr className="dark:text-gray800 mt-5.5 text-[var(--color-gray200)]" />
+                        <div className="text-gray1000 flex justify-center py-4 dark:text-white">
                             <Image
                                 src={icon}
                                 alt="icon"
@@ -237,8 +241,8 @@ export default function StudyTime() {
             ) : (
                 // 비로그인
                 <section>
-                    <div className="mt-3.5 flex min-h-[165px] w-full flex-col items-center justify-center rounded-2xl bg-white px-[10%]">
-                        <p className="h5 mb-7 text-center text-[var(--color-gray1000)]">
+                    <div className="dark:bg-gray1000 mt-3.5 flex min-h-[165px] w-full flex-col items-center justify-center rounded-2xl bg-white px-[10%]">
+                        <p className="h5 text-gray1000 mb-7 text-center dark:text-white">
                             로그인 후<br />
                             스터디 정보를 확인해보세요
                         </p>
@@ -253,7 +257,9 @@ export default function StudyTime() {
             )}
             {isLogIn ? (
                 <section>
-                    <h3 className="h3 mt-8 pb-3.5">내 스터디</h3>
+                    <h3 className="h3 text-gray1000 mt-8 pb-3.5 dark:text-white">
+                        내 스터디
+                    </h3>
 
                     {studyCards && studyCards.length > 0 ? (
                         <div className="flex flex-col gap-3.5 pb-24">
@@ -295,7 +301,9 @@ export default function StudyTime() {
                 </section>
             ) : (
                 <section className="mt-8 flex flex-col gap-3.5 pb-24">
-                    <h3 className="h3">이런 스터디도 있어요</h3>
+                    <h3 className="h3 text-gray1000 dark:text-white">
+                        이런 스터디도 있어요
+                    </h3>
                     {studyCards?.map((study: Study, i: number) => (
                         <StudyCard
                             key={i}

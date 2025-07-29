@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect, useState } from "react";
 import { customAlert } from "@/utils/customAlert";
+import { useThemeStore } from "@/stores/themeStore";
 
 export default function Header({
     children,
@@ -23,6 +24,7 @@ export default function Header({
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const [id, setId] = useState(0);
+    const theme = useThemeStore((state) => state.theme);
 
     useEffect(() => {
         if (myInfo) {
@@ -47,16 +49,29 @@ export default function Header({
                             </h3>
                         ) : (
                             <Link href="/">
-                                <Image
-                                    src="/images/logo-default.png"
-                                    alt="logo"
-                                    width={82}
-                                    height={16}
-                                    style={{
-                                        marginTop: "23px",
-                                        marginLeft: "20px",
-                                    }}
-                                />
+                                {theme === "light" ? (
+                                    <Image
+                                        src="/images/logo-default.png"
+                                        alt="logo"
+                                        width={82}
+                                        height={16}
+                                        style={{
+                                            marginTop: "23px",
+                                            marginLeft: "20px",
+                                        }}
+                                    />
+                                ) : (
+                                    <Image
+                                        src="/images/logo-dark.png"
+                                        alt="logo"
+                                        width={82}
+                                        height={16}
+                                        style={{
+                                            marginTop: "23px",
+                                            marginLeft: "20px",
+                                        }}
+                                    />
+                                )}
                             </Link>
                         )}
                     </span>
