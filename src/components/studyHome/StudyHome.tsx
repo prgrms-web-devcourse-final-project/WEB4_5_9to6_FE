@@ -122,7 +122,7 @@ export default function StudyHome({
                 )}
                 {/* 아바타 위치 지정 */}
                 {membersData && (
-                    <div className="absolute bottom-[30px] left-1/2 z-30 flex -translate-x-1/2">
+                    <div className="absolute bottom-[15px] left-1/2 z-30 flex -translate-x-1/2">
                         <AvatarDisplay
                             num={membersData.length}
                             membersData={membersData}
