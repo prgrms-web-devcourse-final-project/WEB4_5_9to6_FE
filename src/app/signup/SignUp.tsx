@@ -12,7 +12,7 @@ import { signUp } from "@/api/auth";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(1);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");

@@ -138,7 +138,7 @@ export default function Step1({
                         className={`mx-auto mt-3 w-20 delay-200 duration-1000 ${!isSend && "opacity-0"}`}
                     >
                         <button
-                            className={`text-gray700 cursor-pointer underline underline-offset-4 duration-200 ease-out ${isVerified ? "hover:text-gray700" : "hover:text-gray1000"}`}
+                            className={`text-gray700 dark:text-gray500 cursor-pointer underline underline-offset-4 duration-200 ease-out ${isVerified ? "hover:text-gray700 dark:hover:text-gray500" : "hover:text-gray1000 dark:hover:text-gray600"}`}
                             type="button"
                             onClick={() => {
                                 if (isVerified) return;
