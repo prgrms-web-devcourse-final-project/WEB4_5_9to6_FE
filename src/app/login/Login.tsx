@@ -164,24 +164,6 @@ export default function Login() {
                     </Button>
                 </div>
             </div>
-
-            <div className="flex flex-row justify-center gap-5">
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("dark")}
-                >
-                    다크
-                </button>
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("light")}
-                >
-                    라이트
-                </button>
-                <button
-                    onClick={() => useThemeStore.getState().setTheme("green")}
-                >
-                    그린&블랙
-                </button>
-            </div>
         </div>
     );
 }
