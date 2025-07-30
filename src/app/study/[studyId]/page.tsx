@@ -205,7 +205,9 @@ export default function Page() {
                     <div className="flex items-center gap-4">
                         <MessageSquare
                             className="h-5 w-5 cursor-pointer"
-                            onClick={() => router.push(`/${studyId}/chat`)}
+                            onClick={() =>
+                                router.push(`/study/${studyId}/chat`)
+                            }
                         />
                         <Bell
                             className="h-5 w-5 cursor-pointer"

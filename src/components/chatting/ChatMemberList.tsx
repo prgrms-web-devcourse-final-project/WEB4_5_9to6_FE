@@ -8,7 +8,7 @@ import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useParticipantStore } from "@/stores/chatStore";
 import { useAuthStore } from "@/stores/authStore";
 
-export default function ChatMemberList({ studyId }: { studyId: number }) {
+export default function ChatMemberList({ studyId }: { studyId: string }) {
     const [isVisible, setIsVisible] = useState(false);
     const { animationClass, changeClass } = useAnimationStore();
     const { isOpen, closeModal, setWhisperTarget } = useChatMemberList();

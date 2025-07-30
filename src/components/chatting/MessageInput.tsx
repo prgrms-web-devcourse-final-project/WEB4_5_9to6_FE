@@ -10,7 +10,7 @@ import { useChatStore, useParticipantStore } from "@/stores/chatStore";
 import { useAuthStore } from "@/stores/authStore";
 import { fetchStudyMember } from "@/api/studyList";
 
-export default function MessageInput({ studyId }: { studyId: number }) {
+export default function MessageInput({ studyId }: { studyId: string }) {
     const { whisperTarget, closeModal, openModal, isOpen } =
         useChatMemberList();
     const [message, setMessage] = useState("");
@@ -35,7 +35,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
         let msgPayload;
 
         if (whisperTarget !== null) {
-            const studyMembers = await fetchStudyMember(studyId);
+            const studyMembers = await fetchStudyMember(Number(studyId));
             const targetMember = studyMembers.find(
                 (m: StudyMember) => m.memberId === whisperTarget,
             );

@@ -2,12 +2,12 @@ import ChattingRoom from "@/components/chatting/ChattingRoom";
 import MessageInput from "@/components/chatting/MessageInput";
 import SubHeader from "@/components/common/SubHeader";
 
-export default async function chatPage({
+export default async function page({
     params,
 }: {
-    params: { studyId: string };
+    params: Promise<{ studyId: string }>;
 }) {
-    const studyId = Number(params.studyId);
+    const { studyId } = await params;
     return (
         <div className="h-screen bg-[var(--color-gray200)] dark:bg-[#222]">
             <SubHeader className="bg-[var(--color-gray200)]/85">

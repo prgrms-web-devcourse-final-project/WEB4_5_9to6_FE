@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import Image from "next/image";
 
-export default function ChattingRoom({ studyId }: { studyId: number }) {
+export default function ChattingRoom({ studyId }: { studyId: string }) {
     const myId = useAuthStore((state) => state.myInfo?.id);
     const myEmail = useAuthStore((state) => state.myInfo?.email);
     const messages = useChatStore((state) => state.messages);
@@ -48,7 +48,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
         setIsLoading(true);
         try {
             const { messages: newMsgs, hasNext } = await fetchChatHistory(
-                studyId,
+                Number(studyId),
                 null,
                 null,
                 30,
@@ -77,7 +77,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
         const prevScrollTop = scrollEl?.scrollTop ?? 0;
         try {
             const { messages: newMsgs, hasNext } = await fetchChatHistory(
-                studyId,
+                Number(studyId),
                 cursorCreatedAt,
                 lastChatId,
             );
