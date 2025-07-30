@@ -59,7 +59,7 @@
 }
 
 .dark .swiper-button-prev-custom,
-.swiper-button-next-custom {
+.dark .swiper-button-next-custom {
     color: var(--color-gray200);
 }
 .swiper-button-prev-custom {

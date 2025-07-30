@@ -9,8 +9,8 @@ export default async function page({
 }) {
     const { studyId } = await params;
     return (
-        <div className="h-screen bg-[var(--color-gray200)] dark:bg-[#222]">
-            <SubHeader className="bg-[var(--color-gray200)]/85">
+        <div className="dark:bg-dark-bg h-screen bg-[var(--color-gray200)]">
+            <SubHeader className="dark:bg-dark-bg/85 bg-[var(--color-gray200)]/85">
                 그룹채팅
             </SubHeader>
             <div className="relative mb-20 w-full overflow-y-auto pt-4">

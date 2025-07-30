@@ -43,8 +43,11 @@ export default function ShopTemaComponent({
                 <div className="flex items-center gap-1">
                     <h6 className="text-gray1000 dark:text-white">{name}</h6>
                     {selected && (
-                        <span className="bg-gray1000 flex h-4.5 w-4.5 items-center justify-center rounded-full">
-                            <Check className="text-white" size={12} />
+                        <span className="bg-gray1000 flex h-4.5 w-4.5 items-center justify-center rounded-full dark:bg-white">
+                            <Check
+                                className="dark:text-gray1000 text-white"
+                                size={12}
+                            />
                         </span>
                     )}
                 </div>

@@ -94,7 +94,7 @@ export default function StudyHome({
             {/* 스터디 이미지 */}
             <div className="relative aspect-[1000/500] w-full">
                 {isImageLoading && (
-                    <div className="bg-gray300 absolute inset-0 z-10 animate-pulse" />
+                    <div className="bg-gray300 dark:bg-gray800 absolute inset-0 z-10 animate-pulse" />
                 )}
                 <Image
                     src={src}
