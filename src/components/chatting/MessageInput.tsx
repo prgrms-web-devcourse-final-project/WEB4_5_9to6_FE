@@ -181,7 +181,7 @@ export default function MessageInput({ studyId }: { studyId: string }) {
                     className="mb-2 w-8 cursor-pointer pl-2 text-center"
                     onClick={sendMessage}
                 >
-                    <SendHorizontal className="text-[var(--color-gray500)] transition duration-200 ease-in-out hover:text-[var(--color-gray1000)]" />
+                    <SendHorizontal className="text-[var(--color-gray500)] transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] dark:text-white dark:hover:text-[var(--color-gray400)]" />
                 </button>
             </div>
         </div>

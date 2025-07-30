@@ -60,6 +60,7 @@ export default function ResultMessage() {
                         <DotLottieReact
                             src="https://lottie.host/bb7e10dd-08e1-4c7c-9cef-3b2df68b979c/c3d3wpoXAr.lottie"
                             autoplay
+                            loop
                         />
                         <Image
                             src="/icons/thumb-up.svg"

@@ -1,7 +1,7 @@
 export default function SurvivalStudyLoading() {
     return (
         <>
-            <div className="relative aspect-[1000/500] w-full">
+            <div className="relative aspect-[1000/500] w-full dark:bg-[#222]">
                 <div className="bg-gray300 absolute inset-0 z-10 animate-pulse" />
             </div>
             <div className="bg-gray500 relative aspect-[6/1] w-full animate-pulse px-4 py-3" />

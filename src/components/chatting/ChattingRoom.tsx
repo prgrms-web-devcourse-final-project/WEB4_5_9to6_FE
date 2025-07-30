@@ -178,10 +178,6 @@ export default function ChattingRoom({ studyId }: { studyId: string }) {
                             ) : null;
 
                             if (dateDivider) lastDate = msgDate;
-                            const matchedMember = members.find(
-                                (m) => m.memberId === msg.senderId,
-                            );
-                            console.log("✅ 매칭된 멤버:", matchedMember);
                             return (
                                 <div key={idx}>
                                     {dividerElement}
@@ -195,7 +191,7 @@ export default function ChattingRoom({ studyId }: { studyId: string }) {
                                         {!isSameSender &&
                                         !isSameReceiver &&
                                         !isMine ? (
-                                            <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)]">
+                                            <div className="mt-3 mr-2 h-11.5 w-11.5 rounded-full bg-[var(--color-gray300)] dark:bg-[var(--color-gray900)]">
                                                 <Image
                                                     key={msg.chatId}
                                                     src={
@@ -219,8 +215,8 @@ export default function ChattingRoom({ studyId }: { studyId: string }) {
                                                 <p
                                                     className={`c2 flex ${
                                                         isMine
-                                                            ? "justify-end text-[var(--color-main500)]"
-                                                            : "text-[var(--color-main600)]"
+                                                            ? "justify-end text-[var(--color-main500)] dark:text-[var(--color-main400)]"
+                                                            : "text-[var(--color-main600)] dark:text-[var(--color-main400)]"
                                                     }`}
                                                 >
                                                     {isMine
