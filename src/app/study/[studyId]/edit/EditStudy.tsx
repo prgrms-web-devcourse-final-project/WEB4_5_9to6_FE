@@ -46,7 +46,7 @@ export default function EditStudy() {
                 externalLink: studyData.externalLink,
                 studyType: "DEFAULT",
                 goals: studyData.goals.filter((goal) => goal.content !== ""),
-                online: studyData.region === "온라인",
+                isOnline: studyData.online!,
             }),
         onMutate: () => {
             console.log(useStudyStore.getState().studyData);
@@ -69,10 +69,11 @@ export default function EditStudy() {
     });
 
     useEffect(() => {
-        if (!isFetched && fetchStudyData) {
+        if (fetchStudyData) {
+            useStudyStore.getState().reset();
             useStudyStore.getState().fetchStudy(fetchStudyData);
         }
-    }, [isFetched, fetchStudyData]);
+    }, [fetchStudyData]);
 
     if (!isFetched || !fetchStudyData) return null;
 

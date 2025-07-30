@@ -57,7 +57,7 @@ interface CreateStudy {
     externalLink: string;
     studyType: string;
     goals: { goalId: number | null; content: string }[];
-    online: boolean;
+    isOnline: boolean;
 }
 // "studies"의 스터디 생성에서 사용
 
@@ -146,7 +146,7 @@ interface StudyInfos {
     goals: Goal[];
     notice: string;
     currentMemberCount: number;
-    online: boolean;
+    online: boolean | null;
 }
 // "studies/{studyId}"에서 조회되는 스터디 정보
 

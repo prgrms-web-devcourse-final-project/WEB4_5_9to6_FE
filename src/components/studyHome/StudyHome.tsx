@@ -15,6 +15,7 @@ import MenuModal from "./modal/MenuModal";
 import StudyGoalModal from "./modal/StudyGoalModal";
 import StudyUserModal from "./modal/StudyUserModal";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import { useAlarmStore } from "@/stores/alarmStore";
 import { studyMembers } from "@/api/studies";
 import { useQuery } from "@tanstack/react-query";
 import { studyStartStore } from "@/stores/studyStartStore";
@@ -62,6 +63,8 @@ export default function StudyHome({
     const [isGoalOpen, setIsGoalOpen] = useState(false);
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isImageLoading, setIsImageLoading] = useState(true);
+
+    const alarms = useAlarmStore((state) => state.alarmList);
 
     const { isStart } = studyStartStore();
 
@@ -127,7 +130,17 @@ export default function StudyHome({
                                 className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() => router.push("/notifications")}
                             >
-                                <Bell className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
+                                <div className="relative">
+                                    <Bell className="text-gray1000 dark:text-gray200 h-5 w-5" />
+                                    {alarms.filter(
+                                        (alarm) => alarm.isRead === false,
+                                    ).length > 0 && (
+                                        <>
+                                            <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                            <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                        </>
+                                    )}
+                                </div>
                             </button>
                             <button
                                 className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"

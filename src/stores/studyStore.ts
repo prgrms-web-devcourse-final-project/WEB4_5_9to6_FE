@@ -8,7 +8,7 @@ interface StudyStore {
     fetchStudy: (studyData: StudyInfos) => void;
     setData: (
         column: string,
-        data: string | string[] | number | Goal[],
+        data: string | string[] | number | Goal[] | boolean,
     ) => void;
 }
 
@@ -32,7 +32,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
         goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
         notice: "",
         currentMemberCount: 0,
-        online: true,
+        online: null,
     },
     isFetched: false,
     reset: () => {
@@ -56,9 +56,9 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
                 notice: "",
                 currentMemberCount: 0,
-                online: true,
+                online: null,
             },
-            isFetched: true,
+            isFetched: false,
         });
     },
     fetchStudy: (studyData) => {

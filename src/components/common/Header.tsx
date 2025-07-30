@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect, useState } from "react";
 import { customAlert } from "@/utils/customAlert";
+import { useAlarmStore } from "@/stores/alarmStore";
 import { useThemeStore } from "@/stores/themeStore";
 
 export default function Header({
@@ -24,6 +25,7 @@ export default function Header({
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const [id, setId] = useState(0);
+    const alarms = useAlarmStore((state) => state.alarmList);
     const theme = useThemeStore((state) => state.theme);
 
     useEffect(() => {
@@ -37,7 +39,7 @@ export default function Header({
             <div className="fixed z-20 h-15.5 w-full">
                 <div
                     className={twMerge(
-                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl dark:bg-[#222222]/86",
+                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl dark:bg-[#222222]",
                         className,
                     )}
                 ></div>
@@ -117,7 +119,22 @@ export default function Header({
                                     내 정보 수정
                                 </button>
                             )}
-                            <Bell className="text-gray1000 dark:text-gray200 cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white" />
+                            <div className="relative">
+                                <Bell
+                                    className="text-gray1000 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:text-white"
+                                    onClick={() =>
+                                        router.push("/notifications")
+                                    }
+                                />
+                                {alarms.filter(
+                                    (alarm) => alarm.isRead === false,
+                                ).length > 0 && (
+                                    <>
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                    </>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>

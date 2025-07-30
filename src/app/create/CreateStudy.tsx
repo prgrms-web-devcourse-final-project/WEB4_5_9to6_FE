@@ -40,7 +40,7 @@ export default function CreateStudy() {
                 goals: studyData.goals
                     .filter((goal) => goal.content !== "")
                     .map((goal, i) => ({ goalId: i, content: goal.content })),
-                online: studyData.region === "온라인",
+                isOnline: studyData.online!,
             }),
         onMutate: () => {
             console.log(useStudyStore.getState().studyData);
