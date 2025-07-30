@@ -29,10 +29,8 @@ export default function SurvivalStudy() {
     const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isImageLoading, setIsImageLoading] = useState(true);
-
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
-
     const closeHandler = () => setShowModal(false);
 
     const { data: study, isPending: studyPending } = useQuery({

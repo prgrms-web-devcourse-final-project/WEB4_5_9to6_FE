@@ -2,16 +2,41 @@
 
 import Image from "next/image";
 import Button from "../common/Button";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuizResult } from "@/stores/quizStore";
-import { useWinnerModalStore } from "@/stores/winnerModalStore";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useSurvivalStore } from "@/stores/survivalStore";
+import { useWinnerModalStore } from "@/stores/winnerModalStore";
 
 export default function ResultMessage() {
-    const { openModal } = useWinnerModalStore();
     const score = useQuizResult((state) => state.score);
     const isSurvived = score >= 3;
     const router = useRouter();
+    const params = useParams();
+    const studyId = params.studyId;
+    const { study } = useSurvivalStore();
+    const { openModal } = useWinnerModalStore();
+
+    // 승리 모달 조건
+    const winnerModal = () => {
+        if (!study?.startDate) return;
+
+        const start = new Date(study.startDate);
+        if (isNaN(start.getTime())) {
+            console.error(study.startDate);
+            return;
+        }
+
+        const today = new Date();
+        const diffDays = Math.floor(
+            (today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+        );
+        const currentWeek = Math.floor(diffDays / 7) + 1;
+
+        if (currentWeek === 4) {
+            openModal(currentWeek);
+        }
+    };
 
     return (
         <>
@@ -20,14 +45,14 @@ export default function ResultMessage() {
                     서바이벌 Quiz
                 </h5>
                 {isSurvived ? (
-                    <h1 className="h1 mb-9.5">결과</h1>
+                    <h1 className="h1 mb-9.5 dark:text-white">결과</h1>
                 ) : (
-                    <h1 className="h1 mb-9.5">탈락</h1>
+                    <h1 className="h1 mb-9.5 dark:text-white">탈락</h1>
                 )}
-                <hr className="mb-9.5 text-[var(--color-gray200)]" />
+                <hr className="mb-9.5 text-[var(--color-gray200)] dark:text-[var(--color-gray800)]" />
             </div>
             <div className="animate-slideFadeDown flex flex-col items-center justify-center text-center">
-                <h3 className="h3 mb-10">
+                <h3 className="h3 mb-10 dark:text-white">
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
                 {isSurvived ? (
@@ -57,12 +82,12 @@ export default function ResultMessage() {
                     </div>
                 )}
             </div>
-            <div className="fixed bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+            <div className="fixed bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] dark:border-t-[var(--color-gray800)]">
                 {isSurvived ? (
                     <Button
                         onClick={() => {
-                            router.push("/survival-study/1");
-                            openModal();
+                            router.push(`/survival-study/${studyId}`);
+                            winnerModal();
                         }}
                         className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
                     >

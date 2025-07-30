@@ -45,7 +45,7 @@ export default function WinnerModal() {
                 >
                     <div className="flex flex-col items-center justify-between">
                         <p className="text-main400 mb-5 text-[28px] font-bold">
-                            +2,500P
+                            +10,000P
                         </p>
                         <DotLottieReact
                             src="https://lottie.host/711210fb-9240-4a0f-b624-6668baac5430/Z7uh4wOSJ6.lottie"

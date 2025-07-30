@@ -76,7 +76,7 @@ export default function NoticeBox({
                 {/* 공지사항 & 내용 */}
                 <div className="mr-8 w-full">
                     <p
-                        className={`c2 ${color === "hall" ? "text-[#D6D6D6]" : "text-[var(--color-gray700)]"}`}
+                        className={`c2 ${color === "hall" ? "green:text-[var(--color-gray500)] text-[#D6D6D6] dark:text-[var(--color-gray500)]" : "text-[var(--color-gray700)] dark:text-[var(--color-gray500)]"}`}
                     >
                         공지사항
                     </p>

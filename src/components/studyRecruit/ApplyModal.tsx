@@ -4,7 +4,7 @@ import { fetchSurvApply } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useAnimationStore } from "@/stores/modalAnimationStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,7 +31,8 @@ export default function ApplyModal({
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
     const myId = useAuthStore((state) => state.myInfo);
-    const suvivalInfo = useSurvivalStore();
+    const survivalInfo = useSurvivalStore();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (isOpen) {
@@ -66,10 +67,16 @@ export default function ApplyModal({
             if (studyId === null) throw new Error("잘못된 스터디 ID");
             return fetchSurvApply(studyId, myId?.id ?? 0);
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             console.log("서바이벌 신청 성공", data);
+            await queryClient.invalidateQueries({
+                queryKey: ["isApplied", studyId, myId?.id],
+            });
             onClose();
             onApply();
+            await queryClient.refetchQueries({
+                queryKey: ["isApplied", studyId, myId?.id],
+            });
         },
         onError: (error) => {
             console.error("서바이벌 신청 실패", error);
@@ -84,11 +91,10 @@ export default function ApplyModal({
     };
 
     const applyHandler = () => {
-        if (suvivalInfo.study?.studyType === "SURVIVAL") {
+        if (survivalInfo.study?.studyType === "SURVIVAL") {
             survivalApply.mutate();
-        } else {
-            applyMutation.mutate();
         }
+        applyMutation.mutate();
     };
 
     if (!isVisible) return null;
@@ -100,12 +106,12 @@ export default function ApplyModal({
                     className={`${animationClass} ${className} absolute z-50 flex flex-col rounded-[24px] bg-white px-6 pt-2 pb-5 dark:bg-[#222222]`}
                 >
                     <div className="flex h-[65px] w-full items-center justify-between">
-                        <h3 className="text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
+                        <h3 className="text-[var(--color-gray1000)] dark:text-white">
                             스터디 신청
                         </h3>
                         <X
                             onClick={closeHandler}
-                            className="h-6 w-6 cursor-pointer text-[#161616] dark:text-[var(--color-white)]"
+                            className="h-6 w-6 cursor-pointer text-[#161616] dark:text-white"
                         />
                     </div>
                     {children}
@@ -137,9 +143,9 @@ export default function ApplyModal({
                         </button>
                         <button
                             onClick={applyHandler}
-                            className="flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)] dark:bg-[var(--color-main400)] dark:hover:bg-[var(--color-main500)]"
+                            className="green:bg-[#00E69A] green:hover:bg-[#00BD7E] flex h-[50px] w-[180px] cursor-pointer items-center justify-center rounded-[12px] bg-[var(--color-main500)] transition-all duration-200 ease-in-out hover:bg-[var(--color-main600)]"
                         >
-                            <h5 className="text-[var(--color-white)]">
+                            <h5 className="green:text-black text-[var(--color-white)]">
                                 신청하기
                             </h5>
                         </button>
