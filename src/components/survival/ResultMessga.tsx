@@ -45,14 +45,14 @@ export default function ResultMessage() {
                     서바이벌 Quiz
                 </h5>
                 {isSurvived ? (
-                    <h1 className="h1 mb-9.5">결과</h1>
+                    <h1 className="h1 mb-9.5 dark:text-white">결과</h1>
                 ) : (
-                    <h1 className="h1 mb-9.5">탈락</h1>
+                    <h1 className="h1 mb-9.5 dark:text-white">탈락</h1>
                 )}
-                <hr className="mb-9.5 text-[var(--color-gray200)]" />
+                <hr className="mb-9.5 text-[var(--color-gray200)] dark:text-[var(--color-gray800)]" />
             </div>
             <div className="animate-slideFadeDown flex flex-col items-center justify-center text-center">
-                <h3 className="h3 mb-10">
+                <h3 className="h3 mb-10 dark:text-white">
                     총 5문제 중 {score}문제를 맞췄어요!
                 </h3>
                 {isSurvived ? (
@@ -82,7 +82,7 @@ export default function ResultMessage() {
                     </div>
                 )}
             </div>
-            <div className="fixed bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)]">
+            <div className="fixed bottom-0 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] dark:border-t-[var(--color-gray800)]">
                 {isSurvived ? (
                     <Button
                         onClick={() => {

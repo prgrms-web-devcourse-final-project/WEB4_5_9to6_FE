@@ -77,7 +77,7 @@ export default function ExitModal({
                 <div>
                     <div
                         onClick={closeHandler}
-                        className={`fixed inset-0 z-40 bg-black/30 duration-200 dark:bg-[#222] ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
+                        className={`dark:border-1-gray-200 fixed inset-0 z-40 bg-black/30 duration-200 dark:bg-[#222] ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
                     ></div>
                     <div
                         className={`${animationClass} fixed inset-0 z-100 flex items-center justify-center p-10`}

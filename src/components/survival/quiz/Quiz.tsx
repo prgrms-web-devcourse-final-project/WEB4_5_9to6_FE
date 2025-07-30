@@ -138,7 +138,7 @@ export default function Quiz({
     return (
         <div className="mt-6 flex flex-col items-center justify-center">
             <div className="text-center">
-                <h5 className="h5 mb-3 text-[var(--color-main400)] dark:text-white">
+                <h5 className="h5 mb-3 text-[var(--color-main400)]">
                     서바이벌 Quiz
                 </h5>
                 <h1 className="h1 mb-9.5 dark:text-white">{currentWeek}주차</h1>
@@ -163,7 +163,7 @@ export default function Quiz({
                             ? "bg-[var(--color-gray300)] dark:bg-[var(--color-gray800)] "
                             : "hover:bg-[var(--color-gray200)] bg-[var(--color-gray100)] dark:bg-[var(--color-gray1000)] hover:dark:bg-[var(--color-gray900)] "
                         : isAnswer
-                          ? "bg-green-200 dark:bg-green-600/60 hover:dark:bg-green-600/60"
+                          ? "bg-green-200 dark:bg-green-600/50 hover:dark:bg-green-600/50"
                           : isSelected
                             ? "bg-[var(--color-main600)]/30 dark:bg-[var(--color-main500)]/60 hover:dark:bg-[var(--color-main500)]/60"
                             : "bg-[var(--color-gray100)]";

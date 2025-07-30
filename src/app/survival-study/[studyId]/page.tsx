@@ -126,7 +126,7 @@ export default function SurvivalStudy() {
         setIsImageLoading(true);
     }, [fetchItemsOwn, groupedOwnItems.BACKGROUND]);
 
-    // 노로그인/노가입 사용자는 홈으로 보내버림
+    // 노로그인 사용자는 홈으로 보내버림
     useEffect(() => {
         if (myInfo === undefined) {
             router.push("/");
@@ -143,7 +143,7 @@ export default function SurvivalStudy() {
 
     return (
         <>
-            <div className="green:bg-[#222] relative mb-10 h-screen">
+            <div className="green:bg-[#222] relative mb-10 h-screen dark:bg-[#222]">
                 <div className="relative aspect-[1000/500] w-full">
                     <Image
                         src={src}
@@ -171,7 +171,7 @@ export default function SurvivalStudy() {
                 />
                 <SurvivalInfo study={study} />
                 <div className="green:border-t-[var(--color-gray1000)] green:bg-[#222222] fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white dark:border-t-[var(--color-gray1000)] dark:bg-[#222222]">
-                    {apply?.isMember === false && !isClosed ? (
+                    {apply && apply?.isMember === false ? (
                         <Button
                             onClick={() => buttonHandler(studyId)}
                             color="primary"

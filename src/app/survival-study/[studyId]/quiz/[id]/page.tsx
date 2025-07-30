@@ -59,24 +59,26 @@ export default function QuizPage() {
     }, []);
     return (
         <>
-            <ExitModal
-                isOpen={showExitModal}
-                onClose={() => setShowExitModal(false)}
-                studyId={studyId}
-                currentWeek={currentWeek}
-                myMember={studyMemberData?.find(
-                    (m) => m.memberId === myInfo?.id,
-                )}
-            />
-            <div className="mx-5 flex flex-col">
-                <header className="flex h-15.5 w-full items-center">
-                    <BackButton
-                        onExitClick={() => setShowExitModal(true)}
-                        className="h-6 w-6"
-                    />
-                </header>
+            <div className="h-screen dark:bg-[#222]">
+                <ExitModal
+                    isOpen={showExitModal}
+                    onClose={() => setShowExitModal(false)}
+                    studyId={studyId}
+                    currentWeek={currentWeek}
+                    myMember={studyMemberData?.find(
+                        (m) => m.memberId === myInfo?.id,
+                    )}
+                />
+                <div className="mx-5 flex flex-col">
+                    <header className="flex h-15.5 w-full items-center">
+                        <BackButton
+                            onExitClick={() => setShowExitModal(true)}
+                            className="h-6 w-6"
+                        />
+                    </header>
 
-                <Quiz quizId={quizId} studyId={studyId} />
+                    <Quiz quizId={quizId} studyId={studyId} />
+                </div>
             </div>
         </>
     );
