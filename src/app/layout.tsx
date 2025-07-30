@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthInitializer from "@/components/login/AuthInitializer";
 import TanstackProvider from "@/providers/TanstackProvider";
+import { Suspense } from "react";
 
 const pretendard = localfont({
     variable: "--font-pretendard",
@@ -26,9 +27,11 @@ export default function RootLayout({
             <body
                 className={`${pretendard.variable} dark:bg-dark-bg duration-200 ease-in`}
             >
-                <TanstackProvider> {children}</TanstackProvider>
-                <ToastContainer limit={1} />
-                <AuthInitializer />
+                <Suspense fallback={<h1>loading..</h1>}>
+                    <TanstackProvider> {children}</TanstackProvider>
+                    <ToastContainer limit={1} />
+                    <AuthInitializer />
+                </Suspense>
             </body>
         </html>
     );

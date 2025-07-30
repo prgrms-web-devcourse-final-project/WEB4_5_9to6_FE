@@ -1,12 +1,6 @@
 import SubHeader from "@/components/common/SubHeader";
 
-export default function layout({
-    children,
-}: {
-    children: Readonly<{
-        children: React.ReactNode;
-    }>;
-}) {
+export default function layout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <SubHeader className="bg-[var(--color-white)] dark:bg-[#222222]">
