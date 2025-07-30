@@ -73,15 +73,9 @@ export default function MessageInput({ studyId }: { studyId: string }) {
         }
     };
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (!token) {
-            console.warn("토큰 없음: 웹소켓 연결안됨");
-            return;
-        }
         // 웹소켓 연결
         const client = new Client({
             connectHeaders: {
-                Authorization: `Bearer ${token}`,
                 studyId: `${studyId}`,
             },
             webSocketFactory: () =>
