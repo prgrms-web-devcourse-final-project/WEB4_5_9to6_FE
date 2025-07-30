@@ -55,7 +55,7 @@ export default function SurvivalStudy() {
     const canStart =
         apply?.isMember === true && now >= startDateTime && now < endDateTime;
 
-    const isClosed = now > endDateTime;
+    const isClosed = now > endDateTime && !apply?.isMember;
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
     useEffect(() => {
         if (study) {
