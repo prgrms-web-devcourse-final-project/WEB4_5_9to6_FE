@@ -17,7 +17,7 @@ export default function SubHeader({
         <>
             <div
                 className={twMerge(
-                    "text-gray1000 h5 bg-gray100 fixed top-0 z-20 flex h-[62px] w-full cursor-default items-center justify-center duration-200 ease-in dark:bg-[#222222] dark:text-white",
+                    "text-gray1000 h5 fixed top-0 z-20 flex h-[62px] w-full cursor-default items-center justify-center duration-200 ease-in dark:text-white",
                     className,
                 )}
             >
