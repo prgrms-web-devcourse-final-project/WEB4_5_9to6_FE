@@ -1,5 +1,6 @@
 "use client";
 
+import { useAlarmStore } from "@/stores/alarmStore";
 import { studyStartStore } from "@/stores/studyStartStore";
 import { Bell, ListChecks, MessageSquare, Timer } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -18,6 +19,8 @@ export default function StudyTimer({
     const params = useParams();
     const studyId = params.studyId;
     const { pause, setPause, seconds, isStart } = studyStartStore();
+    const alarms = useAlarmStore((state) => state.alarmList);
+
     const formatTime = (totalSeconds: number) => {
         const hr = Math.floor(totalSeconds / 3600);
         const min = Math.floor((totalSeconds % 3600) / 60);
@@ -82,7 +85,22 @@ export default function StudyTimer({
                             className="dark:bg-gray1000 flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-[500px] bg-[var(--color-gray100)]"
                             onClick={notiHandler}
                         >
-                            <Bell className="h-6 w-6 text-[var(--color-gray1000)] dark:text-white" />
+                            <div className="relative">
+                                <Bell
+                                    className="text-gray1000 h-6 w-6 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:text-white"
+                                    onClick={() =>
+                                        router.push("/notifications")
+                                    }
+                                />
+                                {alarms.filter(
+                                    (alarm) => alarm.isRead === false,
+                                ).length > 0 && (
+                                    <>
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                        <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                    </>
+                                )}
+                            </div>
                         </button>
                         <p className="c1 mt-3 text-[var(--color-gray1000)] dark:text-white">
                             알림
