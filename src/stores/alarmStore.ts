@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 interface AlarmStore {
     alarmList: Alarm[];
+    isLoading: boolean;
     fetchAlarms: () => Promise<void>;
     addAlarm: (alarm: Alarm) => void;
     deleteAlarm: (alarmId: number) => void;
@@ -11,7 +12,9 @@ interface AlarmStore {
 
 export const useAlarmStore = create<AlarmStore>((set, get) => ({
     alarmList: [],
+    isLoading: false,
     fetchAlarms: async () => {
+        set({ isLoading: true });
         try {
             const response = await fetchAlarm();
             console.log(response);
@@ -23,6 +26,8 @@ export const useAlarmStore = create<AlarmStore>((set, get) => ({
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            set({ isLoading: false });
         }
     },
     addAlarm: (alarm) => {
