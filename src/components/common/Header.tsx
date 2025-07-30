@@ -114,14 +114,14 @@ export default function Header({
                                             router.push(`/profile/${id}/info`);
                                         }
                                     }}
-                                    className="h6 text-gray1000 dark:text-gray200 cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white"
+                                    className="h6 text-gray1000 dark:text-gray300 cursor-pointer transition-colors duration-200 hover:text-black dark:hover:text-white"
                                 >
                                     내 정보 수정
                                 </button>
                             )}
                             <div className="relative">
                                 <Bell
-                                    className="text-gray1000 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:text-white"
+                                    className="text-gray1000 dark:text-gray300 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:hover:text-white"
                                     onClick={() =>
                                         router.push("/notifications")
                                     }
