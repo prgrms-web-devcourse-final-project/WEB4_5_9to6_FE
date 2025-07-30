@@ -15,6 +15,9 @@ import MenuModal from "./modal/MenuModal";
 import StudyGoalModal from "./modal/StudyGoalModal";
 import StudyUserModal from "./modal/StudyUserModal";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import { studyMembers } from "@/api/studies";
+import { useQuery } from "@tanstack/react-query";
+import { studyStartStore } from "@/stores/studyStartStore";
 export default function StudyHome({
     studyId,
     notice,
@@ -26,11 +29,12 @@ export default function StudyHome({
     exLink,
     maxMembers,
     currentMemberCount,
-    isStart,
-    pause,
+    startDate,
+    endDate,
+    // pause,
     isMenuOpen,
     setIsMenuOpen,
-    studyTimeSec,
+    // studyTimeSec,
 }: {
     studyId: number;
     notice: string | undefined;
@@ -42,11 +46,13 @@ export default function StudyHome({
     exLink: string | undefined;
     maxMembers: number;
     currentMemberCount: number;
-    isStart: boolean;
-    pause: boolean;
+    startDate: string;
+    endDate: string;
+    // pause: boolean;
     isMenuOpen: boolean;
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-    studyTimeSec: string;
+    attended: boolean;
+    // studyTimeSec: string;
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
@@ -57,6 +63,15 @@ export default function StudyHome({
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isImageLoading, setIsImageLoading] = useState(true);
 
+    const { isStart } = studyStartStore();
+
+    const { data: membersData } = useQuery<StudyMember[]>({
+        queryKey: ["studyMembersAvatar", studyId],
+        queryFn: async () => {
+            return await studyMembers(studyId);
+        },
+        enabled: !!studyId,
+    });
     useEffect(() => {
         if (
             !groupedOwnItems.BACKGROUND ||
@@ -93,40 +108,45 @@ export default function StudyHome({
                 {!isStart && (
                     <div className="absolute top-5 right-4 left-4 z-20 flex justify-between">
                         <button
-                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                            className="hover:bg-gray200/90 dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out dark:bg-[#222222]/90"
                             onClick={() => router.back()}
                         >
-                            <ChevronLeft className="h-5 w-5 text-[#161616]" />
+                            <ChevronLeft className="h-5 w-5 text-[#161616] dark:text-[var(--color-white)]" />
                         </button>
 
                         <div className="flex items-center gap-2">
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() =>
                                     router.push(`/study/${studyId}/chat`)
                                 }
                             >
-                                <MessageSquare className="h-5 w-5 text-[#161616]" />
+                                <MessageSquare className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() => router.push("/notifications")}
                             >
-                                <Bell className="h-5 w-5 text-[#161616]" />
+                                <Bell className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                             <button
-                                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90"
+                                className="dark:hover:bg-gray900/90 flex h-9 w-9 cursor-pointer items-center justify-center rounded-[500px] bg-[#FFFFFF]/90 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray200)]/90 dark:bg-[#222222]/90"
                                 onClick={() => setIsMenuOpen(true)}
                             >
-                                <EllipsisVertical className="h-5 w-5 text-[#161616]" />
+                                <EllipsisVertical className="h-5 w-5 text-[#161616] dark:text-[var(--color-gray200)]" />
                             </button>
                         </div>
                     </div>
                 )}
                 {/* 아바타 위치 지정 */}
-                <div className="absolute bottom-[30px] left-1/2 z-30 flex -translate-x-1/2">
-                    <AvatarDisplay num={5} />
-                </div>
+                {membersData && (
+                    <div className="absolute bottom-[15px] left-1/2 z-30 flex -translate-x-1/2">
+                        <AvatarDisplay
+                            num={membersData.length}
+                            membersData={membersData}
+                        />
+                    </div>
+                )}
                 {!isStart && (
                     <button
                         className="absolute right-4 bottom-4 z-20 flex h-[26px] w-[58px] cursor-pointer items-center justify-center rounded-[50px] bg-[#1D1D1D]/80 transition-all duration-200 ease-in-out hover:bg-[var(--color-gray900)]/80"
@@ -153,6 +173,8 @@ export default function StudyHome({
                         exLink={exLink}
                         maxMembers={maxMembers}
                         currentMemberCount={currentMemberCount}
+                        startDate={startDate}
+                        endDate={endDate}
                         onOpen={() => setIsUserOpen(true)}
                     />
                 </div>
@@ -160,12 +182,12 @@ export default function StudyHome({
 
             {isStart && (
                 <div
-                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white ${isStart && "animate-timerSlideUp"}`}
+                    className={`z-30 mt-[-18px] flex rounded-t-[16px] bg-white dark:bg-[#222222] ${isStart && "animate-timerSlideUp"}`}
                 >
                     <StudyTimer
-                        pause={pause}
+                        // pause={pause}
                         setIsGoalOpen={setIsGoalOpen}
-                        studyTimeSec={studyTimeSec}
+                        // studyTimeSec={studyTimeSec}
                     />
                 </div>
             )}

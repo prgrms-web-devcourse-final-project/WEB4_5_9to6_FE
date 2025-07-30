@@ -46,21 +46,21 @@ export default function BottomModal({
     return (
         <>
             <div
-                className={`fixed inset-0 z-50 bg-[#000000]/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
+                className={`fixed inset-0 z-50 bg-[#000000]/30 duration-200 dark:bg-[#000000]/50 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
                 onClick={closeHandler}
             ></div>
             <div
                 className={`${
                     animationClass
-                } fixed right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5`}
+                } fixed right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5 dark:bg-[#222222]`}
                 style={{ height: `${height}px` }}
             >
                 <div className="flex items-center justify-between">
-                    <h3 className="ml-5 text-[var(--color-gray1000)]">
+                    <h3 className="ml-5 text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                         {title}
                     </h3>
                     <X
-                        className="mr-5 h-6 w-6 cursor-pointer text-[#161616]"
+                        className="mr-5 h-6 w-6 cursor-pointer text-[#161616] dark:text-[var(--color-white)]"
                         onClick={closeHandler}
                     />
                 </div>
