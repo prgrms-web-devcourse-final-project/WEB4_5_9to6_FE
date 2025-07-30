@@ -68,6 +68,7 @@ export default function Quiz({
 
     const currentWeekData = quizData?.find((w) => w.week === currentWeek);
     console.log("현재 몇주차? =", currentWeek);
+    console.log("현재 데이터? =", quizData);
 
     // 퀴즈 번호 인덱스로 계산
     const currentQuiz = currentWeekData?.quizzes[quizId - 1];
