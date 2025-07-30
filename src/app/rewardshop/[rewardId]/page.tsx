@@ -12,7 +12,7 @@ export default async function page({
     return (
         <>
             <div className="flex h-screen items-center justify-center pt-15.5">
-                <div className="bg-gray100 h-full w-screen overflow-hidden pb-4">
+                <div className="bg-gray100 h-full w-screen overflow-hidden pb-4 dark:bg-[#222222]">
                     <ShopCard id={rewardId} />
                     <ShopTabs />
                     <ShopPurchaseModal id={rewardId} />

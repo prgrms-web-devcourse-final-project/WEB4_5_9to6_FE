@@ -30,11 +30,6 @@ export default function SurvivalStudy() {
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
     const [isImageLoading, setIsImageLoading] = useState(true);
 
-    // 시작요일
-    // const quizDay = 7;
-
-    // const today = new Date();
-    // const todayDay = new Date().getDay();
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
 

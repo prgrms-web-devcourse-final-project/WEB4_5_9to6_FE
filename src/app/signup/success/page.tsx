@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/common/Button";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -13,14 +14,20 @@ export default function Success() {
 
     return (
         <>
-            <div className="dark:bg-dark-bg flex h-[calc(100%-130px)] w-full flex-col items-center justify-center duration-200 ease-in">
-                <img
-                    src="/images/signup.png"
-                    className={`w-[40%] delay-100 duration-800 ease-out ${
+            <div className="flex h-[calc(100%-130px)] w-full flex-col items-center justify-center">
+                <div
+                    className={`relative aspect-[4/3] w-[40%] delay-100 duration-800 ease-out ${
                         !isMounted && "translate-y-4 opacity-0"
                     }`}
-                    alt="가입 완료 이미지"
-                />
+                >
+                    <Image
+                        src="/images/signup.png"
+                        alt="가입 완료 이미지"
+                        fill
+                        sizes="126px"
+                        priority
+                    />
+                </div>
                 <h1
                     className={`text-gray1000 mt-[-10px] mb-4 text-[24px] font-semibold delay-500 duration-1000 ease-out dark:text-white ${
                         !isMounted && "translate-y-2 opacity-0"

@@ -113,10 +113,12 @@ export default function ChangePassword({ id }: { id: string }) {
             {isLoading && <LoadingSpinner />}
             <form
                 onSubmit={(e) => submitHandler(e)}
-                className="flex h-full flex-col justify-between bg-white p-5"
+                className="flex h-full flex-col justify-between bg-white p-5 dark:bg-[#222222]"
             >
                 <div className="flex flex-col">
-                    <p className="b2 text-gray1000 mb-2">기존 비밀번호</p>
+                    <p className="b2 text-gray1000 mb-2 dark:text-white">
+                        기존 비밀번호
+                    </p>
                     <Input
                         type="password"
                         placeholder="기존 비밀번호를 입력해 주세요"
@@ -129,7 +131,9 @@ export default function ChangePassword({ id }: { id: string }) {
                         error={currentPasswordError}
                         errorMsg="기존 비밀번호가 일치하지 않습니다!"
                     />
-                    <p className="b2 text-gray1000 mt-4 mb-2">새 비밀번호</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2 dark:text-white">
+                        새 비밀번호
+                    </p>
                     <Input
                         type="password"
                         placeholder="변경할 비밀번호를 입력해 주세요"
@@ -141,7 +145,9 @@ export default function ChangePassword({ id }: { id: string }) {
                         errorMsg={newPasswordErrorMsg}
                     />
 
-                    <p className="b2 text-gray1000 mt-4 mb-2">비밀번호 확인</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2 dark:text-white">
+                        비밀번호 확인
+                    </p>
                     <Input
                         type="password"
                         placeholder="비밀번호를 한번 더 입력해 주세요"
