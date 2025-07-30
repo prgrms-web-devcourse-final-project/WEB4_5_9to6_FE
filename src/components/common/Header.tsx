@@ -121,7 +121,7 @@ export default function Header({
                             )}
                             <div className="relative">
                                 <Bell
-                                    className="text-gray1000 cursor-pointer transition-colors duration-200 hover:text-black"
+                                    className="text-gray1000 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:text-white"
                                     onClick={() =>
                                         router.push("/notifications")
                                     }

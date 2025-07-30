@@ -131,7 +131,7 @@ export default function StudyHome({
                                 onClick={() => router.push("/notifications")}
                             >
                                 <div className="relative">
-                                    <Bell className="h-5 w-5 text-[#161616]" />
+                                    <Bell className="text-gray1000 dark:text-gray200 h-5 w-5" />
                                     {alarms.filter(
                                         (alarm) => alarm.isRead === false,
                                     ).length > 0 && (
