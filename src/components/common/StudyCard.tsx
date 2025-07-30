@@ -36,14 +36,18 @@ export default function StudyCard({
 }) {
     const router = useRouter();
     const userInfo = useAuthStore((state) => state.myInfo);
+
     const clickHandler = async (id: number) => {
         const isMember = await checkIsMember(id);
-
         if (studyType === "DEFAULT") {
-            if (leaderId && leaderId === userInfo?.id) {
-                router.push(`/study/${id}/manage`);
-            } else if (isMember.isMember === true) router.push(`/study/${id}`);
-            else router.push(`/study/${id}/recruit`);
+            if (!userInfo) {
+                router.push(`/study/${id}/recruit`); //비로그인
+                return;
+            } else if (!isMember?.isMember || isNew) {
+                router.push(`/study/${id}/recruit`); //로그인, 미가입 || 시작안한 스터디
+            } else if (leaderId && leaderId === userInfo.id) {
+                router.push(`/study/${id}/manage`); //로그인,가입,리더
+            } else router.push(`/study/${id}`); //로그인,가입,리더x
         } else {
             router.push(`/survival-study/${id}`);
         }

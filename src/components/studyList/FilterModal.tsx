@@ -39,36 +39,17 @@ export default function FilterModal({
     onClose: () => void;
     onApply: (filters: Filtering) => void;
 }) {
-    const regions = [
-        "온라인",
-        "전체",
-        "서울",
-        "경기",
-        "강원",
-        "인천",
-        "부산",
-        "울산",
-        "대구",
-        "대전",
-        "광주",
-        "세종",
-        "충남",
-        "충북",
-        "전남",
-        "전북",
-        "경남",
-        "경북",
-        "제주",
-    ];
     const active = ["활동 전체", "활동 전", "활동중"];
     const [regionSelected, setRegionSelected] = useState("");
     const [activeSelected, setActiveSelected] = useState("");
     const { changeClass } = useAnimationStore();
 
     const regionHandler = (region: string) => {
+        console.log("지역:", region);
         setRegionSelected(region);
     };
     const activeHandler = (active: string) => {
+        console.log("활동상태:", active);
         setActiveSelected(active);
     };
 
@@ -86,7 +67,7 @@ export default function FilterModal({
                         지역
                     </p>
                     <div className="mt-[10px] flex h-[82px] w-[283px] flex-wrap items-center gap-[5px]">
-                        {regions.map((region) => (
+                        {Object.keys(regions2).map((region) => (
                             <button
                                 onClick={() => regionHandler(regions2[region])}
                                 className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap transition-all duration-200 ease-in-out ${regions2[region] === regionSelected ? "dark:bg-gray100 bg-[#454545] text-[12px] text-[#FFFFFF] dark:text-black" : "dark:bg-gray1000 bg-[#EFEFEF] text-[#000000] dark:text-white"}`}

@@ -26,7 +26,7 @@ export default function SelectDays() {
     return (
         <>
             <div className="flex flex-col gap-1">
-                <label className="h6 text-[var(--color-gray1000)]">
+                <label className="h6 text-gray1000 dark:text-white">
                     스터디 요일
                 </label>
                 <div className="flex flex-wrap gap-2">

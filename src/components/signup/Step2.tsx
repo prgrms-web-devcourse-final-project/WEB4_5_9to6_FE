@@ -72,12 +72,12 @@ export default function Step2({
         <>
             <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     비밀번호를 설정해주세요
                 </h1>
                 <p
-                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`h6 text-gray600 mb-5 cursor-default delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     특수문자, 영문, 숫자 포함 8자 이상 16자 이하
                 </p>

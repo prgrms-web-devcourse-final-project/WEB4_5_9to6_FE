@@ -171,10 +171,10 @@
         @apply relative h-full w-full p-5 pt-10;
     }
     .days-btn {
-        @apply aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 hover:border-[var(--color-gray500)];
+        @apply border-gray300 text-gray1000 dark:border-gray800 hover:border-gray500 dark:hover:border-gray600 aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border duration-200 dark:text-white;
     }
     .days-btn-selected {
-        @apply border-[var(--color-gray1000)] bg-[var(--color-gray100)] hover:border-[var(--color-gray1000)];
+        @apply border-gray1000 bg-gray100 dark:bg-gray1000 hover:border-gray1000 dark:border-white dark:hover:border-white;
     }
 }
 
