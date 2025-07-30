@@ -62,7 +62,9 @@ export default function Quiz({
         return Math.floor(diffDays / 7) + 1;
     };
 
-    const currentWeek = getCurrentWeekNum(study.startDate);
+    const curWeek = getCurrentWeekNum(study.startDate);
+    console.log(curWeek);
+    const currentWeek = 1; // 이 부분 바꿈
 
     const currentWeekData = quizData?.find((w) => w.week === currentWeek);
     console.log("현재 몇주차? =", currentWeek);
