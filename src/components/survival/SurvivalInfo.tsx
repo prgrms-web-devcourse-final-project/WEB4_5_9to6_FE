@@ -68,7 +68,7 @@ export default function SurvivalInfo({ study }: { study: StudyInfo }) {
                                     </p>
                                 </div>
                                 <p className="text-[var(--color-main400)]">
-                                    {100 * (index + 1)}P
+                                    500P
                                 </p>
                             </div>
                         ))}

@@ -13,7 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
-import { fetchIsApplied, fetchSurvival } from "@/api/studyList";
+import { fetchIsApplied, fetchSurvApply, fetchSurvival } from "@/api/studyList";
 import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
 import { dayMap, categoryMap } from "@/utils/studyDataMap";
@@ -41,22 +41,30 @@ export default function SurvivalStudy() {
     });
     console.log(study);
 
-    const { data: apply, isLoading: isApplyLoading } = useQuery({
+    const {
+        data: apply,
+        refetch: refetchApply,
+        isLoading: isApplyLoading,
+    } = useQuery({
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
-        refetchOnMount: true,
     });
 
     const today = new Date();
     // 스터디 시작, 끝 날짜/시간
-    const startDateTime = new Date(study?.startDate && study?.startTime);
-    const endDateTime = new Date(study?.startDate && study?.endTime);
+    const startDateTime = new Date(`${study?.startDate}T${study?.startTime}`);
+    const endDateTime = new Date(`${study?.endDate}T${study?.endTime}`);
+
+    console.log(endDateTime);
     // 시작 조건
     const canStart =
         apply?.isMember === true &&
-        today >= new Date(`${study?.startDate}T${study?.startTime}`) &&
-        today < new Date(`${study?.startDate}T${study?.endTime}`); // 종료 조건
+        today >= startDateTime &&
+        today < endDateTime;
+    console.log("canStart:", canStart);
+
+    // 닫히는 조건
     const isClosed = today > endDateTime;
 
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
@@ -81,17 +89,26 @@ export default function SurvivalStudy() {
         }
     };
 
-    const applyHandler = () => {
+    const applyHandler = async () => {
         changeClass("animate-modalFadeOut");
-        setTimeout(() => {
+        try {
+            await fetchSurvApply(studyId, myInfo?.id ?? 0);
+            await refetchApply();
             setShowModal(false);
-        }, 300);
 
-        customAlert({
-            message: "서바이벌 스터디가 신청되었습니다!",
-            linkLabel: "닫기",
-            onClick: () => {},
-        });
+            customAlert({
+                message: "서바이벌 스터디가 신청되었습니다!",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        } catch (err) {
+            console.error("신청 실패", err);
+            customAlert({
+                message: "신청 중 오류가 발생했습니다.",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        }
     };
 
     useEffect(() => {
@@ -154,12 +171,12 @@ export default function SurvivalStudy() {
                 />
                 <SurvivalInfo study={study} />
                 <div className="green:border-t-[var(--color-gray1000)] green:bg-[#222222] fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white dark:border-t-[var(--color-gray1000)] dark:bg-[#222222]">
-                    {apply?.isMember === false ? (
+                    {apply?.isMember === false && !isClosed ? (
                         <Button
                             onClick={() => buttonHandler(studyId)}
                             color="primary"
                             className="green:bg-[#00E69A] green:hover:bg-[#00BD7E] mx-5 my-5 text-white"
-                            disabled={today >= startDateTime}
+                            disabled={isClosed}
                         >
                             신청하기
                         </Button>

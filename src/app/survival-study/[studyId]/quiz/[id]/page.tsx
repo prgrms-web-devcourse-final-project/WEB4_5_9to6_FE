@@ -18,6 +18,7 @@ export default function QuizPage() {
     const [showExitModal, setShowExitModal] = useState(false);
     const { study } = useSurvivalStore();
     const myInfo = useAuthStore.getState().myInfo;
+    console.log("서바이벌스터디", study);
 
     const getCurrentWeekNum = (startDate: string): number => {
         const start = new Date(startDate);

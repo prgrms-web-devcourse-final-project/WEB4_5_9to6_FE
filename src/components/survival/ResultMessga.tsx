@@ -2,16 +2,41 @@
 
 import Image from "next/image";
 import Button from "../common/Button";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuizResult } from "@/stores/quizStore";
-import { useWinnerModalStore } from "@/stores/winnerModalStore";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useSurvivalStore } from "@/stores/survivalStore";
+import { useWinnerModalStore } from "@/stores/winnerModalStore";
 
 export default function ResultMessage() {
-    const { openModal } = useWinnerModalStore();
     const score = useQuizResult((state) => state.score);
     const isSurvived = score >= 3;
     const router = useRouter();
+    const params = useParams();
+    const studyId = params.studyId;
+    const { study } = useSurvivalStore();
+    const { openModal } = useWinnerModalStore();
+
+    // 승리 모달 조건
+    const winnerModal = () => {
+        if (!study?.startDate) return;
+
+        const start = new Date(study.startDate);
+        if (isNaN(start.getTime())) {
+            console.error(study.startDate);
+            return;
+        }
+
+        const today = new Date();
+        const diffDays = Math.floor(
+            (today.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+        );
+        const currentWeek = Math.floor(diffDays / 7) + 1;
+
+        if (currentWeek === 4) {
+            openModal(currentWeek);
+        }
+    };
 
     return (
         <>
@@ -61,8 +86,8 @@ export default function ResultMessage() {
                 {isSurvived ? (
                     <Button
                         onClick={() => {
-                            router.push("/survival-study/1");
-                            openModal();
+                            router.push(`/survival-study/${studyId}`);
+                            winnerModal();
                         }}
                         className="mx-5 my-5 bg-[var(--color-main500)] transition duration-200 hover:bg-[var(--color-main600)]"
                     >

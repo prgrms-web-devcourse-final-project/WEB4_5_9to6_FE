@@ -2,12 +2,16 @@ import { create } from "zustand";
 
 interface WinnerModalState {
     isOpen: boolean;
-    openModal: () => void;
+    openModal: (week: number) => void;
     closeModal: () => void;
 }
 
 export const useWinnerModalStore = create<WinnerModalState>((set) => ({
     isOpen: false,
-    openModal: () => set({ isOpen: true }),
+    openModal: (week) => {
+        if (week === 4) {
+            set({ isOpen: true });
+        }
+    },
     closeModal: () => set({ isOpen: false }),
 }));
