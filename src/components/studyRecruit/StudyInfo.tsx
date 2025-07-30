@@ -25,11 +25,13 @@ export default function StudyInfo({
             {/* 스터디 목표 */}
             <StudyGoal />
 
-            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)]"></div>
+            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)] dark:bg-[var(--color-gray1000)]"></div>
 
             {/* 기본정보 */}
             <div className="w-full px-5">
-                <h3 className="mt-6 text-[var(--color-gray1000)]">기본정보</h3>
+                <h3 className="mt-6 text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
+                    기본정보
+                </h3>
                 <StudyDefaultInfo
                     maxMembers={maxMembers}
                     schedules={schedules}
@@ -39,27 +41,29 @@ export default function StudyInfo({
                     endDate={endDate}
                 />
             </div>
-            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)]"></div>
+            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)] dark:bg-[var(--color-gray1000)]"></div>
 
             {/* 스터디 소개 */}
             <div className="w-full px-5">
-                <h3 className="mt-6">스터디 소개</h3>
-                <p className="b2 mt-[10px] w-full text-[var(--color-gray700)]">
+                <h3 className="mt-6 dark:text-[var(--color-white)]">
+                    스터디 소개
+                </h3>
+                <p className="b2 mt-[10px] w-full text-[var(--color-gray700)] dark:text-[var(--color-white)]">
                     {description}
                 </p>
             </div>
 
-            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)]"></div>
+            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)] dark:bg-[var(--color-gray1000)]"></div>
 
             {/* 학습 관련 링크 */}
             <div className="w-full px-5">
-                <h6 className="mt-6 text-[var(--color-gray1000)]">
+                <h6 className="mt-6 text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                     학습 관련 링크
                 </h6>
                 <a
                     href={exLink}
                     target="blank"
-                    className="b2 mt-[10px] mb-4 text-[var(--color-gray700)] transition-all duration-200 ease-in-out hover:text-[var(--color-gray-400)]"
+                    className="b2 mt-[10px] mb-4 text-[var(--color-gray700)] transition-all duration-200 ease-in-out hover:text-[var(--color-gray400)] dark:text-[var(--color-gray500)] dark:hover:text-[var(--color-gray200)]"
                 >
                     {exLink}
                 </a>
