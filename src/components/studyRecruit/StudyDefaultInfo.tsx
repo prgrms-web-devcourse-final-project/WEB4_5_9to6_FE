@@ -29,38 +29,40 @@ export default function StudyDefaultInfo({
 
         const startYear = start.getFullYear();
         const startMonth = start.getMonth() + 1;
+        const startDay = start.getDate();
 
         const endYear = end.getFullYear();
         const endMonth = end.getMonth() + 1;
+        const endDay = end.getDate();
 
         const format = (month: number) => (month < 10 ? `0${month}` : month);
 
         const monthDiff =
             (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
 
-        return `${startYear}.${format(startMonth)}~${endYear}.${format(endMonth)} (${monthDiff}개월)`;
+        return `${startYear}.${format(startMonth)}.${format(startDay)}~${endYear}.${format(endMonth)}.${format(endDay)} (${monthDiff}개월)`;
     };
     return (
         <>
             <div className="mt-6 w-full">
-                <div className="flex justify-between text-[var(--color-gray1000)]">
+                <div className="flex justify-between text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                     <h6>팀원</h6>
                     <h6>최대 {maxMembers}명</h6>
                 </div>
 
-                <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
+                <div className="mt-4 flex justify-between text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                     <h6>스터디 요일</h6>
                     <h6>매주 {scheduleString(schedules)}</h6>
                 </div>
 
-                <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
+                <div className="mt-4 flex justify-between text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                     <h6>스터디 시간</h6>
                     <h6>
                         {startTime}~{endTime}
                     </h6>
                 </div>
 
-                <div className="mt-4 flex justify-between text-[var(--color-gray1000)]">
+                <div className="mt-4 flex justify-between text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
                     <h6>기간</h6>
                     <h6>{changeDate(startDate, endDate)}</h6>
                 </div>

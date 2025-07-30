@@ -1,5 +1,6 @@
 "use client";
 
+import SubHeader from "@/components/common/SubHeader";
 import { editStudy, fetchStudyInfo } from "@/api/studies";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/create/Step1";
@@ -77,7 +78,8 @@ export default function EditStudy() {
 
     return (
         <>
-            <div className="h-full w-full pt-[65px]">
+            <SubHeader className="max-w-sm">스터디 수정</SubHeader>
+            <div className="dark:bg-dark-bg h-full w-full pt-[65px] duration-200 ease-in">
                 <ProgressBar totalStep={6} step={step} />
                 {step === 1 ? (
                     <Step1 continueStep={() => setStep(2)} />

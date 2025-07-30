@@ -34,7 +34,7 @@ export default function DayInput({
                 placeholder={placeholder}
                 onClick={() => setIsOpen((prev) => !prev)}
                 className={twMerge(
-                    `h-[54px] w-full cursor-pointer rounded-[12px] border border-[var(--color-gray-300)] pl-4 text-[var(--color-gray1000)] placeholder-[var(--color-gray500)] focus:outline-none ${className}`,
+                    `border-gray300 dark:border-gray800 text-gray1000 placeholder-gray500 dark:placeholder-gray700 h-[54px] w-full cursor-pointer rounded-[12px] border pl-4 duration-200 ease-in focus:outline-none dark:text-white ${className}`,
                     className,
                 )}
             />
@@ -45,7 +45,7 @@ export default function DayInput({
                         className="absolute inset-0 bg-black/50"
                         onClick={() => setIsOpen(false)}
                     />
-                    <div className="z-2 mx-5 flex max-w-sm justify-center rounded-[12px] bg-white p-4">
+                    <div className="dark:bg-gray1000 z-2 mx-5 flex max-w-sm justify-center rounded-[24px] bg-white p-4">
                         <DayPicker
                             mode="single"
                             selected={new Date(value)}
@@ -57,9 +57,10 @@ export default function DayInput({
                             navLayout="around"
                             classNames={{
                                 selected:
-                                    "bg-[var(--color-main400)] text-white rounded-[10px]",
-                                today: "text-[var(--color-main400)] font-semibold",
+                                    "bg-main400 text-white rounded-[10px]",
+                                today: "text-main400 font-semibold",
                             }}
+                            className="dark:font-light dark:text-white"
                             style={
                                 {
                                     "--rdp-accent-color":
