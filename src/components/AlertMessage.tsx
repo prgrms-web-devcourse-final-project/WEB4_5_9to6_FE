@@ -42,7 +42,7 @@ export default function AlertMessage({ alarm }: { alarm: Alarm }) {
                     <p className="c1 text-gray500 dark:text-gray600 duration-200 ease-in">
                         {dayjs(alarm.sentAt).fromNow()}
                     </p>
-                    <div className="b2 text-gray1000 dark cursor-pointer leading-tight break-words duration-200 ease-in dark:text-white">
+                    <div className="b2 text-gray1000 cursor-pointer leading-tight break-words duration-200 ease-in dark:text-white">
                         {alarm.type === "APPLY" && (
                             <>
                                 <span
