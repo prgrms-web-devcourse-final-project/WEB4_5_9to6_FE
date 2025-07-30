@@ -39,7 +39,7 @@ export default function Header({
             <div className="fixed z-20 h-15.5 w-full">
                 <div
                     className={twMerge(
-                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl dark:bg-[#222222]/86",
+                        "absolute inset-0 h-15.5 w-full bg-[var(--color-gray100)]/60 backdrop-blur-xl dark:bg-[#222222]",
                         className,
                     )}
                 ></div>
