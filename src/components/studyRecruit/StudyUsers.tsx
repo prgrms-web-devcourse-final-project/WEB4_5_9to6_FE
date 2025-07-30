@@ -33,12 +33,12 @@ export default function StudyUsers() {
     if (isLoading) {
         return (
             <div className="mt-6 animate-pulse px-5">
-                <div className="bg-gray300 h-4 w-20 rounded" />
+                <div className="bg-gray300 dark:bg-gray800 h-4 w-20 rounded" />
                 <div className="mt-4 flex flex-col gap-[12px]">
                     {[...Array(3)].map((_, idx) => (
                         <div key={idx} className="flex items-center gap-3">
-                            <div className="bg-gray300 h-12 w-12 rounded-[16px]" />
-                            <div className="bg-gray300 h-4 w-24 rounded" />
+                            <div className="bg-gray300 dark:bg-gray800 h-12 w-12 rounded-[16px]" />
+                            <div className="bg-gray300 dark:bg-gray800 h-4 w-24 rounded" />
                         </div>
                     ))}
                 </div>

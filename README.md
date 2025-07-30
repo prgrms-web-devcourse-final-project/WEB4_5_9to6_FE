@@ -1,17 +1,8 @@
-<<<<<<< HEAD
 <div align='center'>
 
 <h1><b>스터디움 Stud!um</b></h1>
 <h3><b>프로그래머스 4기 5회차 최종 프로젝트</b></h3>
 <h4><b>TEAM: 나인투식스 a.k.a. 9to6</b></h4>
-=======
-<div id="top"></div>
-
-<div align='center'>
-
-<h1><b>Studium 스터디움 - Team 9to6</b></h1>
-<h3><b>프로그래머스 4기 5회차 최종 프로젝트</b></h3>
->>>>>>> 30d542b54a8596976084c6a354a1e3efac613373
 
 🔗 [스터디움 바로가기]()
 
@@ -20,7 +11,6 @@
 </div>
 
 <br>
-<<<<<<< HEAD
 
 ## 0. 목차
 
@@ -58,12 +48,11 @@
 
 ## <span id="2">🏃 2. 팀원 소개</span>
 
-| <img src="https://img.shields.io/badge/Project_Leader-FF5733" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> | <img src="https://img.shields.io/badge/Design_Leader-blue" /> | <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" /> |
-| :--------------------------------------------------------------: | :--------------------------------------------------------------: | :-----------------------------------------------------------: | :--------------------------------------------------------------: |
-|             <img src="https://avatars.githubusercontent.com/u/85282786?v=4" width="120px;" alt="하영"/>              |             <img src="https://avatars.githubusercontent.com/u/100776779?v=4" width="120px;" alt="민지"/>              |            <img src="https://avatars.githubusercontent.com/u/153171193?v=4" width="120px;" alt="보민"/>            |             <img src="https://avatars.githubusercontent.com/u/127276008?v=4" width="120px;" alt="재건"/>              |
-|             [강하영](https://github.com/Hayoung0708)             |              [구민지](https://github.com/amykoomj)               |             [김보민](https://github.com/marchbom)             |               [이재건](https://github.com/79gun79)               |
-|                               팀장                               |                        퍼블리싱, 기능개발                        |                      퍼블리싱, 기능개발                       |                        퍼블리싱, 기능개발                        |
-
+|              <img src="https://img.shields.io/badge/Project_Leader-FF5733" />               |               <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" />               |                <img src="https://img.shields.io/badge/Design_Leader-blue" />                 |               <img src="https://img.shields.io/badge/Tech_Leader-%2300264e" />               |
+| :-----------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/85282786?v=4" width="120px;" alt="하영"/> | <img src="https://avatars.githubusercontent.com/u/100776779?v=4" width="120px;" alt="민지"/> | <img src="https://avatars.githubusercontent.com/u/153171193?v=4" width="120px;" alt="보민"/> | <img src="https://avatars.githubusercontent.com/u/127276008?v=4" width="120px;" alt="재건"/> |
+|                          [강하영](https://github.com/Hayoung0708)                           |                            [구민지](https://github.com/amykoomj)                             |                            [김보민](https://github.com/marchbom)                             |                             [이재건](https://github.com/79gun79)                             |
+|                                            팀장                                             |                                      퍼블리싱, 기능개발                                      |                                      퍼블리싱, 기능개발                                      |                                      퍼블리싱, 기능개발                                      |
 
 <br>
 
@@ -82,6 +71,3 @@
 <p style='background: black; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: auto;'><a href="#top" style='color: white; '>▲</a></p>
 
 <br>
-
-=======
->>>>>>> 30d542b54a8596976084c6a354a1e3efac613373

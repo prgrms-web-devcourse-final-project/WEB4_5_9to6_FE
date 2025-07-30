@@ -95,7 +95,7 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
                                     closeModal();
                                 }, 200);
                             }}
-                            className="cursor-pointer"
+                            className="text-gray1000 cursor-pointer dark:text-white"
                         />
                     </div>
                     <div className="mx-5 mb-[30px] flex items-center justify-center bg-white px-20 dark:bg-[#222222]">

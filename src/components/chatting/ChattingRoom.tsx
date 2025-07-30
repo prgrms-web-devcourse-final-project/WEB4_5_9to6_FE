@@ -125,10 +125,10 @@ export default function ChattingRoom({ studyId }: { studyId: string }) {
                     {[...Array(4)].map((_, i) => (
                         <div key={i}>
                             <div className="mb-6 flex items-start gap-3">
-                                <div className="bg-gray400 h-10 w-30 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl" />
+                                <div className="bg-gray400 dark:bg-gray800 h-10 w-30 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl" />
                             </div>
                             <div className="mb-6 flex w-full items-start justify-end gap-3">
-                                <div className="bg-gray400 h-10 w-30 rounded-tl-2xl rounded-br-2xl rounded-bl-2xl" />
+                                <div className="bg-gray400 dark:bg-gray800 h-10 w-30 rounded-tl-2xl rounded-br-2xl rounded-bl-2xl" />
                             </div>
                         </div>
                     ))}

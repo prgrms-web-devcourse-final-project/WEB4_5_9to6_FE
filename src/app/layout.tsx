@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AuthInitializer from "@/components/login/AuthInitializer";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { Suspense } from "react";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const pretendard = localfont({
     variable: "--font-pretendard",
@@ -27,7 +28,13 @@ export default function RootLayout({
             <body
                 className={`${pretendard.variable} dark:bg-dark-bg duration-200 ease-in`}
             >
-                <Suspense fallback={<h1>loading..</h1>}>
+                <Suspense
+                    fallback={
+                        <div className="h-screen">
+                            <LoadingSpinner />
+                        </div>
+                    }
+                >
                     <TanstackProvider> {children}</TanstackProvider>
                     <ToastContainer limit={1} />
                     <AuthInitializer />
