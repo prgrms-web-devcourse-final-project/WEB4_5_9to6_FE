@@ -34,9 +34,9 @@ export default function OnOfflineModal({
                                 onClose();
                             }, 200);
                         }}
-                        className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
+                        className={`text-gray1000 border-gray300 dark:border-gray800 hover:border-gray400 dark:hover:border-gray700 h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border duration-200 ease-in-out dark:text-white ${
                             isOnline === true &&
-                            "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
+                            "border-gray1000 hover:border-gray1000 dark:border-white dark:hover:border-white"
                         }`}
                     >
                         온라인
@@ -51,10 +51,9 @@ export default function OnOfflineModal({
                                 onClose();
                             }, 200);
                         }}
-                        className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
-                            isOnline === false
-                                ? "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
-                                : ""
+                        className={`text-gray1000 border-gray300 dark:border-gray800 hover:border-gray400 dark:hover:border-gray700 h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border duration-200 ease-in-out dark:text-white ${
+                            isOnline === false &&
+                            "border-gray1000 hover:border-gray1000 dark:border-white dark:hover:border-white"
                         }`}
                     >
                         오프라인

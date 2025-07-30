@@ -17,6 +17,7 @@ export default function Step4({
     const [birthday, setBirthday] = useState("");
     const [gender, setGender] = useState("");
     const [isPreSubmitted, setIsPreSubmitted] = useState(false);
+    const [isDateModalOpen, setIsDateModalOpen] = useState(false);
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -51,11 +52,24 @@ export default function Step4({
                     <div
                         className={`delay-1300 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
                     >
-                        <DayInput
-                            placeholder="생년월일 선택"
-                            value={birthday}
-                            setValue={setBirthday}
-                        />
+                        <div className="relative w-full">
+                            <input
+                                type="text"
+                                value={birthday}
+                                readOnly
+                                placeholder="생년월일 선택"
+                                onClick={() =>
+                                    setIsDateModalOpen(!isDateModalOpen)
+                                }
+                                className={`border-gray300 dark:border-gray800 text-gray1000 placeholder-gray500 dark:placeholder-gray700 h-[54px] w-full cursor-pointer rounded-[12px] border pl-4 duration-200 ease-in focus:outline-none dark:text-white`}
+                            />
+                            <DayInput
+                                isOpen={isDateModalOpen}
+                                onClose={() => setIsDateModalOpen(false)}
+                                value={birthday}
+                                setValue={setBirthday}
+                            />
+                        </div>
                     </div>
                     <div
                         className={`flex h-12 w-full flex-row justify-between gap-2 delay-1800 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}

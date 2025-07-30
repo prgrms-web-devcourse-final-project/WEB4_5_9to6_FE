@@ -120,7 +120,7 @@ export default function MyInfoList({
                     className="text-gray500 dark:text-gray700 cursor-pointer"
                 />
             </div>
-            <div className="relative h-[300px]">
+            <div className="bg-gray100 relative h-[300px] dark:bg-[#222222]">
                 <button
                     onClick={() => logoutMutate()}
                     className="text-gray1000 b2 absolute top-23.5 left-1/2 -translate-x-1/2 cursor-pointer underline dark:text-white"
