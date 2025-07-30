@@ -8,7 +8,6 @@ export default function AvatarDisplay({
     num: number;
     membersData: StudyMember[];
 }) {
-    console.log("아바타 개수", num, membersData);
     return (
         <>
             {(num === 1 ||

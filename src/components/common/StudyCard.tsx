@@ -62,17 +62,17 @@ export default function StudyCard({
                     <div>
                         {/* 뱃지 */}
                         <div className="flex h-[24px] items-center gap-[6px]">
-                            <div className="c2 dark:bg-gray800 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[var(--color-gray1000)] dark:text-white">
+                            <div className="c2 dark:bg-gray800 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 pt-0.25 text-[var(--color-gray1000)] dark:text-white">
                                 {category}
                             </div>
                             {studyType === "SURVIVAL" && (
-                                <div className="c2 dark:text-main400 h-full rounded-[8px] bg-[var(--color-main100)] px-2 text-[#FF395C] dark:bg-black">
+                                <div className="c2 dark:text-main400 h-full rounded-[8px] bg-[var(--color-main100)] px-2 pt-0.25 text-[#FF395C] dark:bg-black">
                                     서바이벌
                                 </div>
                             )}
 
                             {isNew && (
-                                <div className="c2 dark:text-main400 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C] dark:bg-black">
+                                <div className="c2 dark:text-main400 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 pt-0.25 text-[#FF395C] dark:bg-black">
                                     New
                                 </div>
                             )}

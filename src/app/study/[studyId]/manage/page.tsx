@@ -15,7 +15,7 @@ import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 export default function Page() {
     // const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
@@ -49,13 +49,13 @@ export default function Page() {
         }, 1000);
     };
 
-    const stopTimer = () => {
+    const stopTimer = useCallback(() => {
         setPause(true);
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
-    };
+    }, [setPause]);
 
     const resetTimer = async () => {
         stopTimer();
@@ -95,7 +95,7 @@ export default function Page() {
     };
     useEffect(() => {
         return () => stopTimer();
-    }, []);
+    }, [stopTimer]);
 
     // const formatTime = (totalSeconds: number) => {
     //     const hr = Math.floor(totalSeconds / 3600);

@@ -21,7 +21,7 @@ import {
     Play,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function Page() {
@@ -58,13 +58,13 @@ export default function Page() {
         }, 1000);
     };
 
-    const stopTimer = () => {
+    const stopTimer = useCallback(() => {
         setPause(true);
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
-    };
+    }, [setPause]);
 
     const resetTimer = async () => {
         stopTimer();
@@ -105,7 +105,7 @@ export default function Page() {
     };
     useEffect(() => {
         return () => stopTimer();
-    }, []);
+    }, [stopTimer]);
 
     // const formatTime = (totalSeconds: number) => {
     //     const hr = Math.floor(totalSeconds / 3600);
