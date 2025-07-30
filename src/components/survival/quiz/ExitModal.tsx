@@ -77,7 +77,7 @@ export default function ExitModal({
                 <div>
                     <div
                         onClick={closeHandler}
-                        className={`dark:border-1-gray-200 fixed inset-0 z-40 bg-black/30 duration-200 dark:bg-[#222] ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
+                        className={`dark:border-1-gray-200 fixed inset-0 z-40 bg-black/30 duration-200 ${animationClass === "animate-modalFadeIn" ? "opacity-100" : "opacity-0"}`}
                     ></div>
                     <div
                         className={`${animationClass} fixed inset-0 z-100 flex items-center justify-center p-10`}
@@ -95,14 +95,16 @@ export default function ExitModal({
                                     marginTop: "4px",
                                 }}
                             />
-                            <h2 className="h2 mt-6">퀴즈를 종료하시겠어요?</h2>
-                            <h5 className="h5 mt-3">
+                            <h2 className="h2 mt-6 dark:text-white">
+                                퀴즈를 종료하시겠어요?
+                            </h2>
+                            <h5 className="h5 mt-3 dark:text-white">
                                 지금 나가면 미응시로 처리되어 탈락하게 됩니다.
                             </h5>
                             <div className="mt-12 flex w-full items-center justify-between gap-4">
                                 <Button
                                     onClick={closeHandler}
-                                    className="h-12.5 bg-[var(--color-gray200)] text-black hover:bg-[var(--color-gray300)]"
+                                    className="h-12.5 bg-[var(--color-gray200)] text-black hover:bg-[var(--color-gray300)] dark:bg-[var(--color-gray300)] dark:hover:bg-[var(--color-gray500)]"
                                 >
                                     계속하기
                                 </Button>

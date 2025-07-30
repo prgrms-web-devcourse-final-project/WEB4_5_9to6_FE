@@ -54,7 +54,7 @@ export default function ChatMemberList({ studyId }: { studyId: string }) {
                             setWhisperTarget(null);
                             closeHandler();
                         }}
-                        className="flex h-11 cursor-pointer items-center gap-3 px-5 dark:text-white"
+                        className="flex h-11 cursor-pointer items-center gap-3 px-5 transition duration-100 hover:text-[var(--color-main500)] dark:text-white"
                     >
                         전체 채팅
                     </li>
