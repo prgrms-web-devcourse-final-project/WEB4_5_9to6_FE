@@ -87,6 +87,13 @@
     display: none;
 }
 
+::-webkit-scrollbar {
+    width: 0;
+}
+::-webkit-scrollbar-thumb {
+    border: solid 0 #00000000;
+}
+
 @layer utilities {
     .temaChoose {
         @apply absolute inset-0 rounded-xl transition-colors duration-200 ease-in-out hover:bg-black/30;
