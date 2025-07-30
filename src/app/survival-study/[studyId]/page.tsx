@@ -39,13 +39,23 @@ export default function SurvivalStudy() {
         enabled: !!studyId,
     });
 
-    const { data: apply } = useQuery({
+    const {
+        data: apply,
+        refetch: refetchApply,
+        isLoading: isApplyLoading,
+    } = useQuery({
         queryKey: ["isApplied", studyId, myInfo?.id],
         queryFn: () => fetchIsApplied(studyId),
         enabled: !!studyId && !!myInfo?.id,
     });
-    const canStart = apply;
+    const now = new Date();
+    const startDateTime = new Date(`${study?.startDate}T${study?.startTime}`);
+    const endDateTime = new Date(`${study?.startDate}T${study?.endTime}`);
 
+    const canStart =
+        apply?.isMember === true && now >= startDateTime && now < endDateTime;
+
+    const isClosed = now > endDateTime;
     // 서바이벌 data, studyId, studyMemberId 전역으로 저장
     useEffect(() => {
         if (study) {
@@ -57,7 +67,7 @@ export default function SurvivalStudy() {
         router.push(`/survival-study/${studyId}/quiz/1`);
     };
     const buttonHandler = (studyId: number) => {
-        if (!apply) {
+        if (!apply.isMember) {
             setShowModal(true);
         } else if (canStart) {
             if (!studyId) {
@@ -68,17 +78,28 @@ export default function SurvivalStudy() {
         }
     };
 
-    const applyHandler = () => {
-        changeClass("animate-modalFadeOut");
-        setTimeout(() => {
-            setShowModal(false);
-        }, 300);
+    const applyHandler = async () => {
+        try {
+            await refetchApply();
 
-        customAlert({
-            message: "서바이벌 스터디가 신청되었습니다!",
-            linkLabel: "닫기",
-            onClick: () => {},
-        });
+            changeClass("animate-modalFadeOut");
+            setTimeout(() => {
+                setShowModal(false);
+            }, 300);
+
+            customAlert({
+                message: "서바이벌 스터디가 신청되었습니다!",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        } catch (err) {
+            console.error(err);
+            customAlert({
+                message: "이미 신청했거나 오류가 발생했습니다.",
+                linkLabel: "닫기",
+                onClick: () => {},
+            });
+        }
     };
 
     useEffect(() => {
@@ -102,7 +123,7 @@ export default function SurvivalStudy() {
         if (myInfo === null && !apply) {
             router.push("/");
         }
-    }, [myInfo, apply, router]);
+    }, [myInfo, apply, router, isApplyLoading]);
 
     if (studyPending) {
         return (
@@ -139,15 +160,16 @@ export default function SurvivalStudy() {
                 <NoticeBox
                     notice={study?.notice}
                     color="default"
-                    className="bg-gray100 rounded-none pt-3"
+                    className="bg-gray100 rounded-none pt-3 dark:bg-[#222]"
                 />
                 <SurvivalInfo study={study} />
-                <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
-                    {!apply ? (
+                <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white dark:border-t-[var(--color-gray1000)] dark:bg-[#222]">
+                    {apply?.isMember === false ? (
                         <Button
                             onClick={() => buttonHandler(study.studyId)}
                             color="primary"
                             className="mx-5 my-5"
+                            disabled={isClosed}
                         >
                             신청하기
                         </Button>
@@ -179,23 +201,25 @@ export default function SurvivalStudy() {
                     isOpen={showModal}
                     showTextArea={false}
                 >
-                    <p className="b1 mb-2.5">스터디를 신청하시겠습니까?</p>
-                    <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4">
-                        <div className="flex justify-between">
+                    <p className="b1 mb-2.5 dark:text-white">
+                        스터디를 신청하시겠습니까?
+                    </p>
+                    <div className="flex flex-col gap-2 rounded-xl bg-[var(--color-gray100)] p-4 dark:bg-[var(--color-gray1000)]">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 이름</p>
                             <p className="b2">{study?.name}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 주제</p>
                             <p className="b2">{categoryMap[study?.category]}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 요일</p>
                             <p className="b2">
                                 매주 {dayMap[study?.schedules]}
                             </p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between dark:text-white">
                             <p className="b2">스터디 시간</p>
                             <p className="b2">
                                 {study?.startTime}~{study?.endTime}

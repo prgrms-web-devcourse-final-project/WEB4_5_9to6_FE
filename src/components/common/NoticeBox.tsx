@@ -94,7 +94,7 @@ export default function NoticeBox({
                             />
                         ) : (
                             <p
-                                className={`c1 leading-4.5 ${color === "hall" ? "text-[#FFFFFF]" : "text-[var(--color-gray1000)]"} ${
+                                className={`c1 leading-4.5 ${color === "hall" ? "text-[#FFFFFF]" : "text-[var(--color-gray1000)] dark:text-white"} ${
                                     expanded
                                         ? "line-clamp-none"
                                         : "line-clamp-1 text-ellipsis"
