@@ -51,7 +51,7 @@ export default function Page() {
                     {channel === "팀원 현황" && <StudyUsers />}
 
                     {!isLoading && isLeader() && (
-                        <div className="fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px]">
+                        <div className="dark:border-t-gray1000 fixed bottom-0 flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] bg-[var(--color-white)] px-5 py-[14px] dark:bg-[#222222]">
                             <Button
                                 onClick={() =>
                                     router.push(`/study/${studyId}/edit`)

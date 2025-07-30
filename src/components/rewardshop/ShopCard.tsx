@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import medal from "../../assets/images/medal.png";
 import ToolTip from "../common/ToolTip";
 import { useProfileStore } from "@/stores/memberStore";
 import { useEffect } from "react";
@@ -29,8 +28,19 @@ export default function ShopCard({ id }: { id: string }) {
         <>
             <div className="flex flex-col p-5">
                 <div className="mb-1.5 flex items-center">
-                    <Image src={medal} alt="리워드" className="h-4.5 w-4.5" />
-                    <h6 className="text-gray1000 mr-1">내 리워드</h6>
+                    <div className="relative h-4.5 w-4.5">
+                        <Image
+                            src="/images/medal.png"
+                            alt="리워드"
+                            fill
+                            className="object-contain"
+                            sizes="18px"
+                            priority
+                        />
+                    </div>
+                    <h6 className="text-gray1000 mr-1 dark:text-white">
+                        내 리워드
+                    </h6>
                     <ToolTip>
                         <div className="c2 mb-4 whitespace-pre-line">
                             {`리워드는 출석체크와 주간 미션, 
@@ -43,7 +53,7 @@ export default function ShopCard({ id }: { id: string }) {
                         </div>
                     </ToolTip>
                 </div>
-                <p className="text-gray1000 text-[26px] font-bold">
+                <p className="text-gray1000 text-[26px] font-bold dark:text-white">
                     {data?.rewardPoints.toLocaleString() || 0}P
                 </p>
             </div>

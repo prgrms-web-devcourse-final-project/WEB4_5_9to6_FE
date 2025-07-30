@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { ChevronUp, Plus } from "lucide-react";
 import flash from "@/assets/Flash--filled.svg";
 import FilterModal from "@/components/studyList/FilterModal";
 import StudyLists from "@/components/studyList/StudyLists";
@@ -138,18 +138,26 @@ export default function Page() {
             },
             { threshold: 0.1, rootMargin: "50px" },
         );
+        const target = observerRef.current;
 
-        if (observerRef.current) observer.observe(observerRef.current);
+        if (target) observer.observe(target);
 
         return () => {
-            if (observerRef.current) observer.unobserve(observerRef.current);
+            if (target) observer.unobserve(target);
         };
     }, [hasMoreDefault, fetchNextDefault, isLoadingDefault]);
 
+    // top버튼
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
     return (
         <>
-            <div className="mb-[72px] min-h-screen min-w-[360px] overflow-y-auto bg-[var(--color-gray100)]">
-                <div className="fixed top-[62px] z-50 w-full bg-[var(--color-gray100)] px-5">
+            <div className="mb-[72px] min-h-screen min-w-86 overflow-y-auto bg-[var(--color-gray100)] dark:bg-[#222222]">
+                <div className="fixed top-[62px] z-50 w-full bg-[var(--color-gray100)] px-5 dark:bg-[#222222]">
                     {/* 검색 */}
                     <SearchBar
                         setIsModalOpen={setIsModalOpen}
@@ -169,10 +177,10 @@ export default function Page() {
                     <div className="h-full w-full pt-[19px] pb-[30px]">
                         {/* 필터링 뱃지 */}
                         {(filter.regionSelect || filter.statusSelect) && (
-                            <div className="fixed top-[146px] left-5 z-30 flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1">
+                            <div className="fixed top-[146px] left-5 z-30 flex h-8 w-full items-center gap-[8px] bg-[var(--color-gray100)] py-1 dark:bg-[#222222]">
                                 {filter.regionSelect && (
                                     <button
-                                        className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
+                                        className="dark:bg-gray100 flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF] dark:text-black"
                                         onClick={() => removeFilter("region")}
                                     >
                                         {regionMap[filter.region]}
@@ -180,7 +188,7 @@ export default function Page() {
                                 )}
                                 {filter.statusSelect && (
                                     <button
-                                        className="flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF]"
+                                        className="dark:bg-gray100 flex h-full w-auto cursor-pointer items-center rounded-3xl bg-[#454545] px-[9px] text-[11px] text-[#FFFFFF] dark:text-black"
                                         onClick={() => removeFilter("status")}
                                     >
                                         {filter.status}
@@ -202,7 +210,7 @@ export default function Page() {
                                                 height: "auto",
                                             }}
                                         />
-                                        <h3 className="text-gray1000">
+                                        <h3 className="text-gray1000 dark:text-white">
                                             서바이벌 스터디
                                         </h3>
                                     </div>
@@ -210,12 +218,14 @@ export default function Page() {
                                         매주 Ai가 내는 카테고리별 퀴즈를 풀면
                                         생존!
                                     </h6>
-                                    <div className="flex gap-4 overflow-hidden">
-                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
-                                        <div className="bg-gray200 h-[206px] w-[188px] animate-pulse rounded-2xl"></div>
+                                    <div className="w-full overflow-x-hidden">
+                                        <div className="flex w-fit gap-4">
+                                            <div className="bg-gray200 dark:bg-gray700 h-[206px] min-w-[188px] animate-pulse rounded-2xl"></div>
+                                            <div className="bg-gray200 dark:bg-gray700 h-[206px] min-w-[188px] animate-pulse rounded-2xl"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <h3 className="text-gray1000 mt-8 pl-5">
+                                <h3 className="text-gray1000 mt-8 px-5 dark:text-white">
                                     어떤 스터디를 하고싶나요?
                                 </h3>
                                 <div className="flex flex-col gap-4 px-5">
@@ -234,7 +244,6 @@ export default function Page() {
 
                         {/* 무한스크롤 감지 */}
                         <div ref={observerRef} className="h-[2px]" />
-
                         {/* 필터 모달 */}
                         {isModalOpen && (
                             <FilterModal
@@ -245,7 +254,16 @@ export default function Page() {
                                 }}
                             />
                         )}
-
+                        {/* top 버튼 */}
+                        <button
+                            onClick={scrollToTop}
+                            className={`fixed right-5 ${isLogIn ? "bottom-[150px]" : "bottom-22"} z-30 flex h-[52px] w-[52px] cursor-pointer flex-col items-center rounded-[500px] bg-[var(--color-gray200)] shadow-[0_4px_8px_0_rgba(0,0,0,0.32)] transition-all duration-200 ease-in-out hover:bg-[var(--color-gray300)]`}
+                        >
+                            <ChevronUp className="mt-1 h-5 w-5 text-[var(--color-gray600)]" />
+                            <p className="mb-2 text-[13px] text-[var(--color-gray600)]">
+                                TOP
+                            </p>
+                        </button>
                         {/* 스터디 생성버튼 */}
                         {isLogIn && (
                             <Link href="/create">

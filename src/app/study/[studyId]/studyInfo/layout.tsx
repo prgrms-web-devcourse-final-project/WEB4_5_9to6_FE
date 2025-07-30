@@ -9,8 +9,7 @@ export default function layout({
 }) {
     return (
         <>
-            <SubHeader className="bg-[var(--color-white)]">
-                {" "}
+            <SubHeader className="bg-[var(--color-white)] dark:bg-[#222222]">
                 스터디 정보
             </SubHeader>
             {children}

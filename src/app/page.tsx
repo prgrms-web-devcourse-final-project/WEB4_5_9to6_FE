@@ -6,7 +6,7 @@ export default async function Main() {
     return (
         <>
             <Header />
-            <div className="min-h-screen bg-[var(--color-gray100)] px-5 pt-16">
+            <div className="min-h-screen bg-[var(--color-gray100)] px-5 pt-16 dark:bg-[#222222]">
                 <Home />
             </div>
             <Gnb />

@@ -17,15 +17,17 @@ export default function AppTemaComponent({
     selected: boolean;
     onSelect: () => void;
 }) {
-    const { changeOwnId, changeOwnName, changeAvatarState } = useOwnItemStore();
+    const { changeOwnId, changeOwnName, changeItemId, changeAvatarState } =
+        useOwnItemStore();
     return (
         <>
             <div className="flex flex-col gap-[10px]">
-                <h6 className="text-gray1000">{name}</h6>
+                <h6 className="text-gray1000 dark:text-white">{name}</h6>
                 <div
                     onClick={() => {
                         onSelect();
                         changeOwnId(ownId);
+                        changeItemId(id);
                         changeAvatarState(false);
                         changeOwnName(name + " 테마");
                     }}

@@ -18,6 +18,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useSurvivalStore } from "@/stores/survivalStore";
 import { dayMap, categoryMap } from "@/utils/studyDataMap";
 import { useOwnItemStore } from "@/stores/ownItemStore";
+import SurvivalStudyLoading from "@/components/survival/SurvivalStudyLoading";
 
 export default function SurvivalStudy() {
     const params = useParams();
@@ -25,20 +26,16 @@ export default function SurvivalStudy() {
     const router = useRouter();
     const { myInfo } = useAuthStore();
     const { setStudy } = useSurvivalStore();
-    const { groupedOwnItems } = useOwnItemStore();
+    const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState(`/images/rewardItems/11.png`);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
-    // 시작요일
-    // const quizDay = 7;
-
-    // const today = new Date();
-    // const todayDay = new Date().getDay();
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
 
     const closeHandler = () => setShowModal(false);
 
-    const { data: study } = useQuery({
+    const { data: study, isPending: studyPending } = useQuery({
         queryKey: ["survivalStudy", studyId],
         queryFn: () => fetchSurvival(studyId),
         enabled: !!studyId,
@@ -87,11 +84,20 @@ export default function SurvivalStudy() {
     };
 
     useEffect(() => {
-        const selectedItemId = groupedOwnItems.BACKGROUND?.find(
+        if (
+            !groupedOwnItems.BACKGROUND ||
+            groupedOwnItems.BACKGROUND.length === 0
+        ) {
+            fetchItemsOwn();
+        }
+
+        let selectedItemId = groupedOwnItems.BACKGROUND?.find(
             (v) => v.used,
         )?.itemId;
+        if (selectedItemId === 11) selectedItemId = 18;
         setSrc(`/images/rewardItems/${selectedItemId}.png`);
-    }, [groupedOwnItems.BACKGROUND]);
+        setIsImageLoading(true);
+    }, [fetchItemsOwn, groupedOwnItems.BACKGROUND]);
 
     // 노로그인/노가입 사용자는 홈으로 보내버림
     useEffect(() => {
@@ -100,20 +106,25 @@ export default function SurvivalStudy() {
         }
     }, [myInfo, apply, router]);
 
+    if (studyPending) {
+        return (
+            <>
+                <SurvivalStudyLoading />
+            </>
+        );
+    }
+
     return (
         <>
             <div className="relative mb-10 h-screen">
-                <div className="relative">
+                <div className="relative aspect-[1000/500] w-full">
                     <Image
                         src={src}
                         alt="survival study"
-                        width={1000}
-                        height={470}
-                        style={{
-                            width: "100%",
-                            maxHeight: "500px",
-                        }}
+                        fill
                         priority
+                        className={`${isImageLoading ? "opacity-0" : "opacity-100"} w-full`}
+                        onLoad={() => setIsImageLoading(false)}
                     />
                     <div className="absolute top-4 left-4">
                         <BackButton className="h-4 w-4" />
@@ -127,7 +138,11 @@ export default function SurvivalStudy() {
                     </button>
                 </div>
 
-                <NoticeBox notice={study?.notice} />
+                <NoticeBox
+                    notice={study?.notice}
+                    color="default"
+                    className="bg-gray100 rounded-none pt-3"
+                />
                 <SurvivalInfo study={study} />
                 <div className="fixed bottom-0 z-10 flex h-22.5 w-full items-center justify-center border-t-1 border-t-[var(--color-gray200)] bg-white">
                     {!apply ? (

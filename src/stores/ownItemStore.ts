@@ -18,11 +18,14 @@ interface AvatarName {
 interface OwnItemStore {
     ownItems: OwnItems[];
     fetchItemsOwn: () => Promise<void>;
+    resetItemsOwn: () => void;
     groupedOwnItems: Record<string, OwnItems[]>;
     ownId: number;
     ownName: string;
+    itemId: number;
     changeOwnId: (id: number) => void;
     changeOwnName: (name: string) => void;
+    changeItemId: (id: number) => void;
     avatarState: boolean;
     avatarName: AvatarName;
     avatarItemId: AvatarId;
@@ -38,6 +41,7 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
     groupedOwnItems: {},
     ownId: 0,
     ownName: "아이템",
+    itemId: 0,
     fetchItemsOwn: async () => {
         try {
             const data = await fetchOwnItems();
@@ -57,11 +61,44 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
                 groupedOwnItems: grouped,
             });
         } catch (err) {
-            console.error("소유 아이템 로딩 실패:", err);
+            set({
+                ownItems: [],
+                groupedOwnItems: {},
+            });
+            console.log("소유 아이템 로딩 실패:", err);
         }
     },
+    resetItemsOwn: () =>
+        set({
+            ownItems: [],
+            groupedOwnItems: {},
+            ownId: 0,
+            ownName: "아이템",
+            itemId: 0,
+            avatarState: false,
+            avatarName: {
+                FACE: "없음",
+                HAT: "없음",
+                HAIR: "기본",
+                TOP: "기본",
+            },
+            avatarItemId: {
+                FACE: 21,
+                HAT: 31,
+                HAIR: 52,
+                TOP: 61,
+            },
+            avatarOwnId: {
+                FACE: 0,
+                HAT: 0,
+                HAIR: 0,
+                TOP: 0,
+            },
+        }),
     changeOwnId: (id: number) => set({ ownId: id }),
     changeOwnName: (name: string) => set({ ownName: name }),
+    changeItemId: (id: number) => set({ itemId: id }),
+
     avatarState: false,
     avatarName: {
         FACE: "없음",

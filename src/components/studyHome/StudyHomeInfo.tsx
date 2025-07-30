@@ -18,9 +18,11 @@ export default function StudyHomeInfo() {
     });
     return (
         <>
-            <div className="flex h-[88px] justify-between border-b border-b-[var(--color-gray200)] px-5 py-6">
-                <h6 className="text-[var(--color-gray1000)]">스터디 이름</h6>
-                <h6 className="text-[var(--color-gray1000)]">
+            <div className="dark:border-b-gray800 flex h-[88px] justify-between border-b border-b-[var(--color-gray200)] px-5 py-6">
+                <h6 className="text-[var(--color-gray1000)] dark:text-white">
+                    스터디 이름
+                </h6>
+                <h6 className="text-[var(--color-gray1000)] dark:text-white">
                     {studyData?.name}
                 </h6>
             </div>
@@ -37,12 +39,12 @@ export default function StudyHomeInfo() {
                     />
                 )}
             </div>
-            <div className="mt-6 h-4 w-full bg-[var(--color-gray100)]"></div>
+            <div className="dark:bg-gray1000 mt-6 h-4 w-full bg-[var(--color-gray100)]"></div>
 
             {/* 스터디 소개 */}
             <div className="w-full px-5">
-                <h3 className="mt-6">스터디 소개</h3>
-                <p className="b2 mt-[10px] w-full text-[var(--color-gray700)]">
+                <h3 className="mt-6 dark:text-white">스터디 소개</h3>
+                <p className="b2 dark:text-gray500 mt-[10px] w-full text-[var(--color-gray700)]">
                     {studyData?.description}
                 </p>
             </div>

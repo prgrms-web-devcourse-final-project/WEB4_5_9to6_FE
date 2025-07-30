@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AvatarComponent from "../content/AvatarComponent";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -20,6 +20,7 @@ export default function MyAvatarList({
     topData: OwnItems[];
     canvasRef: React.RefObject<HTMLCanvasElement | null>;
 }) {
+    const [isImageLoading, setIsImageLoading] = useState(true);
     const { avatarItemId, changeAvatarItemId, changeAvatarOwnId } =
         useOwnItemStore();
 
@@ -79,6 +80,7 @@ export default function MyAvatarList({
                     img.onload = () => res(img);
                 }),
         );
+        setIsImageLoading(true);
 
         Promise.all(imagePromises).then((images) => {
             context.clearRect(0, 0, 128, 128);
@@ -86,12 +88,16 @@ export default function MyAvatarList({
                 context.drawImage(img, 0, 0, 128, 128);
             });
         });
+        setIsImageLoading(false);
     }, [avatarItemId, canvasRef]);
 
     return (
         <>
             <div className="mb-[90px]">
-                <div className="relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-gradient-to-b from-[#EBEBEB] to-[#EFEFEF]">
+                <div className="dark:bg-gray1000 relative mt-[-24px] mb-6 flex h-50 flex-col items-center justify-center bg-[#EBEBEB]">
+                    {isImageLoading && (
+                        <div className="border-t-main500 border-gray500 h-8 w-8 animate-spin rounded-full border-2" />
+                    )}
                     <Image
                         src={`/images/changeAvatars/${avatarItemId.FACE}.png`}
                         alt="face"
@@ -126,7 +132,9 @@ export default function MyAvatarList({
                 </div>
                 <div className="mx-5">
                     <div>
-                        <h6 className="text-gray1000 mb-[10px]">얼굴</h6>
+                        <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                            얼굴
+                        </h6>
                         <Swiper
                             spaceBetween={10}
                             slidesPerView={"auto"}
@@ -159,7 +167,9 @@ export default function MyAvatarList({
                         </Swiper>
                     </div>
                     <div>
-                        <h6 className="text-gray1000 mb-[10px]">모자</h6>
+                        <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                            모자
+                        </h6>
                         <Swiper
                             spaceBetween={10}
                             slidesPerView={"auto"}
@@ -190,7 +200,9 @@ export default function MyAvatarList({
                         </Swiper>
                     </div>
                     <div>
-                        <h6 className="text-gray1000 mb-[10px]">머리</h6>
+                        <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                            머리
+                        </h6>
                         <Swiper
                             spaceBetween={10}
                             slidesPerView={"auto"}
@@ -223,7 +235,9 @@ export default function MyAvatarList({
                         </Swiper>
                     </div>
                     <div>
-                        <h6 className="text-gray1000 mb-[10px]">의상</h6>
+                        <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                            의상
+                        </h6>
                         <Swiper
                             spaceBetween={10}
                             slidesPerView={"auto"}

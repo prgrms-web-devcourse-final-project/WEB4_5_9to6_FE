@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useAlarmStore } from "@/stores/alarmStore";
+import { useThemeStore } from "@/stores/themeStore";
 
 export default function AuthInitializer() {
     const isLogIn = useAuthStore((state) => state.isLogIn);
@@ -14,6 +15,7 @@ export default function AuthInitializer() {
         const alarm = useAlarmStore.getState();
         let eventSource: EventSource;
 
+        useThemeStore.getState().initTheme();
         if (!auth.isFetched) {
             auth.refetch();
             console.log("리패치");

@@ -81,10 +81,12 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
         <>
             <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
                 <div
-                    className={`${animationClass} mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white`}
+                    className={`${animationClass} mx-[10px] mb-5 flex w-full flex-col rounded-xl bg-white dark:bg-[#222222]`}
                 >
                     <div className="mx-5 flex h-16 items-center justify-between">
-                        <h3 className="text-gray1000">{type} 구매</h3>
+                        <h3 className="text-gray1000 dark:text-white">
+                            {type} 구매
+                        </h3>
                         <X
                             size={24}
                             onClick={() => {
@@ -96,33 +98,39 @@ export default function ShopPurchaseModal({ id }: { id: string }) {
                             className="cursor-pointer"
                         />
                     </div>
-                    <div className="mx-5 mb-[30px] flex items-center justify-center bg-white px-20">
+                    <div className="mx-5 mb-[30px] flex items-center justify-center bg-white px-20 dark:bg-[#222222]">
                         {content}
                     </div>
-                    <div className="bg-gray100 mx-5 mb-[10px] rounded-xl p-4">
+                    <div className="bg-gray100 dark:bg-gray1000 mx-5 mb-[10px] rounded-xl p-4">
                         <div className="mb-1.5 flex items-center justify-between">
-                            <p className="b2 text-gray1000">내 리워드</p>
-                            <h6 className="text-gray1000">
+                            <p className="b2 text-gray1000 dark:text-white">
+                                내 리워드
+                            </p>
+                            <h6 className="text-gray1000 dark:text-white">
                                 {data?.rewardPoints.toLocaleString() || 0}P
                             </h6>
                         </div>
                         <div className="mb-3.5 flex items-center justify-between">
-                            <p className="b2 text-gray1000">{goodsName}</p>
-                            <h6 className="text-main500">
+                            <p className="b2 text-gray1000 dark:text-white">
+                                {goodsName}
+                            </p>
+                            <h6 className="text-main500 dark:text-main400">
                                 - {goodsPrice.toLocaleString()}P
                             </h6>
                         </div>
-                        <hr className="text-gray200 mb-3.5" />
+                        <hr className="text-gray200 dark:text-gray800 mb-3.5" />
                         <div className="flex items-center justify-between">
-                            <p className="b2 text-gray1000">구매 후 리워드</p>
+                            <p className="b2 text-gray1000 dark:text-white">
+                                구매 후 리워드
+                            </p>
                             <h6
-                                className={`${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000" : "font-bold text-red-600"}`}
+                                className={`${(data?.rewardPoints || 0) - goodsPrice >= 0 ? "text-gray1000 dark:text-white" : "font-bold text-red-600"}`}
                             >
                                 {`${((data?.rewardPoints || 0) - goodsPrice).toLocaleString()}P`}
                             </h6>
                         </div>
                     </div>
-                    <div className="z-10 rounded-xl bg-white p-5">
+                    <div className="z-10 rounded-xl bg-white p-5 dark:bg-[#222222]">
                         {(data?.rewardPoints || 0) - goodsPrice >= 0 ? (
                             <Button onClick={clickHandler}>구매하기</Button>
                         ) : (

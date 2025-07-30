@@ -3,6 +3,7 @@
 import { changePassWord, verfiyPassWord } from "@/api/members";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { useAuthStore } from "@/stores/authStore";
 import { customAlert } from "@/utils/customAlert";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ export default function ChangePassword({ id }: { id: string }) {
     const [newPasswordError, setNewPasswordError] = useState(false);
     const [newPasswordCheckError, setNewPasswordCheckError] = useState(false);
     const [newPasswordErrorMsg, setNewPasswordErrorMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const { myInfo, refetch } = useAuthStore();
     const router = useRouter();
@@ -30,6 +32,7 @@ export default function ChangePassword({ id }: { id: string }) {
         )
             return;
 
+        setIsLoading(true);
         setCurrentPasswordError(false);
         try {
             const res = await verfiyPassWord(currentPassword);
@@ -47,6 +50,8 @@ export default function ChangePassword({ id }: { id: string }) {
             router.back();
         } catch (e) {
             console.error(e);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -105,12 +110,15 @@ export default function ChangePassword({ id }: { id: string }) {
 
     return (
         <>
+            {isLoading && <LoadingSpinner />}
             <form
                 onSubmit={(e) => submitHandler(e)}
-                className="flex h-full flex-col justify-between bg-white p-5"
+                className="flex h-full flex-col justify-between bg-white p-5 dark:bg-[#222222]"
             >
                 <div className="flex flex-col">
-                    <p className="b2 text-gray1000 mb-2">기존 비밀번호</p>
+                    <p className="b2 text-gray1000 mb-2 dark:text-white">
+                        기존 비밀번호
+                    </p>
                     <Input
                         type="password"
                         placeholder="기존 비밀번호를 입력해 주세요"
@@ -123,7 +131,9 @@ export default function ChangePassword({ id }: { id: string }) {
                         error={currentPasswordError}
                         errorMsg="기존 비밀번호가 일치하지 않습니다!"
                     />
-                    <p className="b2 text-gray1000 mt-4 mb-2">새 비밀번호</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2 dark:text-white">
+                        새 비밀번호
+                    </p>
                     <Input
                         type="password"
                         placeholder="변경할 비밀번호를 입력해 주세요"
@@ -135,7 +145,9 @@ export default function ChangePassword({ id }: { id: string }) {
                         errorMsg={newPasswordErrorMsg}
                     />
 
-                    <p className="b2 text-gray1000 mt-4 mb-2">비밀번호 확인</p>
+                    <p className="b2 text-gray1000 mt-4 mb-2 dark:text-white">
+                        비밀번호 확인
+                    </p>
                     <Input
                         type="password"
                         placeholder="비밀번호를 한번 더 입력해 주세요"

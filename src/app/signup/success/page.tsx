@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/common/Button";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -14,22 +15,28 @@ export default function Success() {
     return (
         <>
             <div className="flex h-[calc(100%-130px)] w-full flex-col items-center justify-center">
-                <img
-                    src="/images/signup.png"
-                    className={`w-[40%] delay-100 duration-800 ease-out ${
+                <div
+                    className={`relative aspect-[4/3] w-[40%] delay-100 duration-800 ease-out ${
                         !isMounted && "translate-y-4 opacity-0"
                     }`}
-                    alt="가입 완료 이미지"
-                />
+                >
+                    <Image
+                        src="/images/signup.png"
+                        alt="가입 완료 이미지"
+                        fill
+                        sizes="126px"
+                        priority
+                    />
+                </div>
                 <h1
-                    className={`mt-[-10px] mb-4 text-[24px] font-semibold delay-500 duration-1000 ease-out ${
+                    className={`text-gray1000 mt-[-10px] mb-4 text-[24px] font-semibold delay-500 duration-1000 ease-out dark:text-white ${
                         !isMounted && "translate-y-2 opacity-0"
                     }`}
                 >
                     회원가입이 완료되었어요
                 </h1>
                 <p
-                    className={`h6 text-center leading-[1.5] text-[var(--color-gray600)] delay-700 duration-1000 ease-out ${
+                    className={`h6 text-gray600 text-center leading-[1.5] delay-700 duration-1000 ease-out ${
                         !isMounted && "translate-y-2 opacity-0"
                     }`}
                 >
@@ -38,7 +45,7 @@ export default function Success() {
                     열심히 공부해요!
                 </p>
             </div>
-            <div className="mb-5 flex h-[130px] flex-col gap-2.5 px-5">
+            <div className="dark:bg-dark-bg mb-5 flex h-[130px] flex-col gap-2.5 px-5 duration-200 ease-in">
                 <Link href="/login">
                     <Button>로그인</Button>
                 </Link>

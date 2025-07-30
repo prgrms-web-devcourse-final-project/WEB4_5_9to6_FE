@@ -9,36 +9,49 @@ import { postStudyTime } from "@/api/timer";
 import Button from "@/components/common/Button";
 import MemberModal from "@/components/studyHome/modal/MemberModal";
 import StudyHome from "@/components/studyHome/StudyHome";
+import { studyStartStore } from "@/stores/studyStartStore";
+import StudyLoading from "@/components/studyHome/StudyLoading";
 import { customAlert } from "@/utils/customAlert";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 export default function Page() {
-    const [isStart, setIsStart] = useState(false);
-    const [pause, setPause] = useState(false);
+    // const [pause, setPause] = useState(false);
     const [isMemberOpen, setIsMemberOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const { isStart, setIsStart, pause, setPause, seconds, setSeconds } =
+        studyStartStore();
 
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
 
-    const [seconds, setSeconds] = useState(0);
+    // const [seconds, setSeconds] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+    //타이머 동작 핸들러
     const startTimer = () => {
-        if (intervalRef.current) return;
         setIsStart(true);
+        setPause(true);
+    };
+
+    const playTimer = () => {
+        if (intervalRef.current) return;
+
         setPause(false);
         intervalRef.current = setInterval(() => {
-            setSeconds((prev) => prev + 1);
+            // setSeconds((prev) => prev + 1);
+            studyStartStore.setState((state) => ({
+                seconds: state.seconds + 1,
+            }));
         }, 1000);
     };
 
     const stopTimer = () => {
+        setPause(true);
         if (intervalRef.current) {
-            setPause(true);
             clearInterval(intervalRef.current);
             intervalRef.current = null;
         }
@@ -47,7 +60,7 @@ export default function Page() {
     const resetTimer = async () => {
         stopTimer();
         setIsStart(false);
-        setPause(false);
+        // setPause(false);
 
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
 
@@ -57,6 +70,7 @@ export default function Page() {
                 linkLabel: "닫기",
                 onClick: () => {},
             });
+            setSeconds(0);
             return;
         }
 
@@ -83,13 +97,14 @@ export default function Page() {
         return () => stopTimer();
     }, []);
 
-    const formatTime = (totalSeconds: number) => {
-        const hr = Math.floor(totalSeconds / 3600);
-        const min = Math.floor((totalSeconds % 3600) / 60);
-        const sec = totalSeconds % 60;
-        return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-    };
+    // const formatTime = (totalSeconds: number) => {
+    //     const hr = Math.floor(totalSeconds / 3600);
+    //     const min = Math.floor((totalSeconds % 3600) / 60);
+    //     const sec = totalSeconds % 60;
+    //     return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    // };
 
+    //출석 핸들러
     const attendHandler = async () => {
         if (!studyId) throw new Error("스터디 아이디가 없습니다.");
         const res = await postAttendance(studyId);
@@ -111,11 +126,12 @@ export default function Page() {
         }
     };
 
-    const { data: studyManageData } = useQuery<StudyInfos>({
-        queryKey: ["studyInfos", studyId],
-        queryFn: async () => await fetchStudyInfo(studyId!),
-        enabled: !!studyId,
-    });
+    const { data: studyManageData, isPending: studyPending } =
+        useQuery<StudyInfos>({
+            queryKey: ["studyInfos", studyId],
+            queryFn: async () => await fetchStudyInfo(studyId!),
+            enabled: !!studyId,
+        });
     const { data: attendData, refetch: refetchAttendance } =
         useQuery<studyUserAttendance>({
             queryKey: ["userAttendance", studyId],
@@ -125,6 +141,7 @@ export default function Page() {
             },
             enabled: !!studyId,
         });
+
     const isUserAttended = () => {
         if (!attendData) return false;
         const now = new Date().toISOString().slice(0, 10);
@@ -134,9 +151,23 @@ export default function Page() {
         });
     };
     const attended = isUserAttended();
+
+    useEffect(() => {
+        if (!attended) {
+            setIsStart(false);
+        }
+    }, [attended, setIsStart]);
+    if (studyPending) {
+        return (
+            <>
+                <StudyLoading />
+            </>
+        );
+    }
+
     return (
         <>
-            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)]">
+            <div className="flex min-h-screen min-w-[360px] flex-col bg-[var(--color-white)] dark:bg-[#222222]">
                 {studyManageData && studyId && (
                     <StudyHome
                         studyId={studyId}
@@ -149,16 +180,18 @@ export default function Page() {
                         exLink={studyManageData?.externalLink}
                         maxMembers={studyManageData.maxMembers}
                         currentMemberCount={studyManageData.currentMemberCount}
-                        isStart={isStart}
-                        pause={pause}
+                        startDate={studyManageData.startDate}
+                        endDate={studyManageData.endDate}
+                        // pause={pause}
                         isMenuOpen={isMenuOpen}
                         setIsMenuOpen={setIsMenuOpen}
-                        studyTimeSec={formatTime(seconds)}
+                        // studyTimeSec={formatTime(seconds)}
+                        attended={attended}
                     />
                 )}
 
                 {/* 버튼 */}
-                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px]">
+                <div className="mt-auto flex h-[90px] w-full items-center justify-center border-t border-t-[var(--color-gray200)] px-5 py-[14px] dark:border-t-[var(--color-gray1000)]">
                     {!isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <Button
@@ -178,22 +211,20 @@ export default function Page() {
                                     출석체크
                                 </Button>
                             )}
-                            {attended && !isStart && (
+                            {attended && (
                                 <Button color="primary" onClick={startTimer}>
                                     스터디 시작
                                 </Button>
                             )}
                         </div>
                     )}
-                    {isStart && (
+                    {attended && isStart && (
                         <div className="flex w-full items-center justify-between gap-2">
                             <button
-                                className="h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl bg-[var(--color-main100)]"
+                                className="bg-main100 h-[50px] w-full basis-[35.9%] cursor-pointer rounded-xl dark:bg-[#FDF5F7]"
                                 onClick={resetTimer}
                             >
-                                <h5 className="text-[var(--color-main500)]">
-                                    그만하기
-                                </h5>
+                                <h5 className="text-main500">그만하기</h5>
                             </button>
                             {!pause && (
                                 <Button
@@ -208,7 +239,7 @@ export default function Page() {
                                 <Button
                                     color="primary"
                                     className="basis-[64.1%]"
-                                    onClick={startTimer}
+                                    onClick={playTimer}
                                 >
                                     <Play className="h-6 w-6" />
                                 </Button>
@@ -217,10 +248,11 @@ export default function Page() {
                     )}
                 </div>
 
-                {isMemberOpen && (
+                {isMemberOpen && studyManageData?.maxMembers && (
                     <MemberModal
                         isOpen={isMemberOpen}
                         onClose={() => setIsMemberOpen(false)}
+                        maxMembers={studyManageData.maxMembers}
                     />
                 )}
             </div>

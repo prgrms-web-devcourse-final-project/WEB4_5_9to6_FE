@@ -42,7 +42,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
         <>
             <form className="step-form" onSubmit={submitHandler}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`text-gray1000 mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     어디서 하나요?
                 </h1>

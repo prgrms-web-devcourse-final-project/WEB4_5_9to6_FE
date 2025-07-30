@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import medal from "../../assets/images/medal.png";
 import ToolTip from "../common/ToolTip";
 import { useEffect } from "react";
 import { useProfileStore } from "@/stores/memberStore";
@@ -33,12 +32,12 @@ export default function ProfileCard({ id }: { id: string }) {
         return (
             <div className="flex w-full animate-pulse items-center justify-between p-6">
                 <div className="flex flex-col gap-1">
-                    <div className="bg-gray200 h-6 w-32 rounded" />
-                    <div className="bg-gray200 mb-4 h-4 w-40 rounded" />
-                    <div className="bg-gray300 h-5 w-30 rounded" />
+                    <div className="bg-gray200 dark:bg-gray700 h-6 w-32 rounded" />
+                    <div className="bg-gray200 dark:bg-gray700 mb-4 h-4 w-40 rounded" />
+                    <div className="bg-gray300 dark:bg-gray800 h-5 w-30 rounded" />
                 </div>
-                <span className="bg-gray300 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
-                    <div className="bg-gray200 h-12 w-12 rounded-full" />
+                <span className="bg-gray300 dark:bg-gray800 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                    <div className="bg-gray200 dark:bg-gray700 h-12 w-12 rounded-full" />
                 </span>
             </div>
         );
@@ -48,19 +47,24 @@ export default function ProfileCard({ id }: { id: string }) {
         <>
             <div className="flex w-full items-center justify-between p-6">
                 <div className="flex flex-col gap-1">
-                    <p className="text-gray1000 text-2xl font-bold">
+                    <p className="text-gray1000 text-2xl font-bold dark:text-white">
                         {data?.nickname}
                     </p>
-                    <p className="text-gray700 b2 mb-4">
+                    <p className="text-gray700 dark:text-gray500 b2 mb-4">
                         가입된 스터디 {data?.joinedStudyCount}개
                     </p>
                     <div className="flex items-center gap-1">
-                        <Image
-                            src={medal}
-                            alt="리워드"
-                            className="h-auto w-6"
-                        />
-                        <h2 className="text-gray1000">
+                        <div className="relative h-6 w-6">
+                            <Image
+                                src="/images/medal.png"
+                                alt="리워드"
+                                fill
+                                className="object-contain"
+                                sizes="24px"
+                                priority
+                            />
+                        </div>
+                        <h2 className="text-gray1000 dark:text-white">
                             {data?.rewardPoints.toLocaleString() || 0}P
                         </h2>
                         <ToolTip>
@@ -76,7 +80,7 @@ export default function ProfileCard({ id }: { id: string }) {
                         </ToolTip>
                     </div>
                 </div>
-                <span className="bg-gray200 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
+                <span className="bg-gray200 dark:bg-gray900 relative flex h-26 w-26 items-center justify-center rounded-[40px]">
                     <Image
                         src={getValidAvatar(data2?.avatarImage)}
                         alt="프로필"

@@ -13,12 +13,12 @@ export default function MyStudyItem({
         <>
             <div
                 onClick={closeHandler}
-                className="hover:bg-gray200 flex h-11 cursor-pointer items-center justify-between px-5"
+                className="hover:bg-gray200 dark:hover:bg-gray900 flex h-11 cursor-pointer items-center justify-between px-5"
             >
                 <h6 className="">{title}</h6>
                 <Check
                     size={20}
-                    className={`${selected ? "text-main500" : "text-white"}`}
+                    className={`${selected ? "text-main500 dark:text-main400" : "dark:text-gray1000 text-white"}`}
                 />
             </div>
         </>
