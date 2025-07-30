@@ -166,19 +166,22 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                     className="my-6 flex w-full items-center justify-center"
                                 >
                                     <div className="flex w-full items-center px-4">
-                                        <div className="flex-grow border-t border-gray-300" />
-                                        <span className="px-4 text-sm whitespace-nowrap text-gray-500">
+                                        <div className="flex-grow border-t border-gray-300 dark:border-[var(--color-gray800)]" />
+                                        <span className="px-4 text-sm whitespace-nowrap text-gray-500 dark:text-[var(--color-gray600)]">
                                             {dayjs(msg?.createdAt).format(
                                                 "MM월 DD일",
                                             )}
                                         </span>
-                                        <div className="flex-grow border-t border-gray-300" />
+                                        <div className="flex-grow border-t border-gray-300 dark:border-[var(--color-gray800)]" />
                                     </div>
                                 </div>
                             ) : null;
 
                             if (dateDivider) lastDate = msgDate;
-
+                            const matchedMember = members.find(
+                                (m) => m.memberId === msg.senderId,
+                            );
+                            console.log("✅ 매칭된 멤버:", matchedMember);
                             return (
                                 <div key={idx}>
                                     {dividerElement}
@@ -204,8 +207,8 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                         "/images/rewardItems/61.png"
                                                     }
                                                     alt="profile avatar"
-                                                    width={46}
-                                                    height={46}
+                                                    width={45}
+                                                    height={45}
                                                 />
                                             </div>
                                         ) : (
@@ -251,7 +254,7 @@ export default function ChattingRoom({ studyId }: { studyId: number }) {
                                                             ? `${isMine ? "rounded-tl-2xl" : "rounded-tr-2xl"} bg-[var(--color-gray1000)] text-white`
                                                             : isMine
                                                               ? "rounded-tl-2xl bg-[var(--color-main600)] text-white"
-                                                              : "rounded-tr-2xl bg-white text-[var(--color-gray1000)]"
+                                                              : "rounded-tr-2xl bg-white text-[var(--color-gray1000)] dark:bg-[var(--color-gray1000)] dark:text-white"
                                                     } ${isSameSender ? "rounded-2xl" : ""}`}
                                                 >
                                                     <p>{msg.content}</p>

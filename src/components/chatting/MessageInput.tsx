@@ -120,13 +120,13 @@ export default function MessageInput({ studyId }: { studyId: number }) {
     }, [onMessageReceived, studyId]);
 
     return (
-        <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-5">
+        <div className="fixed bottom-0 w-full bg-white px-4 pt-[11px] pb-5 dark:border-t-1 dark:border-t-[var(--color-gray1000)] dark:bg-[#222]">
             <div className="relative flex items-end justify-between gap-3">
                 {/* 귓속말 유저 선택 */}
                 <div className="relative">
                     <button
                         onClick={openModal}
-                        className={`flex h-9 w-14 cursor-pointer items-center justify-center rounded-2xl px-2 ${whisperTarget ? "bg-[var(--color-main600)]" : "bg-[var(--color-gray900)]"} `}
+                        className={`flex h-9 w-14 cursor-pointer items-center justify-center rounded-2xl px-2 dark:bg-[var(--color-gray1000)] ${whisperTarget ? "bg-[var(--color-main600)]" : "bg-[var(--color-gray900)]"} `}
                     >
                         <p className="c1 text-white">
                             {whisperTarget ? "귓속말" : "전체"}
@@ -156,7 +156,7 @@ export default function MessageInput({ studyId }: { studyId: number }) {
                             ? ` ${members.find((member) => member?.memberId === whisperTarget)?.nickname}님께 귓속말`
                             : "메세지 입력"
                     }
-                    className={`max-h-20 w-[85%] resize-none overflow-y-scroll rounded-2xl px-3.5 py-1.5 text-[var(--color-gray1000)] focus:outline-none ${whisperTarget ? "bg-[var(--color-main100)] placeholder:text-[#EAB3C1]" : "bg-[var(--color-gray200)] placeholder:text-[var(--color-gray500)]"}`}
+                    className={`max-h-20 w-[85%] resize-none overflow-y-scroll rounded-2xl px-3.5 py-1.5 text-[var(--color-gray1000)] focus:outline-none dark:text-white ${whisperTarget ? "bg-[var(--color-main100)] placeholder:text-[#EAB3C1] dark:bg-black dark:placeholder:text-[var(--color-main400)]" : "bg-[var(--color-gray200)] placeholder:text-[var(--color-gray500)] dark:bg-[var(--color-gray1000)] dark:placeholder:text-[var(--color-gray700)]"}`}
                     rows={1}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}

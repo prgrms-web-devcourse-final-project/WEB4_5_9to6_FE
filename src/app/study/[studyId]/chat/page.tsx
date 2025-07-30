@@ -9,7 +9,7 @@ export default async function chatPage({
 }) {
     const studyId = Number(params.studyId);
     return (
-        <div className="h-screen bg-[var(--color-gray200)]">
+        <div className="h-screen bg-[var(--color-gray200)] dark:bg-[#222]">
             <SubHeader className="bg-[var(--color-gray200)]/85">
                 그룹채팅
             </SubHeader>
