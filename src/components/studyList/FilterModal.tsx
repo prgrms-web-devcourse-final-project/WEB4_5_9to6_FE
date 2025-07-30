@@ -63,14 +63,14 @@ export default function FilterModal({
             >
                 <div className="mt-[18px] ml-[29px]">
                     {/* 지역 */}
-                    <p className="text-[12px] font-semibold text-[#000000]">
+                    <p className="text-[12px] font-semibold text-[#000000] dark:text-white">
                         지역
                     </p>
                     <div className="mt-[10px] flex h-[82px] w-[283px] flex-wrap items-center gap-[5px]">
                         {Object.keys(regions2).map((region) => (
                             <button
                                 onClick={() => regionHandler(regions2[region])}
-                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap transition-all duration-200 ease-in-out ${regions2[region] === regionSelected ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] whitespace-nowrap transition-all duration-200 ease-in-out ${regions2[region] === regionSelected ? "dark:bg-gray100 bg-[#454545] text-[12px] text-[#FFFFFF] dark:text-black" : "dark:bg-gray1000 bg-[#EFEFEF] text-[#000000] dark:text-white"}`}
                                 key={region}
                             >
                                 {region}
@@ -79,14 +79,14 @@ export default function FilterModal({
                     </div>
 
                     {/* 활동상태 */}
-                    <p className="mt-8 text-[12px] font-semibold text-[#000000]">
+                    <p className="mt-8 text-[12px] font-semibold text-[#000000] dark:text-white">
                         활동상태
                     </p>
                     <div className="mt-[10px] flex items-center gap-[5px]">
                         {active.map((a) => (
                             <button
                                 onClick={() => activeHandler(a)}
-                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelected ? "bg-[#454545] text-[12px] text-[#FFFFFF]" : "bg-[#EFEFEF] text-[#000000]"}`}
+                                className={`flex h-6 w-auto cursor-pointer items-center rounded-3xl px-[10px] text-[12px] ${a === activeSelected ? "dark:bg-gray100 bg-[#454545] text-[12px] text-[#FFFFFF] dark:text-black" : "dark:bg-gray1000 bg-[#EFEFEF] text-[#000000] dark:text-white"}`}
                                 key={a}
                             >
                                 {a}

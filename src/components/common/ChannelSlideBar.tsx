@@ -29,10 +29,10 @@ export default function ChannelSlideBar({
                             className="relative flex h-full w-[calc(50%-8px)] cursor-pointer items-center justify-center"
                         >
                             <h5
-                                className={`hover:text-gray1000 space-nowrap transition-colors duration-200 ease-in-out dark:hover:text-[var(--color-gray400)] ${
+                                className={`hover:text-gray1000 whitespace-nowrap transition-colors duration-200 ease-in-out dark:hover:text-white ${
                                     channel === ch
-                                        ? "text-gray1000 dark:text-[var(--color-white)]"
-                                        : "text-gray500 dark:text-[var(--color-gray700)]"
+                                        ? "text-gray1000 dark:text-white"
+                                        : "text-gray500 dark:text-gray700"
                                 } `}
                             >
                                 {ch}
@@ -43,7 +43,7 @@ export default function ChannelSlideBar({
 
                 <div className="border-b-gray400 dark:border-b-gray800 absolute right-5 bottom-0 left-5 border-b">
                     <div
-                        className="bg-gray1000 h-[2px] transition-transform duration-200 ease-in-out dark:bg-[var(--color-white)]"
+                        className="bg-gray1000 h-[2px] transition-transform duration-200 ease-in-out dark:bg-white"
                         style={{
                             width: `calc(${itemWidthPercent}% - 9px)`,
                             transform: `translateX(calc(${selectedIndex * 100}% + ${tabGap[selectedIndex]}px))`,

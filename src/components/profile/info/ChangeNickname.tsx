@@ -71,10 +71,12 @@ export default function ChangeNickname({ id }: { id: string }) {
             {isLoading && <LoadingSpinner />}
             <form
                 onSubmit={(e) => submitHandler(e)}
-                className="flex h-full flex-col justify-between bg-white p-5"
+                className="flex h-full flex-col justify-between bg-white p-5 dark:bg-[#222222]"
             >
                 <div className="flex flex-col">
-                    <p className="b2 text-gray1000 mb-2">닉네임</p>
+                    <p className="b2 text-gray1000 mb-2 dark:text-white">
+                        닉네임
+                    </p>
                     <Input
                         type="text"
                         placeholder="닉네임을 입력하세요"

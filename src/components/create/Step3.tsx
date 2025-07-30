@@ -8,6 +8,7 @@ import { useStudyStore } from "@/stores/studyStore";
 
 export default function Step3({ continueStep }: { continueStep: () => void }) {
     const [isMounted, setIsMounted] = useState(false);
+    const isOnline = useStudyStore((state) => state.studyData.online);
     const region = useStudyStore((state) => state.studyData.region);
     const place = useStudyStore((state) => state.studyData.place);
     const [placeError, setPlaceError] = useState(false);
@@ -41,7 +42,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
         <>
             <form className="step-form" onSubmit={submitHandler}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold text-[var(--color-gray1000)] delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`text-gray1000 mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     어디서 하나요?
                 </h1>
@@ -51,7 +52,13 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                     >
                         <Input
                             placeholder="온/오프라인 선택"
-                            value={region === "온라인" ? "온라인" : "오프라인"}
+                            value={
+                                isOnline === null
+                                    ? ""
+                                    : isOnline
+                                      ? "온라인"
+                                      : "오프라인"
+                            }
                             label="온/오프라인"
                             onClick={() => setIsOnOfflineModalOpen(true)}
                             className="cursor-pointer"
@@ -60,7 +67,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                         />
                     </div>
                     <div
-                        className={`duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`duration-1000 ease-out ${isOnline !== false && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="지역 선택"
@@ -73,7 +80,7 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                         />
                     </div>
                     <div
-                        className={`delay-200 duration-1000 ease-out ${region === "온라인" && "translate-y-[-4px] opacity-0"}`}
+                        className={`delay-200 duration-1000 ease-out ${isOnline !== false && "translate-y-[-4px] opacity-0"}`}
                     >
                         <Input
                             placeholder="상세 장소 입력"
@@ -104,7 +111,6 @@ export default function Step3({ continueStep }: { continueStep: () => void }) {
                 <OnOfflineModal
                     isOpen={isOnOfflineModalOpen}
                     onClose={() => setIsOnOfflineModalOpen(false)}
-                    onOff={region}
                 />
             )}
             {isRegionModalOpen && (

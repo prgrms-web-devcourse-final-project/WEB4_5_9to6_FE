@@ -1,5 +1,6 @@
 "use client";
 
+import SubHeader from "@/components/common/SubHeader";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/signup/Step1";
 import Step3 from "@/components/signup/Step3";
@@ -33,7 +34,8 @@ export default function SignUp() {
 
     return (
         <>
-            <div className="h-full w-full pt-[65px]">
+            <SubHeader className="max-w-sm">회원가입</SubHeader>
+            <div className="dark:bg-dark-bg h-full w-full pt-[65px] duration-200 ease-in">
                 <ProgressBar totalStep={5} step={step} />
                 {step === 1 ? (
                     <Step1

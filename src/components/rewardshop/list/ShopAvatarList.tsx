@@ -38,7 +38,9 @@ export default function ShopAvatarList({
         <>
             <div className="mx-5 mb-[90px]">
                 <div>
-                    <h6 className="text-gray1000 mb-[10px]">얼굴</h6>
+                    <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                        얼굴
+                    </h6>
                     <Swiper
                         spaceBetween={10}
                         slidesPerView={"auto"}
@@ -71,7 +73,9 @@ export default function ShopAvatarList({
                     </Swiper>
                 </div>
                 <div>
-                    <h6 className="text-gray1000 mb-[10px]">모자</h6>
+                    <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                        모자
+                    </h6>
                     <Swiper
                         spaceBetween={10}
                         slidesPerView={"auto"}
@@ -108,7 +112,9 @@ export default function ShopAvatarList({
                     </Swiper>
                 </div>
                 <div>
-                    <h6 className="text-gray1000 mb-[10px]">머리</h6>
+                    <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                        머리
+                    </h6>
                     <Swiper
                         spaceBetween={10}
                         slidesPerView={"auto"}
@@ -141,7 +147,9 @@ export default function ShopAvatarList({
                     </Swiper>
                 </div>
                 <div>
-                    <h6 className="text-gray1000 mb-[10px]">의상</h6>
+                    <h6 className="text-gray1000 mb-[10px] dark:text-white">
+                        의상
+                    </h6>
                     <Swiper
                         spaceBetween={10}
                         slidesPerView={"auto"}

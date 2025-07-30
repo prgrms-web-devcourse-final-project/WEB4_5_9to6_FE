@@ -18,14 +18,14 @@ export default function Gnb() {
 
     return (
         <>
-            <div className="fixed bottom-0 z-30 h-18 w-full rounded-2xl bg-white">
+            <div className="dark:bg-gray1000 fixed bottom-0 z-30 h-18 w-full rounded-2xl bg-white">
                 <div className="mx-10 flex justify-between pt-3.5">
                     <Link
                         href="/"
-                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
+                        className={`dark:hover:text-gray400 flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/"
-                                ? "text-[var(--color-gray1000)]"
-                                : "text-[var(--color-gray500)]"
+                                ? "text-[var(--color-gray1000)] dark:text-white"
+                                : "dark:text-gray600 text-[var(--color-gray500)]"
                         }`}
                     >
                         <House className={`mb-1 justify-center`} />
@@ -33,10 +33,10 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href="/studylist"
-                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
+                        className={`dark:hover:text-gray400 flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname === "/studylist"
-                                ? "text-[var(--color-gray1000)]"
-                                : "text-[var(--color-gray500)]"
+                                ? "text-[var(--color-gray1000)] dark:text-white"
+                                : "dark:text-gray600 text-[var(--color-gray500)]"
                         }`}
                     >
                         <ClipboardList className="mb-1 justify-center" />
@@ -44,10 +44,10 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href={`/rewardshop/${id === 0 ? "" : id}`}
-                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
+                        className={`dark:hover:text-gray400 flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname.startsWith("/rewardshop")
-                                ? "text-[var(--color-gray1000)]"
-                                : "text-[var(--color-gray500)]"
+                                ? "text-[var(--color-gray1000)] dark:text-white"
+                                : "dark:text-gray600 text-[var(--color-gray500)]"
                         }`}
                     >
                         <Store className="] mb-1 justify-center" />
@@ -55,10 +55,10 @@ export default function Gnb() {
                     </Link>
                     <Link
                         href={`/profile/${id === 0 ? "" : id}`}
-                        className={`flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
+                        className={`dark:hover:text-gray400 flex cursor-pointer flex-col items-center transition duration-200 ease-in-out hover:text-[var(--color-gray1000)] ${
                             pathname.startsWith("/profile")
-                                ? "text-[var(--color-gray1000)]"
-                                : "text-[var(--color-gray500)]"
+                                ? "text-[var(--color-gray1000)] dark:text-white"
+                                : "dark:text-gray600 text-[var(--color-gray500)]"
                         }`}
                     >
                         <UserRound className="mb-1 justify-center" />

@@ -32,7 +32,7 @@ export default function Channel({
     return (
         <>
             <div
-                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect ? "border-b-gray300 h-[50px] border-b" : "h-[40px]"}`}
+                className={`flex w-full gap-4 ${!filter.regionSelect && !filter.statusSelect ? "border-b-gray300 dark:border-b-gray800 h-[50px] border-b" : "h-[40px]"}`}
             >
                 <Swiper spaceBetween={16} slidesPerView={"auto"}>
                     {channels.map((channel) => (
@@ -45,7 +45,7 @@ export default function Channel({
                                 onClick={() => {
                                     setSelected(channel);
                                 }}
-                                className={`${selected === channel ? `${!filter.regionSelect && !filter.statusSelect && "tabChoose-active"} text-gray1000` : "text-gray500"} ${filter.region === "ALL" && filter.status === "활동 전체" && "tabChoose"} h-[50px] cursor-pointer py-[14px] text-center`}
+                                className={`${selected === channel ? `${!filter.regionSelect && !filter.statusSelect && "tabChoose-active"} text-gray1000 dark:text-white` : "text-gray500 dark:text-gray700"} ${filter.region === "ALL" && filter.status === "활동 전체" && "tabChoose"} h-[50px] cursor-pointer py-[14px] text-center`}
                             >
                                 <h5>{channel}</h5>
                             </div>

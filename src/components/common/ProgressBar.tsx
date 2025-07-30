@@ -14,9 +14,9 @@ export default function ProgressBar({
     }, [step, totalStep]);
 
     return (
-        <div className="fixed top-[62px] h-[3px] w-full max-w-sm bg-[var(--color-gray100)]">
+        <div className="bg-gray100 dark:bg-gray800 fixed top-[62px] h-[3px] w-full max-w-sm">
             <div
-                className={`absolute top-0 left-0 h-full bg-[var(--color-main400)] duration-1500 ease-out`}
+                className={`bg-main400 absolute top-0 left-0 h-full duration-1500 ease-out`}
                 style={{
                     width: `${progressWidth}%`,
                 }}
@@ -25,7 +25,7 @@ export default function ProgressBar({
             {[...Array(totalStep - 1)].map((_, i) => (
                 <div
                     key={i}
-                    className="absolute top-0 h-full w-[4px] bg-white"
+                    className="dark:bg-dark-bg absolute top-0 h-full w-[4px] bg-white duration-200 ease-in"
                     style={{
                         left: `calc(${((i + 1) * 100) / totalStep}% - 2px)`,
                     }}

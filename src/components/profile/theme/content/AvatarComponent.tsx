@@ -46,10 +46,10 @@ export default function AvatarComponent({
                     changeAvatarName(part, name);
                     changeAvatarOwnId(part, ownId);
                 }}
-                className="bg-gray200 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
+                className="bg-gray200 dark:bg-gray1000 relative h-18 w-18 shrink-0 cursor-pointer rounded-xl"
             >
                 {isImageLoading && (
-                    <div className="bg-gray300 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
+                    <div className="bg-gray300 dark:bg-gray800 absolute inset-0 z-10 flex animate-pulse items-center justify-center rounded-xl">
                         <div className="border-t-main500 border-gray500 h-6 w-6 animate-spin rounded-full border-2" />
                     </div>
                 )}

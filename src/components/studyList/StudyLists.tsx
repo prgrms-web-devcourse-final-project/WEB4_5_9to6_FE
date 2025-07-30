@@ -47,7 +47,7 @@ export default function StudyLists({
                             alt="서바이벌"
                             style={{ width: 18, height: "auto" }}
                         />
-                        <h3 className="text-[var(--color-gray1000)]">
+                        <h3 className="text-[var(--color-gray1000)] dark:text-white">
                             서바이벌 스터디
                         </h3>
                     </div>
@@ -81,7 +81,7 @@ export default function StudyLists({
                         ) : (
                             <div className="mt-[14px] flex items-center">
                                 <X size={20} className="mr-1 text-red-600" />
-                                <h4 className="text-gray700">
+                                <h4 className="text-gray700 dark:text-gray300">
                                     관련 서바이벌 스터디가 없어요!
                                 </h4>
                             </div>
@@ -89,7 +89,7 @@ export default function StudyLists({
                     </div>
                 </div>
                 {/* 스터디 추천 */}
-                <h3 className="mx-5 mt-8 text-[var(--color-gray1000)]">
+                <h3 className="mx-5 mt-8 text-[var(--color-gray1000)] dark:text-white">
                     어떤 스터디를 하고싶나요?
                 </h3>
                 <div className="mt-[14px] flex flex-col gap-[16px] px-5">

@@ -57,6 +57,11 @@
     color: var(--color-gray1000);
     cursor: pointer;
 }
+
+.dark .swiper-button-prev-custom,
+.swiper-button-next-custom {
+    color: var(--color-gray200);
+}
 .swiper-button-prev-custom {
     left: 10px;
 }
@@ -166,10 +171,10 @@
         @apply relative h-full w-full p-5 pt-10;
     }
     .days-btn {
-        @apply aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 hover:border-[var(--color-gray500)];
+        @apply border-gray300 text-gray1000 dark:border-gray800 hover:border-gray500 dark:hover:border-gray600 aspect-square w-[calc(20%-6.4px)] cursor-pointer rounded-[12px] border duration-200 dark:text-white;
     }
     .days-btn-selected {
-        @apply border-[var(--color-gray1000)] bg-[var(--color-gray100)] hover:border-[var(--color-gray1000)];
+        @apply border-gray1000 bg-gray100 dark:bg-gray1000 hover:border-gray1000 dark:border-white dark:hover:border-white;
     }
 }
 
@@ -210,7 +215,7 @@
 }
 
 .tabChoose {
-    @apply hover:text-gray1000 transition-colors duration-200 ease-in-out;
+    @apply hover:text-gray1000 transition-colors duration-200 ease-in-out dark:hover:text-white;
     position: relative;
 }
 
@@ -225,6 +230,10 @@
     transform: scaleX(0);
     transform-origin: left; /* 왼쪽에서 시작 */
     transition: transform 0.25s ease-in-out;
+}
+
+.dark .tabChoose::after {
+    background-color: white;
 }
 
 .tabChoose-active::after {

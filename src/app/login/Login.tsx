@@ -76,7 +76,7 @@ export default function Login() {
     }, [searchParams]);
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="dark:bg-dark-bg flex h-full w-full flex-col items-center justify-center duration-200 ease-in">
             <div className="flex w-full max-w-screen flex-col items-center gap-4 px-5">
                 <div
                     onClick={() => router.push("/")}
@@ -151,14 +151,14 @@ export default function Login() {
                     <Button
                         onClick={kakaotalkHandler}
                         color="yellow"
-                        icon="../images/kakaotalk.png"
+                        icon="/images/kakaotalk.png"
                     >
                         카카오톡으로 시작
                     </Button>
                     <Button
                         onClick={googleHandler}
                         color="white"
-                        icon="../images/google.png"
+                        icon="/images/google.png"
                     >
                         구글로 시작
                     </Button>

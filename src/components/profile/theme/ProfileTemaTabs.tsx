@@ -13,6 +13,7 @@ import { useOwnItemStore } from "@/stores/ownItemStore";
 import { useMutation } from "@tanstack/react-query";
 import { changeOwnItems, saveImage } from "@/api/item";
 import ProfileTeamLoading from "./ProfileTeamLoading";
+import { useThemeStore } from "@/stores/themeStore";
 
 export default function ProfileTemaTabs({ id }: { id: string }) {
     const tabs = ["앱 테마", "스터디룸", "아바타"];
@@ -27,11 +28,13 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
         groupedOwnItems,
         ownId,
         ownName,
+        itemId,
         avatarName,
         avatarState,
         avatarItemId,
         avatarOwnId,
     } = useOwnItemStore();
+    const { setTheme } = useThemeStore();
 
     const mutation = useMutation({
         mutationFn: async ({ ownItemId }: { ownItemId: number }) =>
@@ -140,6 +143,30 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                 });
             }
         } else {
+            if (itemId >= 1 && itemId <= 10) {
+                switch (itemId) {
+                    case 1:
+                        setTheme("light");
+                        break;
+                    case 2:
+                        setTheme("dark");
+                        break;
+                    case 3:
+                        setTheme("green");
+                        break;
+                    case 4:
+                        setTheme("green");
+                        break;
+                    case 5:
+                        setTheme("orange");
+                        break;
+                    case 6:
+                        setTheme("blue");
+                        break;
+                    default:
+                        setTheme("light");
+                }
+            }
             mutation.mutate({ ownItemId: ownId });
             customAlert({
                 message: `${ownName}(을)를 적용했습니다!`,
@@ -192,7 +219,7 @@ export default function ProfileTemaTabs({ id }: { id: string }) {
                     height={128}
                     className="hidden"
                 />
-                <div className="absolute right-0 bottom-0 left-0 z-10 bg-white p-5">
+                <div className="absolute right-0 bottom-0 left-0 z-10 bg-white p-5 dark:bg-[#222222]">
                     <Button onClick={clickHandler}>적용하기</Button>
                 </div>
             </div>

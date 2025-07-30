@@ -1,5 +1,6 @@
 "use client";
 
+import SubHeader from "@/components/common/SubHeader";
 import { createStudy } from "@/api/studies";
 import ProgressBar from "@/components/common/ProgressBar";
 import Step1 from "@/components/create/Step1";
@@ -39,7 +40,7 @@ export default function CreateStudy() {
                 goals: studyData.goals
                     .filter((goal) => goal.content !== "")
                     .map((goal, i) => ({ goalId: i, content: goal.content })),
-                online: studyData.region === "온라인",
+                isOnline: studyData.online!,
             }),
         onMutate: () => {
             console.log(useStudyStore.getState().studyData);
@@ -68,7 +69,8 @@ export default function CreateStudy() {
 
     return (
         <>
-            <div className="h-full w-full pt-[65px]">
+            <SubHeader className="max-w-sm">스터디 생성</SubHeader>
+            <div className="dark:bg-dark-bg h-full w-full pt-[65px] duration-200 ease-in">
                 <ProgressBar totalStep={6} step={step} />
                 {step === 1 ? (
                     <Step1 continueStep={() => setStep(2)} />

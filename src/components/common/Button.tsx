@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -30,14 +31,24 @@ export default function Button({
                                   ? "cursor-pointer bg-[#F9E95A] text-[#191919] hover:bg-[#EFDE3E]"
                                   : color === "white"
                                     ? "border-gray300 hover:bg-gray100 cursor-pointer border bg-white text-[#191919]"
-                                    : "bg-gray200 dark:bg-gray900 dark:hover:bg-gray1000 text-gray1000 hover:bg-gray300 cursor-pointer dark:text-white"
+                                    : "bg-gray200 dark:bg-gray900 dark:text-gray600 text-gray1000 hover:bg-gray300 dark:hover:bg-gray800 cursor-pointer"
                     } `,
                     className,
                 )}
                 {...props}
             >
                 <div className="flex items-center justify-center gap-2">
-                    {icon && <img src={icon} alt="아이콘" />}
+                    {icon && (
+                        <span className="relative aspect-[1/1] w-[20px]">
+                            <Image
+                                src={icon}
+                                alt="아이콘"
+                                fill
+                                sizes="20px"
+                                priority
+                            />
+                        </span>
+                    )}
                     {children}
                 </div>
             </button>

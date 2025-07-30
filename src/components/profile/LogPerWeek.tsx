@@ -20,7 +20,7 @@ function CheckState() {
 function SkipState() {
     return (
         <>
-            <span className="bg-gray1000 flex h-8 w-8 items-center justify-center rounded-full">
+            <span className="bg-gray1000 flex h-8 w-8 items-center justify-center rounded-full dark:bg-[#222222]">
                 <Minus size={16} className="text-white" />
             </span>
         </>
@@ -30,7 +30,7 @@ function SkipState() {
 function NotyetState() {
     return (
         <>
-            <span className="bg-gray200 flex h-8 w-8 items-center justify-center rounded-full"></span>
+            <span className="bg-gray200 flex h-8 w-8 items-center justify-center rounded-full dark:bg-[#454545]"></span>
         </>
     );
 } // 출석체크가 아직인 요일
@@ -69,7 +69,7 @@ export default function LogPerWeek({
             startDate.setHours(0, 0, 0, 0);
             now.setHours(0, 0, 0, 0);
 
-            setOpen(startDate < now);
+            setOpen(startDate <= now);
         }
     }, [study]);
 
@@ -112,8 +112,10 @@ export default function LogPerWeek({
     return (
         <>
             {isOpen ? (
-                <div className="w-full rounded-2xl bg-white p-5">
-                    <h6 className="text-gray700 mb-[14px]">주간 출석 현황</h6>
+                <div className="dark:bg-gray1000 w-full rounded-2xl bg-white p-5">
+                    <h6 className="text-gray700 dark:text-gray500 mb-[14px]">
+                        주간 출석 현황
+                    </h6>
                     <div className="mb-8 flex items-center justify-between">
                         {dayOrder.map((v, i) => {
                             const data = attendanceMap.get(v);
@@ -129,8 +131,8 @@ export default function LogPerWeek({
                             );
                         })}
                     </div>
-                    <hr className="text-gray200 mb-5" />
-                    <h6 className="text-gray700 mb-[14px]">
+                    <hr className="text-gray200 dark:text-gray800 mb-5" />
+                    <h6 className="text-gray700 dark:text-gray500 mb-[14px]">
                         주차별 미션 진척도
                     </h6>
                     <div className="mb-8 gap-[9px]">
@@ -155,7 +157,7 @@ export default function LogPerWeek({
                                             key={goal.week}
                                             className="flex items-center justify-start"
                                         >
-                                            <p className="c2 text-gray1000 w-12">
+                                            <p className="c2 text-gray1000 w-12 dark:text-white">
                                                 {goal.week}주차
                                             </p>
                                             <div className="bg-gray200 h-[10px] w-60 rounded-sm">
@@ -171,14 +173,18 @@ export default function LogPerWeek({
                                 })
                         ) : (
                             <span className="flex items-center justify-start">
-                                <p className="c2 text-gray1000 w-12">1주차</p>
+                                <p className="c2 text-gray1000 w-12 dark:text-white">
+                                    1주차
+                                </p>
                                 <div className="bg-gray200 h-[10px] w-60 rounded-sm"></div>
                             </span>
                         )}
                     </div>
-                    <hr className="text-gray200 mb-5" />
-                    <h6 className="text-gray700 mb-[14px]">주간 내 타이머</h6>
-                    <div className="text-gray1000 mb-5 flex items-baseline gap-[2px]">
+                    <hr className="text-gray200 dark:text-gray800 mb-5" />
+                    <h6 className="text-gray700 dark:text-gray500 mb-[14px]">
+                        주간 내 타이머
+                    </h6>
+                    <div className="text-gray1000 mb-5 flex items-baseline gap-[2px] dark:text-white">
                         <span className="text-[32px]">{hours}</span>
                         <span className="mr-1 text-base">시간</span>
                         <span className="text-[32px]">{minutes}</span>
@@ -186,8 +192,8 @@ export default function LogPerWeek({
                     </div>
                 </div>
             ) : (
-                <div className="flex w-full flex-col items-center justify-center rounded-2xl bg-white px-5 py-10">
-                    <h4 className="text-gray1000">
+                <div className="dark:bg-gray1000 flex w-full flex-col items-center justify-center rounded-2xl bg-white px-5 py-10">
+                    <h4 className="text-gray1000 dark:text-white">
                         &ldquo;스터디가 열리기 전이에요!&ldquo;
                     </h4>
 
