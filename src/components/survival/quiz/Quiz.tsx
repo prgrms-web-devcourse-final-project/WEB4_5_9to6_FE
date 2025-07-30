@@ -115,6 +115,7 @@ export default function Quiz({
                     isSurvived,
                 };
                 console.log("보내는 데이터", JSON.stringify(payload));
+
                 await axiosInstance.post("quiz/grading", gradingPost);
 
                 // 생존여부 전달

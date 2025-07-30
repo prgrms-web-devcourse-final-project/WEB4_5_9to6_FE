@@ -59,6 +59,7 @@ export default function SurvivalStudy() {
     console.log(endDateTime);
     // 시작 조건
     const canStart =
+        apply &&
         apply?.isMember === true &&
         today >= startDateTime &&
         today < endDateTime;
