@@ -52,9 +52,9 @@ export default function RegionModal({
                                     onClose();
                                 }, 200);
                             }}
-                            className={`h-[48px] w-[calc(33%-5px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
+                            className={`border-gray300 dark:border-gray800 text-gray1000 hover:border-gray400 dark:hover:border-gray700 h-[48px] w-[calc(33%-5px)] cursor-pointer rounded-[12px] border duration-200 ease-in-out dark:text-white ${
                                 region === r
-                                    ? "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
+                                    ? "border-gray1000 hover:border-gray1000 dark:border-white dark:hover:border-white"
                                     : ""
                             }`}
                         >

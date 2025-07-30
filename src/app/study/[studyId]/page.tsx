@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useAlarmStore } from "@/stores/alarmStore";
 
 export default function Page() {
     // const [pause, setPause] = useState(false);
@@ -34,6 +35,7 @@ export default function Page() {
     const params = useParams();
     const id = params?.studyId;
     const studyId = typeof id === "string" ? parseInt(id) : null;
+    const alarms = useAlarmStore((state) => state.alarmList);
 
     // const [seconds, setSeconds] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -207,10 +209,19 @@ export default function Page() {
                             className="h-5 w-5 cursor-pointer"
                             onClick={() => router.push(`/${studyId}/chat`)}
                         />
-                        <Bell
-                            className="h-5 w-5 cursor-pointer"
-                            onClick={() => router.push("/notifications")}
-                        />
+                        <div className="relative">
+                            <Bell
+                                className="text-gray1000 cursor-pointer transition-colors duration-200 ease-in hover:text-black dark:text-white"
+                                onClick={() => router.push("/notifications")}
+                            />
+                            {alarms.filter((alarm) => alarm.isRead === false)
+                                .length > 0 && (
+                                <>
+                                    <div className="absolute top-[-1px] right-0 h-2 w-2 animate-ping rounded-full bg-red-500" />
+                                    <div className="absolute top-[-1px] right-0 h-2 w-2 rounded-full bg-red-600" />
+                                </>
+                            )}
+                        </div>
                         <EllipsisVertical
                             className="h-5 w-5 cursor-pointer"
                             onClick={() => setIsMenuOpen(true)}

@@ -34,7 +34,7 @@ export default function MaxMemberModal({
                         <Picker.Item key={`picker_${num}`} value={num}>
                             {({ selected }) => (
                                 <div
-                                    className={`h-10 w-full cursor-pointer pt-2 text-center text-[var(--color-gray500)] ${selected && "mx-5 rounded-[12px] bg-[var(--color-gray100)] text-[var(--color-gray1000)]"}`}
+                                    className={`text-gray500 dark:text-gray600 h-10 w-full cursor-pointer pt-2 text-center ${selected && "text-gray1000 bg-gray100 dark:bg-gray900 mx-5 rounded-[12px] dark:text-white"}`}
                                 >
                                     {num}
                                 </div>

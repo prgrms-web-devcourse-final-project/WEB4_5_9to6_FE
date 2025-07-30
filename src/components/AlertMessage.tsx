@@ -29,7 +29,7 @@ export default function AlertMessage({ alarm }: { alarm: Alarm }) {
             <div className="mx-5 flex w-[90%] py-3">
                 <Link
                     href={`/profile/${alarm.senderId}`}
-                    className="relative mt-1.5 mr-3.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-gray100)]"
+                    className="bg-gray100 dark:bg-gray900 relative mt-1.5 mr-3.5 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl duration-200 ease-in"
                 >
                     <Image
                         src={getValidAvatar(alarm.senderAvatarImage)}
@@ -39,10 +39,10 @@ export default function AlertMessage({ alarm }: { alarm: Alarm }) {
                     />
                 </Link>
                 <div className="flex min-w-0 flex-1 flex-col pr-1">
-                    <p className="c1 text-[var(--color-gray500)]">
+                    <p className="c1 text-gray500 dark:text-gray600 duration-200 ease-in">
                         {dayjs(alarm.sentAt).fromNow()}
                     </p>
-                    <div className="b2 cursor-pointer leading-tight break-words">
+                    <div className="b2 text-gray1000 dark cursor-pointer leading-tight break-words duration-200 ease-in dark:text-white">
                         {alarm.type === "APPLY" && (
                             <>
                                 <span
