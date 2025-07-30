@@ -57,6 +57,11 @@
     color: var(--color-gray1000);
     cursor: pointer;
 }
+
+.dark .swiper-button-prev-custom,
+.swiper-button-next-custom {
+    color: var(--color-gray200);
+}
 .swiper-button-prev-custom {
     left: 10px;
 }
@@ -210,7 +215,7 @@
 }
 
 .tabChoose {
-    @apply hover:text-gray1000 transition-colors duration-200 ease-in-out;
+    @apply hover:text-gray1000 transition-colors duration-200 ease-in-out dark:hover:text-white;
     position: relative;
 }
 
@@ -225,6 +230,10 @@
     transform: scaleX(0);
     transform-origin: left; /* 왼쪽에서 시작 */
     transition: transform 0.25s ease-in-out;
+}
+
+.dark .tabChoose::after {
+    background-color: white;
 }
 
 .tabChoose-active::after {

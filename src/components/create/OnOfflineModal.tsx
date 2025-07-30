@@ -4,14 +4,13 @@ import { useStudyStore } from "@/stores/studyStore";
 
 export default function OnOfflineModal({
     onClose,
-    onOff,
     isOpen,
 }: {
     onClose: () => void;
-    onOff: string;
     isOpen: boolean;
 }) {
     const { changeClass } = useAnimationStore();
+    const isOnline = useStudyStore((state) => state.studyData.online);
 
     return (
         <>
@@ -25,9 +24,7 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            useStudyStore
-                                .getState()
-                                .setData("region", "온라인");
+                            useStudyStore.getState().setData("online", true);
                             useStudyStore
                                 .getState()
                                 .setData("region", "온라인");
@@ -38,7 +35,7 @@ export default function OnOfflineModal({
                             }, 200);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
-                            onOff === "온라인" &&
+                            isOnline === true &&
                             "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
                         }`}
                     >
@@ -47,9 +44,7 @@ export default function OnOfflineModal({
                     <button
                         type="button"
                         onClick={() => {
-                            useStudyStore
-                                .getState()
-                                .setData("region", "오프라인");
+                            useStudyStore.getState().setData("online", false);
                             useStudyStore.getState().setData("region", "");
                             changeClass("animate-modalFadeOut");
                             setTimeout(() => {
@@ -57,7 +52,7 @@ export default function OnOfflineModal({
                             }, 200);
                         }}
                         className={`h-[48px] w-[calc(50%-4px)] cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${
-                            onOff === "오프라인"
+                            isOnline === false
                                 ? "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"
                                 : ""
                         }`}

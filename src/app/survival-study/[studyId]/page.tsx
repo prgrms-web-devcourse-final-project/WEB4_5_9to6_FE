@@ -29,6 +29,10 @@ export default function SurvivalStudy() {
     const { fetchItemsOwn, groupedOwnItems } = useOwnItemStore();
     const [src, setSrc] = useState("/images/rewardItems/12.png");
     const [isImageLoading, setIsImageLoading] = useState(true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
     const [showModal, setShowModal] = useState(false);
     const { changeClass } = useAnimationStore();
 

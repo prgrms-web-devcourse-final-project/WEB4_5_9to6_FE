@@ -1,36 +1,45 @@
 "use client";
 
+import { readAllAlarm } from "@/api/alarms";
 import AlertMessage from "@/components/AlertMessage";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import SubHeader from "@/components/common/SubHeader";
+import { useAlarmStore } from "@/stores/alarmStore";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Notifications() {
-    const dummyAlerts = Array(6).fill(null);
-    const router = useRouter();
+    const alarms = useAlarmStore((state) => state.alarmList);
 
-    const prevPageHandler = () => {
-        router.back();
-    };
+    const { mutate: readAllNotification } = useMutation({
+        mutationFn: readAllAlarm,
+        onSuccess: () => {
+            useAlarmStore.getState().clear();
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
+
     return (
         <>
-            <header className="fixed h-15.5 w-full bg-white px-4 backdrop-blur-2xl">
-                <div className="flex h-full items-center justify-between">
-                    <button
-                        onClick={prevPageHandler}
-                        className="cursor-pointer"
-                    >
-                        <ChevronLeft />
-                    </button>
-                    <h6 className="h6">알림</h6>
-                    <span className="c2 cursor-pointer pt-5 text-[var(--color-gray600)]">
-                        모두읽음
-                    </span>
-                </div>
-            </header>
-            <div className="pt-16">
-                {dummyAlerts.map((_, i) => (
-                    <AlertMessage key={i} />
-                ))}
+            <SubHeader>알림</SubHeader>
+            <button
+                className="c2 fixed right-5 z-50 cursor-pointer pt-5 text-[var(--color-gray600)]"
+                onClick={() => readAllNotification()}
+            >
+                모두읽기
+            </button>
+            <div className="pt-15">
+                {alarms.filter((alarm) => alarm.isRead === false).length ===
+                    0 && (
+                    <p className="b2 flex items-center justify-center pt-10 text-[var(--color-gray600)]">
+                        받은 알림이 없습니다.
+                    </p>
+                )}
+                {alarms
+                    .filter((alarm) => alarm.isRead === false)
+                    .map((alarm, i) => (
+                        <AlertMessage key={i} alarm={alarm} />
+                    ))}
             </div>
         </>
     );

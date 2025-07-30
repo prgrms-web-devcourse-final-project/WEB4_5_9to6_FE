@@ -56,11 +56,11 @@ export default function BottomModal({
                 style={{ height: `${height}px` }}
             >
                 <div className="flex items-center justify-between">
-                    <h3 className="ml-5 text-[var(--color-gray1000)] dark:text-[var(--color-white)]">
+                    <h3 className="ml-5 text-[var(--color-gray1000)] dark:text-white">
                         {title}
                     </h3>
                     <X
-                        className="mr-5 h-6 w-6 cursor-pointer text-[#161616] dark:text-[var(--color-white)]"
+                        className="mr-5 h-6 w-6 cursor-pointer text-[#161616] dark:text-white"
                         onClick={closeHandler}
                     />
                 </div>
