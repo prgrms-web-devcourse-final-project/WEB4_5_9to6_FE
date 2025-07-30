@@ -1,4 +1,3 @@
-import SubHeader from "@/components/common/SubHeader";
 import "../../css/index.css";
 import localfont from "next/font/local";
 const pretendard = localfont({
@@ -18,7 +17,6 @@ export default function layout({
 }>) {
     return (
         <>
-            <SubHeader>회원가입</SubHeader>
             <div
                 className={`m-auto h-screen w-screen max-w-sm ${pretendard.variable}`}
             >

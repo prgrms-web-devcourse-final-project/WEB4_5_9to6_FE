@@ -23,9 +23,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko" suppressHydrationWarning>
-            <body
-                className={`${pretendard.variable} dark:bg-dark-bg duration-200 ease-in`}
-            >
+            <body className={`${pretendard.variable}`}>
                 <TanstackProvider> {children}</TanstackProvider>
                 <ToastContainer limit={1} />
                 <AuthInitializer />

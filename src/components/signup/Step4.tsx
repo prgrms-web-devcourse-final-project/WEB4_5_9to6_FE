@@ -38,12 +38,12 @@ export default function Step4({
         <>
             <form className="step-form" onSubmit={(e) => submitHandler(e)}>
                 <h1
-                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`mb-2 cursor-default text-[24px] font-semibold delay-700 duration-1000 ease-out dark:text-white ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     당신에 대해 더 알려주세요!
                 </h1>
                 <p
-                    className={`h6 mb-5 cursor-default text-[var(--color-gray600)] delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
+                    className={`h6 text-gray600 mb-5 cursor-default delay-900 duration-1000 ease-out ${!isMounted && "translate-y-[-8px] opacity-0"}`}
                 >
                     프로필 생성을 위해 생년월일과 성별이 필요해요.
                 </p>
@@ -61,14 +61,14 @@ export default function Step4({
                         className={`flex h-12 w-full flex-row justify-between gap-2 delay-1800 duration-1000 ease-out ${!isMounted && "translate-y-[-4px] opacity-0"}`}
                     >
                         <button
-                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "MALE" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
+                            className={`text-gray1000 w-full cursor-pointer rounded-[12px] border duration-200 ease-in-out dark:text-white ${gender === "MALE" ? "border-gray1000 dark:border-gray600 dark:bg-gray1000 hover:border-gray1000 dark:hover:border-gray600" : "dark:border-gray800 border-gray300 hover:border-gray400 dark:hover:border-gray700"}`}
                             type="button"
                             onClick={() => setGender("MALE")}
                         >
                             남자
                         </button>
                         <button
-                            className={`w-full cursor-pointer rounded-[12px] border border-[var(--color-gray300)] duration-200 ease-in-out hover:border-[var(--color-gray400)] ${gender === "FEMALE" && "border-[var(--color-gray1000)] hover:border-[var(--color-gray1000)]"}`}
+                            className={`text-gray1000 w-full cursor-pointer rounded-[12px] border duration-200 ease-in-out dark:text-white ${gender === "FEMALE" ? "border-gray1000 dark:border-gray600 dark:bg-gray1000 hover:border-gray1000 dark:hover:border-gray600" : "dark:border-gray800 border-gray300 hover:border-gray400 dark:hover:border-gray700"}`}
                             type="button"
                             onClick={() => setGender("FEMALE")}
                         >
