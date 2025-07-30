@@ -42,7 +42,6 @@ export default function ChannelSlideBar({
                 ))}
 
                 <div className="border-b-gray400 dark:border-b-gray800 absolute right-5 bottom-0 left-5 border-b">
-                <div className="border-b-gray400 dark:border-b-gray800 absolute right-5 bottom-0 left-5 border-b">
                     <div
                         className="bg-gray1000 h-[2px] transition-transform duration-200 ease-in-out dark:bg-white"
                         style={{

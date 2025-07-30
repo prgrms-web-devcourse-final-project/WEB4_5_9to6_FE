@@ -53,7 +53,6 @@ export default function BottomModal({
                 className={`${
                     animationClass
                 } fixed right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5 dark:bg-[#222222]`}
-                } fixed right-[10px] bottom-5 left-[10px] z-50 flex flex-col rounded-3xl bg-[#FFFFFF] py-5 dark:bg-[#222222]`}
                 style={{ height: `${height}px` }}
             >
                 <div className="flex items-center justify-between">
