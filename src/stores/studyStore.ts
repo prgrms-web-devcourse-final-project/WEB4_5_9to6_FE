@@ -29,7 +29,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
         description: "",
         externalLink: "",
         studyType: "DEFAULT",
-        goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
+        goals: [{ goalId: null, content: "", type: "WEEKLY" }],
         notice: "",
         currentMemberCount: 0,
         online: null,
@@ -53,7 +53,7 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 description: "",
                 externalLink: "",
                 studyType: "DEFAULT",
-                goals: [{ goalId: 1, content: "", type: "WEEKLY" }],
+                goals: [{ goalId: null, content: "", type: "WEEKLY" }],
                 notice: "",
                 currentMemberCount: 0,
                 online: null,
@@ -79,7 +79,9 @@ export const useStudyStore = create<StudyStore>((set) => ({
                 description: studyData.description,
                 externalLink: studyData.externalLink,
                 studyType: studyData.studyType,
-                goals: studyData.goals,
+                goals: studyData.goals?.length
+                    ? studyData.goals
+                    : [{ goalId: null, content: "", type: "WEEKLY" }],
                 notice: studyData.notice,
                 currentMemberCount: studyData.currentMemberCount,
                 online: studyData.online,

@@ -49,7 +49,7 @@ export default function Notifications() {
         <>
             <SubHeader>알림</SubHeader>
             <button
-                className="c2 fixed right-5 z-50 cursor-pointer pt-5 text-[var(--color-gray600)]"
+                className="c2 text-gray600 dark:text-gray500 fixed right-5 z-50 cursor-pointer pt-5 duration-200 ease-in"
                 onClick={() => readAllNotification()}
             >
                 모두읽기
@@ -57,7 +57,7 @@ export default function Notifications() {
             <div className="pt-15">
                 {alarmList.filter((alarm) => alarm.isRead === false).length ===
                     0 && (
-                    <p className="b2 flex items-center justify-center pt-10 text-[var(--color-gray600)]">
+                    <p className="b2 text-gray600 dark:text-gray500 flex items-center justify-center pt-10 duration-200 ease-in">
                         받은 알림이 없습니다.
                     </p>
                 )}
