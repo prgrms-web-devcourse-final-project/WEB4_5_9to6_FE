@@ -26,7 +26,7 @@ export default function TimeModal({
             height="295"
             isOpen={isOpen}
         >
-            <div className="absolute top-35.5 left-10 h-[40px] w-[calc(100%-80px)] rounded-[8px] bg-[var(--color-gray100)]"></div>
+            <div className="dark:bg-gray900 bg-gray100 absolute top-35.5 left-10 h-[40px] w-[calc(100%-80px)] rounded-[8px]"></div>
             <Picker
                 value={{ hour, minute }}
                 onChange={(value) =>
@@ -46,7 +46,7 @@ export default function TimeModal({
                             <Picker.Item key={value} value={value}>
                                 {({ selected }) => (
                                     <div
-                                        className={`ml-5 h-6 w-full cursor-pointer text-center text-[var(--color-gray500)] ${selected && "font-medium text-[var(--color-gray1000)]"}`}
+                                        className={`text-gray500 dark:text-gray600 ml-5 h-6 w-full cursor-pointer text-center ${selected && "text-gray1000 font-medium dark:text-white"}`}
                                     >
                                         {value}시
                                     </div>
@@ -73,7 +73,7 @@ export default function TimeModal({
                         <Picker.Item key={`picker_${m}`} value={m}>
                             {({ selected }) => (
                                 <div
-                                    className={`mr-5 h-6 w-full cursor-pointer text-center text-[var(--color-gray500)] ${selected && "font-medium text-[var(--color-gray1000)]"}`}
+                                    className={`text-gray500 dark:text-gray600 mr-5 h-6 w-full cursor-pointer text-center ${selected && "text-gray1000 font-medium dark:text-white"}`}
                                 >
                                     {m}분
                                 </div>
