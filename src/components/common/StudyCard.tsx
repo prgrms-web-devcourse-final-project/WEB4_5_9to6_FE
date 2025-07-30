@@ -68,7 +68,7 @@ export default function StudyCard({
                             )}
 
                             {isNew && (
-                                <div className="c2 dark:bg-gray800 dark:text-main400 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C]">
+                                <div className="c2 dark:text-main400 h-full rounded-[8px] bg-[var(--color-gray200)] px-2 text-[#FF395C] dark:bg-black">
                                     New
                                 </div>
                             )}
