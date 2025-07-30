@@ -79,8 +79,8 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
             avatarName: {
                 FACE: "없음",
                 HAT: "없음",
-                HAIR: "기본",
-                TOP: "기본",
+                HAIR: "숏컷",
+                TOP: "기본 남성",
             },
             avatarItemId: {
                 FACE: 21,
@@ -103,8 +103,8 @@ export const useOwnItemStore = create<OwnItemStore>((set) => ({
     avatarName: {
         FACE: "없음",
         HAT: "없음",
-        HAIR: "기본",
-        TOP: "기본",
+        HAIR: "숏컷",
+        TOP: "기본 남성",
     },
     avatarItemId: {
         FACE: 21,

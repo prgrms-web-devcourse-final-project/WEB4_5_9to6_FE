@@ -4,24 +4,11 @@ import ProgressBar from "@/components/common/ProgressBar";
 import Step3 from "@/components/signup/Step3";
 import Step4 from "@/components/signup/Step4";
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useMutation } from "@tanstack/react-query";
 import { firstRegist } from "@/api/auth";
 import { useRouter } from "next/navigation";
 
-const client = new QueryClient();
-
-export default function SocialSignUp() {
-    return (
-        <QueryClientProvider client={client}>
-            <SignUpContent />
-            <ReactQueryDevtools />
-        </QueryClientProvider>
-    );
-}
-
-function SignUpContent() {
+export default function SignUpContent() {
     const [step, setStep] = useState(3);
     const [nickname, setNickname] = useState("");
     const [birthday, setBirthday] = useState("");
