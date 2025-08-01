@@ -6,15 +6,6 @@ export default function notFound() {
     return (
         <>
             <div className="relative flex h-screen flex-col items-center justify-center">
-                <div className="relative aspect-[147/133]">
-                    <Image
-                        alt="404"
-                        src="/images/not-found1.png"
-                        sizes="133px"
-                        fill
-                        priority
-                    />
-                </div>
                 <div className="relative mb-[54px] aspect-[194/144] px-[83px]">
                     <Image
                         alt="404"
