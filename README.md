@@ -235,23 +235,21 @@
 
 ### 1) 홈
 
-| 메인 화면                                                                                                                        | 블랙 테마                                                                                                                        | 마이페이지                                                                                                                       |
+| 메인 화면                                                                                                                        | 블랙 테마                                                                                                                        | 로그인                                                                                                                       |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/317b72b4-f768-4324-9e5e-9cd30927e033" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="878" height="1810" alt="image" src="https://github.com/user-attachments/assets/3e6f6e1a-853c-43e1-bf45-34d7e40abd46" /> |
+| <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/317b72b4-f768-4324-9e5e-9cd30927e033" /> | <img width="878" height="1810" alt="image" src="https://github.com/user-attachments/assets/3e6f6e1a-853c-43e1-bf45-34d7e40abd46" /> | <img width="447" height="877" alt="image" src="https://github.com/user-attachments/assets/199e4702-44b7-438c-bd57-7544b5111118" /> |
 
 ### 2) 컨텐츠
 
-| 스터티 홀                                                                                                                        | 알림                                                                                                                             | 그룹 채팅                                                                                                                        |
+| 스터티 홀                                                                                                                        | 마이 페이지                                                                                                                     | 그룹 채팅                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="882" height="1824" alt="image" src="https://github.com/user-attachments/assets/5e94bcbc-a780-4237-b24e-ac8df8bd82d9" />
- | <img src="https://github.com/user-attachments/assets/162629ad-ae94-4e80-97a2-9406e0ba7d9a" alt="-화면" width="180" height="360"> |
+| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="497" height="1075" alt="image" src="https://github.com/user-attachments/assets/05caa042-08bd-4417-bc74-b73feabcd389" /> |
 
 ### 3) 추가
 
 | 서바이벌 스터디                                                                                                                  | 리워드 상점                                                                                                                      | 스터디 시작                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| ![Adobe Express - Adobe Express - Adobe Express - 2025-07-31 02-58-57](https://github.com/user-attachments/assets/46f3964f-ed31-429e-876f-02558a80c233) | ![Adobe Express - Adobe Express - 2025-07-31 10-09-52](https://github.com/user-attachments/assets/87b74617-b5dd-4f3b-b06f-fcafb89b73c3) | ![Adobe Express - 2025-07-31 01-21-46](https://github.com/user-attachments/assets/4f732f34-4d22-434d-957b-9a52a0fedda5)
- |
+| ![Adobe Express - Adobe Express - Adobe Express - 2025-07-31 02-58-57](https://github.com/user-attachments/assets/46f3964f-ed31-429e-876f-02558a80c233) | ![Adobe Express - Adobe Express - 2025-07-31 10-09-52](https://github.com/user-attachments/assets/87b74617-b5dd-4f3b-b06f-fcafb89b73c3) | ![Adobe Express - 2025-07-31 01-21-46](https://github.com/user-attachments/assets/4f732f34-4d22-434d-957b-9a52a0fedda5) |
 
 <br>
 
