@@ -66,7 +66,7 @@
 
 > 프로젝트 개발 기간: 2025.06.27 - 2025.08.04 (30일)
 
-![일정 캡처 이미지]()
+<img width="1695" height="801" alt="일정 캡처" src="https://github.com/user-attachments/assets/3682acef-9a5c-4ebd-a0b0-1b1ec768792c" />
 
 <br>
 
