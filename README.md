@@ -243,7 +243,7 @@
 
 | 스터티 홀                                                                                                                        | 마이 페이지                                                                                                                     | 그룹 채팅                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/05caa042-08bd-4417-bc74-b73feabcd389" /> |
+| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/05caa042-08bd-4417-bc74-b73feabcd389" /> |
 
 ### 3) 추가
 
