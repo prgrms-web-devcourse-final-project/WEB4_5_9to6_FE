@@ -6,7 +6,7 @@
 
 🔗 [스터디움 바로가기](https://studium-9to6.vercel.app/)
 
-<img width="372" height="72" alt="logo" src="https://github.com/user-attachments/assets/3a724b42-8a2c-4566-a274-f42ccc8ca4fb" />
+<img width="372" height="72" alt="logo-dark" src="https://github.com/user-attachments/assets/ff1cf602-d94f-4566-86c1-46c12f5543e3" />
 
 </div>
 
@@ -237,17 +237,17 @@
 
 | 메인 화면                                                                                                                        | 블랙 테마                                                                                                                        | 로그인                                                                                                                       |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/317b72b4-f768-4324-9e5e-9cd30927e033" /> | <img width="878" height="1810" alt="image" src="https://github.com/user-attachments/assets/3e6f6e1a-853c-43e1-bf45-34d7e40abd46" /> | <img width="447" height="877" alt="image" src="https://github.com/user-attachments/assets/199e4702-44b7-438c-bd57-7544b5111118" /> |
+| <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/317b72b4-f768-4324-9e5e-9cd30927e033" /> | <img width="878" height="1810" alt="image" src="https://github.com/user-attachments/assets/3e6f6e1a-853c-43e1-bf45-34d7e40abd46" /> | <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/199e4702-44b7-438c-bd57-7544b5111118" /> |
 
 ### 2) 컨텐츠
 
 | 스터티 홀                                                                                                                        | 마이 페이지                                                                                                                     | 그룹 채팅                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="497" height="1075" alt="image" src="https://github.com/user-attachments/assets/05caa042-08bd-4417-bc74-b73feabcd389" /> |
+| <img width="790" height="1814" alt="image" src="https://github.com/user-attachments/assets/001b32b8-cc11-4b07-8e0a-1c1fcc9e6a94" /> | <img width="880" height="1818" alt="image" src="https://github.com/user-attachments/assets/0a4a671f-2f1e-409e-bbce-13447836c92f" /> | <img width="880" height="1826" alt="image" src="https://github.com/user-attachments/assets/05caa042-08bd-4417-bc74-b73feabcd389" /> |
 
 ### 3) 추가
 
-| 서바이벌 스터디                                                                                                                  | 리워드 상점                                                                                                                      | 스터디 시작                                                                                                                      |
+| 서바이벌 스터디                                                                                                                  | 스터디 시작                                                                                                                      | 리워드 상점                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | ![Adobe Express - Adobe Express - Adobe Express - 2025-07-31 02-58-57](https://github.com/user-attachments/assets/46f3964f-ed31-429e-876f-02558a80c233) | ![Adobe Express - Adobe Express - 2025-07-31 10-09-52](https://github.com/user-attachments/assets/87b74617-b5dd-4f3b-b06f-fcafb89b73c3) | ![Adobe Express - 2025-07-31 01-21-46](https://github.com/user-attachments/assets/4f732f34-4d22-434d-957b-9a52a0fedda5) |
 
