@@ -37,11 +37,11 @@ function NotyetState() {
 
 const dayOrder = [
     "MONDAY",
-    "TUEDAY",
-    "WEDDAY",
-    "THUDAY",
+    "TUESDAY",
+    "WEDNESDAY",
+    "THURSDAY",
     "FRIDAY",
-    "SATDAY",
+    "SATURDAY",
     "SUNDAY",
 ]; // 요일 순서
 
